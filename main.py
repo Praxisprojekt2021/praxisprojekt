@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 @app.route('/', methods=["GET"])
 def index():
-    return "Praxisprojekt 2021 Los gehts!"
+    return "Praxisprojekt 2021! Los gehts! Es funktioniert!"
 
 
 if __name__ == '__main__':
