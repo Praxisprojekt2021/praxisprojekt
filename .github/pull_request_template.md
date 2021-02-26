@@ -10,8 +10,7 @@
 ## Typ
 <!--- Bitte Unzutreffendes streichen -->
 * Feature
-* Testfinding
-* Bug
+* Testfinding / Bug
 * Design
 * Sonstiges <!--- bitte spezifizieren -->
 
