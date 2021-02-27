@@ -6,4 +6,4 @@ app = Flask(__name__)
 
 @app.route('/', methods=["GET"])
 def index():
-    return "Hier entsteht das Praxisprojekt 2021!"
+    return "Hier entsteht das Praxisprojekt 2021! Hallo!"
