@@ -35,9 +35,11 @@ handlen zu können. Dies geschieht ebenfalls über Preferences.
 
 Frontend:
 1. Apache config (.htaccess)
+2. Requirements
 
 Backend:
 1. Python
+2. Requirements
 
 ### Code Checker
 

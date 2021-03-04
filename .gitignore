@@ -7,3 +7,5 @@ venv/
 ENV/
 env/
 .env
+Pipfile
+Pipfile.lock
