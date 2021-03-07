@@ -27,11 +27,11 @@ Dort sollen die Anfragen angenommen und selektiv an die "Task Engine" `core.py`,
 managed.
 
 ```
-- calculations/
+- processing/
   - placeholder.txt
 ```
 
-Der `calculations/` folder soll alle Funktionalitäten zur Berechnung von Metriken und Aggregation von Werten einzelner
+Der `processing/` folder soll alle Funktionalitäten zur Berechnung von Metriken und Aggregation von Werten einzelner
 Prozesskomponenten bereitstellen. Hier erfolgt die Ergebnisermittlung.
 
 ```
