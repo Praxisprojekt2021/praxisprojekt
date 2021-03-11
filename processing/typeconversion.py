@@ -40,3 +40,4 @@ def json_to_dict(json_data: str) -> Union[Dict[str, Any], bool]:
 
 def error_handler() -> bool:
     return False
+    
