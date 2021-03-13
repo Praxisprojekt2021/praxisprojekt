@@ -3,22 +3,23 @@ import processing.processing as proc
 import processing.typeconversion as tc
 
 
-def core_addition(json_data: str) -> str:
+class Core():
 
-    """
-    Receives a json string, converts it to a dictionary and passes it to the processes.addition function.
-    The returned sum gets converted to a dictionary which is returned 
+    def addition(self, json_data: str) -> str:
 
-    :param json_data: string in json format
-    :type json_data: str
+        """
+        Receives a json string, converts it to a dictionary and passes it to the processes.addition function.
+        The returned sum gets converted to a dictionary which is returned 
 
-    :return: A string in json format with the key "sum" and the sum of two numbers as value
-    """
+        :param json_data: string in json format
+        :type json_data: str
 
-    dict_data = tc.json_to_dict(json_data)
-    sum = proc.addition(dict_data["num1"], dict_data["num2"])
-    json_return = tc.dict_to_json(sum)
+        :return: A string in json format with the key "sum" and the sum of two numbers as value
+        """
 
-    return json_return
+        dict_data = tc.json_to_dict(json_data)
+        sum = proc.addition(dict_data["number1"], dict_data["number2"])
+        json_return = tc.dict_to_json(sum)
 
+        return json_return
 
