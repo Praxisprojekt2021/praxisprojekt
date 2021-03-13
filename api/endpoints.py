@@ -1,6 +1,6 @@
 # external endpoints
 from flask import Flask,request
-from core import core_addition
+from core import Core
 
 app = Flask(__name__)
 
@@ -19,9 +19,8 @@ def addition_route():
        """
     if request.is_json:
         try:
-            data = request.json
-
-            return core_addition((data)),200
+            core_object = Core()
+            return core_object.addition(request.json),200
 
         except:
             return "Internal Error",500
