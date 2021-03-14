@@ -1,12 +1,13 @@
 # external endpoints
-from flask import Flask,request
-from core import core_addition
+from flask import Flask
 
 app = Flask(__name__)
 
+
 @app.route('/', methods=["GET"])
 def index():
-    return "Hier entsteht das Praxisprojekt 2021! Hallo!"
+    return render_template("index.html")
+
 
 @app.route('/addition', methods=["POST"])
 def addition_route():
