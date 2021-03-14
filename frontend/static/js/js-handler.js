@@ -22,7 +22,8 @@ function calc(number1, number2) {
         }
     }
     // embed parameters for Request in a JSON-String
-    let params  = JSON.stringify({number1: number1, number2: number2})
+    let params = `{"number1":${number1}, "number2":${number2}}`;
+
     // send the HTTP-Request
     xhttp.send(params);
 }
