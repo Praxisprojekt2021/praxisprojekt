@@ -1,9 +1,9 @@
 # external endpoints
-from flask import Flask
+from flask import Flask, render_template
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='../frontend/templates')
 
 
 @app.route('/', methods=["GET"])
 def index():
-    return "Hier entsteht das Praxisprojekt 2021! Hallo!"
+    return render_template("index.html")
