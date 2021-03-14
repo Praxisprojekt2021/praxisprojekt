@@ -1,3 +1,9 @@
+/**
+ * Sends call to backend and sets output-field to sum.
+ * 
+ * 
+ */
+
 function calc() {
     let input1 = document.getElementById("input-1").value;
     let input2 = document.getElementById("input-2").value;
