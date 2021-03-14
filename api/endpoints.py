@@ -2,8 +2,7 @@
 from flask import Flask, render_template,request
 from core import core_addition
 
-app = Flask(__name__, template_folder='../frontend/templates')
-
+app = Flask(__name__, template_folder='../frontend/templates', static_folder='../frontend/static')
 
 @app.route('/', methods=["GET"])
 def index():
