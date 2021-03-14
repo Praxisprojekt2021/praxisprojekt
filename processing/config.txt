@@ -1,0 +1,5 @@
+[neo4j]
+ip = "35.192.106.131"
+port = "7687"
+user = "neo4j"
+password = "XcHUfUY8wMZb"
