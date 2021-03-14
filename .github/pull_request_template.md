@@ -15,7 +15,7 @@
 * Sonstiges <!--- bitte spezifizieren -->
 
 ## Code Review
-- [ ] @NimsaJ150 / @JonathanFreydank
+- [ ] @NimsaJ150 / @jonathan112358
 
 ## Funktionale Review
 - [ ] tba <!--- bitte entsprechende Person zuweisen -->
