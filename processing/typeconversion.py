@@ -2,20 +2,21 @@
 import json
 from typing import Dict, Any, Union
 
+
 def dict_to_json(dict_data: Dict[str, Any]) -> Union[str, bool]:
 
     """
-    Converts a python dictionary to a JSON string
+    Converts a python dictionary to a JSON object
 
     :param dict_data: Python dictionary with keys in string format and "any" value
-    :return: Returns a JSON string
+    :return: Returns a JSON object
     """
 
     try:
         json_string = json.dumps(dict_data)
     except:
-        error_val = error_handler()
-        return error_val
+        error_value = error_handler()
+        return error_value
 
     return json_string
 
@@ -32,12 +33,11 @@ def json_to_dict(json_data: str) -> Union[Dict[str, Any], bool]:
     try:
         dictionary = json.loads(json_data)
     except:
-        error_val = error_handler()
-        return error_val
+        error_value = error_handler()
+        return error_value
 
     return dictionary
 
 
 def error_handler() -> bool:
     return False
-    
