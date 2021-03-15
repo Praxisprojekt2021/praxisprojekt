@@ -7,7 +7,7 @@
 function calc(number1, number2) {
     // Create new HTTP-Request to addition-endpoint
     let xhttp = new XMLHttpRequest();
-    xhttp.open("POST", "http://0.0.0.0:8080/addition", true);
+    xhttp.open("POST", "https://praxisprojekt-2021.ew.r.appspot.com/addition", true);
     xhttp.setRequestHeader("Content-Type", "application/json");
 
     // Handle the Response from the HTTP-Request
