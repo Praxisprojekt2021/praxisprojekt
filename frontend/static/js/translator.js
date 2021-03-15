@@ -9,19 +9,19 @@ i18next
 backend: {
     backend: Fetch,
     backendOption:{
-      loadPath: '../i18n/de.json',
+      loadPath: '/static/i18n/de.json',
       allowMultiLoading:  true,
       multiSeparator: '+',
     }
   },
 lng: 'de',
-/*resources: {
-},*/
 fallbackLng: 'de',
 preload: ['de'],
-}), function(err, t) {
-// initialized and ready to go!
-};
-for (let i = 0; i < document.querySelectorAll('[data-i18n]').length; i++) { 
-    document.querySelectorAll('[data-i18n]')[i].innerHTML = i18next.t(document.querySelectorAll('[data-i18n]')[i].getAttribute("data-i18n"));
-}
+}).then(function(t) {
+    // after initialization is done, translate all HTML-Elements which have a data-18in attribute
+    // attribute must have the same value as the corresponding key in the de.json-file
+    for (let i = 0; i < document.querySelectorAll('[data-i18n]').length; i++) { 
+        document.querySelectorAll('[data-i18n]')[i].innerHTML = i18next.t(document.querySelectorAll('[data-i18n]')[i].getAttribute("data-i18n"));
+    }
+});
+
