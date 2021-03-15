@@ -25,4 +25,6 @@ function calc(number1, number2) {
 
     // send the HTTP-Request
     xhttp.send(params);
+    
+    console.log('Hi');
 }
