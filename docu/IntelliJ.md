@@ -50,9 +50,13 @@ Menuleiste findest du außerdem den Punkt "Code -> Reformat Code", damit kannst 
 Bitte aktiviere die folgenden Optionen. Vergiss nicht, deine Änderungen zu "Applien":
 
 Frontend
-1. Preferences | Editor | Code Style | JavaScript \
+1. Preferences | Editor | Code Style | HTML \
+   Hier bitte die Spaces & Indents Standardeinstellungen 4, 4, 8 nutzen.
+2. Preferences | Editor | Code Style | JavaScript \
    Hier bitte die Spaces & Indents Standardeinstellungen 4, 4, 4 nutzen.
-2. Preferences | Editor | Inspections | JavaScript and TypeScript \
+3. Preferences | Editor | Code Style | Style Sheets | CSS \
+   Hier bitte die Spaces & Indents Standardeinstellungen 4, 4, 8 nutzen.
+4. Preferences | Editor | Inspections | JavaScript and TypeScript \
    JavaScript and TypeScript | Code quality tools | Standard code style
 
 Backend
