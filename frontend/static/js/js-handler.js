@@ -5,9 +5,9 @@
  */
 
 function calc(number1, number2) {
-    
+    console.log('Hi');
     // Create new HTTP-Request to addition-endpoint
-    let xhttp = new XMLHttpRequest();
+    /*let xhttp = new XMLHttpRequest();
     xhttp.open("POST", "http://0.0.0.0:8080/addition", true);
     xhttp.setRequestHeader("Content-Type", "application/json");
 
@@ -25,5 +25,5 @@ function calc(number1, number2) {
     let params = `{"number1":${number1}, "number2":${number2}}`;
 
     // send the HTTP-Request
-    xhttp.send(params);
+    xhttp.send(params);*/
 }
