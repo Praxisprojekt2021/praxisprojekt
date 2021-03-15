@@ -87,6 +87,8 @@ Für jede Implementation einer User Story sollten die folgenden Schritte durchge
 
 ## Das Programmieren
 
+### Allgemein
+
 Für das Entwickeln sollten folgende Punkte beachtet werden:
 
 * Der Code ist ein Gemeinschaftswerk. Es ist das Anliegen von jedem, den Code weiterzuentwickeln und dabei zu verbessern.
@@ -134,7 +136,17 @@ Für das Entwickeln sollten folgende Punkte beachtet werden:
       difference = minuend - subtrahend
       ```
 
-* Alle Klassen, Methoden, Funktionen und Variablen sind auf englisch und aussagekräftig zu benennen (also ohne Grund nicht num1, num2, res, ...).
+* Alle Klassen, Methoden, Funktionen und Variablen sind auf Englisch und aussagekräftig zu benennen (also ohne Grund nicht num1, num2, res, ...).
 * Der python Code sollte der PEP 8 Richtlinie genügen.
-* Es ist modular und objektorientiert zu programmieren
+* Es ist modular und objektorientiert zu programmieren.
     * ...
+    
+### Frontend-Besonderheiten
+
+Statische Inhalte sollen nicht inline in den Views referenziert werden, weder inline, noch gesammelt in etwa `<script>`
+oder `<style>` Tags, sondern in Dateien ausgelagert werden. Darunter fallen insbesondere folgende statische Inhalte:
+* CSS Styles, die unter `static/css/style.css` abgelegt werden sollten
+* JS Funktionen, die unter `static/js/<filename>.js` abgelegt werden sollten
+* Statische Texte, die im i18next JSON file unter `static/content` ablegt werden sollten
+* Statische Inhalte wie Icons, Images und sonstige Dateien, die unter `static/images` abgelegt werden sollten und deren
+  Dateigröße 500kB im Normalfall nicht überschreiten sollte
