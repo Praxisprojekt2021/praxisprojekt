@@ -2,7 +2,7 @@
 from flask import Flask, render_template,request
 from core import core_addition
 
-app = Flask(__name__, template_folder='../frontend/templates', static_folder='../frontend/static')
+app = Flask(__name__, static_url_path='', template_folder='../frontend/templates', static_folder='../frontend/static')
 
 @app.route('/', methods=["GET"])
 def index():
