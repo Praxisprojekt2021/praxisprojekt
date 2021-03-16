@@ -1,43 +1,39 @@
-
 import json
 from typing import Dict, Any, Union
 
+from api.error_handler import error_handler
 
-def dict_to_json(dict_data: Dict[str, Any]) -> Union[str, bool]:
 
+def dict_to_json(dictionary: Dict[str, Any]) -> str:
     """
     Converts a python dictionary to a JSON object
 
-    :param dict_data: Python dictionary with keys in string format and "any" value
+    :param dictionary: Python dictionary with keys in string format and "any" value
+    :type dictionary: Dict[str, Any]
     :return: Returns a JSON object
     """
 
-    try:
-        json_string = json.dumps(dict_data)
-    except:
-        error_value = error_handler()
-        return error_value
-
-    return json_string
+    return json.dumps(dictionary)
 
 
-def json_to_dict(json_data: str) -> Union[Dict[str, Any], bool]:
-
+def json_to_dict(json_object: str) -> Union[Dict[str, Any], str]:
     """
-    Converts a JSON string to a python dictionary
+    Converts a JSON object to a python dictionary
 
-    :param json_data: JSON string
+    :param json_object: JSON object
+    :type json_object: str
     :return: Returns a python dictionary with keys in string format and "any" value
     """
 
-    try:
-        dictionary = json.loads(json_data)
-    except:
-        error_value = error_handler()
-        return error_value
-
-    return dictionary
-
-
-def error_handler() -> bool:
-    return False
+    if isinstance(json_object, dict):
+        return json_object
+    else:
+        try:
+            dictionary = json.loads(json_object)
+            if isinstance(dictionary, dict):
+                return dictionary
+            else:
+                raise TypeError
+        except TypeError as error:
+            data = error
+            return error_handler(500, "Could not convert JSON object to dict")
