@@ -26,3 +26,16 @@ def core_addition(data: str) -> str:
     return json_return
 
 
+def get_components() ->str :
+
+    #components = getFromDatabaseORM_Method 
+    # compontents dict_to_json
+
+    return components
+
+def component_delete(data: str):
+    data = json_to_dict(data)
+
+    #dic_return = deleteCompontent(data)
+    #return dict_to_json(dic_return)
+    pass
