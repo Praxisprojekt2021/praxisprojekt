@@ -91,7 +91,7 @@ data = {
 # create a single component
 # Frontend -> Backend -> Database
 data = {
-    "id": 0,    # wichtig -> als Indikator, dass neu angelegt und daher kein update sondern create
+    "id": -1,    # wichtig -> als Indikator, dass neu angelegt und daher kein update sondern create
     "name": "SQL Datenbank",
     "category": "Datenbank",
     "description": "Datenbank zu xy mit ...",
