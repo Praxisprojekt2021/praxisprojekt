@@ -19,6 +19,7 @@ Python Django App, bleibt dabei aber uneingeschränkt flexibel im Aufbau.
   - pull_request_template.md
 - api/
   - endpoints.py
+  - error_handler.py
 ```
     
 In dem `api/` Verzeichnis liegen die Files, die der Flask App angehören, die wiederum durch die `main.py` gestartet wird.
@@ -28,7 +29,8 @@ managed.
 
 ```
 - processing/
-  - placeholder.txt
+  - calculations.py
+  - typeconversion.py
 ```
 
 Der `processing/` folder soll alle Funktionalitäten zur Berechnung von Metriken und Aggregation von Werten einzelner
@@ -36,11 +38,8 @@ Prozesskomponenten bereitstellen. Hier erfolgt die Ergebnisermittlung.
 
 ```
 - database/
-  - export/
-    - placeholder.txt
   - handler/
     - placeholder.txt
-  - queries.json
 ```
 
 Der `database/` Ordner soll alle Datenbank-bezogenen Inhalte und Funktionen enthalten, darunter die Queries (abhängig
@@ -51,6 +50,7 @@ und die Backend-seitige Schnittstelle zur Datenbank darstellt.
 - docu/
   - Coding Richtlinie.md
   - IntelliJ.md
+  - JSON_objects_definitions.py
   - Repository.md
 ```
 
@@ -66,9 +66,9 @@ Das `docu/` Verzeichnis soll alle wichtigen Projektdokumentationen, Leitfäden u
     - images/
       - placeholder.txt
     - js/
-      - placeholder.txt
+      - js-handler.js
   - templates
-    - placeholder.txt
+    - index.html
 ```
 
 Der `frontend/` folder soll alle Inhalte für das Frontend enthalten. Im `static/` Ordner werden daher grundsätzlich alle
@@ -109,5 +109,5 @@ Die `README.md` enthält wichtige Informationen zum Aufsetzen des Projektes und 
 - requirements.txt
 ```
 
-Die `requirements.txt` enthält alle essentiellen Module, die im (virtuellen) Environment installiert werden müssen, um
+Die `requirements.txt` enthält alle essenziellen Module, die im (virtuellen) Environment installiert werden müssen, um
 das Projekt lokal zu testen.
