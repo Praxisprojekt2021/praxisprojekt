@@ -28,15 +28,15 @@ class Person(Structured Node):
 Eine Getter Methode sieht so aus:
 
 ```
-def return_age(name):
-    person = Person.nodes.get(name=name)
+def return_age(id):
+    person = Person.nodes.get(id=id)
     return person.age
 ```
 
 Eine Setter Methode sieht so aus:
 ```
 def change_age(name, new_age):
-    person = Person.nodes.get(name=name)
+    person = Person.nodes.get(id=id)
     person.age = new_age
     person.save()   
 ```
