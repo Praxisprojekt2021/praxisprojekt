@@ -5,15 +5,15 @@
 </head>
 
 <body>
-<h1 class="heading">Frontend View</h1>
+<h1 class="heading" data-i18n="front-end-view"></h1>
 <hr>
 <div>
     <div>
-        <label for="number-1">Number 1</label>
+        <label for="number-1" data-i18n="number-1"></label>
         <input name="number-1" id="number-1" type="text" />
     </div>
     <div>
-        <label for="number-2">Number 2</label>
+        <label for="number-2" data-i18n="number-2">Number 2</label>
         <input name="number-2" id="number-2" type="text" />
     </div>
     <div>
@@ -21,13 +21,12 @@
                onclick="calc(document.getElementById('number-1').value, document.getElementById('number-2').value)"/>
     </div>
     <div>
-        <label for="output">Output</label>
+        <label for="output" data-i18n="output"></label>
         <div>
             <textarea name="output" id="output"></textarea>
         </div>
     </div>
-</div>
-
-<script src="{{ url_for('static', filename='js/js-handler.js') }}"></script>
-</body>
+    <script src="{{ url_for('static', filename='js/js-handler.js') }}"></script>
+    <script type="module" src="{{ url_for('static', filename='js/translator.js') }}"></script>
+  </body>
 </html>
