@@ -1,30 +1,32 @@
 /**
  * Sends call to backend addition endpoint and shows sum in output-field.
- * 
- * 
+ *
+ * @param {number} number1: first number to be added
+ * @param {number} number2: second number to be added
  */
 
+//Base url to distinguish between localhost and production environment
+const base_url = window.location.href;
+
 function calc(number1, number2) {
+
     // Create new HTTP-Request to addition-endpoint
     let xhttp = new XMLHttpRequest();
-    xhttp.open("POST", "https://praxisprojekt-2021.ew.r.appspot.com/addition", true);
+    xhttp.open("POST", base_url + "addition", true);
     xhttp.setRequestHeader("Content-Type", "application/json");
 
-    // Handle the Response from the HTTP-Request
+    // Handle response of HTTP-request
     xhttp.onreadystatechange = function () {
         if (this.readyState === XMLHttpRequest.DONE && (this.status >= 200 && this.status < 300)) {
-            // Process the Response + Show sum in Output-Feld
+            // Process response and show sum in output field
             let json = JSON.parse(this.responseText);
-            let sum = json.sum;
-            document.getElementById("output").value = sum;
-
+            document.getElementById("output").value = json.sum;
         }
     }
-    // embed parameters for Request in a JSON-String
+
+    // Embed parameters for request in JSON object
     let params = `{"number1":${number1}, "number2":${number2}}`;
 
-    // send the HTTP-Request
+    // Send HTTP-request
     xhttp.send(params);
-    
-    console.log('Hi');
 }

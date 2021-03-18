@@ -11,7 +11,7 @@ i18next
 backend: {
     backend: Fetch,
     backendOption:{
-      loadPath: '/static/content/i18n/de.json',
+      loadPath: '/static/content/de.json',
       allowMultiLoading:  true,
       multiSeparator: '+',
     }
