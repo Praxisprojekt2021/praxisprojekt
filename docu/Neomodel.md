@@ -35,9 +35,9 @@ def return_age(name):
 
 Eine Setter Methode sieht so aus:
 ```
-def change_age(name, age):
+def change_age(name, new_age):
     person = Person.nodes.get(name=name)
-    person.age = age
+    person.age = new_age
     person.save()   
 ```
 
