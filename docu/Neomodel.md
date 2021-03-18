@@ -3,7 +3,43 @@
 Die Datenbank kann dadurch komplett ohne die eigene DQL Cypher genutzt werden._
 
 ##Nodes
+Jede Art von Node, die wir in der Datenbank vorfinden muss als Klasse in unserem Handler hinterlegt sein. Lesen wir dann Nodes aus der Datenbank aus, werden diese dann als Python-Objekte zurückgegeben ud können auch so weiter verarabeitet werden. 
+Jedes Merkmal, dass unsere Node haben soll muss als Attribut in der Klasse angelegt werden. Dazu gehören auch Relationships (siehe unten). Der Datentyp sollte für jedes Attribut analog zum Datentyp in der Neo4j-Datenbank angelegt werden. Dafür stehen uns verschiedene hinterlegte Klassen zur Verfügung.:
 
+AliasProperty	        IntegerProperty
+ArrayProperty	        JSONProperty
+BooleanProperty	        RegexProperty
+DateProperty	        StringProperty (Notes)
+DateTimeProperty        UniqueIdProperty
+DateTimeFormatProperty  PointProperty
+FloatProperty
+
+Für die Änderung der Attribute werden Getter und Setter Methoden genutzt. Diese müssen ebenfalls pro Node (und Attribut) erstellt werden. Wir schreiben nicht direkt mit unseren Handlerfunktionen in die Objekte rein! 
+
+Eine Klasse, die einen Node darstellt kann so aussehen:
+
+```
+class Person(Structured Node):
+    id = UniqueIdProperty()
+    name = StringProperty()
+    age = IntegerProperty()
+```
+
+Eine Getter Methode sieht so aus:
+
+```
+def return_age(name):
+    person = Person.nodes.get(name=name)
+    return person.age
+```
+
+Eine Setter Methode sieht so aus:
+```
+def change_age(name, age):
+    person = Person.nodes.get(name=name)
+    person.age = age
+    person.save()   
+```
 
 ##Relationships
 Nodes=Klassen=Komponenten können in Beziehungen zueinander stehen.  
