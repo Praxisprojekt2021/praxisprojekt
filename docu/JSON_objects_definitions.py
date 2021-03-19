@@ -1,7 +1,6 @@
 """
 File containing definitions of JSON objects for exchange between database, backend and frontend
 """
-# Latest edit: 19.03.2021
 
 # error
 # Database -> Backend -> Frontend
@@ -160,60 +159,60 @@ data = {
 data = {
     "success": True,
     "process": {
-            "id": 125,
-            "name": "Kunde anlegen",
-            "description": "Prozess zum anlegen von einem neuen Kunden in allen Systemen",
-            "creation_timestamp": "20210210...",
-            "last_timestamp": "20200211...",
-            "components": [
-                {
-                    "id": 1,
-                    "weight": 1,  # different from single component view!
-                    "name": "SQL Datenbank",
-                    "category": "Datenbank",
-                    "description": "Kundendatenbank",
-                    "creation_timestamp": "20200219...",
-                    "last_timestamp": "20200219...",
-                    "metrics": [
-                        {"codelines": 20000},
-                        {"admins": 10},
-                        {"recovery_time": 5},
-                        # ...
-                    ]
-                },
-                {
-                    "id": 3,
-                    "weight": 1.5,
-                    "name": "Frontend API",
-                    "category": "API",
-                    "description": "API für das Frontend",
-                    "creation_timestamp": "20200219...",
-                    "last_timestamp": "20200219...",
-                    "metrics": [
-                        {"codelines": 20000},
-                        {"admins": 10},
-                        {"recovery_time": 5},
-                        # ...
-                    ]
-                },
-                {
-                    "id": 2,
-                    "weight": 2,
-                    "name": "Hadoop Cluster",
-                    "category": "Datenbank",
-                    "description": "Big Data Plattform",
-                    "creation_timestamp": "20200219...",
-                    "last_timestamp": "20200219...",
-                    "metrics": [
-                        {"codelines": 20000},
-                        {"admins": 10},
-                        {"recovery_time": 5},
-                        # ...
-                    ]
-                }
-                # ...
-            ]
-        },
+        "id": 125,
+        "name": "Kunde anlegen",
+        "description": "Prozess zum anlegen von einem neuen Kunden in allen Systemen",
+        "creation_timestamp": "20210210...",
+        "last_timestamp": "20200211...",
+        "components": [
+            {
+                "id": 1,
+                "weight": 1,  # different from single component view!
+                "name": "SQL Datenbank",
+                "category": "Datenbank",
+                "description": "Kundendatenbank",
+                "creation_timestamp": "20200219...",
+                "last_timestamp": "20200219...",
+                "metrics": [
+                    {"codelines": 20000},
+                    {"admins": 10},
+                    {"recovery_time": 5},
+                    # ...
+                ]
+            },
+            {
+                "id": 3,
+                "weight": 1.5,
+                "name": "Frontend API",
+                "category": "API",
+                "description": "API für das Frontend",
+                "creation_timestamp": "20200219...",
+                "last_timestamp": "20200219...",
+                "metrics": [
+                    {"codelines": 20000},
+                    {"admins": 10},
+                    {"recovery_time": 5},
+                    # ...
+                ]
+            },
+            {
+                "id": 2,
+                "weight": 2,
+                "name": "Hadoop Cluster",
+                "category": "Datenbank",
+                "description": "Big Data Plattform",
+                "creation_timestamp": "20200219...",
+                "last_timestamp": "20200219...",
+                "metrics": [
+                    {"codelines": 20000},
+                    {"admins": 10},
+                    {"recovery_time": 5},
+                    # ...
+                ]
+            }
+            # ...
+        ]
+    },
     "should-metrics": [
         {"codelines": 25000},
         {"admins": 12},
@@ -232,7 +231,7 @@ data = {
 # Frontend -> Backend -> Database
 data = {
     "process": {
-        "id": -1, # when -1 it indicates that it is a new process, anything else indicates its an update
+        "id": -1,  # when -1 it indicates that it is a new process, anything else indicates its an update
         "name": "Kunde anlegen",
         "description": "Prozess zum anlegen von einem neuen Kunden in allen Systemen",
         "creation_timestamp": "20210210...",
@@ -396,3 +395,85 @@ data = {
 # TODO: Definition of the answer
 # Database -> Backend -> Frontend
 data = {}
+
+# --------------------------------------------------------
+# calculation risk
+# Backend Core -> Backend Processing
+data = {
+    "success": True,
+    "process": {
+        "id": 111,
+        "name": "Kunde anlegen",
+        "description": "Prozess zum anlegen von einem neuen Kunden in allen Systemen",
+        "creation_timestamp": "20210210...",
+        "last_timestamp": "20200211...",
+        "components": [
+            {
+                "id": 12,
+                "weight": 1,  # different from single component view!
+                "name": "SQL Datenbank",
+                "category": "Datenbank",
+                "description": "Kundendatenbank",
+                "creation_timestamp": "20200219...",
+                "last_timestamp": "20200219...",
+                "metrics": [
+                    {"codelines": 20000},
+                    {"admins": 10},
+                    {"recovery_time": 5},
+                    # ...
+                ]
+            },
+            {
+                "id": 3,
+                "weight": 1.5,
+                "name": "Frontend API",
+                "category": "API",
+                "description": "API für das Frontend",
+                "creation_timestamp": "20200219...",
+                "last_timestamp": "20200219...",
+                "metrics": [
+                    {"codelines": 20000},
+                    {"admins": 10},
+                    {"recovery_time": 5},
+                    # ...
+                ]
+            },
+            {
+                "id": 2,
+                "weight": 2,
+                "name": "Hadoop Cluster",
+                "category": "Datenbank",
+                "description": "Big Data Plattform",
+                "creation_timestamp": "20200219...",
+                "last_timestamp": "20200219...",
+                "metrics": [
+                    {"codelines": 20000},
+                    {"admins": 10},
+                    {"recovery_time": 5},
+                    # ...
+                ]
+            }
+            # ...
+        ]
+    },
+    "should-metrics": [
+        {"codelines": 25000},
+        {"admins": 12},
+        {"recovery_time": 3},
+        # ...
+    ]
+}
+# Backend Processing -> Backend Core
+data = {
+    "viv_score": 80,  # percent as integer
+    "metrics": [
+        {"codelines": True},  # true means that the metric is fine --> no problem.
+        {"admins": True},
+        {"recovery_time": False}  # false means that the metric is not fine --> problem.
+    ],
+    "features": [
+        {"availability": True},
+        {"testability": False},
+    ]
+
+}
