@@ -115,22 +115,25 @@ data = {
 # ----------------------------------------------------------------------------------------------------------------------
 # view process list
 # Database -> Backend -> Frontend
+# TODO: Prozessrisiko einfügen
 data = {
     "success": True,
     "process": [
         {
             "id": 1,
             "name": "Kunde anlegen",
-            "description": "Prozess zum anlegen von einem neuen Kunden in allen Systemen",
             "creation_timestamp": "20210210...",
             "last_timestamp": "20200211...",
+            # erst ab Backend nach Risk calc
+            "viv_score": 80,
         },
         {
             "id": 2,
             "name": "Kunde löschen",
-            "description": "Prozess zum löschen von einem Kunden in allen Systemen",
             "creation_timestamp": "20210209...",
             "last_timestamp": "20210210...",
+            # erst ab Backend nach Risk calc
+            "viv_score": 40,
         }
         # ...
     ]
@@ -156,6 +159,7 @@ data = {
 }
 
 # Database -> Backend -> Frontend
+# TODO: Metriken [] weg auch bei soll  und Ergebniss von calc risk einbauen
 data = {
     "success": True,
     "process": {
@@ -173,12 +177,12 @@ data = {
                 "description": "Kundendatenbank",
                 "creation_timestamp": "20200219...",
                 "last_timestamp": "20200219...",
-                "metrics": [
-                    {"codelines": 20000},
-                    {"admins": 10},
-                    {"recovery_time": 5},
+                "metrics": {
+                    "codelines": 20000,
+                    "admins": 10,
+                    "recovery_time": 5,
                     # ...
-                ]
+                }
             },
             {
                 "id": 3,
@@ -218,14 +222,13 @@ data = {
         {"admins": 12},
         {"recovery_time": 3},
         # ...
-    ]
+    ],
+    # ab jetzt erst ab Backend durch Risk calc
 }
 
 # -----------------------------------------------------------
 
-# TODO: Sollen wir bei jeder Änderung das Prozess JSON ans Frontend geben, so dass diese jederzeit auf dem aktuelle
-# TODO: Stand ist? Alternativ kann das Frontend nachjemden Success, selber anfragen. Aktuell ist es im Miro-Board imo
-# TODO: noch nicht richtig modelliert.
+# Bei jeder Änderung wird an das Frontend das Prozess anzeigen JSON geschickt (über den entsprechenden Edit-Endpoint)
 
 # create process or edit process data
 # Frontend -> Backend -> Database
@@ -236,54 +239,6 @@ data = {
         "description": "Prozess zum anlegen von einem neuen Kunden in allen Systemen",
         "creation_timestamp": "20210210...",
         "last_timestamp": "20200211...",
-        "components": [
-            {
-                "id": 4,
-                "weight": 1,  # different from single component view!
-                "name": "SQL Datenbank",
-                "category": "Datenbank",
-                "description": "Kundendatenbank",
-                "creation_timestamp": "20200219...",
-                "last_timestamp": "20200219...",
-                "metrics": [
-                    {"codelines": 20000},
-                    {"admins": 10},
-                    {"recovery_time": 5},
-                    # ...
-                ]
-            },
-            {
-                "id": 12,
-                "weight": 1.5,
-                "name": "Frontend API",
-                "category": "API",
-                "description": "API für das Frontend",
-                "creation_timestamp": "20200219...",
-                "last_timestamp": "20200219...",
-                "metrics": [
-                    {"codelines": 20000},
-                    {"admins": 10},
-                    {"recovery_time": 5},
-                    # ...
-                ]
-            },
-            {
-                "id": 25,
-                "weight": 2,
-                "name": "Hadoop Cluster",
-                "category": "Datenbank",
-                "description": "Big Data Plattform",
-                "creation_timestamp": "20200219...",
-                "last_timestamp": "20200219...",
-                "metrics": [
-                    {"codelines": 20000},
-                    {"admins": 10},
-                    {"recovery_time": 5},
-                    # ...
-                ]
-            }
-            # ...
-        ]
     },
     "should-metrics": [
         {"codelines": 25000},
@@ -293,10 +248,13 @@ data = {
     ]
 }
 
-# Database -> Backend -> Frontend
+# Database -> Backend
 data = {
     "success": True,
 }
+
+# Backend -> Frontend
+""" Prozess anzeigen JSON"""
 
 # -----------------------
 # delete process
@@ -306,71 +264,13 @@ data = {
     "weight": 2
 }
 
-# Database -> Backend -> Frontend
+# Database -> Backend
 data = {
-    "success": True,
-    "process": {
-        "id": 15,
-        "name": "Kunde anlegen",
-        "description": "Prozess zum anlegen von einem neuen Kunden in allen Systemen",
-        "creation_timestamp": "20210210...",
-        "last_timestamp": "20200211...",
-        "components": [
-            {
-                "id": 24,
-                "weight": 1,  # different from single component view!
-                "name": "SQL Datenbank",
-                "category": "Datenbank",
-                "description": "Kundendatenbank",
-                "creation_timestamp": "20200219...",
-                "last_timestamp": "20200219...",
-                "metrics": [
-                    {"codelines": 20000},
-                    {"admins": 10},
-                    {"recovery_time": 5},
-                    # ...
-                ]
-            },
-            {
-                "id": 123,
-                "weight": 1.5,
-                "name": "Frontend API",
-                "category": "API",
-                "description": "API für das Frontend",
-                "creation_timestamp": "20200219...",
-                "last_timestamp": "20200219...",
-                "metrics": [
-                    {"codelines": 20000},
-                    {"admins": 10},
-                    {"recovery_time": 5},
-                    # ...
-                ]
-            },
-            {
-                "id": 235,
-                "weight": 2,
-                "name": "Hadoop Cluster",
-                "category": "Datenbank",
-                "description": "Big Data Plattform",
-                "creation_timestamp": "20200219...",
-                "last_timestamp": "20200219...",
-                "metrics": [
-                    {"codelines": 20000},
-                    {"admins": 10},
-                    {"recovery_time": 5},
-                    # ...
-                ]
-            }
-            # ...
-        ]
-    },
-    "should-metrics": [
-        {"codelines": 25000},
-        {"admins": 12},
-        {"recovery_time": 3},
-        # ...
-    ]
+    "success": True
 }
+
+# Backend -> Frontend
+""" Prozess anzeigen JSON"""
 
 # -----------------------
 # edit process step
@@ -380,9 +280,14 @@ data = {
     "old_weight": 3,
     "new_weight": 2.5
 }
-# TODO: Definition of the answer
-# Database -> Backend -> Frontend
-data = {}
+
+# Database -> Backend
+data = {
+    "success": True
+}
+
+# Backend -> Frontend
+""" Prozess anzeigen JSON"""
 
 # -----------------------
 # create process step
@@ -392,9 +297,14 @@ data = {
     "component_id": 126,
     "weight": 2.5
 }
-# TODO: Definition of the answer
-# Database -> Backend -> Frontend
-data = {}
+
+# Database -> Backend
+data = {
+    "success": True
+}
+
+# Backend -> Frontend
+""" Prozess anzeigen JSON"""
 
 # --------------------------------------------------------
 # calculation risk
@@ -463,17 +373,18 @@ data = {
         # ...
     ]
 }
+
 # Backend Processing -> Backend Core
+# TODO: anpassen
 data = {
     "viv_score": 80,  # percent as integer
-    "metrics": [
-        {"codelines": True},  # true means that the metric is fine --> no problem.
+    "is_metrics": [
+        {"codelines": [True, 30]},  # true means that the metric is fine --> no problem.
         {"admins": True},
         {"recovery_time": False}  # false means that the metric is not fine --> problem.
     ],
-    "features": [
+    "is_features": [
         {"availability": True},
         {"testability": False},
     ]
-
 }
