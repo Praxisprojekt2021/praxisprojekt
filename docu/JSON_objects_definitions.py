@@ -37,7 +37,6 @@ data = {
 }
 
 # Database -> Backend -> Frontend
-# TODO: Metrics to array
 data = {
     "success": True,
     "id": 1,
@@ -57,7 +56,6 @@ data = {
 # -----------------------
 # edit single component
 # Frontend -> Backend -> Database
-# TODO: Metrics to array
 data = {
     "id": 1,
     "name": "SQL Datenbank",
@@ -92,7 +90,6 @@ data = {
 # -----------------------
 # create a single component
 # Frontend -> Backend -> Database
-# TODO: Metrics to array
 data = {
     "id": -1,  # wichtig -> als Indikator, dass neu angelegt und daher kein update sondern create
     "name": "SQL Datenbank",
@@ -115,7 +112,6 @@ data = {
 # ----------------------------------------------------------------------------------------------------------------------
 # view process list
 # Database -> Backend -> Frontend
-# TODO: Prozessrisiko einfügen
 data = {
     "success": True,
     "process": [
@@ -159,7 +155,6 @@ data = {
 }
 
 # Database -> Backend -> Frontend
-# TODO: Metriken [] weg auch bei soll  und Ergebniss von calc risk einbauen
 data = {
     "success": True,
     "process": {
@@ -192,12 +187,12 @@ data = {
                 "description": "API für das Frontend",
                 "creation_timestamp": "20200219...",
                 "last_timestamp": "20200219...",
-                "metrics": [
-                    {"codelines": 20000},
-                    {"admins": 10},
-                    {"recovery_time": 5},
+                "metrics": {
+                    "codelines": 20000,
+                    "admins": 10,
+                    "recovery_time": 5,
                     # ...
-                ]
+                }
             },
             {
                 "id": 2,
@@ -207,23 +202,33 @@ data = {
                 "description": "Big Data Plattform",
                 "creation_timestamp": "20200219...",
                 "last_timestamp": "20200219...",
-                "metrics": [
-                    {"codelines": 20000},
-                    {"admins": 10},
-                    {"recovery_time": 5},
+                "metrics": {
+                    "codelines": 20000,
+                    "admins": 10,
+                    "recovery_time": 5,
                     # ...
-                ]
+                }
             }
             # ...
         ]
     },
-    "should-metrics": [
-        {"codelines": 25000},
-        {"admins": 12},
-        {"recovery_time": 3},
+    "should-metrics": {
+        "codelines": 25000,
+        "admins": 12,
+        "recovery_time": 3,
         # ...
-    ],
+    },
     # ab jetzt erst ab Backend durch Risk calc
+    "viv_score": 80,  # percent as integer
+    "is_metrics": {
+        "codelines": [True, 30],  # true means that the metric is fine --> no problem.
+        "admins": [True, 30],
+        "recovery_time": [False, 20]  # false means that the metric is not fine --> problem.
+    },
+    "is_features": {
+        "availability": True,
+        "testability": False,
+    }
 }
 
 # -----------------------------------------------------------
@@ -240,12 +245,13 @@ data = {
         "creation_timestamp": "20210210...",
         "last_timestamp": "20200211...",
     },
-    "should-metrics": [
-        {"codelines": 25000},
-        {"admins": 12},
-        {"recovery_time": 3},
-        # ...
-    ]
+    "should-metrics":
+        {
+            "codelines": 25000,
+            "admins": 12,
+            "recovery_time": 3,
+            # ...
+        }
 }
 
 # Database -> Backend
@@ -366,25 +372,24 @@ data = {
             # ...
         ]
     },
-    "should-metrics": [
-        {"codelines": 25000},
-        {"admins": 12},
-        {"recovery_time": 3},
+    "should-metrics": {
+        "codelines": 25000,
+        "admins": 12,
+        "recovery_time": 3,
         # ...
-    ]
+    }
 }
 
 # Backend Processing -> Backend Core
-# TODO: anpassen
 data = {
     "viv_score": 80,  # percent as integer
-    "is_metrics": [
-        {"codelines": [True, 30]},  # true means that the metric is fine --> no problem.
-        {"admins": [True, 30]},
-        {"recovery_time": False}  # false means that the metric is not fine --> problem.
-    ],
-    "is_features": [
-        {"availability": True},
-        {"testability": False},
-    ]
+    "is_metrics": {
+        "codelines": [True, 30],  # true means that the metric is fine --> no problem.
+        "admins": [True, 30],
+        "recovery_time": [False, 20]  # false means that the metric is not fine --> problem.
+    },
+    "is_features": {
+        "availability": True,
+        "testability": False,
+    }
 }
