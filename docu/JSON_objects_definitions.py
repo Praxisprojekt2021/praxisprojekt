@@ -380,7 +380,7 @@ data = {
     "viv_score": 80,  # percent as integer
     "is_metrics": [
         {"codelines": [True, 30]},  # true means that the metric is fine --> no problem.
-        {"admins": True},
+        {"admins": [True, 30]},
         {"recovery_time": False}  # false means that the metric is not fine --> problem.
     ],
     "is_features": [
