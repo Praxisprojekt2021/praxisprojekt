@@ -1,19 +1,28 @@
-import processing.calculations as calculations
-import processing.typeconversion as typeconversion
+
+import processing.processing as proc
+import processing.typeconversion as tc
 
 
-def core_addition(input_object: str) -> str:
+def core_addition(data: str) -> str:
+
     """
-    Receives a JSON object, converts it to a dictionary and passes it to the calculations.addition function.
-    The returned sum gets converted to a dictionary which is returned as JSON object
+    Receives a json string, converts it to a dictionary and passes it to the processes.addition function.
+    The returned sum gets converted to a dictionary which is returned 
 
-    :param input_object: JSON object containing two numbers
-    :type input_object: str
-    :return: A JSON object with the key "sum" and the sum of two numbers as value
+    :param data: string in json format
+    :type data: str
+
+    :return: A string in json format with the key "sum" and the sum of two numbers as value
     """
     
-    data_dict = typeconversion.json_to_dict(input_object)
-    result = calculations.addition(data_dict["number1"], data_dict["number2"])
-    output_object = typeconversion.dict_to_json(result)
+    if(type(data) != dict):
+        dict_data = tc.json_to_dict(data)
+    else:
+        dict_data = data
+    
+    sum = proc.addition(dict_data["number1"], dict_data["number2"])
+    json_return = tc.dict_to_json(sum)
 
-    return output_object
+    return json_return
+
+
