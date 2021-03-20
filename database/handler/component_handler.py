@@ -75,14 +75,23 @@ def add_component(input_dict):
 
     :param input_dict:
     :return:
+    id = UniqueIdProperty()
+    name = StringProperty()
+    category = StringProperty()
+    creation_timestamp = DateTimeProperty()
+    last_timestamp = DateTimeProperty()
     """
-
+    new_component = Component(name=input_dict.name, category=input_dict.category)
+    print(new_component.save())
+    if new_component.refresh():
+        print(True)
+    """
     data = {
         "success": True,
     }
 
     return data
-
+"""
 
 def update_component(input_dict):
     """
