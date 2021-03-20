@@ -1,12 +1,16 @@
-from neomodel import config, StructuredNode, StringProperty, UniqueIdProperty, DateTimeProperty
+from neomodel import config, StructuredNode, StringProperty, UniqueIdProperty, DateTimeProperty, db
 
 from database.config import *
 
 config.DATABASE_URL = 'bolt://{}:{}@{}:{}'.format(NEO4J_USER, NEO4J_PASSWORD, NEO4J_IP, NEO4J_PORT)
 
+"""
+Stake:
+Sascha Nicolas Luke
+"""
+
 
 class Component(StructuredNode):
-
     id = UniqueIdProperty()
     name = StringProperty()
     category = StringProperty()
@@ -14,6 +18,7 @@ class Component(StructuredNode):
     last_timestamp = DateTimeProperty()
 
 
+@db.read_transaction
 def get_component_list(input_dict):
     """
     TODO: von DB Team auszufüllen und umzusetzen
@@ -21,7 +26,7 @@ def get_component_list(input_dict):
     :param input_dict:
     :return:
     """
-
+    return Component.nodes.all()
     data = {
         "success": True,
         "components": [
@@ -40,9 +45,10 @@ def get_component_list(input_dict):
         ]
     }
 
-    return data
+    # return data
 
 
+@db.read_transaction
 def get_component(input_dict):
     """
     TODO: von DB Team auszufüllen und umzusetzen
@@ -50,7 +56,7 @@ def get_component(input_dict):
     :param input_dict:
     :return:
     """
-
+    return Component.nodes.get(id=input_dict.id)
     data = {
         "success": True,
         "id": 1,
@@ -66,7 +72,7 @@ def get_component(input_dict):
         },
     }
 
-    return data
+    # return data
 
 
 def add_component(input_dict):
@@ -75,14 +81,23 @@ def add_component(input_dict):
 
     :param input_dict:
     :return:
+    id = UniqueIdProperty()
+    name = StringProperty()
+    category = StringProperty()
+    creation_timestamp = DateTimeProperty()
+    last_timestamp = DateTimeProperty()
     """
-
+    new_component = Component(name=input_dict.name, category=input_dict.category)
+    print(new_component.save())
+    if new_component.refresh():
+        print(True)
+    """
     data = {
         "success": True,
     }
 
     return data
-
+"""
 
 def update_component(input_dict):
     """
