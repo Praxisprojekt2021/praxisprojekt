@@ -1,12 +1,15 @@
 # external endpoints
-from flask import Flask, render_template,request
+from flask import Flask, render_template, request
 from core import core_addition, get_components, component_delete
 
-app = Flask(__name__, static_url_path='', template_folder='../frontend/templates', static_folder='../frontend/static')
+app = Flask(__name__, static_url_path='',
+            template_folder='../frontend/templates', static_folder='../frontend/static')
+
 
 @app.route('/', methods=["GET"])
 def index():
     return render_template("index.html")
+
 
 @app.route('/addition', methods=["POST"])
 def addition_route():
@@ -17,12 +20,13 @@ def addition_route():
        """
     if request.is_json:
         try:
-            return core_addition(request.json),200
+            return core_addition(request.json), 200
 
         except:
-            return "Internal Error",500
-    else :
-        return "No JSON body was transferred",400
+            return "Internal Error", 500
+    else:
+        return "No JSON body was transferred", 400
+
 
 @app.route("/component/overview", methods=["GET"])
 def get_component_overview():
@@ -31,23 +35,24 @@ def get_component_overview():
     :receives None
     :returns a JSON object containing a list of components
     """
-    
+
     components = get_components()
-    
+
     return components
+
 
 @app.route("/component/delete", methods=["POST"])
 def do_component_delete():
-    """API Endpoint to delete specific components
+    """API Endpoint to delete a specific component
 
     Returns:
         str: In JSON Format
     """
     if request.is_json:
         try:
-            return component_delete(request.json),200
+            return component_delete(request.json), 200
 
         except:
-            return "Internal Error",500
-    else :
-        return "No JSON body was transferred",400
+            return "Internal Error", 500
+    else:
+        return "No JSON body was transferred", 400
