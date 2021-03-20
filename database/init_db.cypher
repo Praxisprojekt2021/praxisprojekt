@@ -8,13 +8,13 @@ CREATE
                         creation_timestamp: datetime(),
                         last_timestamp:     datetime()})
     -[:should {should: 10}]->(Ausfallzeit:Metric {name:        'Ausfallzeit',
-                                                  description: 'Durchschnittliche Ausfallzeit in Minuten'})
+                                                  description: 'Durchschnittliche Ausfallzeit in Minuten pro Tag'})
     <-[:IS {IS: 3}]-(`Frontend API`:Component {name:               'Frontend API',
                                                description:        'API für die Frontend View',
                                                creation_timestamp: datetime(), last_timestamp: datetime(),
                                                category:           'API'})
     <-[:includes {weight: '1,5'}]-(`Process 1`)-[:includes {weight: 1}]->
-  (`Oracle DB`:Component {name:               'Oracle Datenbank', description: 'Kudendatenbank',
+  (`Oracle DB`:Component {name:               'Oracle Datenbank', description: 'Kundendatenbank',
                           creation_timestamp: datetime(),
                           last_timestamp:     datetime(), category: 'Datenbank'})
     -[:IS {IS: 10000}]->(Codezeilen:Metric {name: 'Codezeilen', description: 'Anzahl von Codezeilen'})
