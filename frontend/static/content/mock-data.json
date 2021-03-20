@@ -1,0 +1,33 @@
+{
+    "success": true,
+    "components": [
+        {"id": 1,
+         "name": "SQL Datenbank",
+         "category": "Datenbank",
+         "creation_timestamp": "20200219...",
+         "last_timestamp": "20200219..."
+         },
+        {"id": 2,
+         "name": "Oracle Datenbank",
+         "category": "Datenbank",
+         "creation_timestamp": "20200219...",
+         "last_timestamp": "20200219..."
+         }
+    ],
+    "processes": [
+        {
+            "process": "Prozess1",
+            "components": "6",
+            "viv_value": "4",
+            "created": "01.03.2021",
+            "edited": "05.03.2021"
+        },
+        {
+          "process": "Prozess2",
+          "components": "4",
+          "viv_value": "3",
+          "created": "01.02.2021",
+          "edited": "05.03.2021"
+      }
+    ]
+}
