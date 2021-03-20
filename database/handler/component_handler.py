@@ -1,17 +1,20 @@
-from neomodel import config, StructuredNode, StringProperty, UniqueIdProperty, DateTimeProperty
+from neomodel import config, StructuredNode, StringProperty, UniqueIdProperty, DateTimeProperty, db
+from datetime import datetime
 
-from database.config import *
+NEO4J_IP = "35.192.106.131"
+NEO4J_PORT = "7687"
+NEO4J_USER = "neo4j"
+NEO4J_PASSWORD = "XcHUfUY8wMZb"
 
 config.DATABASE_URL = 'bolt://{}:{}@{}:{}'.format(NEO4J_USER, NEO4J_PASSWORD, NEO4J_IP, NEO4J_PORT)
 
 
 class Component(StructuredNode):
-
-    id = UniqueIdProperty()
+    uid = UniqueIdProperty()
     name = StringProperty()
     category = StringProperty()
-    creation_timestamp = DateTimeProperty()
-    last_timestamp = DateTimeProperty()
+    creation_timestamp = DateTimeProperty(default_now=True)  # subject to change
+    last_timestamp = DateTimeProperty(default_now=True)  # subject to change
 
 
 def get_component_list(input_dict):
@@ -50,23 +53,8 @@ def get_component(input_dict):
     :param input_dict:
     :return:
     """
-
-    data = {
-        "success": True,
-        "id": 1,
-        "name": "SQL Datenbank",
-        "category": "Datenbank",
-        "description": "Datenbank zu xy mit ...",
-        "creation_timestamp": "2020-02-04 07:46:29.315237",
-        "last_timestamp": "2020-02-04 07:46:29.315237",
-        "metrics": {
-            "codelines": 20000,
-            "admins": 10,
-            "recovery_time": 5,
-        },
-    }
-
-    return data
+    
+    return Component.nodes.get(uid=input_dict["uid"])
 
 
 def add_component(input_dict):
@@ -81,17 +69,11 @@ def add_component(input_dict):
     creation_timestamp = DateTimeProperty()
     last_timestamp = DateTimeProperty()
     """
-    new_component = Component(name=input_dict.name, category=input_dict.category)
-    print(new_component.save())
-    if new_component.refresh():
-        print(True)
-    """
-    data = {
-        "success": True,
-    }
+    
+    with db.transaction:
+        new_component = Component(name=input_dict["name"], category=input_dict["category"]).save()
+        return new_component
 
-    return data
-"""
 
 def update_component(input_dict):
     """
@@ -121,3 +103,16 @@ def delete_component(input_dict):
     }
 
     return data
+
+
+''' Zum Testen:
+data = {
+    "name": "aaron",
+    "category": "jonathan"
+}
+
+x = add_component(data)
+print(x)
+
+print(get_component({"uid": x.uid}))
+'''
