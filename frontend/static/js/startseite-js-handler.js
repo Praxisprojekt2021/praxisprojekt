@@ -36,11 +36,34 @@ function loadData () {
 }
 
 /**
+ * Populate Process Table.
+ * @param {JSON} json 
+ */
+function refreshProcessTable(json) {
+    var table = document.getElementById('ProzesseTable');
+            json.processes.forEach(function(object) {
+                var tr = document.createElement('tr');
+                tr.innerHTML = '<td>' + object.process + '</td>' +
+                '<td>' + object.components + '</td>' +
+                '<td>' + object.viv_value + '</td>' +
+                renderStatusColumn(object.viv_value) +
+                '<td>' + formatDate(object.created) + '</td>' +
+                '<td>' + formatDate(object.edited) + '</td>' +
+                '<td>' + renderEditProcessButton(object.id) + '</td>' + 
+                '<td>' + renderDeleteProcessButton(object.id) + '</td>';
+                table.appendChild(tr);
+            });
+            tr = document.createElement('tr');
+            tr.innerHTML = '<td colspan="8">' + renderAddComponentButton() + '</td>';
+            table.appendChild(tr);
+}
+
+/**
  * Populate Component Table.
  * 
  * @param {JSON} json 
  */
-function refreshComponentTable(json) {
+ function refreshComponentTable(json) {
     var table = document.getElementById('KomponentenTable');
             json.components.forEach(function(object) {
                 var tr = document.createElement('tr');
@@ -54,30 +77,7 @@ function refreshComponentTable(json) {
                 table.appendChild(tr);
             });
             tr = document.createElement('tr');
-            tr.innerHTML = '<td>' + renderAddComponentButton() + '</td>';
-            table.appendChild(tr);
-}
-
-/**
- * Populate Process Table.
- * @param {JSON} json 
- */
-function refreshProcessTable(json) {
-    var table = document.getElementById('ProzesseTable');
-            json.processes.forEach(function(object) {
-                var tr = document.createElement('tr');
-                tr.innerHTML = '<td>' + object.process + '</td>' +
-                '<td>' + object.components + '</td>' +
-                '<td>' + object.viv_value + '</td>' +
-                '<td></td>' + 
-                '<td>' + formatDate(object.created) + '</td>' +
-                '<td>' + formatDate(object.edited) + '</td>' +
-                '<td>' + renderEditProcessButton(object.id) + '</td>' + 
-                '<td>' + renderDeleteProcessButton(object.id) + '</td>';
-                table.appendChild(tr);
-            });
-            tr = document.createElement('tr');
-            tr.innerHTML = '<td>' + renderAddComponentButton() + '</td>';
+            tr.innerHTML = '<td colspan="7">' + renderAddComponentButton() + '</td>';
             table.appendChild(tr);
 }
 
@@ -184,3 +184,13 @@ function formatDate(date) {
     return new Date(date).toLocaleDateString("DE", dateOptions);
 }
 
+/**
+ * Renders column to show status as red or green.
+ * @param {String} viv_value 
+ * @returns green or red td-cell (depending on viv-value)
+ */
+function renderStatusColumn(viv_value) {
+    // if viv_value < 4, status is green, else status is red;
+    // TODO: adapt to requirements (when it should be red or green)
+    return viv_value < 4 ? '<td bgcolor="green"></td>' : '<td bgcolor="red"></td>';
+}
