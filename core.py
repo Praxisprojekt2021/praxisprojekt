@@ -1,6 +1,7 @@
 import processing.calculations as calculations
 import processing.typeconversion as typeconversion
 import database.handler.component_handler as component_handler
+import api.error_handler as error_handler
 
 
 def core_addition(input_object: str) -> str:
@@ -34,9 +35,11 @@ def core_component_create_edit(input_object: str) -> str:
     
     if data_dict["id"] == -1:
         result = component_handler.add_component(data_dict)
+        return typeconversion.dict_to_json(result)
     elif data_dict["id"] >= 0:
         result = component_handler.edit_component(data_dict)
+        return typeconversion.dict_to_json(result)
     else:
-        result = {"success": False} # Optionally it could be cleaner to import the result object in the else case directly from a template
+        return error_handler.error_handler(500, "JSON object does not contain a component id") 
     
-    return typeconversion.dict_to_json(result)
+    
