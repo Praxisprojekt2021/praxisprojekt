@@ -1,8 +1,9 @@
 /*TODO:
-*       renderAdd/Edit/Delete: Icons einfügen
+*       renderAdd: +-Symbol einfügen und Zeile komplett über alle Spalten gehen lassen
 *       Call an Backend-Endpoint senden statt an Mock-Datei
 *       Statische Textbausteine aus HTML auslagern in de.json
 *       CSS auslagern
+*       Json Stuff Placeholder aus HTML loeschen
 */
 
 //Base url to distinguish between localhost and production environment
