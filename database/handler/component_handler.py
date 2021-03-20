@@ -1,22 +1,24 @@
 from neomodel import config, StructuredNode, StringProperty, UniqueIdProperty, DateTimeProperty, db
-from datetime import datetime
 
-NEO4J_IP = "35.192.106.131"
-NEO4J_PORT = "7687"
-NEO4J_USER = "neo4j"
-NEO4J_PASSWORD = "XcHUfUY8wMZb"
+from database.config import *
 
 config.DATABASE_URL = 'bolt://{}:{}@{}:{}'.format(NEO4J_USER, NEO4J_PASSWORD, NEO4J_IP, NEO4J_PORT)
 
+"""
+Stake:
+Sascha Nicolas Luke
+"""
+
 
 class Component(StructuredNode):
-    uid = UniqueIdProperty()
+    id = UniqueIdProperty()
     name = StringProperty()
     category = StringProperty()
-    creation_timestamp = DateTimeProperty(default_now=True)  # subject to change
-    last_timestamp = DateTimeProperty(default_now=True)  # subject to change
+    creation_timestamp = DateTimeProperty()
+    last_timestamp = DateTimeProperty()
 
 
+@db.read_transaction
 def get_component_list(input_dict):
     """
     TODO: von DB Team auszufüllen und umzusetzen
@@ -24,7 +26,7 @@ def get_component_list(input_dict):
     :param input_dict:
     :return:
     """
-
+    return Component.nodes.all()
     data = {
         "success": True,
         "components": [
@@ -43,9 +45,10 @@ def get_component_list(input_dict):
         ]
     }
 
-    return data
+    # return data
 
 
+@db.read_transaction
 def get_component(input_dict):
     """
     TODO: von DB Team auszufüllen und umzusetzen
@@ -53,8 +56,23 @@ def get_component(input_dict):
     :param input_dict:
     :return:
     """
-    
-    return Component.nodes.get(uid=input_dict["uid"])
+    return Component.nodes.get(id=input_dict.id)
+    data = {
+        "success": True,
+        "id": 1,
+        "name": "SQL Datenbank",
+        "category": "Datenbank",
+        "description": "Datenbank zu xy mit ...",
+        "creation_timestamp": "2020-02-04 07:46:29.315237",
+        "last_timestamp": "2020-02-04 07:46:29.315237",
+        "metrics": {
+            "codelines": 20000,
+            "admins": 10,
+            "recovery_time": 5,
+        },
+    }
+
+    # return data
 
 
 def add_component(input_dict):
@@ -69,11 +87,17 @@ def add_component(input_dict):
     creation_timestamp = DateTimeProperty()
     last_timestamp = DateTimeProperty()
     """
-    
-    with db.transaction:
-        new_component = Component(name=input_dict["name"], category=input_dict["category"]).save()
-        return new_component
+    new_component = Component(name=input_dict.name, category=input_dict.category)
+    print(new_component.save())
+    if new_component.refresh():
+        print(True)
+    """
+    data = {
+        "success": True,
+    }
 
+    return data
+"""
 
 def update_component(input_dict):
     """
@@ -103,16 +127,3 @@ def delete_component(input_dict):
     }
 
     return data
-
-
-''' Zum Testen:
-data = {
-    "name": "aaron",
-    "category": "jonathan"
-}
-
-x = add_component(data)
-print(x)
-
-print(get_component({"uid": x.uid}))
-'''

@@ -1,0 +1,10 @@
+{
+    "de": {
+        "translation": {
+            "front-end-view": "Front-End View",
+            "number-1": "Number 1: ",
+            "number-2": "Number 2: ",
+            "output": "Output:"
+        }
+    }
+}
