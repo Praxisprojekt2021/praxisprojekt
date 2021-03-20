@@ -1,0 +1,50 @@
+table {
+    width: 100%;
+    border-collapse: collapse;
+    border-width: 1px;
+    border-color: #2286fb;
+    border-style: solid;
+    color: #000000;
+}
+
+td, th {
+    border-width: 1px;
+    border-color: #2286fb;
+    border-style: solid;
+    padding: 8px;
+    width: 150px;
+}
+
+tr:nth-child(even){background-color: #f5f5f5}
+tr:hover {background-color: #ddd;}
+th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #2286fb;
+    color: white;
+    width: 150px;
+}
+
+
+/* Von hier an CSS Styles in Klassen */
+
+.button{
+    height: 30px;
+    width: 100px;
+    border-radius: 5px;
+}
+.center{
+    margin: auto;
+    width: 70%;
+    padding: 10px;
+}
+
+.headline{
+    margin-top: 30px;
+    text-align: center;
+}
+
+.inline{
+    display: inline-block;
+}

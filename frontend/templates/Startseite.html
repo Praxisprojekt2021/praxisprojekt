@@ -1,87 +1,110 @@
+<!-- To-Do Liste
+  1. Tabellen untereinander alignen
+  2. 
+-->
+
 <html lang="de">
 <head>
     <meta charset="utf-8"/>
     <title>Praxisprojekt 2021 - Startseite</title>
+    <link rel="stylesheet" href="/praxisprojekt/frontend/static/css/styles.css">
 </head>
-<style>
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        border-width: 1px;
-        border-color: #2286fb;
-        border-style: solid;
-        color: #000000;
-    }
-    
-    th, td {
-        border-width: 1px;
-        border-color: #2286fb;
-        border-style: solid;
-        padding: 8px;
-        width: 150px;
-    }
-    
-    tr:nth-child(even){background-color: #f5f5f5}
-    tr:hover {background-color: #ddd;}
-    th {
-        padding-top: 12px;
-        padding-bottom: 12px;
-        text-align: left;
-        background-color: #2286fb;
-        color: white;
-        width: 150px;
-}
-    </style>
 <body>
 
-    <h3>Prozesse</h3>
-<table id="ProzesseTable">
-  <tr>
-    <th>Prozess</th>
-    <th>Komponenten</th>
-    <th>VIV-Wert</th>
-    <th></th>
-    <th>Erstellt</th>
-    <th>Bearbeitet</th>
-    <th></th>
-    <th></th>
-  </tr>
-  <tr>
-    <td>JSON stuff</td>
-    <td>JSON stuff</td>
-    <td>JSON stuff</td>
-    <td>JSON stuff</td>
-    <td>JSON stuff</td>
-    <td>JSON stuff</td>
-    <td>🖊️</td>
-    <td>🗑️</td>
-  </tr>
- 
-</table>
+    <div class="headline"><h1>Riskify</h1></div>
 
-<h3>Komponenten</h3>
-<table id="KomponentenTable">
-  <tr>
-    <th>Komponente</th>
-    <th>Kategorie</th>
-    <th></th>
-    <th>Erstellt</th>
-    <th>Bearbeitet</th>
-    <th></th>
-    <th></th>
-  </tr>
-  <tr>
-    <td>JSON stuff</td>
-    <td>JSON stuff</td>
-    <td>JSON stuff</td>
-    <td>JSON stuff</td>
-    <td>JSON stuff</td>
-    <td>🖊️</td>
-    <td>🗑️</td>
-  </tr>
- 
-</table>
-<script src="{{ url_for('static', filename='js/startseite-js-handler.js') }}"></script>
-<script type="module" src="{{ url_for('static', filename='js/translator.js') }}"></script>
+    <div class="center">
+      <h3>Prozesse</h3>
+      <table id="ProzesseTable">
+        <tr>
+          <th>Prozess</th>
+          <th>Komponenten</th>
+          <th>VIV-Wert</th>
+          <th>Status</th>
+          <th>Erstellt</th>
+          <th>Bearbeitet</th>
+          <th></th>
+          <th></th>
+        </tr>
+        <tr>
+          <td>JSON stuff</td>
+          <td>JSON stuff</td>
+          <td>JSON stuff</td>
+          <td>🟢</td>
+          <td>JSON stuff</td>
+          <td>JSON stuff</td>
+          <td>🖊️</td>
+          <td>🗑️</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="center">
+      <button class="button" type="button" onclick="addRow()">Hinzufügen</button>
+      <button class="button" type="button" onclick="countRow()">Count</button>
+      <p id="demo">Number of rows: _</p>
+    </div>
+
+    
+
+    <!-- <div class="center">
+      <input type="submit" value="Löschen">
+    </div> -->
+
+    <div class="center">
+      <h3>Komponenten</h3>
+      <table id="KomponentenTable">
+          <tr>
+            <th>Komponente</th>
+            <th>Kategorie</th>
+            <th>Status</th>
+            <th>Erstellt</th>
+            <th>Bearbeitet</th>
+            <th></th>
+            <th></th>
+          </tr>
+          <tr>
+            <td>JSON stuff</td>
+            <td>JSON stuff</td>
+            <td>JSON stuff</td>
+            <td>JSON stuff</td>
+            <td>JSON stuff</td>
+            <td>🖊️</td>
+            <td>🗑️</td>
+          </tr>
+      </table>
+    </div>
+
+    <div class="center">
+      <button class="button" type="button" onclick="addRow()">Hinzufügen</button>
+      <button class="button" type="button" onclick="countRow()">Count</button>
+      <p id="demo">Number of rows: _</p>
+    </div>
+
+      <script src="{{ url_for('static', filename='js/startseite-js-handler.js') }}"></script>
+      <script type="module" src="{{ url_for('static', filename='js/translator.js') }}"></script>
+
+        <script>
+          function countRow(){
+            var rowCount = document.getElementById('ProzesseTable').rows.length;
+            document.getElementById("demo").innerHTML = 'Number of rows: ' + rowCount
+          }  
+          function addRow() {
+            var table = document.getElementById("ProzesseTable");
+            var row = table.insertRow();
+            var i, cell;
+              for (i = 0; i < 8; i++) {
+                var cell = row.insertCell(i);
+                cell.innerHTML = "Cell" + i;
+                if (i < 6) {
+                  cell.innerHTML = "New Cell";
+                } else if (i == 6) {
+                  cell.innerHTML = "🖊️";
+                } else {
+                  cell.innerHTML = "🗑️";
+                }
+              }              
+          }
+        </script>
   </body>
 </html>
