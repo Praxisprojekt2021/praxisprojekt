@@ -158,12 +158,14 @@ function addProcess() {
  * Routes to the URL where user can add a new process.
  */
 function addComponent() {
-    // ... open edit component URL without param
+    // open edit component URL without param
+    window.location.replace(base_url + "/component");
+
 }
 
 /**
  * Routes to the URL where the user can edit the process with the given id.
- * @param String id
+ * @param {String} id
  */
 function editProcess(id) {
     // ... open edit process URL with param id
@@ -174,7 +176,8 @@ function editProcess(id) {
  * @param {String} id 
  */
 function editComponent(id) {
-    // ... open edit component URL with param id
+    // open edit component URL with param id
+    window.location.replace(base_url + "/component?id=" + id);
 }
 
 /**
@@ -182,7 +185,7 @@ function editComponent(id) {
  * @param {String} id 
  */
 function deleteProcess(id) {
-    // ...
+    // call delete-process endpoint
 }
 
 /**
@@ -190,7 +193,7 @@ function deleteProcess(id) {
  * @param {String} id 
  */
 function deleteComponent(id) {
-    // ...
+    // call delete-component endpoint
 }
 
 /**
