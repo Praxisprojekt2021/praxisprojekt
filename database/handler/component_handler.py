@@ -1,118 +1,157 @@
-from neomodel import config, StructuredNode, StringProperty, IntegerProperty, UniqueIdProperty, JSONProperty, RelationshipTo, StructuredRel
+from neomodel import config, StructuredNode, StringProperty, UniqueIdProperty, \
+    RelationshipTo, StructuredRel, FloatProperty
 from metric_handler import Metric
 import metric_handler as mh
 from datetime import datetime
-# from database.config import *
 
-NEO4J_IP = "35.192.106.131"
-NEO4J_PORT = "7687"
-NEO4J_USER = "neo4j"
-NEO4J_PASSWORD = "XcHUfUY8wMZb"
+from database.config import *
 
 config.DATABASE_URL = 'bolt://{}:{}@{}:{}'.format(NEO4J_USER, NEO4J_PASSWORD, NEO4J_IP, NEO4J_PORT)
 
 
 class Relationship(StructuredRel):
-    value = IntegerProperty()
+    """
+    A class to represent the relationship between a Component and a Metric.
+
+    Attributes
+    ----------
+    value : float
+        is value of the relationship
+   """
+    value = FloatProperty()
 
 
 class Component(StructuredNode):
+    """
+    A class to represent a Component.
+
+    Attributes
+    ----------
+    uid : str
+        name of the metric
+    name : str
+        name of the metric
+    category : str
+        name of the metric
+    description : str
+        name of the metric
+    creation_timestamp : str
+        description of the metric
+    last_timestamp : str
+        description of the metric
+    hasMetric : relationship
+        description of the metric
+   """
     uid = UniqueIdProperty()
     name = StringProperty()
     category = StringProperty()
+    description = StringProperty()
     creation_timestamp = StringProperty()
     last_timestamp = StringProperty()
-    
-    relationship = RelationshipTo(Metric, "has", model=Relationship)
+
+    hasMetric = RelationshipTo(Metric, "has", model=Relationship)
 
 
-def get_component_list():
+def get_component_list() -> dict:
     """
-    TODO: von DB Team auszufüllen und umzusetzen
-    :param input_dict:
-    :return:
+    Function to retrieve a list of all existing components
+
+    :return: List of components in a dict
+    """
+    data = {"success": True, "components": Component.nodes.all()}
+    components = Component.nodes.all()
+    components_list = []
+    for component in components:
+        component_dict = component.__dict__
+        del component_dict["hasMetric"]
+        components_list.append(component_dict)
+
+    data["components"] = components_list
+    return data
+
+
+def get_component(uid: str):
+    """
+    Function to retrieve a single component
+
+    :param uid: Component uid
+    :type uid: str
+    :return: Component dict
     """
 
-    return Component.nodes.all()
+    component = Component.nodes.get(uid=uid)
+    component_dict = component.__dict__
+    metrics_list = component.hasMetric.all()
+    metrics_dict = {}
+    for key in metrics_list:
+        relationship = component.hasMetric.relationship(key)
+        metrics_dict[key.name] = relationship.value
+    component_dict["metrics"] = metrics_dict
+    del component_dict["hasMetric"]
+    component_dict.update({"success": True})
+    return component_dict
 
 
-def get_component(input_uid):
+def add_component(input_dict: dict) -> dict:
     """
-    TODO: von DB Team auszufüllen und umzusetzen
-    :param input_dict:
-    :return:
+    Function to add a single component
+
+    :param input_dict: Component as a dictionary
+    :type input_dict: dict
+    :return: Component dict
     """
 
-    return Component.nodes.get(uid=input_uid)
+    output = Component(name=input_dict["name"], category=input_dict["category"],
+                       creation_timestamp=input_dict["creation_timestamp"],
+                       last_timestamp=input_dict["last_timestamp"], description=input_dict["description"]).save()
 
-
-def add_component(input_dict):
-    """
-    TODO: von DB Team auszufüllen und umzusetzen
-    :param input_dict:
-    :return:
-    id = UniqueIdProperty()
-    name = StringProperty()
-    category = StringProperty()
-    creation_timestamp = DateTimeProperty()
-    last_timestamp = DateTimeProperty()
-    """
-        
-    output = Component(name=input_dict["name"], category=input_dict["category"], creation_timestamp=input_dict["creation_timestamp"], last_timestamp=input_dict["last_timestamp"]).save()
-    
     for metric in input_dict["metrics"]:
-        output.relationship.connect(mh.get_metric(metric), {"value": input_dict["metrics"][metric]})
+        output.hasMetric.connect(mh.get_metric(metric), {"value": input_dict["metrics"][metric]})
 
-    return output
+    return get_component(output.uid)
 
 
-def update_component(input_dict):
+def update_component(input_dict: dict) -> dict:
     """
-    TODO: von DB Team auszufüllen und umzusetzen
-    :param input_dict:
-    :return:
+    Function to update a single component
+
+    :param input_dict: Component as a dictionary
+    :type input_dict: dict
+    :return: Component dict
     """
 
-    output = get_component(input_dict["uid"])
-    
-    output.name = input_dict["name"]
-    output.category = input_dict["category"]
-    output.last_timestamp = str(datetime.now())
-    
-    for metric in Metric.nodes.all():
-        test = True
-        for input in input_dict["metrics"]:
-            if input == metric.name:
-                if bool(output.relationship.relationship(mh.get_metric(metric.name))):
-                    rel = output.relationship.relationship(mh.get_metric(input))
-                    rel.value = input_dict["metrics"][input]
-                    rel.save()
-                    test = False
-                else:
-                    output.relationship.connect(mh.get_metric(input), {"value": input_dict["metrics"][input]})
-                    test = False
-        if test and bool(output.relationship.relationship(mh.get_metric(metric.name))):
-            test = False  # delete relationship is not possible
-    
-    return output.save()
+    uid = input_dict["uid"]
+    component = Component.nodes.get(uid=uid)
+    component.name = input_dict["name"]
+    component.description = input_dict["description"]
+    component.category = input_dict["category"]
+    component.creation_timestamp = str(datetime.now())
+
+    component_dict = get_component(uid)
+
+    metrics_dict = component_dict["metrics"]
+    metrics = []
+    for key in metrics_dict:
+        metrics.append(key)
+
+    for metric in metrics:
+        new_metrics = input_dict["metrics"]
+        metric_object = mh.get_metric(metric)
+        rel = component.hasMetric.relationship(metric_object)
+        rel.value = new_metrics[metric]
+        rel.save()
+    return get_component(uid)
 
 
-def delete_component(input_uid):
-    return Component.nodes.get(uid=input_uid).delete()
+def delete_component(uid: str) -> dict:
+    """
+    Function to delete a single component
 
-
-# Zum Testen
-data = {
-    "uid": "635a37bfed344cd0b335d7da16711f4f",
-    "name": "Programm2",
-    "category": "Feature2",
-    "last_timestamp": str(datetime.now()),
-    "metrics": {
-        "codelines": 50
-    }
-}
-
-# print(add_component(data))
-# print(update_component(data))
-# print(get_component_list())
-# print(delete_component(data["uid"]))
+    :param uid: Identifier
+    :type uid: str
+    :return: dict
+    """
+    if Component.nodes.get(uid=uid).delete():
+        return {"success": True}
+    else:
+        return {"success": False}
