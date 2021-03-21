@@ -193,7 +193,22 @@ function deleteProcess(id) {
  * @param {String} id 
  */
 function deleteComponent(id) {
-    // call delete-component endpoint
+// Create new HTTP-Request to component-delete-endpoint
+let xhttp = new XMLHttpRequest();
+xhttp.open("POST", base_url + "component/delete", true);
+
+// Handle response of HTTP-request
+xhttp.onreadystatechange = function () {
+    if (this.readyState === XMLHttpRequest.DONE && (this.status >= 200 && this.status < 300)) {
+        // Process response and show data in tables
+        location.reload();
+    }
+}
+// add component id as parameter
+let params = `id=${id}`;
+
+// Send HTTP-request
+xhttp.send(params);
 }
 
 /**
