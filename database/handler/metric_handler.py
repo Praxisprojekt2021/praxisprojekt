@@ -1,11 +1,6 @@
 from neomodel import config, StructuredNode, StringProperty, UniqueIdProperty
 import csv
-# from database.config import *
-
-NEO4J_IP = "35.192.106.131"
-NEO4J_PORT = "7687"
-NEO4J_USER = "neo4j"
-NEO4J_PASSWORD = "XcHUfUY8wMZb"
+from database.config import *
 
 config.DATABASE_URL = 'bolt://{}:{}@{}:{}'.format(NEO4J_USER, NEO4J_PASSWORD, NEO4J_IP, NEO4J_PORT)
 
@@ -42,14 +37,23 @@ def create_from_csv(path: str):
         print(Metric.nodes.all())
 
 
-def get_metric(input_name):
+def get_metric(input_name: str) -> dict:
+    """
+    Function to get metrics by its name
+
+    :param input_name: Name of the metric
+    :type input_name: str
+    """
     return Metric.nodes.get(name=input_name)
 
 
-def add_metric(input_dict):
+def add_metric(input_dict: dict) -> dict:
+    """
+    Function to create metric
+
+    :param input_dict: Metric dict
+    :type input_dict: dict
+    """
     return Metric(name=input_dict["name"], description=input_dict["description"]).save()
 
 
-# Zum Testen
-# metric1 = mh.add_metric({"name": "codelines", "description": "Number of codelines"})
-# metric2 = mh.add_metric({"name": "downtime", "description": "Downtime in 24h"})
