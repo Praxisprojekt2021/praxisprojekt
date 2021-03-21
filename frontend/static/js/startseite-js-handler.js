@@ -1,19 +1,27 @@
 /*TODO:
-*       Call an Backend-Endpoint senden statt an Mock-Datei --> Abhängigkeit Nicolas/Luke
+*       Call in loadProcesses an Backend-Endpoint senden statt an Mock-Datei --> Abhängigkeit Back-End
+*       In add/edit/delete-functions entsprechende URL aufrufen --> Abhängigkeit Tom/Roman
 */
 
 //Base url to distinguish between localhost and production environment
 const base_url = window.location.href;
 const dateOptions = { year: 'numeric', month: '2-digit', day: '2-digit' };
 
-document.addEventListener( "DOMContentLoaded", loadData(), false ); 
+document.addEventListener("DOMContentLoaded", loadData(), false);
 
 /**
  * Get component and process Data from Back-End and then populate the tables.
  */
-function loadData () {
+function loadData() {
+    loadComponents();
+    loadProcesses();
+}
 
-    // Create new HTTP-Request to addition-endpoint
+/**
+ * Get processes data from Back-End and then populate the processes table in FE.
+ */
+function loadProcesses() {
+    // Create new HTTP-Request to processes-endpoint
     let xhttp = new XMLHttpRequest();
     xhttp.open("GET", base_url + "content/mock-data.json", true);
     xhttp.setRequestHeader("Content-Type", "application/json");
@@ -23,9 +31,29 @@ function loadData () {
         if (this.readyState === XMLHttpRequest.DONE && (this.status >= 200 && this.status < 300)) {
             // Process response and show data in tables
             let json = JSON.parse(this.responseText);
-            refreshComponentTable(json);
             refreshProcessTable(json);
+        }
     }
+    // Send HTTP-request
+    xhttp.send();
+}
+
+/**
+ * Get components data from Back-End and then populate the processes table in FE.
+ */
+function loadComponents() {
+    // Create new HTTP-Request to components-endpoint
+    let xhttp = new XMLHttpRequest();
+    xhttp.open("GET", base_url + "components", true);
+    xhttp.setRequestHeader("Content-Type", "application/json");
+
+    // Handle response of HTTP-request
+    xhttp.onreadystatechange = function () {
+        if (this.readyState === XMLHttpRequest.DONE && (this.status >= 200 && this.status < 300)) {
+            // Process response and show data in tables
+            let json = JSON.parse(this.responseText);
+            refreshComponentTable(json);
+        }
     }
     // Send HTTP-request
     xhttp.send();
@@ -37,18 +65,18 @@ function loadData () {
  */
 function refreshProcessTable(json) {
     var table = document.getElementById('ProzesseTable');
-            json.processes.forEach(function(object) {
-                var tr = document.createElement('tr');
-                tr.innerHTML = '<td>' + object.process + '</td>' +
-                '<td>' + object.components + '</td>' +
-                '<td>' + object.viv_value + '</td>' +
-                renderStatusColumn(object.viv_value) +
-                '<td>' + formatDate(object.created) + '</td>' +
-                '<td>' + formatDate(object.edited) + '</td>' +
-                '<td>' + renderEditProcessButton(object.id) + '</td>' + 
-                '<td>' + renderDeleteProcessButton(object.id) + '</td>';
-                table.appendChild(tr);
-            });
+    json.processes.forEach(function (object) {
+        var tr = document.createElement('tr');
+        tr.innerHTML = '<td>' + object.process + '</td>' +
+            '<td>' + object.components + '</td>' +
+            '<td>' + object.viv_value + '</td>' +
+            renderStatusColumn(object.viv_value) +
+            '<td>' + formatDate(object.created) + '</td>' +
+            '<td>' + formatDate(object.edited) + '</td>' +
+            '<td>' + renderEditProcessButton(object.id) + '</td>' +
+            '<td>' + renderDeleteProcessButton(object.id) + '</td>';
+        table.appendChild(tr);
+    });
 }
 
 /**
@@ -56,19 +84,19 @@ function refreshProcessTable(json) {
  * 
  * @param {JSON} json 
  */
- function refreshComponentTable(json) {
+function refreshComponentTable(json) {
     var table = document.getElementById('KomponentenTable');
-            json.components.forEach(function(object) {
-                var tr = document.createElement('tr');
-                tr.innerHTML = '<td>' + object.name + '</td>' +
-                '<td>' + object.category + '</td>' +
-                '<td></td>' +
-                '<td>' + formatDate(object.creation_timestamp) + '</td>' +
-                '<td>' + formatDate(object.last_timestamp) + '</td>' +
-                '<td>' + renderEditComponentButton(object.id) + '</td>' +
-                '<td>' + renderDeleteComponentButton(object.id) + '</td>';
-                table.appendChild(tr);
-            });
+    json.components.forEach(function (object) {
+        var tr = document.createElement('tr');
+        tr.innerHTML = '<td>' + object.name + '</td>' +
+            '<td>' + object.category + '</td>' +
+            '<td></td>' +
+            '<td>' + formatDate(object.creation_timestamp) + '</td>' +
+            '<td>' + formatDate(object.last_timestamp) + '</td>' +
+            '<td>' + renderEditComponentButton(object.id) + '</td>' +
+            '<td>' + renderDeleteComponentButton(object.id) + '</td>';
+        table.appendChild(tr);
+    });
 }
 
 /**
