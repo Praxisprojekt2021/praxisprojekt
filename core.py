@@ -20,7 +20,7 @@ def core_addition(input_object: str) -> str:
     return typeconversion.dict_to_json(result)
 
 
-def core_component_create_edit(input_object: str) -> str:
+def component_create_edit(input_object: Union[Dict[str, Any], str]) -> str:
     """
     Receives a JSON object in the form defined under JSON_objects_defitnions.py for either editing a component or creating a new component
     The answer is also a JSON object, only containing the success state, which is True or False
