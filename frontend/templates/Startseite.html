@@ -7,42 +7,32 @@
 <head>
     <meta charset="utf-8"/>
     <title>Praxisprojekt 2021 - Startseite</title>
-    <link rel="stylesheet" href="/praxisprojekt/frontend/static/css/styles.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@200&display=swap" rel="stylesheet" type='text/css'>
 </head>
 <body>
 
-    <div class="headline"><h1>Riskify</h1></div>
+    <div class="headline" data-i18n="riskify"><h1></h1></div>
 
     <div class="center">
-      <h3>Prozesse</h3>
+      <h3 data-i18n="processes"></h3>
       <table id="ProzesseTable">
         <tr>
-          <th>Prozess</th>
-          <th>Komponenten</th>
-          <th>VIV-Wert</th>
-          <th>Status</th>
-          <th>Erstellt</th>
-          <th>Bearbeitet</th>
+          <th data-i18n="process"></th>
+          <th data-i18n="components"></th>
+          <th data-i18n="viv_value"></th>
+          <th data-i18n="status"></th>
+          <th data-i18n="created"></th>
+          <th data-i18n="edited"></th>
           <th></th>
           <th></th>
-        </tr>
-        <tr>
-          <td>JSON stuff</td>
-          <td>JSON stuff</td>
-          <td>JSON stuff</td>
-          <td>🟢</td>
-          <td>JSON stuff</td>
-          <td>JSON stuff</td>
-          <td>🖊️</td>
-          <td>🗑️</td>
         </tr>
       </table>
     </div>
 
     <div class="center">
-      <button class="button" type="button" onclick="addRow()">Hinzufügen</button>
-      <button class="button" type="button" onclick="countRow()">Count</button>
-      <p id="demo">Number of rows: _</p>
+      <button class="button" type="button" onclick="addProcess()" data-i18n="add"></button>
     </div>
 
     
@@ -52,59 +42,24 @@
     </div> -->
 
     <div class="center">
-      <h3>Komponenten</h3>
+      <h3 data-i18n="components"></h3>
       <table id="KomponentenTable">
           <tr>
-            <th>Komponente</th>
-            <th>Kategorie</th>
-            <th>Status</th>
-            <th>Erstellt</th>
-            <th>Bearbeitet</th>
+            <th data-i18n="component"></th>
+            <th data-i18n="category"></th>
+            <th data-i18n="status"></th>
+            <th data-i18n="created"></th>
+            <th data-i18n="edited"></th>
             <th></th>
             <th></th>
-          </tr>
-          <tr>
-            <td>JSON stuff</td>
-            <td>JSON stuff</td>
-            <td>JSON stuff</td>
-            <td>JSON stuff</td>
-            <td>JSON stuff</td>
-            <td>🖊️</td>
-            <td>🗑️</td>
           </tr>
       </table>
     </div>
 
     <div class="center">
-      <button class="button" type="button" onclick="addRow()">Hinzufügen</button>
-      <button class="button" type="button" onclick="countRow()">Count</button>
-      <p id="demo">Number of rows: _</p>
+      <button class="button" type="button" onclick="addComponent()" data-i18n="add"></button>
     </div>
-
       <script src="{{ url_for('static', filename='js/startseite-js-handler.js') }}"></script>
       <script type="module" src="{{ url_for('static', filename='js/translator.js') }}"></script>
-
-        <script>
-          function countRow(){
-            var rowCount = document.getElementById('ProzesseTable').rows.length;
-            document.getElementById("demo").innerHTML = 'Number of rows: ' + rowCount
-          }  
-          function addRow() {
-            var table = document.getElementById("ProzesseTable");
-            var row = table.insertRow();
-            var i, cell;
-              for (i = 0; i < 8; i++) {
-                var cell = row.insertCell(i);
-                cell.innerHTML = "Cell" + i;
-                if (i < 6) {
-                  cell.innerHTML = "New Cell";
-                } else if (i == 6) {
-                  cell.innerHTML = "🖊️";
-                } else {
-                  cell.innerHTML = "🗑️";
-                }
-              }              
-          }
-        </script>
   </body>
 </html>

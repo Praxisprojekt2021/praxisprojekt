@@ -1,9 +1,5 @@
 /*TODO:
-*       renderAdd: +-Symbol einfügen und Zeile komplett über alle Spalten gehen lassen
-*       Call an Backend-Endpoint senden statt an Mock-Datei
-*       Statische Textbausteine aus HTML auslagern in de.json
-*       CSS auslagern
-*       Json Stuff Placeholder aus HTML loeschen
+*       Call an Backend-Endpoint senden statt an Mock-Datei --> Abhängigkeit Nicolas/Luke
 */
 
 //Base url to distinguish between localhost and production environment
@@ -25,7 +21,7 @@ function loadData () {
     // Handle response of HTTP-request
     xhttp.onreadystatechange = function () {
         if (this.readyState === XMLHttpRequest.DONE && (this.status >= 200 && this.status < 300)) {
-            // Process response and show sum in output field
+            // Process response and show data in tables
             let json = JSON.parse(this.responseText);
             refreshComponentTable(json);
             refreshProcessTable(json);
@@ -53,9 +49,6 @@ function refreshProcessTable(json) {
                 '<td>' + renderDeleteProcessButton(object.id) + '</td>';
                 table.appendChild(tr);
             });
-            tr = document.createElement('tr');
-            tr.innerHTML = '<td colspan="8">' + renderAddComponentButton() + '</td>';
-            table.appendChild(tr);
 }
 
 /**
@@ -76,9 +69,6 @@ function refreshProcessTable(json) {
                 '<td>' + renderDeleteComponentButton(object.id) + '</td>';
                 table.appendChild(tr);
             });
-            tr = document.createElement('tr');
-            tr.innerHTML = '<td colspan="7">' + renderAddComponentButton() + '</td>';
-            table.appendChild(tr);
 }
 
 /**
@@ -190,7 +180,7 @@ function formatDate(date) {
  * @returns green or red td-cell (depending on viv-value)
  */
 function renderStatusColumn(viv_value) {
-    // if viv_value < 4, status is green, else status is red;
+    // if viv_value > 4, status is green, else status is red;
     // TODO: adapt to requirements (when it should be red or green)
-    return viv_value < 4 ? '<td bgcolor="green"></td>' : '<td bgcolor="red"></td>';
+    return viv_value > 4 ? '<td>🟢</td>' : '<td>🔴</td>';
 }

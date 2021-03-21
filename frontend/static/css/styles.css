@@ -1,3 +1,8 @@
+
+body {
+    font-family: 'Titillium Web', sans-serif;
+}
+
 table {
     width: 100%;
     border-collapse: collapse;
@@ -5,6 +10,7 @@ table {
     border-color: #2286fb;
     border-style: solid;
     color: #000000;
+    font-family: 'Titillium Web', sans-serif;
 }
 
 td, th {
