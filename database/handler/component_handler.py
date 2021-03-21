@@ -1,4 +1,4 @@
-from neomodel import config, StructuredNode, StringProperty, UniqueIdProperty
+from neomodel import config, StructuredNode, StringProperty, UniqueIdProperty, DateTimeProperty
 
 from database.config import *
 
@@ -10,8 +10,8 @@ class Component(StructuredNode):
     id = UniqueIdProperty()
     name = StringProperty()
     category = StringProperty()
-    creation_timestamp = StringProperty()
-    last_timestamp = StringProperty()
+    creation_timestamp = DateTimeProperty()
+    last_timestamp = DateTimeProperty()
 
 
 def get_component_list(input_dict):
