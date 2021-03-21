@@ -205,7 +205,7 @@ xhttp.onreadystatechange = function () {
     }
 }
 // add component id as parameter
-let params = `id=${id}`;
+let params = JSON.stringify({id: id.toString()});
 
 // Send HTTP-request
 xhttp.send(params);
