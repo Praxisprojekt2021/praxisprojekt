@@ -37,7 +37,7 @@ def create_from_csv(path: str):
         print(Metric.nodes.all())
 
 
-def get_metric(input_name: str) -> dict:
+def get_metric(input_name: str) -> Metric:
     """
     Function to get metrics by its name
 
@@ -47,7 +47,7 @@ def get_metric(input_name: str) -> dict:
     return Metric.nodes.get(name=input_name)
 
 
-def add_metric(input_dict: dict) -> dict:
+def add_metric(input_dict: dict) -> Metric:
     """
     Function to create metric
 

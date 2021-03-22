@@ -102,8 +102,8 @@ def add_component(input_dict: dict) -> dict:
     """
 
     output = Component(name=input_dict["name"], category=input_dict["category"],
-                       creation_timestamp=input_dict["creation_timestamp"],
-                       last_timestamp=input_dict["last_timestamp"], description=input_dict["description"]).save()
+                       creation_timestamp=str(datetime.now()),
+                       last_timestamp=str(datetime.now()), description=input_dict["description"]).save()
 
     for metric in input_dict["metrics"]:
         output.hasMetric.connect(mh.get_metric(metric), {"value": input_dict["metrics"][metric]})
@@ -125,7 +125,7 @@ def update_component(input_dict: dict) -> dict:
     component.name = input_dict["name"]
     component.description = input_dict["description"]
     component.category = input_dict["category"]
-    component.creation_timestamp = str(datetime.now())
+    component.last_timestamp = str(datetime.now())
 
     component_dict = get_component(uid)
 
