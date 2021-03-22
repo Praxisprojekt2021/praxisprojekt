@@ -19,7 +19,6 @@ def core_addition(input_object: str) -> str:
 
     return output_object
 
-
 def component_view(input_object: str) -> str:
     """
     Receives a JSON object in the form defined under JSON_objects_defitnions.py for getting/viewing a component.
@@ -35,4 +34,28 @@ def component_view(input_object: str) -> str:
     result = component_handler.get_component(data_dict)
     output_object = typeconversion.dict_to_json(result)
 
+def component_overview() -> str:
+    """Calls the get_compontent_list method and converts the output to JSON
+
+    Returns:
+        str: A JSON formatted compontent list
+    """
+    component_list = component_handler.get_component_list()
+    output_object = typeconversion.dict_to_json(component_list)
+
     return output_object
+
+
+def component_delete(input_object: str) -> str:
+    """Calls the delete_component method and returns whether successful or not in JSON Format
+
+    Args:
+        data (str): String in JSON Format
+
+    Returns:
+        (str): String in JSON Format
+    """
+    data_dict = typeconversion.json_to_dict(input_object)
+
+    success = component_handler.delete_component(data_dict)
+    output_object = typeconversion.dict_to_json(success)
