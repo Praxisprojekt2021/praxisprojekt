@@ -6,7 +6,7 @@
  */
 
 //Base url to distinguish between localhost and production environment
-const base_url = window.location.href;
+const base_url = window.location.origin;
 
 function calc(number1, number2) {
 

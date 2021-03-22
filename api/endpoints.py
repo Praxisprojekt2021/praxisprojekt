@@ -17,6 +17,16 @@ def index():
     return render_template("index.html")
 
 
+@app.route('/component', methods=["GET"])
+def component():
+    """
+    API endpoint to display component page view
+
+    :return: the rendered html component page
+    """
+    return render_template("component.html")
+
+
 @app.route('/addition', methods=["POST"])
 def addition_route():
     """

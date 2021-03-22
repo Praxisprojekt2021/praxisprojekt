@@ -1,0 +1,459 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Component</title>
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/einzelkomponente.css') }}" id="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/normalize.css') }}" id="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/webflow.css') }}" id="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js" type="text/javascript"></script>
+    <script type="text/javascript">WebFont.load({google: {families: ["Titillium Web:200,200italic,300,300italic,regular,600,700,900"]}});</script>
+</head>
+<body class="body" onload="init()">
+<header id="header" class="header w-clearfix"><img src="{{ url_for('static', filename='images/logo.png') }}"
+                                                   loading="lazy" alt="" class="logo">
+    <div class="navigation w-clearfix">
+        <a href="#" class="navigation-links">Home</a>
+        <div class="navigation-links">&gt;</div>
+        <a href="#" class="navigation-links">Einzelkomponente</a>
+    </div>
+</header>
+<div class="component-overview">
+    <div id="component-overview">
+        <div class="view-description-label">Einzelkomponente</div>
+        <div class="component-form-block w-form">
+            <form id="component-form" name="component-form" data-name="component-form" class="component-form">
+                <div class="description-columns w-row">
+                    <div class="default-column w-clearfix w-col w-col-6">
+                        <label for="component-name-2" class="entry-label">Name der Komponente</label>
+                        <input type="text" class="textfield w-input" maxlength="256" name="component-name"
+                               data-name="component-name" id="component-name">
+                        <label for="component-category-2" class="entry-label">Komponenten-Kategorie</label>
+                        <select id="component-category" name="component-category" data-name="component-category"
+                                class="category-dropdown w-select" onchange="setSections(this.value)">
+                            <option value="default">Bitte auswählen..</option>
+                            <option value="databases">Datenbanken</option>
+                            <option value="interfaces">Schnittstellen</option>
+                            <option value="firewall">Firewall</option>
+                            <option value="user-interface">Benutzeroberfläche</option>
+                            <option value="api-gateway">API-Gateway</option>
+                            <option value="application-gateway">Application Gateway</option>
+                            <option value="application-and-utilities">Application &amp; Utilities</option>
+                            <option value="service-register">Service register</option>
+                            <option value="load-balancer">Load balancer</option>
+                            <option value="idv">IDV</option>
+                            <option value="identity-provider">Identity provider</option>
+                            <option value="default-software">Standardsoftware</option>
+                            <option value="business-logic">Business Logik</option>
+                            <option value="custom-software">Individualsoftware</option>
+                        </select></div>
+                    <div class="default-column w-clearfix w-col w-col-6"><label for="component-description-textarea-2"
+                                                                                class="entry-label">Beschreibung der
+                        Komponente</label><textarea name="component-description-textarea" maxlength="5000"
+                                                    id="component-description-textarea"
+                                                    data-name="component-description-textarea"
+                                                    class="textarea w-input"></textarea></div>
+                </div>
+                <div id="metrics-input">
+                    <div id="availability-section" class="feature-section">
+                        <div data-hover="" data-delay="0" class="accordion-item w-dropdown">
+                            <div class="accordion-toggle w-dropdown-toggle" onclick="toggleSection(this)">
+                                <div class="accordion-icon w-icon-dropdown-toggle"></div>
+                                <div class="features-label">Merkmale 1: Verfügbarkeit</div>
+                            </div>
+                            <nav class="dropdown-list w-dropdown-list">
+                                <div class="features-columns w-row">
+                                    <div class="default-column w-col w-col-6">
+                                        <div class="metric-entry-element w-clearfix"><label for="availability-metric-7"
+                                                                                            class="entry-label">Metrik
+                                            1:</label><input type="text" maxlength="256"
+                                                             data-name="availability-metric-1"
+                                                             id="availability-metric-7" name="availability-metric-1"
+                                                             class="textfield w-input"><img
+                                                src="{{ url_for('static', filename='images/info.png') }}"
+                                                loading="lazy" width="35" alt=""
+                                                class="info-icon"></div>
+                                        <div class="metric-entry-element w-clearfix"><label for="availability-metric-8"
+                                                                                            class="entry-label">Metrik
+                                            2:</label><input type="text" maxlength="256"
+                                                             data-name="availability-metric-2"
+                                                             id="availability-metric-8" name="availability-metric-2"
+                                                             class="textfield w-input"><img
+                                                src="{{ url_for('static', filename='images/info.png') }}"
+                                                loading="lazy" width="35" alt=""
+                                                class="info-icon"></div>
+                                    </div>
+                                    <div class="default-column w-col w-col-6">
+                                        <div class="metric-entry-element w-clearfix"><label for="availability-metric-6"
+                                                                                            class="entry-label">Metrik
+                                            3:</label><input type="text" maxlength="256"
+                                                             data-name="availability-metric-3"
+                                                             id="availability-metric-6" name="availability-metric-3"
+                                                             class="textfield w-input"><img
+                                                src="{{ url_for('static', filename='images/info.png') }}"
+                                                loading="lazy" width="35" alt=""
+                                                class="info-icon"></div>
+                                        <div class="metric-entry-element">
+                                            <div class="component-entry-block w-clearfix"><label
+                                                    for="availability-metric-5"
+                                                    class="entry-label">Metrik
+                                                4:</label><input type="text" maxlength="256"
+                                                                 data-name="availability-metric-4"
+                                                                 id="availability-metric-5" name="availability-metric-4"
+                                                                 class="textfield w-input"><img
+                                                    src="{{ url_for('static', filename='images/info.png') }}"
+                                                    loading="lazy" width="35" alt=""
+                                                    class="info-icon"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+                    <div id="code-quality-section" class="feature-section">
+                        <div data-hover="" data-delay="0" class="accordion-item w-dropdown">
+                            <div class="accordion-toggle w-dropdown-toggle" onclick="toggleSection(this)">
+                                <div class="accordion-icon w-icon-dropdown-toggle"></div>
+                                <div class="features-label">Merkmale 2: Codequalität</div>
+                            </div>
+                            <nav class="dropdown-list w-dropdown-list">
+                                <div class="features-columns w-row">
+                                    <div class="default-column w-col w-col-6">
+                                        <div class="metric-entry-element w-clearfix"><label for="code-quality-metric-8"
+                                                                                            class="entry-label">Metrik
+                                            1:</label><input type="text" maxlength="256"
+                                                             data-name="code-quality-metric-1"
+                                                             id="code-quality-metric-8" name="code-quality-metric-1"
+                                                             class="textfield w-input"><img
+                                                src="{{ url_for('static', filename='images/info.png') }}"
+                                                loading="lazy" width="35" alt=""
+                                                class="info-icon"></div>
+                                        <div class="metric-entry-element w-clearfix"><label for="code-quality-metric-7"
+                                                                                            class="entry-label">Metrik
+                                            2:</label><input type="text" maxlength="256"
+                                                             data-name="code-quality-metric-2"
+                                                             id="code-quality-metric-7" name="code-quality-metric-2"
+                                                             class="textfield w-input"><img
+                                                src="{{ url_for('static', filename='images/info.png') }}"
+                                                loading="lazy" width="35" alt=""
+                                                class="info-icon"></div>
+                                    </div>
+                                    <div class="default-column w-col w-col-6">
+                                        <div class="metric-entry-element w-clearfix"><label for="code-quality-metric-6"
+                                                                                            class="entry-label">Metrik
+                                            3:</label><input type="text" maxlength="256"
+                                                             data-name="code-quality-metric-3"
+                                                             id="code-quality-metric-6" name="code-quality-metric-3"
+                                                             class="textfield w-input"><img
+                                                src="{{ url_for('static', filename='images/info.png') }}"
+                                                loading="lazy" width="35" alt=""
+                                                class="info-icon"></div>
+                                        <div class="metric-entry-element">
+                                            <div class="component-entry-block w-clearfix"><label
+                                                    for="code-quality-metric-5"
+                                                    class="entry-label">Metrik
+                                                4:</label><input type="text" maxlength="256"
+                                                                 data-name="code-quality-metric-4"
+                                                                 id="code-quality-metric-5" name="code-quality-metric-4"
+                                                                 class="textfield w-input"><img
+                                                    src="{{ url_for('static', filename='images/info.png') }}"
+                                                    loading="lazy" width="35" alt=""
+                                                    class="info-icon"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+                    <div id="scope-section" class="feature-section">
+                        <div data-hover="" data-delay="0" class="accordion-item w-dropdown">
+                            <div class="accordion-toggle w-dropdown-toggle" onclick="toggleSection(this)">
+                                <div class="accordion-icon w-icon-dropdown-toggle"></div>
+                                <div class="features-label">Merkmale 3: Umfang</div>
+                            </div>
+                            <nav class="dropdown-list w-dropdown-list">
+                                <div class="features-columns w-row">
+                                    <div class="default-column w-col w-col-6">
+                                        <div class="metric-entry-element w-clearfix"><label for="scope-metric-8"
+                                                                                            class="entry-label">Metrik
+                                            1:</label><input type="text" maxlength="256" data-name="scope-metric-1"
+                                                             id="scope-metric-8" name="scope-metric-1"
+                                                             class="textfield w-input"><img
+                                                src="{{ url_for('static', filename='images/info.png') }}"
+                                                loading="lazy" width="35" alt=""
+                                                class="info-icon"></div>
+                                        <div class="metric-entry-element w-clearfix"><label for="scope-metric-7"
+                                                                                            class="entry-label">Metrik
+                                            2:</label><input type="text" maxlength="256" data-name="scope-metric-2"
+                                                             id="scope-metric-7" name="scope-metric-2"
+                                                             class="textfield w-input"><img
+                                                src="{{ url_for('static', filename='images/info.png') }}"
+                                                loading="lazy" width="35" alt=""
+                                                class="info-icon"></div>
+                                    </div>
+                                    <div class="default-column w-col w-col-6">
+                                        <div class="metric-entry-element w-clearfix"><label for="scope-metric-6"
+                                                                                            class="entry-label">Metrik
+                                            3:</label><input type="text" maxlength="256" data-name="scope-metric-3"
+                                                             id="scope-metric-6" name="scope-metric-3"
+                                                             class="textfield w-input"><img
+                                                src="{{ url_for('static', filename='images/info.png') }}"
+                                                loading="lazy" width="35" alt=""
+                                                class="info-icon"></div>
+                                        <div class="metric-entry-element">
+                                            <div class="component-entry-block w-clearfix"><label for="scope-metric-5"
+                                                                                                 class="entry-label">Metrik
+                                                4:</label><input type="text" maxlength="256" data-name="scope-metric-4"
+                                                                 id="scope-metric-5" name="scope-metric-4"
+                                                                 class="textfield w-input"><img
+                                                    src="{{ url_for('static', filename='images/info.png') }}"
+                                                    loading="lazy" width="35" alt=""
+                                                    class="info-icon"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+                    <div id="effort-section" class="feature-section">
+                        <div data-hover="" data-delay="0" class="accordion-item w-dropdown">
+                            <div class="accordion-toggle w-dropdown-toggle" onclick="toggleSection(this)">
+                                <div class="accordion-icon w-icon-dropdown-toggle"></div>
+                                <div class="features-label">Merkmale 4: Aufwand</div>
+                            </div>
+                            <nav class="dropdown-list w-dropdown-list">
+                                <div class="features-columns w-row">
+                                    <div class="default-column w-col w-col-6">
+                                        <div class="metric-entry-element w-clearfix"><label for="effort-metric-8"
+                                                                                            class="entry-label">Metrik
+                                            1:</label><input type="text" maxlength="256" data-name="effort-metric-1"
+                                                             id="effort-metric-8" name="effort-metric-1"
+                                                             class="textfield w-input"><img
+                                                src="{{ url_for('static', filename='images/info.png') }}"
+                                                loading="lazy" width="35" alt=""
+                                                class="info-icon"></div>
+                                        <div class="metric-entry-element w-clearfix"><label for="effort-metric-7"
+                                                                                            class="entry-label">Metrik
+                                            2:</label><input type="text" maxlength="256" data-name="effort-metric-2"
+                                                             id="effort-metric-7" name="effort-metric-2"
+                                                             class="textfield w-input"><img
+                                                src="{{ url_for('static', filename='images/info.png') }}"
+                                                loading="lazy" width="35" alt=""
+                                                class="info-icon"></div>
+                                    </div>
+                                    <div class="default-column w-col w-col-6">
+                                        <div class="metric-entry-element w-clearfix"><label for="effort-metric-5"
+                                                                                            class="entry-label">Metrik
+                                            3:</label><input type="text" maxlength="256" data-name="effort-metric-3"
+                                                             id="effort-metric-5" name="effort-metric-3"
+                                                             class="textfield w-input"><img
+                                                src="{{ url_for('static', filename='images/info.png') }}"
+                                                loading="lazy" width="35" alt=""
+                                                class="info-icon"></div>
+                                        <div class="metric-entry-element">
+                                            <div class="component-entry-block w-clearfix"><label for="effort-metric-6"
+                                                                                                 class="entry-label">Metrik
+                                                4:</label><input type="text" maxlength="256" data-name="effort-metric-4"
+                                                                 id="effort-metric-6" name="effort-metric-4"
+                                                                 class="textfield w-input"><img
+                                                    src="{{ url_for('static', filename='images/info.png') }}"
+                                                    loading="lazy" width="35" alt=""
+                                                    class="info-icon"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+                    <div id="test-quality-section" class="feature-section">
+                        <div data-hover="" data-delay="0" class="accordion-item w-dropdown">
+                            <div class="accordion-toggle w-dropdown-toggle" onclick="toggleSection(this)">
+                                <div class="accordion-icon w-icon-dropdown-toggle"></div>
+                                <div class="features-label">Merkmale 5: Testqualität</div>
+                            </div>
+                            <nav class="dropdown-list w-dropdown-list">
+                                <div class="features-columns w-row">
+                                    <div class="default-column w-col w-col-6">
+                                        <div class="metric-entry-element w-clearfix"><label for="test-quality-metric-7"
+                                                                                            class="entry-label">Metrik
+                                            1:</label><input type="text" maxlength="256"
+                                                             data-name="test-quality-metric-1"
+                                                             id="test-quality-metric-7" name="test-quality-metric-1"
+                                                             class="textfield w-input"><img
+                                                src="{{ url_for('static', filename='images/info.png') }}"
+                                                loading="lazy" width="35" alt=""
+                                                class="info-icon"></div>
+                                        <div class="metric-entry-element w-clearfix"><label for="test-quality-metric-8"
+                                                                                            class="entry-label">Metrik
+                                            2:</label><input type="text" maxlength="256"
+                                                             data-name="test-quality-metric-2"
+                                                             id="test-quality-metric-8" name="test-quality-metric-2"
+                                                             class="textfield w-input"><img
+                                                src="{{ url_for('static', filename='images/info.png') }}"
+                                                loading="lazy" width="35" alt=""
+                                                class="info-icon"></div>
+                                    </div>
+                                    <div class="default-column w-col w-col-6">
+                                        <div class="metric-entry-element w-clearfix"><label for="test-quality-metric-6"
+                                                                                            class="entry-label">Metrik
+                                            3:</label><input type="text" maxlength="256"
+                                                             data-name="test-quality-metric-3"
+                                                             id="test-quality-metric-6" name="test-quality-metric-3"
+                                                             class="textfield w-input"><img
+                                                src="{{ url_for('static', filename='images/info.png') }}"
+                                                loading="lazy" width="35" alt=""
+                                                class="info-icon"></div>
+                                        <div class="metric-entry-element">
+                                            <div class="component-entry-block w-clearfix"><label
+                                                    for="test-quality-metric-5"
+                                                    class="entry-label">Metrik
+                                                4:</label><input type="text" maxlength="256"
+                                                                 data-name="test-quality-metric-4"
+                                                                 id="test-quality-metric-5" name="test-quality-metric-4"
+                                                                 class="textfield w-input"><img
+                                                    src="{{ url_for('static', filename='images/info.png') }}"
+                                                    loading="lazy" width="35" alt=""
+                                                    class="info-icon"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+                    <div id="human-section" class="feature-section">
+                        <div data-hover="" data-delay="0" class="accordion-item w-dropdown">
+                            <div class="accordion-toggle w-dropdown-toggle" onclick="toggleSection(this)">
+                                <div class="accordion-icon w-icon-dropdown-toggle"></div>
+                                <div class="features-label">Merkmale 6: Mensch</div>
+                            </div>
+                            <nav class="dropdown-list w-dropdown-list">
+                                <div class="features-columns w-row">
+                                    <div class="default-column w-col w-col-6">
+                                        <div class="metric-entry-element w-clearfix"><label for="human-metric-8"
+                                                                                            class="entry-label">Metrik
+                                            1:</label><input type="text" maxlength="256" data-name="human-metric-1"
+                                                             id="human-metric-8" name="human-metric-1"
+                                                             class="textfield w-input"><img
+                                                src="{{ url_for('static', filename='images/info.png') }}"
+                                                loading="lazy" width="35" alt=""
+                                                class="info-icon"></div>
+                                        <div class="metric-entry-element w-clearfix"><label for="human-metric-7"
+                                                                                            class="entry-label">Metrik
+                                            2:</label><input type="text" maxlength="256" data-name="human-metric-2"
+                                                             id="human-metric-7" name="human-metric-2"
+                                                             class="textfield w-input"><img
+                                                src="{{ url_for('static', filename='images/info.png') }}"
+                                                loading="lazy" width="35" alt=""
+                                                class="info-icon"></div>
+                                    </div>
+                                    <div class="default-column w-col w-col-6">
+                                        <div class="metric-entry-element w-clearfix"><label for="human-metric-5"
+                                                                                            class="entry-label">Metrik
+                                            3:</label><input type="text" maxlength="256" data-name="human-metric-3"
+                                                             id="human-metric-5" name="human-metric-3"
+                                                             class="textfield w-input"><img
+                                                src="{{ url_for('static', filename='images/info.png') }}"
+                                                loading="lazy" width="35" alt=""
+                                                class="info-icon"></div>
+                                        <div class="metric-entry-element">
+                                            <div class="component-entry-block w-clearfix"><label for="human-metric-6"
+                                                                                                 class="entry-label">Metrik
+                                                4:</label><input type="text" maxlength="256" data-name="human-metric-4"
+                                                                 id="human-metric-6" name="human-metric-4"
+                                                                 class="textfield w-input"><img
+                                                    src="{{ url_for('static', filename='images/info.png') }}"
+                                                    loading="lazy" width="35" alt=""
+                                                    class="info-icon"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+                    <div id="object-orientation-section" class="feature-section">
+                        <div data-hover="" data-delay="0" class="accordion-item w-dropdown">
+                            <div class="accordion-toggle w-dropdown-toggle" onclick="toggleSection(this)">
+                                <div class="accordion-icon w-icon-dropdown-toggle"></div>
+                                <div class="features-label">Merkmale 7: Objektorientierung</div>
+                            </div>
+                            <nav class="dropdown-list w-dropdown-list">
+                                <div class="features-columns w-row">
+                                    <div class="default-column w-col w-col-6">
+                                        <div class="metric-entry-element w-clearfix"><label
+                                                for="object-orientation-metric-8" class="entry-label">Metrik
+                                            1:</label><input type="text" maxlength="256"
+                                                             data-name="object-orientation-metric-1"
+                                                             id="object-orientation-metric-8"
+                                                             name="object-orientation-metric-1"
+                                                             class="textfield w-input"><img
+                                                src="{{ url_for('static', filename='images/info.png') }}"
+                                                loading="lazy" width="35" alt=""
+                                                class="info-icon"></div>
+                                        <div class="metric-entry-element w-clearfix"><label
+                                                for="object-orientation-metric-7" class="entry-label">Metrik
+                                            2:</label><input type="text" maxlength="256"
+                                                             data-name="object-orientation-metric-2"
+                                                             id="object-orientation-metric-7"
+                                                             name="object-orientation-metric-2"
+                                                             class="textfield w-input"><img
+                                                src="{{ url_for('static', filename='images/info.png') }}"
+                                                loading="lazy" width="35" alt=""
+                                                class="info-icon"></div>
+                                    </div>
+                                    <div class="default-column w-col w-col-6">
+                                        <div class="metric-entry-element w-clearfix"><label
+                                                for="object-orientation-metric-5" class="entry-label">Metrik
+                                            3:</label><input type="text" maxlength="256"
+                                                             data-name="object-orientation-metric-3"
+                                                             id="object-orientation-metric-5"
+                                                             name="object-orientation-metric-3"
+                                                             class="textfield w-input"><img
+                                                src="{{ url_for('static', filename='images/info.png') }}"
+                                                loading="lazy" width="35" alt=""
+                                                class="info-icon"></div>
+                                        <div class="metric-entry-element">
+                                            <div class="component-entry-block w-clearfix"><label
+                                                    for="object-orientation-metric-6" class="entry-label">Metrik
+                                                4:</label><input type="text" maxlength="256"
+                                                                 data-name="object-orientation-metric-4"
+                                                                 id="object-orientation-metric-6"
+                                                                 name="object-orientation-metric-4"
+                                                                 class="textfield w-input"><img
+                                                    src="{{ url_for('static', filename='images/info.png') }}"
+                                                    loading="lazy" width="35" alt=""
+                                                    class="info-icon"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+                    <div class="control-area">
+                        <input
+                            type="submit"
+                            value="Speichern"
+                            data-wait="Bitte warten..."
+                            id="save-button"
+                            class="create-button w-button"
+                            onclick="saveComponent()">
+                    </div>
+                </div>
+            </form>
+            <div class="success-message w-form-done" id="create-success">
+                <div class="message">Einzelkomponente wurde erstellt.</div>
+            </div>
+            <div class="error-message w-form-fail" id="create-fail">
+                <div class="message">Erstellen der Einzelkomponente fehlgeschlagen.</div>
+            </div>
+            <div class="success-message w-form-done" id="save-success">
+                <div class="message">Einzelkomponente wurde gespeichert.</div>
+            </div>
+            <div class="error-message w-form-fail" id="save-fail">
+                <div class="message">Speichern der Einzelkomponente fehlgeschlagen.</div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="{{ url_for('static', filename='js/content-handler.js') }}"></script>
+</body>
+</html>
