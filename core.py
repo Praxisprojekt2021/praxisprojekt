@@ -25,7 +25,7 @@ def component_create_edit(input_object: Union[Dict[str, Any], str]) -> str:
     Receives a JSON object in the form defined under JSON_objects_defitnions.py for either editing a component or creating a new component
     The answer is also a JSON object, only containing the success state, which is True or False
     
-    :param input_object: JSON object containing all component attributes (special information to differentiate edit or create is contained in the ID, which is either -1 or the original ID
+    :param input_object: JSON object containing all component attributes (special information to differentiate edit or create is contained in the UID, which is either -1 or the original UID
     :type input_object: str
     :return A JSON object containing the success state, which is True or False
     """
@@ -47,7 +47,7 @@ def component_view(input_object: str) -> str:
     It returns another JSON object, sturctured as described in docu/JSON_objects_definitions.py
     which is retreived from the component_handler.
 
-    :param input_object: JSON object containing the component id
+    :param input_object: JSON object containing the component uid
     :type input_object: str
     :return: Returns a JSON object, sturctured as described in docu/JSON_objects_definitions.py
     """
