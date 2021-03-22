@@ -78,8 +78,8 @@ def get_component(uid_dict: dict) -> dict:
     :type uid_dict: str
     :return: Component dict
     """
-
-    component = Component.nodes.get(uid=uid_dict["uid"])
+    uid = uid_dict["uid"]
+    component = Component.nodes.get(uid=uid)
     component_dict = component.__dict__
     metrics_list = component.hasMetric.all()
     metrics_dict = {}
@@ -128,7 +128,7 @@ def update_component(input_dict: dict) -> dict:
     component.category = input_dict["category"]
     component.last_timestamp = str(datetime.now())
 
-    component_dict = get_component(uid)
+    component_dict = get_component({"uid":uid})
 
     metrics_dict = component_dict["metrics"]
     metrics = []
@@ -157,3 +157,17 @@ def delete_component(uid_dict: dict) -> dict:
         return {"success": True}
     else:
         return {"success": False}
+
+data = {
+    "uid": "eb37124678aa407d9cda9282404bb3fe",
+    "name": "Test Datenbank",
+    "category": "Datenbank",
+    "description": "Datenbank zu xy mit ...",
+    "creation_timestamp": "20200219...",
+    "last_timestamp": "20200219...",
+    "metrics": {
+        "Downtime": 20000,
+        "requests per day": 1323230,
+        "Patch status": 33325,
+    },
+}
