@@ -157,17 +157,3 @@ def delete_component(uid_dict: dict) -> dict:
         return {"success": True}
     else:
         return {"success": False}
-
-data = {
-    "uid": "eb37124678aa407d9cda9282404bb3fe",
-    "name": "Test Datenbank",
-    "category": "Datenbank",
-    "description": "Datenbank zu xy mit ...",
-    "creation_timestamp": "20200219...",
-    "last_timestamp": "20200219...",
-    "metrics": {
-        "Downtime": 20000,
-        "requests per day": 1323230,
-        "Patch status": 33325,
-    },
-}
