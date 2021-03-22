@@ -14,7 +14,7 @@ def index():
 
     :return: the rendered html main page
     """
-    return render_template("index.html")
+    return render_template("Startseite.html")
 
 
 @app.route('/addition', methods=["POST"])
