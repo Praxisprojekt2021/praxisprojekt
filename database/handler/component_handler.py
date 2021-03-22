@@ -1,7 +1,7 @@
 from neomodel import config, StructuredNode, StringProperty, UniqueIdProperty, \
     RelationshipTo, StructuredRel, FloatProperty
-from metric_handler import Metric
-import metric_handler as mh
+from database.handler.metric_handler import Metric
+import database.handler.metric_handler as mh
 from datetime import datetime
 
 from database.config import *

@@ -1,3 +1,5 @@
+from typing import Dict, Any, Union
+
 import processing.calculations as calculations
 import processing.typeconversion as typeconversion
 import database.handler.component_handler as component_handler
