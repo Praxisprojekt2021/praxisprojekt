@@ -1,49 +1,32 @@
-<html lang="de" style="margin-left: 10px; margin-top: 10px;">
-  <head>
-    <meta charset="utf-8" />
+<html lang="de">
+<head>
+    <meta charset="utf-8"/>
     <title>Praxisprojekt 2021</title>
-  </head>
+</head>
 
-  <body>
-    <h1 class="heading">Front-end View</h1>
-    <hr />
-    <div class="form-block">
-      <div class="form-input-1" style="margin-top: 10px;">
-        <label for="input-1">Input 1</label>
-        <input
-          name="input-1"
-          id="input-1"
-          class="input-1"
-          type="text"
-          style="margin-left: 10px;"
-        />
-      </div>
-      <div class="form-input-2" style="margin-top: 10px;">
-        <label for="input-2">Input 2</label>
-        <input
-          name="input-2"
-          id="input-2"
-          class="input-2"
-          type="text"
-          style="margin-left: 10px;"
-        />
-      </div>
-      <div class="form-functions" style="margin-top: 10px;">
-        <input type="submit" value="Submit" id="form-submit-button" class="form-submit-button" 
-        onclick="calc(document.getElementById('input-1').value, document.getElementById('input-2').value)"/>
-      </div>
-      <div class="form-output" style="margin-top: 10px;">
-        <label for="output" class="output-label">Output</label>
-        <div class="form-output-textarea" style="margin-top: 10px;">
-          <textarea
-            name="output"
-            id="output"
-            class="output"
-            style="width: 237px;"
-          ></textarea>
+<body>
+<h1 class="heading" data-i18n="front-end-view"></h1>
+<hr>
+<div>
+    <div>
+        <label for="number-1" data-i18n="number-1">Number 1</label>
+        <input name="number-1" id="number-1" type="text" />
+    </div>
+    <div>
+        <label for="number-2" data-i18n="number-2">Number 2</label>
+        <input name="number-2" id="number-2" type="text" />
+    </div>
+    <div>
+        <input type="submit" value="Add" id="form-submit-button"
+               onclick="calc(document.getElementById('number-1').value, document.getElementById('number-2').value)"/>
+    </div>
+    <div>
+        <label for="output" data-i18n="output"></label>
+        <div>
+            <textarea name="output" id="output"></textarea>
         </div>
-      </div>
     </div>
     <script src="{{ url_for('static', filename='js/js-handler.js') }}"></script>
+    <script type="module" src="{{ url_for('static', filename='js/translator.js') }}"></script>
   </body>
 </html>

@@ -1,6 +1,6 @@
 # external endpoints
 from flask import Flask, render_template, request
-from core import core_addition, get_components, component_delete
+import core
 
 app = Flask(__name__, static_url_path='',
             template_folder='../frontend/templates', static_folder='../frontend/static')
@@ -8,19 +8,25 @@ app = Flask(__name__, static_url_path='',
 
 @app.route('/', methods=["GET"])
 def index():
-    return render_template("index.html")
+    """
+    API endpoint to display main page view
+
+    :return: the rendered html main page
+    """
+    return render_template("Startseite.html")
+
 
 
 @app.route('/addition', methods=["POST"])
 def addition_route():
     """
-       Test API endpoint for addition
-       :recives data via POST request from frontend containing 2 numbers
-       :returns a JSON object containing the sum of the parameters in request body
-       """
+    Test API endpoint for addition
+    :recives data via POST request from frontend containing 2 numbers
+    :return: a JSON object containing the sum of the parameters in request body
+    """
     if request.is_json:
         try:
-            return core_addition(request.json), 200
+            return core.core_addition(request.json), 200
 
         except:
             return "Internal Error", 500
@@ -33,24 +39,24 @@ def get_component_overview():
     """
     API Endpoint returning all components for the Index site
     :receives None
-    :returns a JSON object containing a list of components
+    :return: a JSON object containing a list of components
     """
 
-    components = get_components()
+    components = core.get_components()
 
     return components
 
 
 @app.route("/component/delete", methods=["POST"])
 def do_component_delete():
-    """API Endpoint to delete a specific component
+    """
+    API Endpoint to delete a specific component
 
-    Returns:
-        str: In JSON Format
+    :return: a JSON object the success of the deletion
     """
     if request.is_json:
         try:
-            return component_delete(request.json), 200
+            return core.component_delete(request.json), 200
 
         except:
             return "Internal Error", 500

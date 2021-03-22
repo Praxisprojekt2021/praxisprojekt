@@ -1,0 +1,21 @@
+{
+    "de": {
+        "translation": {
+            "front-end-view": "Front-End View",
+            "number-1": "Number 1: ",
+            "number-2": "Number 2: ",
+            "output": "Output:",
+            "riskify": "Riskify",
+            "processes": "Prozesse",
+            "process": "Prozesse",
+            "components": "Komponenten",
+            "component": "Komponente",
+            "viv_value": "VIV-Wert",
+            "status": "Status",
+            "created": "Erstellt",
+            "edited": "Bearbeitet",
+            "add": "Hinzufügen",
+            "category": "Kategorie"
+        }
+    }
+}
