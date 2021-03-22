@@ -33,17 +33,12 @@ def component_create_edit(input_object: Union[Dict[str, Any], str]) -> str:
     data_dict = typeconversion.json_to_dict(input_object)
     result = {}
     
-    if data_dict["id"] == -1:
+    if data_dict["uid"] == "-1":
         result = component_handler.add_component(data_dict)
         return typeconversion.dict_to_json(result)
-    elif data_dict["id"] >= 0:
-        # TODO: id ist -1 oder ein hash... daher Abfrage ändern
+    else:
         result = component_handler.edit_component(data_dict)
         return typeconversion.dict_to_json(result)
-    else:
-        # TODO: geht das überhaupt oder wäre das ein "KeyNotFound" Error, wenn es sowas gibt
-        # TODO: würde es dann Sinn machen einen generellen "KeyNotFound" Error -Handler in endpoints.py zu setzen?
-        return error_handler.error_handler(500, "JSON object does not contain a component id") 
       
 
 def component_view(input_object: str) -> str:
