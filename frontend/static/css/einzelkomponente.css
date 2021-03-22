@@ -1,0 +1,281 @@
+body {
+  font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+  color: #333;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.body {
+  display: block;
+  margin-right: 0px;
+  margin-bottom: 0px;
+  margin-left: 0px;
+  padding-right: 0px;
+  padding-left: 0px;
+}
+
+.header {
+  display: block;
+  margin-bottom: 25px;
+  margin-left: 0px;
+  padding-top: 0px;
+}
+
+.component-form {
+  margin-right: 15px;
+  margin-left: 15px;
+}
+
+.logo {
+  display: block;
+  margin-top: 25px;
+  margin-right: auto;
+  margin-left: auto;
+  float: none;
+  clear: none;
+  text-align: left;
+  -o-object-fit: fill;
+  object-fit: fill;
+}
+
+.navigation {
+  position: relative;
+  left: auto;
+  top: 0px;
+  display: inline-block;
+  overflow: visible;
+  width: 300px;
+  height: 20px;
+  min-width: 0px;
+  margin-top: 0px;
+  margin-left: 100px;
+  padding-top: 0px;
+  float: left;
+  clear: none;
+  grid-auto-columns: 1fr;
+  -ms-grid-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
+  -ms-grid-rows: auto auto;
+  grid-template-rows: auto auto;
+  -o-object-fit: fill;
+  object-fit: fill;
+}
+
+.view-description-label {
+  font-family: 'Titillium Web', sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.description-label {
+  display: block;
+  margin-top: 0px;
+  margin-bottom: 15px;
+  font-family: 'Titillium Web', sans-serif;
+  font-weight: 700;
+}
+
+.message {
+  overflow: visible;
+}
+
+.component-form-block {
+  position: relative;
+  margin-top: 15px;
+  margin-bottom: 0px;
+  margin-left: 0px;
+}
+
+.entry-label {
+  position: relative;
+  left: 0px;
+  top: 3px;
+  display: inline-block;
+  padding-left: 5px;
+  float: left;
+  clear: left;
+  font-family: 'Titillium Web', sans-serif;
+  font-weight: 400;
+}
+
+.save-button {
+  position: static;
+  display: block;
+  float: none;
+  clear: none;
+  border-radius: 5px;
+  background-color: #1f299c;
+  font-family: 'Titillium Web', sans-serif;
+  font-size: 15px;
+}
+
+.textarea {
+  position: relative;
+  display: block;
+  overflow: auto;
+  width: 450px;
+  height: auto;
+  max-height: 100%;
+  max-width: 100%;
+  min-height: 50px;
+  min-width: 20px;
+  margin-right: 0px;
+  float: left;
+  clear: left;
+  border-radius: 7px;
+}
+
+.accordion-toggle {
+  display: block;
+  overflow: visible;
+  height: 60px;
+  margin-right: 0px;
+  width: 100%;
+}
+
+.accordion-item {
+  display: block;
+  overflow: hidden;
+  height: auto;
+  width: 100%;
+}
+
+.dropdown-list {
+  position: static;
+  display: block;
+  overflow: visible;
+  padding-right: 0px;
+  padding-left: 0px;
+  background-color: hsla(0, 0%, 100%, 0);
+  width: 100%;
+}
+
+.info-icon {
+  position: relative;
+  display: inline-block;
+  overflow: visible;
+  margin-top: 2px;
+  margin-left: 10px;
+  padding-left: 0px;
+  float: left;
+  clear: none;
+  border-radius: 20px;
+  opacity: 0.65;
+  -o-object-fit: fill;
+  object-fit: fill;
+}
+
+.textfield {
+  display: inline-block;
+  width: auto;
+  max-width: 100%;
+  min-width: 200px;
+  margin-top: 1px;
+  margin-right: 0px;
+  padding-right: 10px;
+  padding-left: 10px;
+  float: left;
+  clear: left;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #b3b3b3;
+  border-radius: 7px;
+  background-color: #fff;
+  -o-object-fit: fill;
+  object-fit: fill;
+}
+
+.features-label {
+  font-family: 'Titillium Web', sans-serif;
+  font-weight: 700;
+}
+
+.component-entry-block {
+  overflow: visible;
+}
+
+.component-overview {
+  margin-right: 50px;
+  margin-left: 50px;
+  padding: 50px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #fff;
+  border-radius: 0px;
+  background-color: #ececec;
+}
+
+.features-columns {
+  display: inline-block;
+  width: 100%;
+}
+
+.description-columns {
+  display: inline-block;
+}
+
+.navigation-links {
+  display: block;
+  padding-right: 5px;
+  padding-left: 5px;
+  float: left;
+  border-radius: 0px;
+  font-family: 'Titillium Web', sans-serif;
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.feature-section {
+  overflow: visible;
+  border-bottom: 1px solid #c5c5c5;
+}
+
+.category-dropdown {
+  display: inline-block;
+  width: auto;
+  max-width: 100%;
+  min-width: 200px;
+  margin-top: 1px;
+  margin-right: 0px;
+  padding-right: 10px;
+  padding-left: 10px;
+  float: left;
+  clear: left;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #b3b3b3;
+  border-radius: 7px;
+  background-color: #fff;
+  -o-object-fit: fill;
+  object-fit: fill;
+}
+
+.control-area {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-left: 10px;
+  float: none;
+  clear: none;
+}
+
+.create-button {
+  position: static;
+  display: block;
+  float: none;
+  clear: none;
+  border-radius: 5px;
+  background-color: #1f299c;
+  font-family: 'Titillium Web', sans-serif;
+  font-size: 15px;
+}
+
+#component-id {
+  display: none;
+  /* display: inline-block; */
+  width: 48px;
+  min-width: auto;
+  clear: none;
+  margin-left: 10px;
+  text-align: center;
+}

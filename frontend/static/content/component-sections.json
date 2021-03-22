@@ -1,0 +1,138 @@
+{   
+    "description": "Dummy JSON",
+    "default": {
+        "availability-section": "false",
+        "code-quality-section": "false",
+        "scope-section": "false",
+        "effort-section": "false",
+        "test-quality-section": "false",
+        "human-section": "false",
+        "object-orientation-section": "false"
+    },
+    "databases": {
+        "availability-section": "true",
+        "code-quality-section": "true",
+        "scope-section": "true",
+        "effort-section": "true",
+        "test-quality-section": "true",
+        "human-section": "true",
+        "object-orientation-section": "true"
+    },
+    "interfaces": {
+        "availability-section": "true",
+        "code-quality-section": "true",
+        "scope-section": "true",
+        "effort-section": "true",
+        "test-quality-section": "true",
+        "human-section": "false",
+        "object-orientation-section": "false"
+    },
+    "firewall": {
+        "availability-section": "true",
+        "code-quality-section": "false",
+        "scope-section": "true",
+        "effort-section": "true",
+        "test-quality-section": "true",
+        "human-section": "true",
+        "object-orientation-section": "true"
+    },
+    "user-interface": {
+        "availability-section": "true",
+        "code-quality-section": "true",
+        "scope-section": "true",
+        "effort-section": "true",
+        "test-quality-section": "true",
+        "human-section": "true",
+        "object-orientation-section": "true"
+    },
+    "api-gateway": {
+        "availability-section": "true",
+        "code-quality-section": "false",
+        "scope-section": "true",
+        "effort-section": "true",
+        "test-quality-section": "true",
+        "human-section": "true",
+        "object-orientation-section": "false"
+    },
+    "application-gateway": {
+        "availability-section": "false",
+        "code-quality-section": "false",
+        "scope-section": "false",
+        "effort-section": "false",
+        "test-quality-section": "false",
+        "human-section": "false",
+        "object-orientation-section": "false"
+    },
+    "application-and-utilities": {
+        "availability-section": "true",
+        "code-quality-section": "true",
+        "scope-section": "true",
+        "effort-section": "true",
+        "test-quality-section": "true",
+        "human-section": "true",
+        "object-orientation-section": "true"
+    },
+    "service-register": {
+        "availability-section": "false",
+        "code-quality-section": "false",
+        "scope-section": "false",
+        "effort-section": "false",
+        "test-quality-section": "false",
+        "human-section": "false",
+        "object-orientation-section": "false"
+    },
+    "load-balancer": {
+        "availability-section": "true",
+        "code-quality-section": "true",
+        "scope-section": "true",
+        "effort-section": "true",
+        "test-quality-section": "true",
+        "human-section": "false",
+        "object-orientation-section": "true"
+    },
+    "idv": {
+        "availability-section": "true",
+        "code-quality-section": "false",
+        "scope-section": "true",
+        "effort-section": "true",
+        "test-quality-section": "true",
+        "human-section": "true",
+        "object-orientation-section": "true"
+    },
+    "identity-provider": {
+        "availability-section": "true",
+        "code-quality-section": "true",
+        "scope-section": "true",
+        "effort-section": "false",
+        "test-quality-section": "true",
+        "human-section": "true",
+        "object-orientation-section": "true"
+    },
+    "default-software": {
+        "availability-section": "false",
+        "code-quality-section": "false",
+        "scope-section": "false",
+        "effort-section": "false",
+        "test-quality-section": "false",
+        "human-section": "true",
+        "object-orientation-section": "false"
+    },
+    "business-logic": {
+        "availability-section": "false",
+        "code-quality-section": "false",
+        "scope-section": "false",
+        "effort-section": "false",
+        "test-quality-section": "false",
+        "human-section": "false",
+        "object-orientation-section": "false"
+    },
+    "custom-software": {
+        "availability-section": "true",
+        "code-quality-section": "true",
+        "scope-section": "true",
+        "effort-section": "true",
+        "test-quality-section": "true",
+        "human-section": "true",
+        "object-orientation-section": "true"
+    }
+}

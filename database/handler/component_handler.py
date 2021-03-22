@@ -78,6 +78,7 @@ def get_component(uid_dict: dict) -> dict:
     :type uid_dict: str
     :return: Component dict
     """
+
     uid = uid_dict["uid"]
     component = Component.nodes.get(uid=uid)
     component_dict = component.__dict__

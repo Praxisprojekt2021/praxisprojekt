@@ -6,13 +6,13 @@
  */
 
 //Base url to distinguish between localhost and production environment
-const base_url = window.location.href;
+const base_url = window.location.origin;
 
 function calc(number1, number2) {
 
     // Create new HTTP-Request to addition-endpoint
     let xhttp = new XMLHttpRequest();
-    xhttp.open("POST", base_url + "addition", true);
+    xhttp.open("POST", base_url + "/addition", true);
     xhttp.setRequestHeader("Content-Type", "application/json");
 
     // Handle response of HTTP-request
