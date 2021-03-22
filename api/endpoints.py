@@ -42,7 +42,7 @@ def get_component_overview():
     :return: a JSON object containing a list of components
     """
 
-    components = core.get_components()
+    components = core.component_overview()
 
     return components
 
@@ -62,3 +62,18 @@ def do_component_delete():
             return "Internal Error", 500
     else:
         return "No JSON body was transferred", 400
+
+
+@app.route('/component/view', methods=["POST"])
+def component_view_route():
+    """
+    API endpoint to use the function from the Core-Module to view components
+    """
+
+    if request.is_json:
+        try:
+            return core.component_view(request.json), 200
+        except:
+            return "Internal Error", 500
+    else:
+        return error_handler(400, "No JSON body was transferred")
