@@ -46,8 +46,8 @@ class Component(StructuredNode):
     name = StringProperty()
     category = StringProperty()
     description = StringProperty()
-    creation_timestamp = StringProperty()
-    last_timestamp = StringProperty()
+    creation_timestamp = StringProperty()  # Use String or datetime?
+    last_timestamp = StringProperty()  # Use String or datetime?
 
     hasMetric = RelationshipTo(Metric, "has", model=Relationship)
 
@@ -58,7 +58,7 @@ def get_component_list() -> dict:
 
     :return: List of components in a dict
     """
-    data = {"success": True, "components": Component.nodes.all()}
+    data = {"success": True}
     components = Component.nodes.all()
     components_list = []
     for component in components:
@@ -70,16 +70,16 @@ def get_component_list() -> dict:
     return data
 
 
-def get_component(uid: str):
+def get_component(uid_dict: dict) -> dict:
     """
     Function to retrieve a single component
 
-    :param uid: Component uid
-    :type uid: str
+    :param uid_dict: Component uid
+    :type uid_dict: str
     :return: Component dict
     """
 
-    component = Component.nodes.get(uid=uid)
+    component = Component.nodes.get(uid=uid_dict["uid"])
     component_dict = component.__dict__
     metrics_list = component.hasMetric.all()
     metrics_dict = {}
@@ -89,6 +89,7 @@ def get_component(uid: str):
     component_dict["metrics"] = metrics_dict
     del component_dict["hasMetric"]
     component_dict.update({"success": True})
+
     return component_dict
 
 
@@ -108,7 +109,7 @@ def add_component(input_dict: dict) -> dict:
     for metric in input_dict["metrics"]:
         output.hasMetric.connect(mh.get_metric(metric), {"value": input_dict["metrics"][metric]})
 
-    return get_component(output.uid)
+    return {"success": True}
 
 
 def update_component(input_dict: dict) -> dict:
@@ -140,18 +141,19 @@ def update_component(input_dict: dict) -> dict:
         rel = component.hasMetric.relationship(metric_object)
         rel.value = new_metrics[metric]
         rel.save()
-    return get_component(uid)
+
+    return {"success": True}
 
 
-def delete_component(uid: str) -> dict:
+def delete_component(uid_dict: dict) -> dict:
     """
     Function to delete a single component
 
-    :param uid: Identifier
-    :type uid: str
+    :param uid_dict: Identifier
+    :type uid_dict: str
     :return: dict
     """
-    if Component.nodes.get(uid=uid).delete():
+    if Component.nodes.get(uid=uid_dict["uid"]).delete():
         return {"success": True}
     else:
         return {"success": False}
