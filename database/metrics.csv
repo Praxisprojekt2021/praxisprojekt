@@ -2,7 +2,7 @@ Number of lines sourcecode,Number of actual lines of code excluding empty lines 
 Development time,Number of development day needed for development of a patch.
 Frequency Codereview,Number of code reviews per year.
 Quality of comments,Ratio commentary to non-commentary lines of code.
-BackupNnumber of backups created per month.
+Backup, Number of backups created per month.
 Change tracking,Are changes in the components logged/recorded?
 Patch status,Number of system checks for their patch status.
 Complaints,Number of complaints per year.

@@ -33,6 +33,7 @@ def create_from_csv(path: str):
     with open(path) as csv_file:
         csv_reader_object = csv.reader(csv_file)
         for row in csv_reader_object:
+            print(row)
             Metric.create({'name': row[0], 'description': row[1]})
         print(Metric.nodes.all())
 
