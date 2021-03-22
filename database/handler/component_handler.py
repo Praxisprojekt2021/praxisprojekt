@@ -46,8 +46,8 @@ class Component(StructuredNode):
     name = StringProperty()
     category = StringProperty()
     description = StringProperty()
-    creation_timestamp = StringProperty()  # Use String or datetime?
-    last_timestamp = StringProperty()  # Use String or datetime?
+    creation_timestamp = StringProperty()  # TODO: Use String or datetime?
+    last_timestamp = StringProperty()  # TODO: Use String or datetime?
 
     hasMetric = RelationshipTo(Metric, "has", model=Relationship)
 
@@ -110,7 +110,7 @@ def add_component(input_dict: dict) -> dict:
     for metric in input_dict["metrics"]:
         output.hasMetric.connect(mh.get_metric(metric), {"value": input_dict["metrics"][metric]})
 
-    return {"success": True}
+    return {"success": True}    # TODO: ist es möglich den success aus der Datenbank zu bekommen und nicht pauschaul zurückzuliefern?
 
 
 def update_component(input_dict: dict) -> dict:
@@ -143,7 +143,7 @@ def update_component(input_dict: dict) -> dict:
         rel.value = new_metrics[metric]
         rel.save()
 
-    return {"success": True}
+    return {"success": True}    # TODO: ist es möglich den success aus der Datenbank zu bekommen und nicht pauschaul zurückzuliefern?
 
 
 def delete_component(uid_dict: dict) -> dict:
