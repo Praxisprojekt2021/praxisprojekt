@@ -128,7 +128,7 @@ def update_component(input_dict: dict) -> dict:
     component.category = input_dict["category"]
     component.last_timestamp = str(datetime.now())
 
-    component_dict = get_component({"uid":uid})
+    component_dict = get_component({"uid": uid})
 
     metrics_dict = component_dict["metrics"]
     metrics = []

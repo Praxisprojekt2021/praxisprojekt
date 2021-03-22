@@ -56,5 +56,3 @@ def add_metric(input_dict: dict) -> Metric:
     :type input_dict: dict
     """
     return Metric(name=input_dict["name"], description=input_dict["description"]).save()
-
-
