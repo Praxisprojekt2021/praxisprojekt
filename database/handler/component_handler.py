@@ -55,7 +55,7 @@ def get_component(input_dict):
         "success": True,
         "id": 1,
         "name": "SQL Datenbank",
-        "category": "Datenbank",
+        "category": "databases",
         "description": "Datenbank zu xy mit ...",
         "creation_timestamp": "2020-02-04 07:46:29.315237",
         "last_timestamp": "2020-02-04 07:46:29.315237",

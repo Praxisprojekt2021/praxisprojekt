@@ -14,21 +14,16 @@ function init() {
     if (Number.isInteger(parseInt(id)) && parseInt(id) > 0) {
         // If so, load component data...
         console.log('Editing existing component');
-        const component_data = getComponentData(parseInt(id));
 
-        // TODO set data fields -> extra function
-        // TODO ^^^set hidden id from parameter
-
-        // Set Dropdown and disable it
-        // TODO set Dropdown according to the actual category
-        document.getElementById('component-category').setAttribute("disabled", "true");
-
-        // TODO set Sections according to the category
+        // Trigger function which gathers component data and processes it
+        getComponentData(parseInt(id));
     } else {
         // If not, prepare for new component input...
         console.log('Entering new component');
         setSections("default");
-        // TODO set hidden id -1
+
+        // Set component id to -1
+        document.getElementById('component-id').value = -1;
     }
 }
 
@@ -42,10 +37,36 @@ function getComponentData(id) {
     const post_data = {
         "id": id
     }
-    post_request('component/view', post_data, print_log);
+    post_request('/component/view', JSON.stringify(post_data), processComponentData);
 }
 
-function print_log() {console.log('print_log');}
+/**
+ * This function receives the component data and processes it
+ *
+ * @param {string} json_data: The component data
+ */
+
+function processComponentData(json_data) {
+
+    // Check if the request has succeeded
+    if (json_data['success']) {
+        // Component data has been received
+
+        // Set id and data fields
+        document.getElementById('component-id').value = json_data['id'];
+        document.getElementById('component-name').value = json_data['name'];
+        document.getElementById('component-description-textarea').value = json_data['description'];
+
+        // Set dropdown and disable it
+        document.getElementById('component-category').value = json_data['category'];
+        document.getElementById('component-category').setAttribute("disabled", "true");
+
+        // TODO set all metrics
+
+        // Set sections according to the category
+        setSections(json_data['category']);
+    }
+}
 
 /**
  * This function sends a post request to the backend
@@ -124,12 +145,10 @@ function toggleSection(element) {
 
 function saveComponent() {
     const component = {
-        "id": 1,
-        "name": "SQL Datenbank",
-        "category": "Datenbank",
-        "description": "Datenbank zu xy mit ...",
-        "creation_timestamp": "20200219...",
-        "last_timestamp": "20200219...",
+        "id": document.getElementById('component-id').value,
+        "name": document.getElementById('component-name').value,
+        "category": document.getElementById('component-category').value,
+        "description": document.getElementById('component-description-textarea').value,
         "metrics": {
             "codelines": 20000,
             "admins": 10,
@@ -137,7 +156,54 @@ function saveComponent() {
             // TODO only those metrics that match the component category?
         }
     }
-    // TODO implement required handler
-    // TODO create AJAX post request to backend
 
+    // Check if all field have been filled
+    // Also, when changing between categories, discard inputs made for non-relevant metrics
+    let required_helper_flag = true; // Helper variable which gets set to false, if any required field is not filled
+    const toggles = document.getElementsByClassName('feature-section');
+    for (let i = 0; i < toggles.length; i++) {
+        const feature_child = toggles[i].children[0].children[0];
+        const metrics_child = toggles[i].children[0].children[1];
+        const metrics_child_input_fields = metrics_child.getElementsByTagName('input');
+
+        // Check if metric is mandatory or even not allowed
+        if (feature_child.getAttribute("disabled") === "true") {
+            // Discard data from disabled metrics inputs
+            for (let i = 0; i < metrics_child_input_fields.length; i++) {
+                metrics_child.getElementsByTagName('input')[i].value = '';
+            }
+        } else {
+            // Check if enabled fields have been filled - all fields are required
+            for (let i = 0; i < metrics_child_input_fields.length; i++) {
+                if (metrics_child.getElementsByTagName('input')[i].value === '') {
+                    required_helper_flag = false;
+                }
+            }
+        }
+    }
+
+    // If a input have been performend, post changes to backend
+    if (required_helper_flag) {
+        post_request('/component/create_edit', JSON.stringify(component), saveCallback);
+    } else {
+        window.alert('Changes could not be saved. Please fill all metrics fields.');
+    }
+}
+
+/**
+ * This function checks for success in communication
+ *
+ * @param {string} response: JSON Object response, whether the changes have been saved successfully
+ */
+
+function saveCallback(response) {
+    // Check if component has been created/edited successfully
+    if (response['success']) {
+        // Component has been created/edited successfully
+        window.alert('Changes were saved.');
+        window.location = base_url;
+    } else {
+        // Component has not been created/edited successfully
+        window.alert('Changes could not be saved.');
+    }
 }

@@ -270,3 +270,12 @@ body {
   font-size: 15px;
 }
 
+#component-id {
+  display: none;
+  /* display: inline-block; */
+  width: 48px;
+  min-width: auto;
+  clear: none;
+  margin-left: 10px;
+  text-align: center;
+}
