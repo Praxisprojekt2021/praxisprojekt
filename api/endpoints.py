@@ -26,24 +26,6 @@ def component():
     """
     return render_template("component.html")
 
-
-@app.route('/addition', methods=["POST"])
-def addition_route():
-    """
-    Test API endpoint for addition
-    :recives data via POST request from frontend containing 2 numbers
-    :return: a JSON object containing the sum of the parameters in request body
-    """
-    if request.is_json:
-        try:
-            return core.core_addition(request.json), 200
-
-        except:
-            return "Internal Error", 500
-    else:
-        return "No JSON body was transferred", 400
-
-
 @app.route("/component/overview", methods=["GET"])
 def get_component_overview():
     """
@@ -94,7 +76,7 @@ def component_create_edit_route():
     """
     Use function from the Core-Module to create or edit components (Original function is located in component_handler.py
     """
-    
+
     if request.is_json:
         return core.core_component_create_edit(request.json), 200
     else:
