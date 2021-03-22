@@ -77,3 +77,15 @@ def component_view_route():
             return "Internal Error", 500
     else:
         return error_handler(400, "No JSON body was transferred")
+
+
+@app.route('/component/create_edit', methods=["POST"])
+def component_create_edit_route():
+    """
+    Use function from the Core-Module to create or edit components (Original function is located in component_handler.py
+    """
+    
+    if request.is_json:
+        return core.core_component_create_edit(request.json), 200
+    else:
+        return error_handler(400, "No JSON body was transferred")
