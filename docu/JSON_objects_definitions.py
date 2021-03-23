@@ -60,7 +60,7 @@ data = {
     "id": 1,
     "name": "SQL Datenbank",
     "category": "Datenbank",
-    "description": "Datenbank zu xy mit ...",  # TODO both timestamps will be calculated in backend and the keys are therefore not passed by the frontend
+    "description": "Datenbank zu xy mit ...",
     "metrics": {
         "codelines": 20000,
         "admins": 10,

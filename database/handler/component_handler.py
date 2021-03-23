@@ -110,14 +110,15 @@ def add_component(input_dict: dict) -> dict:
     output = Component(name=input_dict["name"], category=input_dict["category"],
                        creation_timestamp=str(datetime.now()),
                        last_timestamp=str(datetime.now()), description=input_dict["description"])
-    # TODO: Bei Safe Fehler handling
-    if not output.save():
+    try:
+        output.save()
+    except:  # since here can happen multiple errors we don't catch a explicit exception
         successful = False
 
     for metric in input_dict["metrics"]:
         try:
             output.hasMetric.connect(mh.get_metric(metric), {"value": input_dict["metrics"][metric]})
-        except neomodel.core.DoesNotExist:
+        except:  # since here can happen multiple errors we don't catch a explicit exception
             successful = False
 
     if successful:
@@ -143,21 +144,26 @@ def update_component(input_dict: dict) -> dict:
     component.last_timestamp = str(datetime.now())
 
     successful = True
-    if not component.save():
+
+    try:
+        component.save()
+    except:  # since here can happen multiple errors we don't catch a explicit exception
         successful = False
+
     component_dict = get_component({"uid": uid})
 
     metrics_dict = component_dict["metrics"]
     metrics = []
     for key in metrics_dict:
         metrics.append(key)
-    # TODO: Bei Safe Fehler handling
     for metric in metrics:
         new_metrics = input_dict["metrics"]
         metric_object = mh.get_metric(metric)
         rel = component.hasMetric.relationship(metric_object)
         rel.value = new_metrics[metric]
-        if not rel.save():
+        try:
+            rel.save()
+        except:  # since here can happen multiple errors we don't catch a explicit exception
             successful = False
 
     if successful:
