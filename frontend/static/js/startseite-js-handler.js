@@ -44,7 +44,7 @@ function loadProcesses() {
 function loadComponents() {
     // Create new HTTP-Request to components-endpoint
     let xhttp = new XMLHttpRequest();
-    xhttp.open("GET", base_url + "components", true);
+    xhttp.open("GET", base_url + "component/overview", true);
     xhttp.setRequestHeader("Content-Type", "application/json");
 
     // Handle response of HTTP-request
@@ -64,7 +64,7 @@ function loadComponents() {
  * @param {JSON} json 
  */
 function refreshProcessTable(json) {
-    var table = document.getElementById('ProzesseTable');
+    var table = document.getElementById('processTable');
     json.processes.forEach(function (object) {
         var tr = document.createElement('tr');
         tr.innerHTML = '<td>' + object.process + '</td>' +
@@ -82,10 +82,10 @@ function refreshProcessTable(json) {
 /**
  * Populate Component Table.
  * 
- * @param {JSON} json 
+ * @param {JSON} json object containing a list of components
  */
 function refreshComponentTable(json) {
-    var table = document.getElementById('KomponentenTable');
+    var table = document.getElementById('componentTable');
     json.components.forEach(function (object) {
         var tr = document.createElement('tr');
         tr.innerHTML = '<td>' + object.name + '</td>' +
@@ -93,8 +93,8 @@ function refreshComponentTable(json) {
             '<td></td>' +
             '<td>' + formatDate(object.creation_timestamp) + '</td>' +
             '<td>' + formatDate(object.last_timestamp) + '</td>' +
-            '<td>' + renderEditComponentButton(object.id) + '</td>' +
-            '<td>' + renderDeleteComponentButton(object.id) + '</td>';
+            '<td>' + renderEditComponentButton(object.uid) + '</td>' +
+            '<td>' + renderDeleteComponentButton(object.uid) + '</td>';
         table.appendChild(tr);
     });
 }

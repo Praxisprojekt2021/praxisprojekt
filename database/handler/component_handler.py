@@ -1,11 +1,10 @@
 from datetime import datetime
-
 from neomodel import config, StructuredNode, StringProperty, UniqueIdProperty, \
     RelationshipTo, StructuredRel, FloatProperty
 
-import database.handler.metric_handler as mh
 from core.error_handler import error_handler
 from core.success_handler import success_handler
+import database.handler.metric_handler as metric_handler
 from database.config import *
 
 config.DATABASE_URL = 'bolt://{}:{}@{}:{}'.format(NEO4J_USER, NEO4J_PASSWORD, NEO4J_IP, NEO4J_PORT)
@@ -51,7 +50,7 @@ class Component(StructuredNode):
     creation_timestamp = StringProperty()  # evtl. float
     last_timestamp = StringProperty()  # evtl. float
 
-    hasMetric = RelationshipTo(mh.Metric, "has", model=Relationship)
+    hasMetric = RelationshipTo(metric_handler.Metric, "has", model=Relationship)
 
 
 def get_component_list() -> dict:
@@ -116,7 +115,7 @@ def add_component(input_dict: dict) -> dict:
 
     for metric in input_dict["metrics"]:
         try:
-            output.hasMetric.connect(mh.get_metric(metric), {"value": input_dict["metrics"][metric]})
+            output.hasMetric.connect(metric_handler.get_metric(metric), {"value": input_dict["metrics"][metric]})
         except:  # since here can happen multiple errors we don't catch a explicit exception
             successful = False
 
@@ -157,7 +156,7 @@ def update_component(input_dict: dict) -> dict:
         metrics.append(key)
     for metric in metrics:
         new_metrics = input_dict["metrics"]
-        metric_object = mh.get_metric(metric)
+        metric_object = metric_handler.get_metric(metric)
         rel = component.hasMetric.relationship(metric_object)
         rel.value = new_metrics[metric]
         try:
