@@ -1,7 +1,7 @@
 # external endpoints
 from flask import Flask, render_template, request
 
-from core import core
+import core
 
 app = Flask(__name__, static_url_path='',
             template_folder='../frontend/templates', static_folder='../frontend/static')
@@ -14,8 +14,7 @@ def index():
 
     :return: the rendered html main page
     """
-    return render_template("Startseite.html")
-
+    return render_template("index.html")
 
 
 @app.route('/component', methods=["GET"])
@@ -26,6 +25,17 @@ def component():
     :return: the rendered html component page
     """
     return render_template("component.html")
+
+
+@app.route('/process', methods=["GET"])
+def process():
+    """
+    API endpoint to display component page view
+
+    :return: the rendered html process page
+    """
+    return core.error_handler(500, "Noch nicht umgesetzt")
+
 
 @app.route("/component/overview", methods=["GET"])
 def get_component_overview():
@@ -45,10 +55,11 @@ def do_component_delete():
     """
     API Endpoint to delete a specific component
 
-    :return: a JSON object the success of the deletion
+    :return: a JSON object with the success of the deletion
     """
     if request.is_json:
         try:
+            s = request.json + 5
             return core.delete_component(request.json), 200
 
         except:
@@ -69,7 +80,7 @@ def component_view_route():
         except:
             return "Internal Error", 500
     else:
-        return error_handler(400, "No JSON body was transferred")
+        return core.error_handler(400, "No JSON body was transferred")
 
 
 @app.route('/component/create_edit', methods=["POST"])
@@ -81,4 +92,4 @@ def component_create_edit_route():
     if request.is_json:
         return core.create_edit_component(request.json), 200
     else:
-        return error_handler(400, "No JSON body was transferred")
+        return core.error_handler(400, "No JSON body was transferred")

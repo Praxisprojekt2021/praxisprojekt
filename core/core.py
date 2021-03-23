@@ -1,7 +1,7 @@
 from typing import Dict, Any, Union
 
-import database.handler.component_handler as component_handler
-import processing.typeconversion as typeconversion
+import database
+import processing
 
 
 def get_component_list() -> str:
@@ -10,8 +10,8 @@ def get_component_list() -> str:
     Returns:
         str: A JSON formatted compontent list
     """
-    component_list_dict = component_handler.get_component_list()
-    output_json = typeconversion.dict_to_json(component_list_dict)
+    component_list_dict = database.get_component_list()
+    output_json = processing.dict_to_json(component_list_dict)
 
     return output_json
 
@@ -26,14 +26,14 @@ def create_edit_component(input_object: Union[Dict[str, Any], str]) -> str:
     :return A JSON object containing the success state, which is True or False
     """
 
-    data_dict = typeconversion.json_to_dict(input_object)
+    data_dict = processing.json_to_dict(input_object)
 
     if data_dict["uid"] == "-1":
-        result_dict = component_handler.add_component(data_dict)
-        return typeconversion.dict_to_json(result_dict)
+        result_dict = database.add_component(data_dict)
+        return processing.dict_to_json(result_dict)
     else:
-        result_dict = component_handler.edit_component(data_dict)
-        return typeconversion.dict_to_json(result_dict)
+        result_dict = database.update_component(data_dict)
+        return processing.dict_to_json(result_dict)
 
 
 def get_component(input_object: str) -> str:
@@ -47,9 +47,9 @@ def get_component(input_object: str) -> str:
     :return: Returns a JSON object, sturctured as described in docu/JSON_objects_definitions.py
     """
 
-    data_dict = typeconversion.json_to_dict(input_object)
-    component_dict = component_handler.get_component(data_dict)
-    output_json = typeconversion.dict_to_json(component_dict)
+    data_dict = processing.json_to_dict(input_object)
+    component_dict = database.get_component(data_dict)
+    output_json = processing.dict_to_json(component_dict)
 
     return output_json
 
@@ -62,10 +62,12 @@ def delete_component(input_object: str) -> str:
 
     Returns:
         (str): String in JSON Format
+
+    :param input_object:
     """
 
-    data_dict = typeconversion.json_to_dict(input_object)
-    result_dict = component_handler.delete_component(data_dict)
-    output_json = typeconversion.dict_to_json(result_dict)
+    data_dict = processing.json_to_dict(input_object)
+    result_dict = database.delete_component(data_dict)
+    output_json = processing.dict_to_json(result_dict)
 
     return output_json
