@@ -1,7 +1,7 @@
 # external endpoints
 from flask import Flask, render_template, request
 
-import core
+from core import core
 
 app = Flask(__name__, static_url_path='',
             template_folder='../frontend/templates', static_folder='../frontend/static')

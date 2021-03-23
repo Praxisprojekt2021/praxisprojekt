@@ -1,7 +1,7 @@
 import json
 from typing import Dict, Any, Union
 
-from api.error_handler import error_handler
+from core.error_handler import error_handler
 
 
 def dict_to_json(dictionary: Dict[str, Any]) -> str:

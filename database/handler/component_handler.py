@@ -1,12 +1,11 @@
 from datetime import datetime
 
-import neomodel
 from neomodel import config, StructuredNode, StringProperty, UniqueIdProperty, \
     RelationshipTo, StructuredRel, FloatProperty
 
 import database.handler.metric_handler as mh
-from api.error_handler import error_handler
-from api.success_handler import success_handler
+from core.error_handler import error_handler
+from core.success_handler import success_handler
 from database.config import *
 
 config.DATABASE_URL = 'bolt://{}:{}@{}:{}'.format(NEO4J_USER, NEO4J_PASSWORD, NEO4J_IP, NEO4J_PORT)
