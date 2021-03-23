@@ -1,9 +1,7 @@
 from typing import Dict, Any, Union
 
-import processing.calculations as calculations
-import processing.typeconversion as typeconversion
 import database.handler.component_handler as component_handler
-import api.error_handler as error_handler
+import processing.typeconversion as typeconversion
 
 
 def create_edit_component(input_object: Union[Dict[str, Any], str]) -> str:

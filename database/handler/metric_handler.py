@@ -1,5 +1,7 @@
-from neomodel import config, StructuredNode, StringProperty, UniqueIdProperty
 import csv
+
+from neomodel import config, StructuredNode, StringProperty, UniqueIdProperty
+
 from database.config import *
 
 config.DATABASE_URL = 'bolt://{}:{}@{}:{}'.format(NEO4J_USER, NEO4J_PASSWORD, NEO4J_IP, NEO4J_PORT)

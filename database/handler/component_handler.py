@@ -1,9 +1,10 @@
+from datetime import datetime
+
 import neomodel
 from neomodel import config, StructuredNode, StringProperty, UniqueIdProperty, \
     RelationshipTo, StructuredRel, FloatProperty
-import database.handler.metric_handler as mh
-from datetime import datetime
 
+import database.handler.metric_handler as mh
 from database.config import *
 
 config.DATABASE_URL = 'bolt://{}:{}@{}:{}'.format(NEO4J_USER, NEO4J_PASSWORD, NEO4J_IP, NEO4J_PORT)
