@@ -17,7 +17,6 @@ def create_edit_component(input_object: Union[Dict[str, Any], str]) -> str:
     """
 
     data_dict = typeconversion.json_to_dict(input_object)
-    result = {}
 
     if data_dict["uid"] == "-1":
         result = component_handler.add_component(data_dict)
@@ -41,6 +40,8 @@ def get_component(input_object: str) -> str:
     data_dict = typeconversion.json_to_dict(input_object)
     result = component_handler.get_component(data_dict)
     output_object = typeconversion.dict_to_json(result)
+
+    return output_object
 
 
 def get_component_list() -> str:
@@ -68,3 +69,5 @@ def delete_component(input_object: str) -> str:
 
     success = component_handler.delete_component(data_dict)
     output_object = typeconversion.dict_to_json(success)
+
+    return output_object
