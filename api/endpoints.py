@@ -57,10 +57,12 @@ def do_component_delete():
 
     :return: a JSON object with the success of the deletion
     """
+    x = request.data
     if request.is_json:
         try:
-            s = request.json + 5
-            return core.delete_component(request.json), 200
+            result = core.delete_component(request.json)
+
+            return result, 200
 
         except:
             return "Internal Error", 500

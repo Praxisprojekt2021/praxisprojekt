@@ -8,15 +8,15 @@ const base_url = window.location.origin;
 function init() {
     const url_string = window.location.href;
     const url = new URL(url_string);
-    const id = url.searchParams.get('id');
+    const uid = url.searchParams.get('uid');
 
-    // Check if view has received an id as URL parameter to check whether to create a new component or edit an existing one
-    if (Number.isInteger(parseInt(id)) && parseInt(id) > 0) {
+    // Check if view has received an uid as URL parameter to check whether to create a new component or edit an existing one
+    if (uid && uid.length === 32) {
         // If so, load component data...
         console.log('Editing existing component');
 
         // Trigger function which gathers component data and processes it
-        getComponentData(parseInt(id));
+        getComponentData(uid);
     } else {
         // If not, prepare for new component input...
         console.log('Entering new component');
@@ -30,12 +30,12 @@ function init() {
 /**
  * This function fetches the component data from the backend
  *
- * @param {number} id: The id of the component to get data for
+ * @param {string} id: The id of the component to get data for
  */
 
-function getComponentData(id) {
+function getComponentData(uid) {
     const post_data = {
-        "id": id
+        "uid": uid
     }
     post_request('/component/view', JSON.stringify(post_data), processComponentData);
 }
@@ -145,7 +145,7 @@ function toggleSection(element) {
 
 function saveComponent() {
     const component = {
-        "id": document.getElementById('component-id').value,
+        "uid": document.getElementById('component-id').value,
         "name": document.getElementById('component-name').value,
         "category": document.getElementById('component-category').value,
         "description": document.getElementById('component-description-textarea').value,

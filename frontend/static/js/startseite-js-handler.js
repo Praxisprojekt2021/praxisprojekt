@@ -89,7 +89,7 @@ function refreshComponentTable(json) {
     json.components.forEach(function (object) {
         var tr = document.createElement('tr');
         tr.innerHTML = '<td>' + object.name + '</td>' +
-            '<td>' + object.category + '</td>' +
+            '<td>' + object.category + '</td>' +    // TODO: erst mappen mit tatsächlicher Kategorie
             '<td></td>' +
             '<td>' + formatDate(object.creation_timestamp) + '</td>' +
             '<td>' + formatDate(object.last_timestamp) + '</td>' +
@@ -119,32 +119,32 @@ function renderAddComponentButton() {
  * Renders HTML-Button to edit a process.
  * @returns Edit-Process-Button HTML-Element
  */
-function renderEditProcessButton(id) {
-    return `<div onclick="editProcess(${id})">🖊️</div>`;
+function renderEditProcessButton(uid) {
+    return `<div onclick="editProcess('${uid}')">🖊️</div>`;
 }
 
 /**
  * Renders HTML-Button to edit a component.
  * @returns Edit-Component-Button HTML-Element
  */
-function renderEditComponentButton(id) {
-    return `<div onclick="editComponent(${id})">🖊️</div>`;
+function renderEditComponentButton(uid) {
+    return `<div onclick="editComponent('${uid}')">🖊️</div>`;
 }
 
 /**
  * Renders HTML-Button to delete a process.
  * @returns Delete-Process-Button HTML-Element
  */
-function renderDeleteProcessButton(id) {
-    return `<div onclick="deleteProcess(${id})">🗑️</div>`;
+function renderDeleteProcessButton(uid) {
+    return `<div onclick="deleteProcess('${uid}')">🗑️</div>`;
 }
 
 /**
  * Renders HTML-Button to delete a component.
  * @returns Delete-Component-Button HTML-Element
  */
-function renderDeleteComponentButton(id) {
-    return `<div onclick="deleteComponent(${id})">🗑️</div>`;
+function renderDeleteComponentButton(uid) {
+    return `<div onclick="deleteComponent('${uid}')">🗑️</div>`;
 }
 
 /**
@@ -152,6 +152,7 @@ function renderDeleteComponentButton(id) {
  */
 function addProcess() {
     // ... open edit process URL without param
+    window.location.replace(base_url + "/process");
 }
 
 /**
@@ -159,7 +160,7 @@ function addProcess() {
  */
 function addComponent() {
     // open edit component URL without param
-    window.location.replace(base_url + "/component");
+    window.location.replace(base_url + "component");
 
 }
 
@@ -167,7 +168,7 @@ function addComponent() {
  * Routes to the URL where the user can edit the process with the given id.
  * @param {String} id
  */
-function editProcess(id) {
+function editProcess(uid) {
     // ... open edit process URL with param id
 }
 
@@ -175,40 +176,41 @@ function editProcess(id) {
  * Routes to the URL where the user can edit the component with the given id.
  * @param {String} id 
  */
-function editComponent(id) {
+function editComponent(uid) {
     // open edit component URL with param id
-    window.location.replace(base_url + "/component?id=" + id);
+    window.location.replace(base_url + "component?uid=" + uid);
 }
 
 /**
  * Routes to the URL where the user can delete the process with the given id.
- * @param {String} id 
+ * @param {String} uid
  */
-function deleteProcess(id) {
+function deleteProcess(uid) {
     // call delete-process endpoint
 }
 
 /**
  * Routes to the URL where the user can delete the component with the given id.
- * @param {String} id 
+ * @param {String} uid
  */
-function deleteComponent(id) {
-// Create new HTTP-Request to component-delete-endpoint
-let xhttp = new XMLHttpRequest();
-xhttp.open("POST", base_url + "component/delete", true);
+function deleteComponent(uid) {
+    // Create new HTTP-Request to component-delete-endpoint
+    let xhttp = new XMLHttpRequest();
+    xhttp.open("POST", base_url + "component/delete", true);
+    xhttp.setRequestHeader("Content-Type", "application/json");
 
-// Handle response of HTTP-request
-xhttp.onreadystatechange = function () {
-    if (this.readyState === XMLHttpRequest.DONE && (this.status >= 200 && this.status < 300)) {
-        // Process response and show data in tables
-        location.reload();
+    // Handle response of HTTP-request
+    xhttp.onreadystatechange = function () {
+        if (this.readyState === XMLHttpRequest.DONE && (this.status >= 200 && this.status < 300)) {
+            // Process response and show data in tables
+            location.reload();
+        }
     }
-}
-// add component id as parameter
-let params = JSON.stringify({id: id.toString()});
+    // add component id as parameter
+    let params = JSON.stringify({uid: uid});
 
-// Send HTTP-request
-xhttp.send(params);
+    // Send HTTP-request
+    xhttp.send(params);
 }
 
 /**
