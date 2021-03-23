@@ -1,0 +1,76 @@
+{
+    "features": {
+        "feature1": {
+            "name": "Feature 1",
+            "metrics": {
+                "metric1": {
+                    "name": "Metric 1",
+                    "max_value": -1,     // wenn es keinen max_value gibt
+                    "min_value": 0,
+                    "helper_text": "The purpose of... We calculate it like this: ..."
+                },
+                "metric2": {
+                    "name": "Metric 2",
+                    "max_value": 20000,
+                    "min_value": 0,
+                    "helper_text": "The purpose of... We calculate it like this: ..."
+                }
+            }
+        },
+        "feature2": {
+            "name": "Feature 2",
+            "metrics": {
+                "metric3": {
+                    "name": "Metric 3",
+                    "max_value": -1,    // wenn es keinen max_value gibt
+                    "min_value": 0,
+                    "helper_text": "The purpose of... We calculate it like this: ..."
+                },
+                "metric4": {
+                    "name": "Metric 4",
+                    "max_value": 20000,
+                    "min_value": 0,
+                    "helper_text": "The purpose of... We calculate it like this: ..."
+                }
+            }
+        }
+    },
+    "categories": {
+        "default": {
+            "name": "Default",
+            "sections": {
+                "feature1": "false",
+                "feature2": "false",
+                "scope": "false",
+                "effort": "false",
+                "test-quality": "false",
+                "human": "false",
+                "object-orientation": "false"
+            }
+        },
+        "databases": {
+            "name": "Datenbanken",
+            "sections": {
+                "feature1": "true",
+                "feature2": "true",
+                "scope": "true",
+                "effort": "true",
+                "test-quality": "true",
+                "human": "true",
+                "object-orientation": "true"
+            }
+        },
+        "interfaces": {
+            "name": "Interfaces",
+            "sections": {
+                "feature1": "true",
+                "feature2": "true",
+                "scope": "true",
+                "effort": "true",
+                "test-quality": "true",
+                "human": "false",
+                "object-orientation": "false"
+            }
+        }
+    }
+}
