@@ -34,7 +34,7 @@ def get_component_overview():
     :return: a JSON object containing a list of components
     """
 
-    components = core.component_overview()
+    components = core.get_component_list()
 
     return components
 
@@ -48,7 +48,7 @@ def do_component_delete():
     """
     if request.is_json:
         try:
-            return core.component_delete(request.json), 200
+            return core.delete_component(request.json), 200
 
         except:
             return "Internal Error", 500
@@ -64,7 +64,7 @@ def component_view_route():
 
     if request.is_json:
         try:
-            return core.component_view(request.json), 200
+            return core.get_component(request.json), 200
         except:
             return "Internal Error", 500
     else:
@@ -78,6 +78,6 @@ def component_create_edit_route():
     """
 
     if request.is_json:
-        return core.core_component_create_edit(request.json), 200
+        return core.create_edit_component(request.json), 200
     else:
         return error_handler(400, "No JSON body was transferred")
