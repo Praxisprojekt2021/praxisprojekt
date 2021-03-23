@@ -1,15 +1,12 @@
-import processing.typeconversion as typeconversion
-
-
-def error_handler(error_status: int, error_message: str) -> str:
+def error_handler(error_status: int, error_message: str) -> dict:
     """
-    Creates and returns an error JSON object
+    Creates and returns an error dict
 
     :param error_status: The error status, e.g. 500
     :type error_status: int
     :param error_message: The error message briefly explaining the error occurrence
     :type error_message: str
-    :return: JSON object (string) containing the error data
+    :return: dict
     """
 
     error_response = {
@@ -18,4 +15,4 @@ def error_handler(error_status: int, error_message: str) -> str:
         "error_message": error_message
     }
 
-    return typeconversion.dict_to_json(error_response)
+    return error_response

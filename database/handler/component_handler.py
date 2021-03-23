@@ -1,7 +1,6 @@
 import neomodel
 from neomodel import config, StructuredNode, StringProperty, UniqueIdProperty, \
-    RelationshipTo, StructuredRel, FloatProperty, DateTimeProperty
-from database.handler.metric_handler import Metric
+    RelationshipTo, StructuredRel, FloatProperty
 import database.handler.metric_handler as mh
 from datetime import datetime
 
@@ -50,7 +49,7 @@ class Component(StructuredNode):
     creation_timestamp = StringProperty()  # evtl. float
     last_timestamp = StringProperty()  # evtl. float
 
-    hasMetric = RelationshipTo(Metric, "has", model=Relationship)
+    hasMetric = RelationshipTo(mh.Metric, "has", model=Relationship)
 
 
 def get_component_list() -> dict:
@@ -101,13 +100,14 @@ def add_component(input_dict: dict) -> dict:
 
     :param input_dict: Component as a dictionary
     :type input_dict: dict
-    :return: Component dict
+    :return: Success dict
     """
     successful = True
 
     output = Component(name=input_dict["name"], category=input_dict["category"],
                        creation_timestamp=str(datetime.now()),
                        last_timestamp=str(datetime.now()), description=input_dict["description"])
+    # TODO: Bei Safe Fehler handling
     if not output.save():
         successful = False
 
@@ -126,7 +126,7 @@ def update_component(input_dict: dict) -> dict:
 
     :param input_dict: Component as a dictionary
     :type input_dict: dict
-    :return: Component dict
+    :return: Success dict
     """
 
     uid = input_dict["uid"]
@@ -145,7 +145,7 @@ def update_component(input_dict: dict) -> dict:
     metrics = []
     for key in metrics_dict:
         metrics.append(key)
-
+    # TODO: Bei Safe Fehler handling
     for metric in metrics:
         new_metrics = input_dict["metrics"]
         metric_object = mh.get_metric(metric)
@@ -154,6 +154,7 @@ def update_component(input_dict: dict) -> dict:
         if not rel.save():
             successful = False
 
+    # TODO: Bei Fehler Error Handler
     return {"success": successful}
 
 
@@ -163,7 +164,7 @@ def delete_component(uid_dict: dict) -> dict:
 
     :param uid_dict: Identifier
     :type uid_dict: dict
-    :return: dict
+    :return: Success dict
     """
     if Component.nodes.get(uid=uid_dict["uid"]).delete():
         return {"success": True}

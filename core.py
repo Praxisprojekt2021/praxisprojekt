@@ -6,7 +6,7 @@ import database.handler.component_handler as component_handler
 import api.error_handler as error_handler
 
 
-def component_create_edit(input_object: Union[Dict[str, Any], str]) -> str:
+def create_edit_component(input_object: Union[Dict[str, Any], str]) -> str:
     """
     Receives a JSON object in the form defined under JSON_objects_defitnions.py for either editing a component or creating a new component
     The answer is also a JSON object, only containing the success state, which is True or False
@@ -27,7 +27,7 @@ def component_create_edit(input_object: Union[Dict[str, Any], str]) -> str:
         return typeconversion.dict_to_json(result)
 
 
-def component_view(input_object: str) -> str:
+def get_component(input_object: str) -> str:
     """
     Receives a JSON object in the form defined under JSON_objects_defitnions.py for getting/viewing a component.
     It returns another JSON object, sturctured as described in docu/JSON_objects_definitions.py
@@ -43,7 +43,7 @@ def component_view(input_object: str) -> str:
     output_object = typeconversion.dict_to_json(result)
 
 
-def component_overview() -> str:
+def get_component_list() -> str:
     """Calls the get_compontent_list method and converts the output to JSON
 
     Returns:
@@ -55,7 +55,7 @@ def component_overview() -> str:
     return output_object
 
 
-def component_delete(input_object: str) -> str:
+def delete_component(input_object: str) -> str:
     """Calls the delete_component method and returns whether successful or not in JSON Format
 
     Args:

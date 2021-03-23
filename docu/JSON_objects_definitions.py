@@ -61,8 +61,6 @@ data = {
     "name": "SQL Datenbank",
     "category": "Datenbank",
     "description": "Datenbank zu xy mit ...",  # TODO both timestamps will be calculated in backend and the keys are therefore not passed by the frontend
-    "creation_timestamp": "20200219...",
-    "last_timestamp": "20200219...",
     "metrics": {
         "codelines": 20000,
         "admins": 10,
@@ -88,15 +86,13 @@ data = {
 }
 
 # -----------------------
-# create a single component
+# add a single component
 # Frontend -> Backend -> Database
 data = {
     "id": -1,  # wichtig -> als Indikator, dass neu angelegt und daher kein update sondern create
     "name": "SQL Datenbank",
     "category": "Datenbank",
     "description": "Datenbank zu xy mit ...",
-    "creation_timestamp": "20200219...",
-    "last_timestamp": "20200219...",
     "metrics": {
         "codelines": 20000,
         "admins": 10,
