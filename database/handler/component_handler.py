@@ -5,6 +5,8 @@ from neomodel import config, StructuredNode, StringProperty, UniqueIdProperty, \
     RelationshipTo, StructuredRel, FloatProperty
 
 import database.handler.metric_handler as mh
+from api.error_handler import error_handler
+from api.success_handler import success_handler
 from database.config import *
 
 config.DATABASE_URL = 'bolt://{}:{}@{}:{}'.format(NEO4J_USER, NEO4J_PASSWORD, NEO4J_IP, NEO4J_PORT)
@@ -101,7 +103,7 @@ def add_component(input_dict: dict) -> dict:
 
     :param input_dict: Component as a dictionary
     :type input_dict: dict
-    :return: Success dict
+    :return: Status dict
     """
     successful = True
 
@@ -118,7 +120,10 @@ def add_component(input_dict: dict) -> dict:
         except neomodel.core.DoesNotExist:
             successful = False
 
-    return {"success": successful}
+    if successful:
+        return success_handler()
+    else:
+        return error_handler(500, "Unable to add component to database")
 
 
 def update_component(input_dict: dict) -> dict:
@@ -127,7 +132,7 @@ def update_component(input_dict: dict) -> dict:
 
     :param input_dict: Component as a dictionary
     :type input_dict: dict
-    :return: Success dict
+    :return: Status dict
     """
 
     uid = input_dict["uid"]
@@ -155,8 +160,10 @@ def update_component(input_dict: dict) -> dict:
         if not rel.save():
             successful = False
 
-    # TODO: Bei Fehler Error Handler
-    return {"success": successful}
+    if successful:
+        return success_handler()
+    else:
+        return error_handler(500, "Unable to update component in database")
 
 
 def delete_component(uid_dict: dict) -> dict:
@@ -165,9 +172,9 @@ def delete_component(uid_dict: dict) -> dict:
 
     :param uid_dict: Identifier
     :type uid_dict: dict
-    :return: Success dict
+    :return: Status dict
     """
     if Component.nodes.get(uid=uid_dict["uid"]).delete():
-        return {"success": True}
+        return success_handler()
     else:
-        return {"success": False}
+        return error_handler(500, "Unable to delete component from database")

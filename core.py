@@ -4,6 +4,18 @@ import database.handler.component_handler as component_handler
 import processing.typeconversion as typeconversion
 
 
+def get_component_list() -> str:
+    """Calls the get_compontent_list method and converts the output to JSON
+
+    Returns:
+        str: A JSON formatted compontent list
+    """
+    component_list_dict = component_handler.get_component_list()
+    output_json = typeconversion.dict_to_json(component_list_dict)
+
+    return output_json
+
+
 def create_edit_component(input_object: Union[Dict[str, Any], str]) -> str:
     """
     Receives a JSON object in the form defined under JSON_objects_defitnions.py for either editing a component or creating a new component
@@ -42,18 +54,6 @@ def get_component(input_object: str) -> str:
     return output_json
 
 
-def get_component_list() -> str:
-    """Calls the get_compontent_list method and converts the output to JSON
-
-    Returns:
-        str: A JSON formatted compontent list
-    """
-    component_list_dict = component_handler.get_component_list()
-    output_json = typeconversion.dict_to_json(component_list_dict)
-
-    return output_json
-
-
 def delete_component(input_object: str) -> str:
     """Calls the delete_component method and returns whether successful or not in JSON Format
 
@@ -63,8 +63,8 @@ def delete_component(input_object: str) -> str:
     Returns:
         (str): String in JSON Format
     """
-    data_dict = typeconversion.json_to_dict(input_object)
 
+    data_dict = typeconversion.json_to_dict(input_object)
     result_dict = component_handler.delete_component(data_dict)
     output_json = typeconversion.dict_to_json(result_dict)
 
