@@ -17,11 +17,11 @@ def create_edit_component(input_object: Union[Dict[str, Any], str]) -> str:
     data_dict = typeconversion.json_to_dict(input_object)
 
     if data_dict["uid"] == "-1":
-        result = component_handler.add_component(data_dict)
-        return typeconversion.dict_to_json(result)
+        result_dict = component_handler.add_component(data_dict)
+        return typeconversion.dict_to_json(result_dict)
     else:
-        result = component_handler.edit_component(data_dict)
-        return typeconversion.dict_to_json(result)
+        result_dict = component_handler.edit_component(data_dict)
+        return typeconversion.dict_to_json(result_dict)
 
 
 def get_component(input_object: str) -> str:
@@ -36,10 +36,10 @@ def get_component(input_object: str) -> str:
     """
 
     data_dict = typeconversion.json_to_dict(input_object)
-    result = component_handler.get_component(data_dict)
-    output_object = typeconversion.dict_to_json(result)
+    component_dict = component_handler.get_component(data_dict)
+    output_json = typeconversion.dict_to_json(component_dict)
 
-    return output_object
+    return output_json
 
 
 def get_component_list() -> str:
@@ -48,10 +48,10 @@ def get_component_list() -> str:
     Returns:
         str: A JSON formatted compontent list
     """
-    component_list = component_handler.get_component_list()
-    output_object = typeconversion.dict_to_json(component_list)
+    component_list_dict = component_handler.get_component_list()
+    output_json = typeconversion.dict_to_json(component_list_dict)
 
-    return output_object
+    return output_json
 
 
 def delete_component(input_object: str) -> str:
@@ -65,7 +65,7 @@ def delete_component(input_object: str) -> str:
     """
     data_dict = typeconversion.json_to_dict(input_object)
 
-    success = component_handler.delete_component(data_dict)
-    output_object = typeconversion.dict_to_json(success)
+    result_dict = component_handler.delete_component(data_dict)
+    output_json = typeconversion.dict_to_json(result_dict)
 
-    return output_object
+    return output_json
