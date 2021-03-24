@@ -13,13 +13,15 @@ data = {
 data = {
     "success": True,
     "components": [
-        {"uid": "b141f94973a43cf8ee972e9dffc1b004",
+        {
+            "uid": "b141f94973a43cf8ee972e9dffc1b004",
          "name": "SQL Datenbank",
          "category": "Datenbank",
          "creation_timestamp": "20200219...",
          "last_timestamp": "20200219...",
          },
-        {"uid": "b141f94973a43cf8ee972e9dffc1b004",
+        {
+            "uid": "b141f94973a43cf8ee972e9dffc1b004",
          "name": "Oracle Datenbank",
          "category": "Datenbank",
          "creation_timestamp": "20200219...",

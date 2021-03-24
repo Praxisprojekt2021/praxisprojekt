@@ -1,34 +1,203 @@
 {
     "features": {
-        "feature1": {
-            "name": "Feature 1",
+        "code_quality": {
+            "name": "Code quality",
             "metrics": {
-                "metric1": {
-                    "name": "Metric 1",
+                "number_of_lines_of_source_code_loc": {
+                    "name": "Number of lines of source code (LOC)",
                     "max_value": -1,
                     "min_value": 0,
                     "helper_text": "The purpose of... We calculate it like this: ..."
                 },
-                "metric2": {
-                    "name": "Metric 2",
-                    "max_value": 20000,
+                "development_time": {
+                    "name": "Development time",
+                    "max_value": -1,
+                    "min_value": 0,
+                    "helper_text": "The purpose of... We calculate it like this: ..."
+                },
+                "code_review_frequency": {
+                    "name": "Code Review Frequency",
+                    "max_value": -1,
+                    "min_value": 0,
+                    "helper_text": "The purpose of... We calculate it like this: ..."
+                },
+                "comment_quality": {
+                    "name": "Comment quality",
+                    "max_value": -1,
                     "min_value": 0,
                     "helper_text": "The purpose of... We calculate it like this: ..."
                 }
             }
         },
-        "feature2": {
-            "name": "Feature 2",
+        "integrity": {
+            "name": "Integrity",
             "metrics": {
-                "metric3": {
-                    "name": "Metric 3",
+                "back-up": {
+                    "name": "Back-Up",
                     "max_value": -1,
                     "min_value": 0,
                     "helper_text": "The purpose of... We calculate it like this: ..."
                 },
-                "metric4": {
-                    "name": "Metric 4",
-                    "max_value": 20000,
+                "change_tracking": {
+                    "name": "Change tracking",
+                    "max_value": -1,
+                    "min_value": 0,
+                    "helper_text": "The purpose of... We calculate it like this: ..."
+                },
+                "patch_status_check": {
+                    "name": "Patch status check",
+                    "max_value": -1,
+                    "min_value": 0,
+                    "helper_text": "The purpose of... We calculate it like this: ..."
+                }
+            }
+        },
+        "usage": {
+            "name": "Usage",
+            "metrics": {
+                "complaints": {
+                    "name": "Complaints",
+                    "max_value": -1,
+                    "min_value": 0,
+                    "helper_text": "The purpose of... We calculate it like this: ..."
+                },
+                "training": {
+                    "name": "Training",
+                    "max_value": -1,
+                    "min_value": 0,
+                    "helper_text": "The purpose of... We calculate it like this: ..."
+                },
+                "automation": {
+                    "name": "Automation",
+                    "max_value": -1,
+                    "min_value": 0,
+                    "helper_text": "The purpose of... We calculate it like this: ..."
+                }
+            }
+        },
+        "test_quality": {
+            "name": "Test Quality",
+            "metrics": {
+                "test_automation": {
+                    "name": "Test Automation",
+                    "max_value": -1,
+                    "min_value": 0,
+                    "helper_text": "The purpose of... We calculate it like this: ..."
+                },
+                "ratio_of_late_corrections": {
+                    "name": "Ratio of late corrections",
+                    "max_value": -1,
+                    "min_value": 0,
+                    "helper_text": "The purpose of... We calculate it like this: ..."
+                },
+                "pre_post_release_faults_ratio": {
+                    "name": "Pre/Post Release Faults Ratio",
+                    "max_value": -1,
+                    "min_value": 0,
+                    "helper_text": "The purpose of... We calculate it like this: ..."
+                },
+                "error_during_testing": {
+                    "name": "Error during testing",
+                    "max_value": -1,
+                    "min_value": 0,
+                    "helper_text": "The purpose of... We calculate it like this: ..."
+                },
+                "testability": {
+                    "name": "Testability",
+                    "max_value": -1,
+                    "min_value": 0,
+                    "helper_text": "The purpose of... We calculate it like this: ..."
+                },
+                "test_scope": {
+                    "name": "Test scope",
+                    "max_value": -1,
+                    "min_value": 0,
+                    "helper_text": "The purpose of... We calculate it like this: ..."
+                }
+            }
+        },
+        "scope": {
+            "name": "Scope",
+            "metrics": {
+                "time_to_implement_updates": {
+                    "name": "Time to implement updates",
+                    "max_value": -1,
+                    "min_value": 0,
+                    "helper_text": "The purpose of... We calculate it like this: ..."
+                },
+                "external_support": {
+                    "name": "External Support",
+                    "max_value": -1,
+                    "min_value": 0,
+                    "helper_text": "The purpose of... We calculate it like this: ..."
+                },
+                "internal_support": {
+                    "name": "Internal Support",
+                    "max_value": -1,
+                    "min_value": 0,
+                    "helper_text": "The purpose of... We calculate it like this: ..."
+                }
+            }
+        },
+        "availability": {
+            "name": "Availability",
+            "metrics": {
+                "number_of_views_per_day": {
+                    "name": "Number of views per day",
+                    "max_value": -1,
+                    "min_value": 0,
+                    "helper_text": "The purpose of... We calculate it like this: ..."
+                },
+                "restart": {
+                    "name": "Restart",
+                    "max_value": -1,
+                    "min_value": 0,
+                    "helper_text": "The purpose of... We calculate it like this: ..."
+                },
+                "downtime": {
+                    "name": "Downtime",
+                    "max_value": -1,
+                    "min_value": 0,
+                    "helper_text": "The purpose of... We calculate it like this: ..."
+                },
+                "maximum_downtime_at_a_time": {
+                    "name": "Maximum downtime at a time",
+                    "max_value": -1,
+                    "min_value": 0,
+                    "helper_text": "The purpose of... We calculate it like this: ..."
+                },
+                "restore_time": {
+                    "name": "Restore time",
+                    "max_value": -1,
+                    "min_value": 0,
+                    "helper_text": "The purpose of... We calculate it like this: ..."
+                },
+                "planned_maintenance_percentage": {
+                    "name": "Planned Maintenance Percentage (PMP)",
+                    "max_value": -1,
+                    "min_value": 0,
+                    "helper_text": "The purpose of... We calculate it like this: ..."
+                },
+                "redundancy": {
+                    "name": "Redundancy",
+                    "max_value": -1,
+                    "min_value": 0,
+                    "helper_text": "The purpose of... We calculate it like this: ..."
+                }
+            }
+        },
+        "confidentiality": {
+            "name": "Confidentiality",
+            "metrics": {
+                "number_of_administrators": {
+                    "name": "Number of administrators",
+                    "max_value": -1,
+                    "min_value": 0,
+                    "helper_text": "The purpose of... We calculate it like this: ..."
+                },
+                "encryption": {
+                    "name": "Encryption",
+                    "max_value": -1,
                     "min_value": 0,
                     "helper_text": "The purpose of... We calculate it like this: ..."
                 }
@@ -49,27 +218,147 @@
             }
         },
         "databases": {
-            "name": "Datenbanken",
+            "name": "Databases",
             "sections": {
-                "feature1": "true",
-                "feature2": "true",
+                "code_quality": "true",
+                "integrity": "true",
+                "usage": "true",
+                "test_quality": "true",
                 "scope": "true",
-                "effort": "true",
-                "test-quality": "true",
-                "human": "true",
-                "object-orientation": "true"
+                "availability": "true",
+                "confidentiality": "true"
             }
         },
         "interfaces": {
             "name": "Interfaces",
             "sections": {
-                "feature1": "true",
-                "feature2": "true",
+                "code_quality": "true",
+                "integrity": "true",
+                "usage": "true",
+                "test_quality": "true",
                 "scope": "true",
-                "effort": "true",
-                "test-quality": "true",
-                "human": "false",
-                "object-orientation": "false"
+                "availability": "true",
+                "confidentiality": "true"
+            }
+        },
+        "server_web_mail_ftp": {
+            "name": "Server (Web/Mail/FTP)",
+            "sections": {
+                "code_quality": "true",
+                "integrity": "true",
+                "usage": "true",
+                "test_quality": "true",
+                "scope": "true",
+                "availability": "true",
+                "confidentiality": "true"
+            }
+        },
+        "firewall": {
+            "name": "Firewall",
+            "sections": {
+                "code_quality": "true",
+                "integrity": "true",
+                "usage": "true",
+                "test_quality": "true",
+                "scope": "true",
+                "availability": "true",
+                "confidentiality": "true"
+            }
+        },
+        "ui": {
+            "name": "UI",
+            "sections": {
+                "code_quality": "true",
+                "integrity": "true",
+                "usage": "true",
+                "test_quality": "true",
+                "scope": "true",
+                "availability": "true",
+                "confidentiality": "true"
+            }
+        },
+        "api_gateway": {
+            "name": "API Gateway",
+            "sections": {
+                "code_quality": "true",
+                "integrity": "true",
+                "usage": "true",
+                "test_quality": "true",
+                "scope": "true",
+                "availability": "true",
+                "confidentiality": "true"
+            }
+        },
+        "application_gateway": {
+            "name": "Application Gateway",
+            "sections": {
+                "code_quality": "true",
+                "integrity": "true",
+                "usage": "true",
+                "test_quality": "true",
+                "scope": "true",
+                "availability": "true",
+                "confidentiality": "true"
+            }
+        },
+        "application_services_self-developed": {
+            "name": "Applications and Services (self-developed)",
+            "sections": {
+                "code_quality": "true",
+                "integrity": "true",
+                "usage": "true",
+                "test_quality": "true",
+                "scope": "true",
+                "availability": "true",
+                "confidentiality": "true"
+            }
+        },
+        "loadbalancer": {
+            "name": "Loadbalancer",
+            "sections": {
+                "code_quality": "true",
+                "integrity": "true",
+                "usage": "true",
+                "test_quality": "true",
+                "scope": "true",
+                "availability": "true",
+                "confidentiality": "true"
+            }
+        },
+        "identity_provider": {
+            "name": "Identity Provider",
+            "sections": {
+                "code_quality": "true",
+                "integrity": "true",
+                "usage": "true",
+                "test_quality": "true",
+                "scope": "true",
+                "availability": "true",
+                "confidentiality": "true"
+            }
+        },
+        "standard_software": {
+            "name": "Standard Software",
+            "sections": {
+                "code_quality": "true",
+                "integrity": "true",
+                "usage": "true",
+                "test_quality": "true",
+                "scope": "true",
+                "availability": "true",
+                "confidentiality": "true"
+            }
+        },
+        "individual_software_bought": {
+            "name": "Individual Software (bought)",
+            "sections": {
+                "code_quality": "true",
+                "integrity": "true",
+                "usage": "true",
+                "test_quality": "true",
+                "scope": "true",
+                "availability": "true",
+                "confidentiality": "true"
             }
         }
     }
