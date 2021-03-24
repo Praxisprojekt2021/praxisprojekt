@@ -1,27 +1,3 @@
-Number of lines sourcecode,Number of actual lines of code excluding empty lines and comments.
-Development time,Number of development day needed for development of a patch.
-Frequency Codereview,Number of code reviews per year.
-Quality of comments,Ratio commentary to non-commentary lines of code.
-Backup, Number of backups created per month.
-Change tracking,Are changes in the components logged/recorded?
-Patch status,Number of system checks for their patch status.
-Complaints,Number of complaints per year.
-Training,Have all users of the software been adequately trained?
-Automation,Can the component be operated automatically?
-Test_Automation,Ratio of automated test cases to the totality of test cases.
-ratio of dalyed corrections,Ratio of corrections not finished in time to totality of corrections.
-Release_Faults_Ratio,Number of errors discovered post-release in relation to totality of errors discovered.
-Test errors,Number of successful tests in relation to all tests.
-Testability,Number of different test cases.
-Test Scope,Number of hours the test took.
-Update implementation time,Time needed to implement an update in days.
-External support,Is there external support?
-Internal support,Is there internal support?
-requests per day,Number of requests the system can handle per day.
-Downtime,Average downtime per year in minutes.
-Max. downtime in a row,Max. downtime in a row during the last year in minutes.
-Time between crashes,Average time between all crashes during the last year, in days.
-Planned maintainance ratio,Number of actual maintainance hours in relation to planned maintainance hours per year.
-Redundancy,Is the component redundantly available?
-Number of admins,Number of admins for the component.
-Encryption,Is the data sufficienty encrypted?
+codelines,
+admins,
+recovery_time,

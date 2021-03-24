@@ -90,6 +90,7 @@ def get_component(uid_dict: dict) -> dict:
         metrics_dict[key.name] = relationship.value
     component_dict["metrics"] = metrics_dict
     del component_dict["hasMetric"]
+    del component_dict["id"]
     component_dict.update({"success": True})
 
     return component_dict
