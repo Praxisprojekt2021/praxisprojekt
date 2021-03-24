@@ -1,365 +1,372 @@
 {
-    "features": {
-        "code_quality": {
-            "name": "Code quality",
-            "metrics": {
-                "number_of_lines_of_source_code_loc": {
-                    "name": "Number of lines of source code (LOC)",
-                    "max_value": -1,
-                    "min_value": 0,
-                    "helper_text": "The purpose of... We calculate it like this: ..."
-                },
-                "development_time": {
-                    "name": "Development time",
-                    "max_value": -1,
-                    "min_value": 0,
-                    "helper_text": "The purpose of... We calculate it like this: ..."
-                },
-                "code_review_frequency": {
-                    "name": "Code Review Frequency",
-                    "max_value": -1,
-                    "min_value": 0,
-                    "helper_text": "The purpose of... We calculate it like this: ..."
-                },
-                "comment_quality": {
-                    "name": "Comment quality",
-                    "max_value": -1,
-                    "min_value": 0,
-                    "helper_text": "The purpose of... We calculate it like this: ..."
-                }
-            }
+  "features": {
+    "code_quality": {
+      "name": "Code quality",
+      "metrics": {
+        "number_of_lines_of_source_code_loc": {
+          "name": "Number of lines of source code (LOC)",
+          "max_value": -1,
+          "min_value": 0,
+          "helper_text": " Sum of actual code lines excl. blank and comment lines: ..."
         },
-        "integrity": {
-            "name": "Integrity",
-            "metrics": {
-                "back-up": {
-                    "name": "Back-Up",
-                    "max_value": -1,
-                    "min_value": 0,
-                    "helper_text": "The purpose of... We calculate it like this: ..."
-                },
-                "change_tracking": {
-                    "name": "Change tracking",
-                    "max_value": -1,
-                    "min_value": 0,
-                    "helper_text": "The purpose of... We calculate it like this: ..."
-                },
-                "patch_status_check": {
-                    "name": "Patch status check",
-                    "max_value": -1,
-                    "min_value": 0,
-                    "helper_text": "The purpose of... We calculate it like this: ..."
-                }
-            }
+        "development_time": {
+          "name": "Development time",
+          "max_value": -1,
+          "min_value": 0,
+          "helper_text": "How long does the development of a patch take in developer days: ..."
         },
-        "usage": {
-            "name": "Usage",
-            "metrics": {
-                "complaints": {
-                    "name": "Complaints",
-                    "max_value": -1,
-                    "min_value": 0,
-                    "helper_text": "The purpose of... We calculate it like this: ..."
-                },
-                "training": {
-                    "name": "Training",
-                    "max_value": -1,
-                    "min_value": 0,
-                    "helper_text": "The purpose of... We calculate it like this: ..."
-                },
-                "automation": {
-                    "name": "Automation",
-                    "max_value": -1,
-                    "min_value": 0,
-                    "helper_text": "The purpose of... We calculate it like this: ..."
-                }
-            }
+        "code_review_frequency": {
+          "name": "Code Review Frequency",
+          "max_value": 365,
+          "min_value": 0,
+          "helper_text": "How often is the code reviewed per year: ..."
         },
-        "test_quality": {
-            "name": "Test Quality",
-            "metrics": {
-                "test_automation": {
-                    "name": "Test Automation",
-                    "max_value": -1,
-                    "min_value": 0,
-                    "helper_text": "The purpose of... We calculate it like this: ..."
-                },
-                "ratio_of_late_corrections": {
-                    "name": "Ratio of late corrections",
-                    "max_value": -1,
-                    "min_value": 0,
-                    "helper_text": "The purpose of... We calculate it like this: ..."
-                },
-                "pre_post_release_faults_ratio": {
-                    "name": "Pre/Post Release Faults Ratio",
-                    "max_value": -1,
-                    "min_value": 0,
-                    "helper_text": "The purpose of... We calculate it like this: ..."
-                },
-                "error_during_testing": {
-                    "name": "Error during testing",
-                    "max_value": -1,
-                    "min_value": 0,
-                    "helper_text": "The purpose of... We calculate it like this: ..."
-                },
-                "testability": {
-                    "name": "Testability",
-                    "max_value": -1,
-                    "min_value": 0,
-                    "helper_text": "The purpose of... We calculate it like this: ..."
-                },
-                "test_scope": {
-                    "name": "Test scope",
-                    "max_value": -1,
-                    "min_value": 0,
-                    "helper_text": "The purpose of... We calculate it like this: ..."
-                }
-            }
-        },
-        "scope": {
-            "name": "Scope",
-            "metrics": {
-                "time_to_implement_updates": {
-                    "name": "Time to implement updates",
-                    "max_value": -1,
-                    "min_value": 0,
-                    "helper_text": "The purpose of... We calculate it like this: ..."
-                },
-                "external_support": {
-                    "name": "External Support",
-                    "max_value": -1,
-                    "min_value": 0,
-                    "helper_text": "The purpose of... We calculate it like this: ..."
-                },
-                "internal_support": {
-                    "name": "Internal Support",
-                    "max_value": -1,
-                    "min_value": 0,
-                    "helper_text": "The purpose of... We calculate it like this: ..."
-                }
-            }
-        },
-        "availability": {
-            "name": "Availability",
-            "metrics": {
-                "number_of_views_per_day": {
-                    "name": "Number of views per day",
-                    "max_value": -1,
-                    "min_value": 0,
-                    "helper_text": "The purpose of... We calculate it like this: ..."
-                },
-                "restart": {
-                    "name": "Restart",
-                    "max_value": -1,
-                    "min_value": 0,
-                    "helper_text": "The purpose of... We calculate it like this: ..."
-                },
-                "downtime": {
-                    "name": "Downtime",
-                    "max_value": -1,
-                    "min_value": 0,
-                    "helper_text": "The purpose of... We calculate it like this: ..."
-                },
-                "maximum_downtime_at_a_time": {
-                    "name": "Maximum downtime at a time",
-                    "max_value": -1,
-                    "min_value": 0,
-                    "helper_text": "The purpose of... We calculate it like this: ..."
-                },
-                "restore_time": {
-                    "name": "Restore time",
-                    "max_value": -1,
-                    "min_value": 0,
-                    "helper_text": "The purpose of... We calculate it like this: ..."
-                },
-                "planned_maintenance_percentage": {
-                    "name": "Planned Maintenance Percentage (PMP)",
-                    "max_value": -1,
-                    "min_value": 0,
-                    "helper_text": "The purpose of... We calculate it like this: ..."
-                },
-                "redundancy": {
-                    "name": "Redundancy",
-                    "max_value": -1,
-                    "min_value": 0,
-                    "helper_text": "The purpose of... We calculate it like this: ..."
-                }
-            }
-        },
-        "confidentiality": {
-            "name": "Confidentiality",
-            "metrics": {
-                "number_of_administrators": {
-                    "name": "Number of administrators",
-                    "max_value": -1,
-                    "min_value": 0,
-                    "helper_text": "The purpose of... We calculate it like this: ..."
-                },
-                "encryption": {
-                    "name": "Encryption",
-                    "max_value": -1,
-                    "min_value": 0,
-                    "helper_text": "The purpose of... We calculate it like this: ..."
-                }
-            }
+        "comment_quality": {
+          "name": "Comment quality",
+          "max_value": 100,
+          "min_value": 0,
+          "helper_text": "Ratio of comments to total code lines: ..."
         }
+      }
     },
-    "categories": {
-        "default": {
-            "name": "Default",
-            "sections": {
-                "feature1": "false",
-                "feature2": "false",
-                "scope": "false",
-                "effort": "false",
-                "test-quality": "false",
-                "human": "false",
-                "object-orientation": "false"
-            }
+    "integrity": {
+      "name": "Integrity",
+      "metrics": {
+        "back-up": {
+          "name": "Back-Up",
+          "max_value": -1,
+          "min_value": 0,
+          "helper_text": "How often are backups created (per month)? Usually one day full backup and other incremental/differential: ..."
         },
-        "databases": {
-            "name": "Databases",
-            "sections": {
-                "code_quality": "true",
-                "integrity": "true",
-                "usage": "true",
-                "test_quality": "true",
-                "scope": "true",
-                "availability": "true",
-                "confidentiality": "true"
-            }
+        "change_tracking": {
+          "name": "Change tracking",
+          "max_value": 1,
+          "min_value": 0,
+          "helper_text": "Are changes logged/held in the components: ..."
         },
-        "interfaces": {
-            "name": "Interfaces",
-            "sections": {
-                "code_quality": "true",
-                "integrity": "true",
-                "usage": "true",
-                "test_quality": "true",
-                "scope": "true",
-                "availability": "true",
-                "confidentiality": "true"
-            }
-        },
-        "server_web_mail_ftp": {
-            "name": "Server (Web/Mail/FTP)",
-            "sections": {
-                "code_quality": "true",
-                "integrity": "true",
-                "usage": "true",
-                "test_quality": "true",
-                "scope": "true",
-                "availability": "true",
-                "confidentiality": "true"
-            }
-        },
-        "firewall": {
-            "name": "Firewall",
-            "sections": {
-                "code_quality": "true",
-                "integrity": "true",
-                "usage": "true",
-                "test_quality": "true",
-                "scope": "true",
-                "availability": "true",
-                "confidentiality": "true"
-            }
-        },
-        "ui": {
-            "name": "UI",
-            "sections": {
-                "code_quality": "true",
-                "integrity": "true",
-                "usage": "true",
-                "test_quality": "true",
-                "scope": "true",
-                "availability": "true",
-                "confidentiality": "true"
-            }
-        },
-        "api_gateway": {
-            "name": "API Gateway",
-            "sections": {
-                "code_quality": "true",
-                "integrity": "true",
-                "usage": "true",
-                "test_quality": "true",
-                "scope": "true",
-                "availability": "true",
-                "confidentiality": "true"
-            }
-        },
-        "application_gateway": {
-            "name": "Application Gateway",
-            "sections": {
-                "code_quality": "true",
-                "integrity": "true",
-                "usage": "true",
-                "test_quality": "true",
-                "scope": "true",
-                "availability": "true",
-                "confidentiality": "true"
-            }
-        },
-        "application_services_self-developed": {
-            "name": "Applications and Services (self-developed)",
-            "sections": {
-                "code_quality": "true",
-                "integrity": "true",
-                "usage": "true",
-                "test_quality": "true",
-                "scope": "true",
-                "availability": "true",
-                "confidentiality": "true"
-            }
-        },
-        "loadbalancer": {
-            "name": "Loadbalancer",
-            "sections": {
-                "code_quality": "true",
-                "integrity": "true",
-                "usage": "true",
-                "test_quality": "true",
-                "scope": "true",
-                "availability": "true",
-                "confidentiality": "true"
-            }
-        },
-        "identity_provider": {
-            "name": "Identity Provider",
-            "sections": {
-                "code_quality": "true",
-                "integrity": "true",
-                "usage": "true",
-                "test_quality": "true",
-                "scope": "true",
-                "availability": "true",
-                "confidentiality": "true"
-            }
-        },
-        "standard_software": {
-            "name": "Standard Software",
-            "sections": {
-                "code_quality": "true",
-                "integrity": "true",
-                "usage": "true",
-                "test_quality": "true",
-                "scope": "true",
-                "availability": "true",
-                "confidentiality": "true"
-            }
-        },
-        "individual_software_bought": {
-            "name": "Individual Software (bought)",
-            "sections": {
-                "code_quality": "true",
-                "integrity": "true",
-                "usage": "true",
-                "test_quality": "true",
-                "scope": "true",
-                "availability": "true",
-                "confidentiality": "true"
-            }
+        "patch_status_check": {
+          "name": "Patch status check",
+          "max_value": -1,
+          "min_value": 0,
+          "helper_text": "How often are systems checked for patch status?: ..."
         }
+      }
+    },
+    "usage": {
+      "name": "Usage",
+      "metrics": {
+        "complaints": {
+          "name": "Complaints",
+          "max_value": -1,
+          "min_value": 0,
+          "helper_text": "Number of user complaints per month: ..."
+        },
+        "training": {
+          "name": "Training",
+          "max_value": 1,
+          "min_value": 0,
+          "helper_text": "Have all users of the software been adequately trained: ..."
+        },
+        "automation": {
+          "name": "Automation",
+          "max_value": 1,
+          "min_value": 0,
+          "helper_text": "Can the component be operated automatically: ..."
+        }
+      }
+    },
+    "test_quality": {
+      "name": "Test Quality",
+      "metrics": {
+        "test_automation": {
+          "name": "Test Automation",
+          "max_value": 100,
+          "min_value": 0,
+          "helper_text": "Ratio of automated test cases to the total of all test cases.: ..."
+        },
+        "ratio_of_late_corrections": {
+          "name": "Ratio of late corrections",
+          "max_value": 100,
+          "min_value": 0,
+          "helper_text": "Ratio: bugs that were not fixed within the scheduled time period and bugs that were fixed within the time period.: ..."
+        },
+        "pre_post_release_faults_ratio": {
+          "name": "Pre/Post Release Faults Ratio",
+          "max_value": 100,
+          "min_value": 0,
+          "helper_text": "Number of detected bugs, before and after release. Good index: 90% of bugs detected before release: ..."
+        },
+        "error_during_testing": {
+          "name": "Error during testing",
+          "max_value": 100,
+          "min_value": 0,
+          "helper_text": "Indicates how high the number of successful tests is in relation to all tests: ..."
+        },
+        "testability": {
+          "name": "Testability",
+          "max_value": -1,
+          "min_value": 0,
+          "helper_text": "How many different test cases are there: ..."
+        },
+        "test_scope": {
+          "name": "Test scope",
+          "max_value": -1,
+          "min_value": 0,
+          "helper_text": "How many hours were tested: ..."
+        }
+      }
+    },
+    "scope": {
+      "name": "Scope",
+      "metrics": {
+        "time_to_implement_updates": {
+          "name": "Time to implement updates",
+          "max_value": -1,
+          "min_value": 0,
+          "helper_text": "Time to update after release in days (until they are installed on all systems/components): ..."
+        },
+        "external_support": {
+          "name": "External Support",
+          "max_value": 1,
+          "min_value": 0,
+          "helper_text": "Is external support available: ..."
+        },
+        "internal_support": {
+          "name": "Internal Support",
+          "max_value": 1,
+          "min_value": 0,
+          "helper_text": "Is internal support available?: ..."
+        }
+      }
+    },
+    "availability": {
+      "name": "Availability",
+      "metrics": {
+        "number_of_views_per_day": {
+          "name": "Number of views per day",
+          "max_value": -1,
+          "min_value": 0,
+          "helper_text": "How many calls can the system handle in a day. Note: Average calls are considered (related to complexity): ..."
+        },
+        "restart": {
+          "name": "Restart",
+          "max_value": -1,
+          "min_value": 0,
+          "helper_text": "How long does a complete restart of the component take in minutes: ..."
+        },
+        "downtime": {
+          "name": "Downtime",
+          "max_value": -1,
+          "min_value": 0,
+          "helper_text": "Average downtime per year in minutes 99.999% (5 Nines Standard Uptime) --> 5min downtime per year 99% Uptime --> 3.6T: ..."
+        },
+        "maximum_downtime_at_a_time": {
+          "name": "Maximum downtime at a time",
+          "max_value": -1,
+          "min_value": 0,
+          "helper_text": "Maximum downtime at a stretch within the last year in minutes: ..."
+        },
+        "time_between_failures": {
+          "name": "Time between failures",
+          "max_value": -1,
+          "min_value": 0,
+          "helper_text": "Average time between crashes that occurred within the last year, in days: ..."
+        },
+        "restore_time": {
+          "name": "Restore time",
+          "max_value": -1,
+          "min_value": 0,
+          "helper_text": "Average time until the system is functional again after a failure in minutes: ..."
+        },
+        "planned_maintenance_percentage": {
+          "name": "Planned Maintenance Percentage (PMP)",
+          "max_value": -1,
+          "min_value": 0,
+          "helper_text": "Number of total maintenance hours in one year/Number of planned maintenance hours in one year: ..."
+        },
+        "redundancy": {
+          "name": "Redundancy",
+          "max_value": 1,
+          "min_value": 0,
+          "helper_text": "Is the component redundant: ..."
+        }
+      }
+    },
+    "confidentiality": {
+      "name": "Confidentiality",
+      "metrics": {
+        "number_of_administrators": {
+          "name": "Number of administrators",
+          "max_value": -1,
+          "min_value": 0,
+          "helper_text": "How many administrators are there for the component: ..."
+        },
+        "encryption": {
+          "name": "Encryption",
+          "max_value": 1,
+          "min_value": 0,
+          "helper_text": "Is the data sufficiently encrypted..."
+        }
+      }
     }
+  },
+  "categories": {
+    "default": {
+      "name": "Default",
+      "sections": {
+        "feature1": "false",
+        "feature2": "false",
+        "scope": "false",
+        "effort": "false",
+        "test-quality": "false",
+        "human": "false",
+        "object-orientation": "false"
+      }
+    },
+    "databases": {
+      "name": "Databases",
+      "sections": {
+        "code_quality": "true",
+        "integrity": "true",
+        "usage": "true",
+        "test_quality": "true",
+        "scope": "true",
+        "availability": "true",
+        "confidentiality": "true"
+      }
+    },
+    "interfaces": {
+      "name": "Interfaces",
+      "sections": {
+        "code_quality": "true",
+        "integrity": "true",
+        "usage": "true",
+        "test_quality": "true",
+        "scope": "true",
+        "availability": "true",
+        "confidentiality": "true"
+      }
+    },
+    "server_web_mail_ftp": {
+      "name": "Server (Web/Mail/FTP)",
+      "sections": {
+        "code_quality": "true",
+        "integrity": "true",
+        "usage": "true",
+        "test_quality": "true",
+        "scope": "true",
+        "availability": "true",
+        "confidentiality": "true"
+      }
+    },
+    "firewall": {
+      "name": "Firewall",
+      "sections": {
+        "code_quality": "true",
+        "integrity": "true",
+        "usage": "true",
+        "test_quality": "true",
+        "scope": "true",
+        "availability": "true",
+        "confidentiality": "true"
+      }
+    },
+    "ui": {
+      "name": "UI",
+      "sections": {
+        "code_quality": "true",
+        "integrity": "true",
+        "usage": "true",
+        "test_quality": "true",
+        "scope": "true",
+        "availability": "true",
+        "confidentiality": "true"
+      }
+    },
+    "api_gateway": {
+      "name": "API Gateway",
+      "sections": {
+        "code_quality": "true",
+        "integrity": "true",
+        "usage": "true",
+        "test_quality": "true",
+        "scope": "true",
+        "availability": "true",
+        "confidentiality": "true"
+      }
+    },
+    "application_gateway": {
+      "name": "Application Gateway",
+      "sections": {
+        "code_quality": "true",
+        "integrity": "true",
+        "usage": "true",
+        "test_quality": "true",
+        "scope": "true",
+        "availability": "true",
+        "confidentiality": "true"
+      }
+    },
+    "application_services_self-developed": {
+      "name": "Applications and Services (self-developed)",
+      "sections": {
+        "code_quality": "true",
+        "integrity": "true",
+        "usage": "true",
+        "test_quality": "true",
+        "scope": "true",
+        "availability": "true",
+        "confidentiality": "true"
+      }
+    },
+    "loadbalancer": {
+      "name": "Loadbalancer",
+      "sections": {
+        "code_quality": "true",
+        "integrity": "true",
+        "usage": "true",
+        "test_quality": "true",
+        "scope": "true",
+        "availability": "true",
+        "confidentiality": "true"
+      }
+    },
+    "identity_provider": {
+      "name": "Identity Provider",
+      "sections": {
+        "code_quality": "true",
+        "integrity": "true",
+        "usage": "true",
+        "test_quality": "true",
+        "scope": "true",
+        "availability": "true",
+        "confidentiality": "true"
+      }
+    },
+    "standard_software": {
+      "name": "Standard Software",
+      "sections": {
+        "code_quality": "true",
+        "integrity": "true",
+        "usage": "true",
+        "test_quality": "true",
+        "scope": "true",
+        "availability": "true",
+        "confidentiality": "true"
+      }
+    },
+    "individual_software_bought": {
+      "name": "Individual Software (bought)",
+      "sections": {
+        "code_quality": "true",
+        "integrity": "true",
+        "usage": "true",
+        "test_quality": "true",
+        "scope": "true",
+        "availability": "true",
+        "confidentiality": "true"
+      }
+    }
+  }
 }
+
