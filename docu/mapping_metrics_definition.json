@@ -5,7 +5,7 @@
             "metrics": {
                 "metric1": {
                     "name": "Metric 1",
-                    "max_value": -1,     // wenn es keinen max_value gibt
+                    "max_value": -1,
                     "min_value": 0,
                     "helper_text": "The purpose of... We calculate it like this: ..."
                 },
@@ -22,7 +22,7 @@
             "metrics": {
                 "metric3": {
                     "name": "Metric 3",
-                    "max_value": -1,    // wenn es keinen max_value gibt
+                    "max_value": -1,
                     "min_value": 0,
                     "helper_text": "The purpose of... We calculate it like this: ..."
                 },
