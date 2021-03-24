@@ -53,7 +53,7 @@ function processComponentData(json_data) {
         // Component data has been received
 
         // Set id and data fields
-        document.getElementById('component-id').value = json_data['id'];
+        document.getElementById('component-id').value = json_data['uid'];
         document.getElementById('component-name').value = json_data['name'];
         document.getElementById('component-description-textarea').value = json_data['description'];
 
