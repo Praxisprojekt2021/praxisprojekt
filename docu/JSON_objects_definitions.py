@@ -13,13 +13,13 @@ data = {
 data = {
     "success": True,
     "components": [
-        {"id": 1,
+        {"uid": "b141f94973a43cf8ee972e9dffc1b004",
          "name": "SQL Datenbank",
          "category": "Datenbank",
          "creation_timestamp": "20200219...",
          "last_timestamp": "20200219...",
          },
-        {"id": 2,
+        {"uid": "b141f94973a43cf8ee972e9dffc1b004",
          "name": "Oracle Datenbank",
          "category": "Datenbank",
          "creation_timestamp": "20200219...",
@@ -33,13 +33,13 @@ data = {
 # get single component
 # Frontend -> Backend -> Database
 data = {
-    "id": 1,
+    "uid": "b141f94973a43cf8ee972e9dffc1b004",
 }
 
 # Database -> Backend -> Frontend
 data = {
     "success": True,
-    "id": 1,
+    "uid": "b141f94973a43cf8ee972e9dffc1b004",
     "name": "SQL Datenbank",
     "category": "Datenbank",
     "description": "Datenbank zu xy mit ...",
@@ -57,7 +57,7 @@ data = {
 # edit single component
 # Frontend -> Backend -> Database
 data = {
-    "id": 1,
+    "uid": "b141f94973a43cf8ee972e9dffc1b004",
     "name": "SQL Datenbank",
     "category": "Datenbank",
     "description": "Datenbank zu xy mit ...",
@@ -77,7 +77,7 @@ data = {
 # delete single component
 # Frontend -> Backend -> Database
 data = {
-    "id": 1,
+    "uid": "b141f94973a43cf8ee972e9dffc1b004",
 }
 
 # Database -> Backend -> Frontend
@@ -89,7 +89,7 @@ data = {
 # add a single component
 # Frontend -> Backend -> Database
 data = {
-    "id": -1,  # wichtig -> als Indikator, dass neu angelegt und daher kein update sondern create
+    "uid": -1,  # wichtig -> als Indikator, dass neu angelegt und daher kein update sondern create
     "name": "SQL Datenbank",
     "category": "Datenbank",
     "description": "Datenbank zu xy mit ...",
@@ -112,24 +112,22 @@ data = {
     "success": True,
     "process": [
         {
-            "id": 1,
+            "uid": "b141f94973a43cf8ee972e9dffc1b004",
             "name": "Kunde anlegen",
             "creation_timestamp": "20210210...",
             "last_timestamp": "20200211...",
-            "components_count": 4,
             # erst ab Backend nach Risk calc
             "score": 80,
-            "number_components": 5,
+            "components_count": 4,
         },
         {
-            "id": 2,
+            "uid": "b141f94973a43cf8ee972e9dffc1b004",
             "name": "Kunde löschen",
             "creation_timestamp": "20210209...",
             "last_timestamp": "20210210...",
-            "components_count": 15,
             # erst ab Backend nach Risk calc
             "score": 40,
-            "number_components": 2,
+            "components_count": 15,
         }
         # ...
     ]
@@ -139,7 +137,7 @@ data = {
 # delete process
 # Frontend -> Backend -> Database
 data = {
-    "id": 1,
+    "uid": "b141f94973a43cf8ee972e9dffc1b004",
 }
 
 # Database -> Backend -> Frontend
@@ -151,21 +149,21 @@ data = {
 # view process
 # Frontend -> Backend -> Database
 data = {
-    "id": 125,
+    "uid": "b141f94973a43cf8ee972e9dffc1b004",
 }
 
 # Database -> Backend -> Frontend
 data = {
     "success": True,
     "process": {
-        "id": 125,
+        "uid": "b141f94973a43cf8ee972e9dffc1b004",
         "name": "Kunde anlegen",
         "description": "Prozess zum anlegen von einem neuen Kunden in allen Systemen",
         "creation_timestamp": "20210210...",
         "last_timestamp": "20200211...",
         "components": [
             {
-                "id": 1,
+                "uid": "b141f94973a43cf8ee972e9dffc1b004",
                 "weight": 1,  # different from single component view!
                 "name": "SQL Datenbank",
                 "category": "Datenbank",
@@ -180,7 +178,7 @@ data = {
                 }
             },
             {
-                "id": 3,
+                "uid": "b141f94973a43cf8ee972e9dffc1b004",
                 "weight": 1.5,
                 "name": "Frontend API",
                 "category": "API",
@@ -195,7 +193,7 @@ data = {
                 }
             },
             {
-                "id": 2,
+                "uid": "b141f94973a43cf8ee972e9dffc1b004",
                 "weight": 2,
                 "name": "Hadoop Cluster",
                 "category": "Datenbank",
@@ -239,7 +237,7 @@ data = {
 # Frontend -> Backend -> Database
 data = {
     "process": {
-        "id": -1,  # when -1 it indicates that it is a new process, anything else indicates its an update
+        "uid": -1,  # when -1 it indicates that it is a new process, anything else indicates its an update
         "name": "Kunde anlegen",
         "description": "Prozess zum anlegen von einem neuen Kunden in allen Systemen",
         "creation_timestamp": "20210210...",
@@ -266,7 +264,7 @@ data = {
 # delete process
 # Frontend -> Backend -> Database
 data = {
-    "id": 125,  # process id not component id
+    "uid": "b141f94973a43cf8ee972e9dffc1b004",  # process uid not component uid
     "weight": 2
 }
 
@@ -282,7 +280,7 @@ data = {
 # edit process step
 # Frontend -> Backend -> Database
 data = {
-    "id": 125,  # process id not component id
+    "uid": "b141f94973a43cf8ee972e9dffc1b004",  # process uid not component uid
     "old_weight": 3,
     "new_weight": 2.5
 }
@@ -299,8 +297,8 @@ data = {
 # create process step
 # Frontend -> Backend -> Database
 data = {
-    "process_id": 125,
-    "component_id": 126,
+    "process_uid": "b141f94973a43cf8ee972e9dffc1b004",
+    "component_uid": "b141f94973a43cf8ee972e9dffc1b005",
     "weight": 2.5
 }
 
@@ -318,14 +316,14 @@ data = {
 data = {
     "success": True,
     "process": {
-        "id": 111,
+        "uid": "b141f94973a43cf8ee972e9dffc1b004",
         "name": "Kunde anlegen",
         "description": "Prozess zum anlegen von einem neuen Kunden in allen Systemen",
         "creation_timestamp": "20210210...",
         "last_timestamp": "20200211...",
         "components": [
             {
-                "id": 12,
+                "uid": "b141f94973a43cf8ee972e9dffc1b004",
                 "weight": 1,  # different from single component view!
                 "name": "SQL Datenbank",
                 "category": "Datenbank",
@@ -340,7 +338,7 @@ data = {
                 ]
             },
             {
-                "id": 3,
+                "uid": "b141f94973a43cf8ee972e9dffc1b004",
                 "weight": 1.5,
                 "name": "Frontend API",
                 "category": "API",
@@ -355,7 +353,7 @@ data = {
                 ]
             },
             {
-                "id": 2,
+                "uid": "b141f94973a43cf8ee972e9dffc1b004",
                 "weight": 2,
                 "name": "Hadoop Cluster",
                 "category": "Datenbank",
