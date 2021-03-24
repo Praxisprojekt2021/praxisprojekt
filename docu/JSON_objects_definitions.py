@@ -116,16 +116,18 @@ data = {
             "name": "Kunde anlegen",
             "creation_timestamp": "20210210...",
             "last_timestamp": "20200211...",
+            "components_count": 4,
             # erst ab Backend nach Risk calc
-            "viv_score": 80,
+            "score": 80,
         },
         {
             "id": 2,
             "name": "Kunde löschen",
             "creation_timestamp": "20210209...",
             "last_timestamp": "20210210...",
+            "components_count": 15,
             # erst ab Backend nach Risk calc
-            "viv_score": 40,
+            "score": 40,
         }
         # ...
     ]
@@ -215,7 +217,7 @@ data = {
         # ...
     },
     # ab jetzt erst ab Backend durch Risk calc
-    "viv_score": 80,  # percent as integer
+    "score": 80,  # percent as integer
     "is_metrics": {
         "codelines": [True, 30],  # true means that the metric is fine --> no problem.
         "admins": [True, 30],
@@ -378,7 +380,7 @@ data = {
 
 # Backend Processing -> Backend Core
 data = {
-    "viv_score": 80,  # percent as integer
+    "score": 80,  # percent as integer
     "is_metrics": {
         "codelines": [True, 30],  # true means that the metric is fine --> no problem.
         "admins": [True, 30],
