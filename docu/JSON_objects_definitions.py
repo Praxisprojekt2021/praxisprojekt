@@ -212,7 +212,7 @@ data = {
             # ...
         ]
     },
-    "should-metrics": {
+    "target_metrics": {
         "codelines": 25000,
         "admins": 12,
         "recovery_time": 3,
@@ -220,15 +220,20 @@ data = {
     },
     # ab jetzt erst ab Backend durch Risk calc
     "score": 80,  # percent as integer
-    "is_metrics": {
-        "codelines": [True, 30],  # true means that the metric is fine --> no problem.
-        "admins": [True, 30],
-        "recovery_time": [False, 20]  # false means that the metric is not fine --> problem.
+    "actual_metrics": {
+        "codelines": {
+            "value": 30,
+            "fulfillment": True
+        },  # true means that the metric is fine --> no problem.
+        "admins": {
+            "value": 30,
+            "fulfillment": True
+        },
+        "recovery_time": {
+            "value": 20,
+            "fulfillment": False
+        },  # false means that the metric is not fine --> problem.
     },
-    "is_features": {
-        "availability": True,
-        "testability": False,
-    }
 }
 
 # -----------------------------------------------------------
@@ -242,10 +247,8 @@ data = {
         "uid": -1,  # when -1 it indicates that it is a new process, anything else indicates its an update
         "name": "Kunde anlegen",
         "description": "Prozess zum anlegen von einem neuen Kunden in allen Systemen",
-        "creation_timestamp": "20210210...",
-        "last_timestamp": "20200211...",
     },
-    "should-metrics":
+    "target_metrics":
         {
             "codelines": 25000,
             "admins": 12,
@@ -264,7 +267,7 @@ data = {
 """ Prozess anzeigen JSON"""
 
 # -----------------------
-# delete process
+# delete process step
 # Frontend -> Backend -> Database
 data = {
     "uid": "b141f94973a43cf8ee972e9dffc1b004",  # process uid not component uid
@@ -333,12 +336,12 @@ data = {
                 "description": "Kundendatenbank",
                 "creation_timestamp": "20200219...",
                 "last_timestamp": "20200219...",
-                "metrics": [
-                    {"codelines": 20000},
-                    {"admins": 10},
-                    {"recovery_time": 5},
+                "metrics": {
+                    "codelines": 20000,
+                    "admins": 10,
+                    "recovery_time": 5,
                     # ...
-                ]
+                }
             },
             {
                 "uid": "b141f94973a43cf8ee972e9dffc1b004",
@@ -348,12 +351,12 @@ data = {
                 "description": "API für das Frontend",
                 "creation_timestamp": "20200219...",
                 "last_timestamp": "20200219...",
-                "metrics": [
-                    {"codelines": 20000},
-                    {"admins": 10},
-                    {"recovery_time": 5},
+                "metrics":  {
+                    "codelines": 20000,
+                    "admins": 10,
+                    "recovery_time": 5,
                     # ...
-                ]
+                }
             },
             {
                 "uid": "b141f94973a43cf8ee972e9dffc1b004",
@@ -363,17 +366,17 @@ data = {
                 "description": "Big Data Plattform",
                 "creation_timestamp": "20200219...",
                 "last_timestamp": "20200219...",
-                "metrics": [
-                    {"codelines": 20000},
-                    {"admins": 10},
-                    {"recovery_time": 5},
+                "metrics": {
+                    "codelines": 20000,
+                    "admins": 10,
+                    "recovery_time": 5,
                     # ...
-                ]
+                }
             }
             # ...
         ]
     },
-    "should-metrics": {
+    "target_metrics": {
         "codelines": 25000,
         "admins": 12,
         "recovery_time": 3,
@@ -384,13 +387,18 @@ data = {
 # Backend Processing -> Backend Core
 data = {
     "score": 80,  # percent as integer
-    "is_metrics": {
-        "codelines": [True, 30],  # true means that the metric is fine --> no problem.
-        "admins": [True, 30],
-        "recovery_time": [False, 20]  # false means that the metric is not fine --> problem.
+    "actual_metrics": {
+        "codelines": {
+            "value": 30,
+            "fulfillment": True
+        },  # true means that the metric is fulfilled --> no problem.
+        "admins": {
+            "value": 30,
+            "fulfillment": True
+        },
+        "recovery_time": {
+            "value": 20,
+            "fulfillment": False
+        },  # false means that the metric is not fulfilled --> problem.
     },
-    "is_features": {
-        "availability": True,
-        "testability": False,
-    }
 }

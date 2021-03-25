@@ -3,7 +3,7 @@ import BackendAdapter from 'https://cdn.jsdelivr.net/gh/i18next/i18next-multiloa
 import Fetch from 'https://cdn.jsdelivr.net/gh/dotcore64/i18next-fetch-backend/src/index.js'
 
 /**
- * Fetches de.json from backend and then translates all HTML-elements which have a data-i18n attribute
+ * Fetches en.json from backend and then translates all HTML-elements which have a data-i18n attribute
  */
 i18next
 .use(BackendAdapter)
@@ -11,14 +11,14 @@ i18next
 backend: {
     backend: Fetch,
     backendOption:{
-      loadPath: 'content/de.json',
+      loadPath: 'content/en.json',
       allowMultiLoading:  true,
       multiSeparator: '+',
     }
   },
-lng: 'de',
-fallbackLng: 'de',
-preload: ['de'],
+lng: 'en',
+fallbackLng: 'en',
+preload: ['en'],
 }).then(function(t) {
     // after initialization is done, translate all HTML-Elements which have a data-i18n attribute
     // data-i18n attribute must have the same value as the corresponding key in the de.json-file
