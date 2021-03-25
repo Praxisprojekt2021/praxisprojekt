@@ -176,21 +176,27 @@ def get_process(input_object: str) -> str:
 def create_edit_process(input_object: Union[Dict[str, Any], str]) -> str:
     """
     Receives a JSON object in the form defined under JSON_objects_defitnions.py for either editing a process or creating a new process
-    The answer is also a JSON object, only containing the success state, which is True or False
+    The answer is also a JSON object containing either the success state if False, otherwise calls get_process
     
     :param input_object: JSON object containing all process attributes (special information to differentiate edit or create is contained in the UID, which is either -1 or the original UID
     :type input_object: str
-    :return: A JSON object containing the success state, which is True or False
+    :return: A JSON object containing either the success state if False, otherwise calls get_process
     """
 
     data_dict = processing.json_to_dict(input_object)
 
     if data_dict["uid"] == "-1":
         result_dict = process_handler.add_process(data_dict)
-        return processing.dict_to_json(result_dict)
+            if result_dict["success"]== True:
+                return get_process(result_dict["process_uid"])
+            else:
+                return processing.dict_to_json(result_dict)
     else:
         result_dict = process_handler.update_process(data_dict)
-        return processing.dict_to_json(result_dict)
+            if result_dict["success"]== True:
+                return get_process(data_dict["uid"])
+            else:
+                return processing.dict_to_json(result_dict)
 
 
 def delete_process(input_object: str) -> str: 
@@ -220,7 +226,12 @@ def add_process_reference(input_object: str]) -> str:
 
     data_dict = processing.json_to_dict(input_object)
 
-    #TO DO Call view process funktion and return process JSON to frontend
+    result_dict = process_handler.add_process_reference(data_dict)
+
+    if result_dict["success"]== True:
+        return get_process(data_dict["uid"])
+    else:
+        return processing.dict_to_json(result_dict)
 
 
 def update_process_reference(input_object: str]) -> str:
@@ -234,7 +245,12 @@ def update_process_reference(input_object: str]) -> str:
 
     data_dict = processing.json_to_dict(input_object)
 
-    #TO DO Call view process funktion and return process JSON to frontend
+    result_dict = process_handler.update_process_reference(data_dict)
+
+    if result_dict["success"]== True:
+        return get_process(data_dict["uid"])
+    else:
+        return processing.dict_to_json(result_dict)
 
 
 def delete_process_reference(input_object: str]) -> str:
@@ -248,4 +264,9 @@ def delete_process_reference(input_object: str]) -> str:
 
     data_dict = processing.json_to_dict(input_object)
 
-    #TO DO Call view process funktion and return process JSON to frontend
+    result_dict = process_handler.delete_process_reference(data_dict)
+
+    if result_dict["success"]== True:
+        return get_process(data_dict["uid"])
+    else:
+        return processing.dict_to_json(result_dict)

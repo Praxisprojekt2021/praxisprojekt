@@ -254,9 +254,10 @@ data = {
         }
 }
 
-# Database -> Backend
+# Database -> Backend 
 data = {
     "success": True,
+    "process_uid": "b141f94973a43cf8ee972e9dffc1b004" # only create: uid is needed to directly return the process view JSON
 }
 
 # Backend -> Frontend

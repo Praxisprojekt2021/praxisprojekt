@@ -163,6 +163,7 @@ def add_process(input_dict: dict) -> dict:
     """
     data = {
         "success": True,
+        "process_uid": "b141f94973a43cf8ee972e9dffc1b004"
     }
 
     return data
@@ -177,7 +178,7 @@ def update_process(input_dict: dict) -> dict:
     :return: Status dict
     """
     data = {
-        "success": True,
+        "success": True
     }
 
     return data
@@ -192,7 +193,7 @@ def delete_process(uid_dict: dict) -> dict:
     :return: Status dict
     """
     data = {
-        "success": True,
+        "success": True
     }
     
     return data
@@ -207,7 +208,7 @@ def add_process_reference(input_dict: dict) -> dict:
     :return: Status dict
     """
     data = {
-        "success": True,
+        "success": True
     }
 
     return data
@@ -222,7 +223,7 @@ def update_process_reference(input_dict: dict) -> dict:
     :return: Status dict
     """
     data = {
-        "success": True,
+        "success": True
     }
 
     return data
@@ -237,7 +238,7 @@ def delete_process_reference(input_dict: dict) -> dict:
     :return: Status dict
     """
     data = {
-        "success": True,
+        "success": True
     }
 
     return data
