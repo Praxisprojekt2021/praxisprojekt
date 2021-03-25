@@ -153,7 +153,7 @@ def get_process(uid_dict: dict) -> dict:
     return data
 
 
-def a_process(input_dict: dict) -> dict:
+def add_process(input_dict: dict) -> dict:
     """
     Function to add a single process
 

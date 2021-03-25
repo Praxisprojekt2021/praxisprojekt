@@ -156,7 +156,7 @@ def process_edit_createstep_route():
     :return: a JSON object with process details as specified in docu/JSON_objects_definitions.py
     """
     if request.is_json:
-        return core.update_process_reference(request.json), 200
+        return core.add_process_reference(request.json), 200
     else:
         return core.error_handler(400, "No JSON body was transferred")
 
@@ -170,7 +170,7 @@ def process_edit_editstep_route():
     :return: a JSON object with process details as specified in docu/JSON_objects_definitions.py
     """
     if request.is_json:
-        return core.add_process_reference(request.json), 200
+        return core.update_process_reference(request.json), 200
     else:
         return core.error_handler(400, "No JSON body was transferred")
 

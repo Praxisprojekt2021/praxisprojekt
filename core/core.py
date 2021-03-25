@@ -95,10 +95,82 @@ def get_process(input_object: str) -> str:
     :return: Returns a JSON object, structured as described in docu/JSON_objects_definitions.py
     """
     data_dict = processing.json_to_dict(input_object)
+    process_dict = process_handler.get_process(data_dict)
+    output_json = processing.dict_to_json(process_dict)
 
-    #TO DO Risk Calculation
+    #TO DO Risk Calculation on output_json
+
+    data = {
+        "success": True,
+        "process": {
+            "uid": "b141f94973a43cf8ee972e9dffc1b004",
+            "name": "Kunde anlegen",
+            "description": "Prozess zum anlegen von einem neuen Kunden in allen Systemen",
+            "creation_timestamp": "20210210...",
+            "last_timestamp": "20200211...",
+            "components": [
+                {
+                    "uid": "b141f94973a43cf8ee972e9dffc1b004",
+                    "weight": 1,  # different from single component view!
+                    "name": "SQL Datenbank",
+                    "category": "Datenbank",
+                    "description": "Kundendatenbank",
+                    "creation_timestamp": "20200219...",
+                    "last_timestamp": "20200219...",
+                    "metrics": {
+                        "codelines": 20000,
+                        "admins": 10,
+                        "recovery_time": 5
+                    }
+                },
+                {
+                    "uid": "b141f94973a43cf8ee972e9dffc1b004",
+                    "weight": 1.5,
+                    "name": "Frontend API",
+                    "category": "API",
+                    "description": "API für das Frontend",
+                    "creation_timestamp": "20200219...",
+                    "last_timestamp": "20200219...",
+                    "metrics": {
+                        "codelines": 20000,
+                        "admins": 10,
+                        "recovery_time": 5
+                    }
+                },
+                {
+                    "uid": "b141f94973a43cf8ee972e9dffc1b004",
+                    "weight": 2,
+                    "name": "Hadoop Cluster",
+                    "category": "Datenbank",
+                    "description": "Big Data Plattform",
+                    "creation_timestamp": "20200219...",
+                    "last_timestamp": "20200219...",
+                    "metrics": {
+                        "codelines": 20000,
+                        "admins": 10,
+                        "recovery_time": 5
+                    }
+                }
+            ]
+        },
+        "should-metrics": {
+            "codelines": 25000,
+            "admins": 12,
+            "recovery_time": 3
+        },
+        "score": 80,  # percent as integer
+        "is_metrics": {
+            "codelines": [True, 30],  # true means that the metric is fine --> no problem.
+            "admins": [True, 30],
+            "recovery_time": [False, 20]  # false means that the metric is not fine --> problem.
+        },
+        "is_features": {
+            "availability": True,
+            "testability": False,
+        }
+    }
     
-    return XXX
+    return processing.dict_to_json(data)
 
 
 def create_edit_process(input_object: Union[Dict[str, Any], str]) -> str:
@@ -113,9 +185,12 @@ def create_edit_process(input_object: Union[Dict[str, Any], str]) -> str:
 
     data_dict = processing.json_to_dict(input_object)
 
-    #TO DO create if 
-
-    return XXX
+    if data_dict["uid"] == "-1":
+        result_dict = process_handler.add_process(data_dict)
+        return processing.dict_to_json(result_dict)
+    else:
+        result_dict = process_handler.update_process(data_dict)
+        return processing.dict_to_json(result_dict)
 
 
 def delete_process(input_object: str) -> str: 
@@ -170,7 +245,7 @@ def delete_process_reference(input_object: str]) -> str:
     :type input_object: str
     :return: String in JSON Format
     """
-    
+
     data_dict = processing.json_to_dict(input_object)
 
     #TO DO Call view process funktion and return process JSON to frontend
