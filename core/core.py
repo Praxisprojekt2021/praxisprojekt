@@ -192,16 +192,16 @@ def create_edit_process(input_object: Union[Dict[str, Any], str]) -> str:
 
     if data_dict["uid"] == "-1":
         result_dict = process_handler.add_process(data_dict)
-            if result_dict["success"]== True:
-                return get_process(result_dict["process_uid"])
-            else:
-                return processing.dict_to_json(result_dict)
+        if result_dict["success"]== True:
+            return get_process(result_dict["process_uid"])
+        else:
+            return processing.dict_to_json(result_dict)
     else:
         result_dict = process_handler.update_process(data_dict)
-            if result_dict["success"]== True:
-                return get_process(data_dict["uid"])
-            else:
-                return processing.dict_to_json(result_dict)
+        if result_dict["success"]== True:
+            return get_process(data_dict["uid"])
+        else:
+            return processing.dict_to_json(result_dict)
 
 
 def delete_process(input_object: str) -> str: 

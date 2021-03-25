@@ -47,6 +47,7 @@ def component_overview_route():
 
     return components
 
+
 @app.route('/component/view', methods=["POST"])
 def component_view_route():
     """
@@ -127,6 +128,7 @@ def process_overview_route():
     processes = core.get_process_list()
 
     return processes
+
 
 @app.route('/process/delete', methods=["POST"])
 def process_delete_route():
@@ -218,3 +220,4 @@ def process_view_route():
             return "Internal Error", 500
     else:
         return core.error_handler(400, "No JSON body was transferred")
+        
