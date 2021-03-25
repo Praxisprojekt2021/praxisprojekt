@@ -159,15 +159,20 @@ def get_process(input_object: str) -> str:
             "recovery_time": 3
         },
         "score": 80,  # percent as integer
-        "is_metrics": {
-            "codelines": [True, 30],  # true means that the metric is fine --> no problem.
-            "admins": [True, 30],
-            "recovery_time": [False, 20]  # false means that the metric is not fine --> problem.
+        "actual_metrics": {
+            "codelines": {
+                "value": 30,
+                "fulfillment": True
+            },  # true means that the metric is fulfilled --> no problem.
+            "admins": {
+                "value": 30,
+                "fulfillment": True
+            },
+            "recovery_time": {
+                "value": 20,
+                "fulfillment": False
+            },  # false means that the metric is not fulfilled --> problem.
         },
-        "is_features": {
-            "availability": True,
-            "testability": False,
-        }
     }
     
     return processing.dict_to_json(data)
