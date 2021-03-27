@@ -192,7 +192,7 @@ def create_edit_process(input_object: Union[Dict[str, Any], str]) -> str:
 
     if data_dict["uid"] == "-1":
         result_dict = process_handler.add_process(data_dict)
-        if result_dict["success"]== True:
+        if result_dict["success"]:
             return get_process(result_dict["process_uid"])
         else:
             return processing.dict_to_json(result_dict)
