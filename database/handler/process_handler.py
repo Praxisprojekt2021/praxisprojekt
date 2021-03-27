@@ -143,7 +143,7 @@ def get_process(uid_dict: dict) -> dict:
                 }
             ]
         },
-        "should-metrics": {
+        "target_metrics": {
             "codelines": 25000,
             "admins": 12,
             "recovery_time": 3
