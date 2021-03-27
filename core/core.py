@@ -258,7 +258,7 @@ def update_process_reference(input_object: str]) -> str:
         return processing.dict_to_json(result_dict)
 
 
-def delete_process_reference(input_object: str]) -> str:
+def delete_process_reference(input_object: str) -> str:
     """
     Calls the delete_process_reference method and returns whether successful or not in JSON Format
 
