@@ -220,4 +220,3 @@ def process_view_route():
             return "Internal Error", 500
     else:
         return core.error_handler(400, "No JSON body was transferred")
-        
