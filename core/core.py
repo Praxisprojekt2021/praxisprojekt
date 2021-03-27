@@ -220,7 +220,7 @@ def delete_process(input_object: str) -> str:
     return output_json
 
 
-def add_process_reference(input_object: str]) -> str:
+def add_process_reference(input_object: str) -> str:
     """
     Calls the add_process_reference method and returns whether successful or not in JSON Format
 
