@@ -8,9 +8,9 @@ import processing
 
 def get_component_list() -> str:
     """
-    Calls the get_compontent_list method and converts the output to JSON
+    Calls the get_component_list method and converts the output to JSON
 
-    :return: A JSON formatted compontent list
+    :return: A JSON formatted component list
     """
     component_list_dict = component_handler.get_component_list()
     output_json = processing.dict_to_json(component_list_dict)
@@ -20,9 +20,9 @@ def get_component_list() -> str:
 
 def get_component(input_object: str) -> str:
     """
-    Receives a JSON object in the form defined under JSON_objects_defitnions.py for getting/viewing a component.
-    It returns another JSON object, sturctured as described in docu/JSON_objects_definitions.py
-    which is retreived from the component_handler.
+    Receives a JSON object in the form defined under JSON_objects_definitions.py for getting/viewing a component.
+    It returns another JSON object, structured as described in docu/JSON_objects_definitions.py
+    which is retrieved from the component_handler.
 
     :param input_object: JSON object containing the component uid
     :type input_object: str
@@ -38,7 +38,7 @@ def get_component(input_object: str) -> str:
 
 def create_edit_component(input_object: Union[Dict[str, Any], str]) -> str:
     """
-    Receives a JSON object in the form defined under JSON_objects_defitnions.py for either 
+    Receives a JSON object in the form defined under JSON_objects_definitions.py for either
     editing a component or creating a new component
     The answer is also a JSON object, only containing the success state, which is True or False
     
@@ -78,7 +78,7 @@ def get_process_list() -> str:
     """
     Calls the get_process_list method and converts the output to JSON
 
-    :return: A JSON formatted compontent list
+    :return: A JSON formatted process list
     """
     process_list_dict = process_handler.get_process_list()
     output_json = processing.dict_to_json(process_list_dict)
@@ -88,9 +88,9 @@ def get_process_list() -> str:
 
 def get_process(input_object: str) -> str:
     """
-    Receives a JSON object in the form defined under JSON_objects_defitnions.py for getting/viewing a process.
-    It returns another JSON object, sturctured as described in docu/JSON_objects_definitions.py
-    which is retreived from the process_handler.
+    Receives a JSON object in the form defined under JSON_objects_definitions.py for getting/viewing a process.
+    It returns another JSON object, structured as described in docu/JSON_objects_definitions.py
+    which is retrieved from the process_handler.
 
     :param input_object: JSON object containing the process uid
     :type input_object: str
@@ -182,7 +182,7 @@ def get_process(input_object: str) -> str:
 
 def create_edit_process(input_object: Union[Dict[str, Any], str]) -> str:
     """
-    Receives a JSON object in the form defined under JSON_objects_defitnions.py for either 
+    Receives a JSON object in the form defined under JSON_objects_definitions.py for either
     editing a process or creating a new process
     The answer is also a JSON object containing either the success state if False, otherwise calls get_process
     
@@ -202,7 +202,7 @@ def create_edit_process(input_object: Union[Dict[str, Any], str]) -> str:
             return processing.dict_to_json(result_dict)
     else:
         result_dict = process_handler.update_process(data_dict)
-        if result_dict["success"] == True:
+        if result_dict["success"]:
             return get_process(data_dict["uid"])
         else:
             return processing.dict_to_json(result_dict)
@@ -237,7 +237,7 @@ def add_process_reference(input_object: str) -> str:
 
     result_dict = process_handler.add_process_reference(data_dict)
 
-    if result_dict["success"] == True:
+    if result_dict["success"]:
         return get_process(data_dict["uid"])
     else:
         return processing.dict_to_json(result_dict)
@@ -256,7 +256,7 @@ def update_process_reference(input_object: str) -> str:
 
     result_dict = process_handler.update_process_reference(data_dict)
 
-    if result_dict["success"] == True:
+    if result_dict["success"]:
         return get_process(data_dict["uid"])
     else:
         return processing.dict_to_json(result_dict)
@@ -275,7 +275,7 @@ def delete_process_reference(input_object: str) -> str:
 
     result_dict = process_handler.delete_process_reference(data_dict)
 
-    if result_dict["success"] == True:
+    if result_dict["success"]:
         return get_process(data_dict["uid"])
     else:
         return processing.dict_to_json(result_dict)

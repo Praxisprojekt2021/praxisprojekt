@@ -87,7 +87,7 @@ function refreshProcessTable(json) {
 function refreshComponentTable(json) {
     var table = document.getElementById('componentTable');
     json.components.forEach(function (object) {
-        var tr = document.createElement('tr');
+        let tr = document.createElement('tr');
         tr.innerHTML = '<td>' + object.name + '</td>' +
             '<td>' + object.category + '</td>' +    // TODO: erst mappen mit tatsächlicher Kategorie
             '<td></td>' +

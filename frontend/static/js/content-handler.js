@@ -30,7 +30,7 @@ function init() {
 /**
  * This function fetches the component data from the backend
  *
- * @param {string} id: The id of the component to get data for
+ * @param {string} uid: The uid of the component to get data for
  */
 
 function getComponentData(uid) {

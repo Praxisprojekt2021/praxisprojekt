@@ -10,7 +10,7 @@
             "process": "Process",
             "components": "Components",
             "component": "Component",
-            "viv_value": "Risk Score",
+            "score": "Risk Score",
             "status": "Status",
             "created": "Created",
             "edited": "Edited",

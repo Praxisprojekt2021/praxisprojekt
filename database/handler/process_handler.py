@@ -23,7 +23,8 @@ class RelationshipComponent(StructuredRel):
     """
     weight = FloatProperty()
 
-class Relationship(StructuredRel):
+
+class RelationshipMetric(StructuredRel):
     """
     A class to represent the relationship between a Component and a Metric.
 

@@ -34,6 +34,5 @@ def json_to_dict(json_object: str) -> Union[Dict[str, Any], str]:
                 return dictionary
             else:
                 raise TypeError
-        except TypeError as error:
-            data = error
+        except TypeError:
             return error_handler(500, "Could not convert JSON object to dict")
