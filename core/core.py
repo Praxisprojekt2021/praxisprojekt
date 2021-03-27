@@ -153,7 +153,7 @@ def get_process(input_object: str) -> str:
                 }
             ]
         },
-        "should-metrics": {
+        "target_metrics": {
             "codelines": 25000,
             "admins": 12,
             "recovery_time": 3
