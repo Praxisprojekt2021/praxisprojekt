@@ -12,7 +12,7 @@ from database.config import *
 config.DATABASE_URL = 'bolt://{}:{}@{}:{}'.format(NEO4J_USER, NEO4J_PASSWORD, NEO4J_IP, NEO4J_PORT)
 
 
-class Relationship(StructuredRel):
+class RelationshipComponent(StructuredRel):
     """
     A class to represent the relationship between a Process and a Component.
 
@@ -22,6 +22,17 @@ class Relationship(StructuredRel):
         is the weight of the relationship
     """
     weight = FloatProperty()
+
+class Relationship(StructuredRel):
+    """
+    A class to represent the relationship between a Component and a Metric.
+
+    Attributes
+    ----------
+    value : float
+        is value of the relationship
+    """
+    value = FloatProperty()
 
 
 class Process(StructuredNode):
@@ -42,6 +53,8 @@ class Process(StructuredNode):
         timestamp of last update
     includesComponent : relationship
         relationship to component
+    hasMetric : relationship
+        relationship to metric
     """
 
     uid = UniqueIdProperty()
@@ -50,7 +63,8 @@ class Process(StructuredNode):
     creation_timestamp = StringProperty()  # evtl. float
     last_timestamp = StringProperty()  # evtl. float
 
-    includesComponent = RelationshipTo(component_handler.Component, "includes", model=Relationship)
+    includesComponent = RelationshipTo(component_handler.Component, "includes", model=RelationshipComponent)
+    hasMetric = RelationshipTo(metric_handler.Metric, "has", model=RelationshipMetric)
 
 
 def get_process_list() -> dict:

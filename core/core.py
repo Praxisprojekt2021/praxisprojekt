@@ -38,10 +38,12 @@ def get_component(input_object: str) -> str:
 
 def create_edit_component(input_object: Union[Dict[str, Any], str]) -> str:
     """
-    Receives a JSON object in the form defined under JSON_objects_defitnions.py for either editing a component or creating a new component
+    Receives a JSON object in the form defined under JSON_objects_defitnions.py for either 
+    editing a component or creating a new component
     The answer is also a JSON object, only containing the success state, which is True or False
     
-    :param input_object: JSON object containing all component attributes (special information to differentiate edit or create is contained in the UID, which is either -1 or the original UID
+    :param input_object: JSON object containing all component attributes (special information 
+    to differentiate edit or create is contained in the UID, which is either -1 or the original UID
     :type input_object: str
     :return: A JSON object containing the success state, which is True or False
     """
@@ -180,10 +182,12 @@ def get_process(input_object: str) -> str:
 
 def create_edit_process(input_object: Union[Dict[str, Any], str]) -> str:
     """
-    Receives a JSON object in the form defined under JSON_objects_defitnions.py for either editing a process or creating a new process
+    Receives a JSON object in the form defined under JSON_objects_defitnions.py for either 
+    editing a process or creating a new process
     The answer is also a JSON object containing either the success state if False, otherwise calls get_process
     
-    :param input_object: JSON object containing all process attributes (special information to differentiate edit or create is contained in the UID, which is either -1 or the original UID
+    :param input_object: JSON object containing all process attributes (special information 
+    to differentiate edit or create is contained in the UID, which is either -1 or the original UID
     :type input_object: str
     :return: A JSON object containing either the success state if False, otherwise calls get_process
     """
@@ -198,7 +202,7 @@ def create_edit_process(input_object: Union[Dict[str, Any], str]) -> str:
             return processing.dict_to_json(result_dict)
     else:
         result_dict = process_handler.update_process(data_dict)
-        if result_dict["success"]== True:
+        if result_dict["success"] == True:
             return get_process(data_dict["uid"])
         else:
             return processing.dict_to_json(result_dict)
@@ -233,7 +237,7 @@ def add_process_reference(input_object: str) -> str:
 
     result_dict = process_handler.add_process_reference(data_dict)
 
-    if result_dict["success"]== True:
+    if result_dict["success"] == True:
         return get_process(data_dict["uid"])
     else:
         return processing.dict_to_json(result_dict)
@@ -252,7 +256,7 @@ def update_process_reference(input_object: str) -> str:
 
     result_dict = process_handler.update_process_reference(data_dict)
 
-    if result_dict["success"]== True:
+    if result_dict["success"] == True:
         return get_process(data_dict["uid"])
     else:
         return processing.dict_to_json(result_dict)
@@ -271,7 +275,7 @@ def delete_process_reference(input_object: str) -> str:
 
     result_dict = process_handler.delete_process_reference(data_dict)
 
-    if result_dict["success"]== True:
+    if result_dict["success"] == True:
         return get_process(data_dict["uid"])
     else:
         return processing.dict_to_json(result_dict)
