@@ -239,7 +239,7 @@ def add_process_reference(input_object: str) -> str:
         return processing.dict_to_json(result_dict)
 
 
-def update_process_reference(input_object: str]) -> str:
+def update_process_reference(input_object: str) -> str:
     """
     Calls the update_process_reference method and returns whether successful or not in JSON Format
 
