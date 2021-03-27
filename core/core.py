@@ -98,7 +98,7 @@ def get_process(input_object: str) -> str:
     process_dict = process_handler.get_process(data_dict)
     output_json = processing.dict_to_json(process_dict)
 
-    #TO DO Risk Calculation on output_json
+    # TO DO Risk Calculation on output_json
 
     data = {
         "success": True,
