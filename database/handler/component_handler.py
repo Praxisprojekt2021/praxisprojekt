@@ -18,7 +18,7 @@ class Relationship(StructuredRel):
     ----------
     value : float
         is value of the relationship
-   """
+    """
     value = FloatProperty()
 
 
@@ -29,20 +29,20 @@ class Component(StructuredNode):
     Attributes
     ----------
     uid : str
-        name of the metric
+        component id
     name : str
-        name of the metric
+        name of the component
     category : str
-        name of the metric
+        name of the component category
     description : str
-        name of the metric
+        description of the component
     creation_timestamp : str
-        description of the metric
+        timestamp of creation time
     last_timestamp : str
-        description of the metric
+        timestamp of last update
     hasMetric : relationship
-        description of the metric
-   """
+        relationship to metric
+    """
     uid = UniqueIdProperty()
     name = StringProperty()
     category = StringProperty()
