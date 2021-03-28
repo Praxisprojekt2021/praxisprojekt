@@ -279,3 +279,8 @@ body {
   margin-left: 10px;
   text-align: center;
 }
+
+.metric-entry-element {
+  width: 50%;
+  display: inline-block;
+}

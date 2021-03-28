@@ -10,6 +10,9 @@ function init() {
     const url = new URL(url_string);
     const uid = url.searchParams.get('uid');
 
+    getCategoryDropdown();
+    getFeatures();
+
     // Check if view has received an uid as URL parameter to check whether to create a new component or edit an existing one
     if (uid && uid.length === 32) {
         // If so, load component data...
@@ -22,9 +25,89 @@ function init() {
         console.log('Entering new component');
         setSections("default");
 
-        // Set component id to -1
-        document.getElementById('component-id').value = -1;
+        // Set component uid to -1
+        document.getElementById('component-uid').value = -1;
     }
+}
+
+/**
+ * TODO comment here
+ */
+
+function getCategoryDropdown() {
+    // Read JSON file
+    fetch(base_url + '/content/mapping_metrics_definition.json')
+        .then(response => response.json())
+        .then(data => {
+            let innerHTML = '';
+            const categories = data['categories'];
+
+            Object.keys(categories).forEach(function (key) {
+                if (key !== 'default') {
+                    innerHTML += '<option value="' + key + '">' + categories[key]['name'] + '</option>';
+                }
+            });
+
+            // Append element to document
+            document.getElementById('component-category').innerHTML += innerHTML;
+        });
+}
+
+/**
+ * TODO comment here
+ */
+
+function getFeatures() {
+    // Read JSON file
+    fetch(base_url + '/content/mapping_metrics_definition.json')
+        .then(response => response.json())
+        .then(data => {
+            const categories = data['categories'];
+            const features = data['features'];
+
+            Object.keys(features).forEach(function (key) {
+                let feature = features[key];
+                let metrics = feature['metrics'];
+
+                let div = document.createElement('div');
+                div.id = key;
+                div.className = 'feature-section';
+
+                let innerHTML = '';
+                innerHTML += '<div data-hover="" data-delay="0" class="accordion-item w-dropdown">';
+                innerHTML += '<div class="accordion-toggle w-dropdown-toggle" onclick="toggleSection(this)">';
+                innerHTML += '<div class="accordion-icon w-icon-dropdown-toggle"></div>';
+                innerHTML += ('<div class="features-label">' + feature['name'] + '</div>');
+                innerHTML += '</div>';
+                innerHTML += '<nav class="dropdown-list w-dropdown-list">';
+                innerHTML += '<div class="features-columns w-row">';
+
+                Object.keys(metrics).forEach(function (key) {
+                    let metric = metrics[key];
+                    innerHTML += '<div class="metric-entry-element w-clearfix">';
+                    innerHTML += ('<label for="availability-metric-7" class="entry-label">' + metric['name'] + '</label>');
+                    innerHTML += '<input type="text" maxLength="256" data-name="availability-metric-1" id="' + key + '"' +
+                        ' name="availability-metric-1" class="metric-input textfield w-input">';
+                    innerHTML += `<img src="images/info.png" loading="lazy" width="35" alt="" class="info-icon">`;
+                    innerHTML += '</div>';
+                });
+
+                innerHTML += '</div>';
+                innerHTML += '</nav>';
+                innerHTML += '</div>';
+                div.innerHTML = innerHTML;
+
+                // Append element to document
+                document.getElementById('metrics-input').appendChild(div);
+            });
+
+            let div = document.createElement('div');
+            div.className = 'control-area';
+            div.innerHTML = '<a href="#" data-wait="Bitte warten..." id="save-button" class="create-button w-button" onclick="saveComponent()">Speichern</a>';
+
+            // Append element to document
+            document.getElementById('metrics-input').appendChild(div);
+        });
 }
 
 /**
@@ -52,8 +135,8 @@ function processComponentData(json_data) {
     if (json_data['success']) {
         // Component data has been received
 
-        // Set id and data fields
-        document.getElementById('component-id').value = json_data['uid'];
+        // Set uid and data fields
+        document.getElementById('component-uid').value = json_data['uid'];
         document.getElementById('component-name').value = json_data['name'];
         document.getElementById('component-description-textarea').value = json_data['description'];
 
@@ -61,7 +144,11 @@ function processComponentData(json_data) {
         document.getElementById('component-category').value = json_data['category'];
         document.getElementById('component-category').setAttribute("disabled", "true");
 
-        // TODO set all metrics
+        // Set all metrics
+        let metrics = json_data['metrics'];
+        Object.keys(metrics).forEach(function (key) {
+            document.getElementById(key).value = metrics[key];
+        });
 
         // Set sections according to the category
         setSections(json_data['category']);
@@ -104,10 +191,10 @@ function post_request(endpoint, data_json, callback) {
 function setSections(selected_category) {
 
     // Read JSON file
-    fetch(base_url + '/content/component-sections.json')
+    fetch(base_url + '/content/mapping_metrics_definition.json')
         .then(response => response.json())
         .then(data => {
-            const category = data[selected_category];
+            const category = data['categories'][selected_category]['sections'];
             Object.keys(category).forEach(function (key) {
                 const feature_child = document.getElementById(key).children[0].children[0];
                 const metrics_child = document.getElementById(key).children[0].children[1];
@@ -144,17 +231,28 @@ function toggleSection(element) {
  */
 
 function saveComponent() {
+    let metric_elements = document.getElementsByClassName('metric-input');
+    let metrics = {};
+    let text_replaced_flag = false; // Helper variable that indicates, whether or not a non quantitative metric input has been found and discarded
+    for (let i = 0; i < metric_elements.length; i++) {
+        // TODO also check if values are within min and max values
+        // Replace non quantitative metric inputs with an emtpy string to have them discarded
+        if (metric_elements[i].value !== '' && ! parseFloat(metric_elements[i].value)) {
+            metric_elements[i].value = '';
+            text_replaced_flag = true;
+        }
+        // Process quantitative metrics to push them into the JSON Object to be passed to the backend
+        if (metric_elements[i].value !== '') {
+            metrics[metric_elements[i].id] = metric_elements[i].value;
+        }
+    }
+
     const component = {
-        "uid": document.getElementById('component-id').value,
+        "uid": document.getElementById('component-uid').value,
         "name": document.getElementById('component-name').value,
         "category": document.getElementById('component-category').value,
         "description": document.getElementById('component-description-textarea').value,
-        "metrics": {
-            "codelines": 20000,
-            "admins": 10,
-            "recovery_time": 5,
-            // TODO only those metrics that match the component category?
-        }
+        "metrics": metrics
     }
 
     // Check if all field have been filled
@@ -176,6 +274,7 @@ function saveComponent() {
             // Check if enabled fields have been filled - all fields are required
             for (let i = 0; i < metrics_child_input_fields.length; i++) {
                 if (metrics_child.getElementsByTagName('input')[i].value === '') {
+                    console.log(metrics_child.getElementsByTagName('input')[i].id);
                     required_helper_flag = false;
                 }
             }
@@ -186,7 +285,11 @@ function saveComponent() {
     if (required_helper_flag) {
         post_request('/component/create_edit', JSON.stringify(component), saveCallback);
     } else {
-        window.alert('Changes could not be saved. Please fill all metrics fields.');
+        let alert_string = 'Changes could not be saved. Please fill all metrics fields.';
+        if (text_replaced_flag === true) {
+            alert_string += '\nNon quantitative metrics have been automatically discarded.';
+        }
+        window.alert(alert_string);
     }
 }
 

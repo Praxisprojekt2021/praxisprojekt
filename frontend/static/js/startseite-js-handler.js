@@ -73,8 +73,8 @@ function refreshProcessTable(json) {
             renderStatusColumn(object.viv_value) +
             '<td>' + formatDate(object.created) + '</td>' +
             '<td>' + formatDate(object.edited) + '</td>' +
-            '<td>' + renderEditProcessButton(object.id) + '</td>' +
-            '<td>' + renderDeleteProcessButton(object.id) + '</td>';
+            '<td>' + renderEditProcessButton(object.uid) + '</td>' +
+            '<td>' + renderDeleteProcessButton(object.uid) + '</td>';
         table.appendChild(tr);
     });
 }
@@ -165,24 +165,24 @@ function addComponent() {
 }
 
 /**
- * Routes to the URL where the user can edit the process with the given id.
- * @param {String} id
+ * Routes to the URL where the user can edit the process with the given uid.
+ * @param {String} uid
  */
 function editProcess(uid) {
-    // ... open edit process URL with param id
+    // ... open edit process URL with param uid
 }
 
 /**
- * Routes to the URL where the user can edit the component with the given id.
- * @param {String} id 
+ * Routes to the URL where the user can edit the component with the given uid.
+ * @param {String} uid
  */
 function editComponent(uid) {
-    // open edit component URL with param id
+    // open edit component URL with param uid
     window.location.replace(base_url + "component?uid=" + uid);
 }
 
 /**
- * Routes to the URL where the user can delete the process with the given id.
+ * Routes to the URL where the user can delete the process with the given uid.
  * @param {String} uid
  */
 function deleteProcess(uid) {
@@ -190,7 +190,7 @@ function deleteProcess(uid) {
 }
 
 /**
- * Routes to the URL where the user can delete the component with the given id.
+ * Routes to the URL where the user can delete the component with the given uid.
  * @param {String} uid
  */
 function deleteComponent(uid) {
@@ -206,7 +206,7 @@ function deleteComponent(uid) {
             location.reload();
         }
     }
-    // add component id as parameter
+    // add component uid as parameter
     let params = JSON.stringify({uid: uid});
 
     // Send HTTP-request
