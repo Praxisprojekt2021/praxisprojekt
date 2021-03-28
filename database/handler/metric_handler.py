@@ -4,7 +4,6 @@ import json
 from neomodel import config, StructuredNode, StringProperty, UniqueIdProperty
 
 from database.config import *
-from processing import json_to_dict
 
 config.DATABASE_URL = 'bolt://{}:{}@{}:{}'.format(NEO4J_USER, NEO4J_PASSWORD, NEO4J_IP, NEO4J_PORT)
 
