@@ -47,9 +47,8 @@ def create_from_frontend_json(path: str):
     """
     with open(path) as json_file:
         data = json.load(json_file)
-        data_dict = json.dumps(data)
 
-    features = data_dict["features"]
+    features = data["features"]
 
     for key in features:
         feature = features[key]
