@@ -28,13 +28,10 @@ def json_to_dict(json_object: str) -> Union[Dict[str, Any], str]:
     """
 
     if isinstance(json_object, dict):
-        return json_object
+        raise TypeError("A dict instead of a JSON object was given")
     else:
-        try:
-            dictionary = json.loads(json_object)
-            if isinstance(dictionary, dict):
-                return dictionary
-            else:
-                raise TypeError
-        except TypeError:
-            return error_handler(500, "Could not convert JSON object to dict")
+        dictionary = json.loads(json_object)
+        if isinstance(dictionary, dict):
+            return dictionary
+        else:
+            raise TypeError("Could not convert JSON object to dict")

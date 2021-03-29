@@ -3,7 +3,6 @@ import json
 
 from neomodel import config, StructuredNode, StringProperty, UniqueIdProperty
 
-import processing
 from database.config import *
 
 config.DATABASE_URL = 'bolt://{}:{}@{}:{}'.format(NEO4J_USER, NEO4J_PASSWORD, NEO4J_IP, NEO4J_PORT)
@@ -48,7 +47,7 @@ def create_from_frontend_json(path: str):
     """
     with open(path) as json_file:
         data = json.load(json_file)
-        data_dict = processing.json_to_dict(data)
+        data_dict = json.dumps(data)
 
     features = data_dict["features"]
 
