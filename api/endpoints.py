@@ -1,10 +1,8 @@
 # external endpoints
-from flask import Flask, render_template, request, abort
-import json
+from flask import Flask, render_template, request
 import sys
 
 import core
-import processing
 
 app = Flask(__name__, static_url_path='',
             template_folder='../frontend/templates', static_folder='../frontend/static')
