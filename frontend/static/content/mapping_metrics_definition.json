@@ -214,13 +214,13 @@
     "default": {
       "name": "Default",
       "sections": {
-        "feature1": "false",
-        "feature2": "false",
+        "code_quality": "false",
+        "integrity": "false",
+        "usage": "false",
+        "test_quality": "false",
         "scope": "false",
-        "effort": "false",
-        "test-quality": "false",
-        "human": "false",
-        "object-orientation": "false"
+        "availability": "false",
+        "confidentiality": "false"
       }
     },
     "databases": {
