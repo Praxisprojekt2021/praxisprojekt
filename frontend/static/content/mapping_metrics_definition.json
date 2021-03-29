@@ -227,12 +227,12 @@
       "name": "Databases",
       "sections": {
         "code_quality": "true",
-        "integrity": "true",
+        "integrity": "false",
         "usage": "true",
-        "test_quality": "true",
+        "test_quality": "false",
         "scope": "true",
-        "availability": "true",
-        "confidentiality": "true"
+        "availability": "false",
+        "confidentiality": "false"
       }
     },
     "interfaces": {
