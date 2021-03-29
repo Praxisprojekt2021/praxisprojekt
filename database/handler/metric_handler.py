@@ -18,10 +18,14 @@ class Metric(StructuredNode):
         name of the metric
     uid : str
         unique id of the metric
+    calculationType : str
+        calculation type
    """
 
     uid = UniqueIdProperty()
     name = StringProperty()
+    calculationType = StringProperty()
+    fulfilledIf = StringProperty()
 
 
 def create_from_csv(path: str):
