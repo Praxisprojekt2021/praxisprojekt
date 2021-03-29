@@ -346,12 +346,12 @@
     "standard_software": {
       "name": "Standard Software",
       "sections": {
-        "code_quality": "true",
-        "integrity": "true",
-        "usage": "true",
+        "code_quality": "false",
+        "integrity": "false",
+        "usage": "false",
         "test_quality": "true",
-        "scope": "true",
-        "availability": "true",
+        "scope": "false",
+        "availability": "false",
         "confidentiality": "true"
       }
     },
@@ -359,12 +359,12 @@
       "name": "Individual Software (bought)",
       "sections": {
         "code_quality": "true",
-        "integrity": "true",
-        "usage": "true",
-        "test_quality": "true",
-        "scope": "true",
-        "availability": "true",
-        "confidentiality": "true"
+        "integrity": "false",
+        "usage": "false",
+        "test_quality": "false",
+        "scope": "false",
+        "availability": "false",
+        "confidentiality": "false"
       }
     }
   }
