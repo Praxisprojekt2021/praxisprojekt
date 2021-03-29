@@ -1,12 +1,10 @@
 from neomodel import config, StructuredNode, StringProperty, UniqueIdProperty, \
     RelationshipTo, StructuredRel, FloatProperty
 
-from core.error_handler import error_handler
-from core.success_handler import success_handler
+import core
 
 import database.handler.metric_handler as metric_handler
 import database.handler.component_handler as component_handler
-
 from database.config import *
 
 config.DATABASE_URL = 'bolt://{}:{}@{}:{}'.format(NEO4J_USER, NEO4J_PASSWORD, NEO4J_IP, NEO4J_PORT)
@@ -192,11 +190,7 @@ def update_process(input_dict: dict) -> dict:
     :type input_dict: dict
     :return: Status dict
     """
-    data = {
-        "success": True
-    }
-
-    return data
+    return core.success_handler()
 
 
 def delete_process(uid_dict: dict) -> dict:
@@ -207,11 +201,7 @@ def delete_process(uid_dict: dict) -> dict:
     :type uid_dict: dict
     :return: Status dict
     """
-    data = {
-        "success": True
-    }
-    
-    return data
+    return core.success_handler()
 
 
 def add_process_reference(input_dict: dict) -> dict:
@@ -222,11 +212,7 @@ def add_process_reference(input_dict: dict) -> dict:
     :type input_dict: dict
     :return: Status dict
     """
-    data = {
-        "success": True
-    }
-
-    return data
+    return core.success_handler()
 
 
 def update_process_reference(input_dict: dict) -> dict:
@@ -237,11 +223,7 @@ def update_process_reference(input_dict: dict) -> dict:
     :type input_dict: dict
     :return: Status dict
     """
-    data = {
-        "success": True
-    }
-
-    return data
+    return core.success_handler()
 
 
 def delete_process_reference(input_dict: dict) -> dict:
@@ -252,8 +234,5 @@ def delete_process_reference(input_dict: dict) -> dict:
     :type input_dict: dict
     :return: Status dict
     """
-    data = {
-        "success": True
-    }
 
-    return data
+    return core.success_handler()

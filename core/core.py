@@ -189,16 +189,12 @@ def create_edit_process(input_dict: dict) -> str:
 
     if input_dict["uid"] == "-1":
         result_dict = process_handler.add_process(input_dict)
-        if result_dict["success"]:
-            return get_process(result_dict["process_uid"])
-        else:
-            return processing.dict_to_json(result_dict)
+        output_object = get_process(result_dict["process_uid"])
+        return output_object
     else:
         result_dict = process_handler.update_process(input_dict)
-        if result_dict["success"]:
-            return get_process(input_dict["uid"])
-        else:
-            return processing.dict_to_json(result_dict)
+        output_object = get_process(input_dict["uid"])
+        return output_object
 
 
 def delete_process(input_dict: dict) -> str:
@@ -226,11 +222,8 @@ def add_process_reference(input_dict: dict) -> str:
     """
 
     result_dict = process_handler.add_process_reference(input_dict)
-
-    if result_dict["success"]:
-        return get_process(input_dict["uid"])
-    else:
-        return processing.dict_to_json(result_dict)
+    output_object = get_process(input_dict["uid"])
+    return output_object
 
 
 def update_process_reference(input_dict: dict) -> str:
@@ -243,11 +236,8 @@ def update_process_reference(input_dict: dict) -> str:
     """
 
     result_dict = process_handler.update_process_reference(input_dict)
-
-    if result_dict["success"]:
-        return get_process(input_dict["uid"])
-    else:
-        return processing.dict_to_json(result_dict)
+    output_object = get_process(input_dict["uid"])
+    return output_object
 
 
 def delete_process_reference(input_dict: dict) -> str:
@@ -260,8 +250,5 @@ def delete_process_reference(input_dict: dict) -> str:
     """
 
     result_dict = process_handler.delete_process_reference(input_dict)
-
-    if result_dict["success"]:
-        return get_process(input_dict["uid"])
-    else:
-        return processing.dict_to_json(result_dict)
+    output_object = get_process(input_dict["uid"])
+    return output_object

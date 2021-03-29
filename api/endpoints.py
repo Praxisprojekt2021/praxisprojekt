@@ -1,7 +1,10 @@
 # external endpoints
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, abort
+import json
+import sys
 
 import core
+import processing
 
 app = Flask(__name__, static_url_path='',
             template_folder='../frontend/templates', static_folder='../frontend/static')
@@ -58,12 +61,9 @@ def component_view_route():
     """
 
     if request.is_json:
-        try:
-            return core.get_component(request.json), 200
-        except:
-            return "Internal Error", 500
+        return core.get_component(request.json), 200
     else:
-        return core.error_handler(400, "No JSON body was transferred")
+        raise TypeError("No JSON body was transferred")
 
 
 @app.route('/component/create_edit', methods=["POST"])
@@ -78,7 +78,7 @@ def component_create_edit_route():
     if request.is_json:
         return core.create_edit_component(request.json), 200
     else:
-        return core.error_handler(400, "No JSON body was transferred")
+        raise TypeError("No JSON body was transferred")
 
 
 @app.route("/component/delete", methods=["POST"])
@@ -91,13 +91,9 @@ def component_delete_route():
     """
 
     if request.is_json:
-        try:
-            return core.delete_component(request.json), 200
-
-        except:
-            return "Internal Error", 500
+        return core.delete_component(request.json), 200
     else:
-        return "No JSON body was transferred", 400
+        raise TypeError("No JSON body was transferred")
 
 
 """
@@ -113,7 +109,7 @@ def process_route():
     :receives: None
     :return: the rendered html process page
     """
-    return core.error_handler(500, "Noch nicht umgesetzt")
+    raise NotImplementedError("Noch nicht umgesetzt")
 
 
 @app.route('/process/overview', methods=["GET"])
@@ -140,13 +136,9 @@ def process_delete_route():
     """
 
     if request.is_json:
-        try:
-            return core.delete_process(request.json), 200
-
-        except:
-            return "Internal Error", 500
+        return core.delete_process(request.json), 200
     else:
-        return "No JSON body was transferred", 400
+        raise TypeError("No JSON body was transferred")
 
 
 @app.route('/process/edit/createstep', methods=["POST"])
@@ -160,7 +152,7 @@ def process_edit_createstep_route():
     if request.is_json:
         return core.add_process_reference(request.json), 200
     else:
-        return core.error_handler(400, "No JSON body was transferred")
+        raise TypeError("No JSON body was transferred")
 
 
 @app.route('/process/edit/editstep', methods=["POST"])
@@ -174,7 +166,7 @@ def process_edit_editstep_route():
     if request.is_json:
         return core.update_process_reference(request.json), 200
     else:
-        return core.error_handler(400, "No JSON body was transferred")
+        raise TypeError("No JSON body was transferred")
 
 
 @app.route('/process/edit/deletestep', methods=["POST"])
@@ -188,7 +180,7 @@ def process_edit_deletestep_route():
     if request.is_json:
         return core.delete_process_reference(request.json), 200
     else:
-        return core.error_handler(400, "No JSON body was transferred")
+        raise TypeError("No JSON body was transferred")
 
 
 @app.route('/process/create_edit', methods=["POST"])
@@ -202,7 +194,7 @@ def process_create_edit_route():
     if request.is_json:
         return core.create_edit_process(request.json), 200
     else:
-        return core.error_handler(400, "No JSON body was transferred")
+        raise TypeError("No JSON body was transferred")
 
 
 @app.route('/process/view', methods=["GET"])
@@ -214,9 +206,36 @@ def process_view_route():
     :return: a JSON object containing the process
     """
     if request.is_json:
-        try:
-            return core.get_process(request.json), 200
-        except:
-            return "Internal Error", 500
+        return core.get_process(request.json), 200
     else:
-        return core.error_handler(400, "No JSON body was transferred")
+        raise TypeError("No JSON body was transferred")
+
+
+"""
+    API Error Handlers
+"""
+
+
+@app.errorhandler(Exception)
+def page_not_found(error):
+    """
+    API error handler
+
+    :receives: None
+    :return: an error JSON
+    """
+    exc_type, value, traceback = sys.exc_info()
+    error_json = core.error_handler(exc_type.__name__, str(value))
+    return error_json, 500
+
+
+@app.errorhandler(404)
+def page_not_found(error):
+    """
+    API error handler for pages that were not found
+
+    :receives: None
+    :return: an error message
+    """
+
+    return "Page was not found.", 404

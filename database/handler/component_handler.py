@@ -2,8 +2,7 @@ from datetime import datetime
 from neomodel import config, StructuredNode, StringProperty, UniqueIdProperty, \
     RelationshipTo, StructuredRel, FloatProperty
 
-from core.error_handler import error_handler
-from core.success_handler import success_handler
+import core
 import database.handler.metric_handler as metric_handler
 from database.config import *
 
@@ -83,15 +82,17 @@ def get_component(uid_dict: dict) -> dict:
     uid = uid_dict["uid"]
     component = Component.nodes.get(uid=uid)
     component_dict = component.__dict__
+
     metrics_list = component.hasMetric.all()
     metrics_dict = {}
     for key in metrics_list:
         relationship = component.hasMetric.relationship(key)
         metrics_dict[key.name] = relationship.value
     component_dict["metrics"] = metrics_dict
+
     del component_dict["hasMetric"]
     del component_dict["id"]
-    component_dict.update({"success": True})
+    component_dict.update(core.success_handler())
 
     return component_dict
 
@@ -104,26 +105,17 @@ def add_component(input_dict: dict) -> dict:
     :type input_dict: dict
     :return: Status dict
     """
-    successful = True
 
     output = Component(name=input_dict["name"], category=input_dict["category"],
                        creation_timestamp=str(datetime.now()),
                        last_timestamp=str(datetime.now()), description=input_dict["description"])
-    try:
-        output.save()
-    except:  # since here can happen multiple errors we don't catch a explicit exception
-        successful = False
+
+    output.save()
 
     for metric in input_dict["metrics"]:
-        try:
-            output.hasMetric.connect(metric_handler.get_metric(metric), {"value": input_dict["metrics"][metric]})
-        except:  # since here can happen multiple errors we don't catch a explicit exception
-            successful = False
+        output.hasMetric.connect(metric_handler.get_metric(metric), {"value": input_dict["metrics"][metric]})
 
-    if successful:
-        return success_handler()
-    else:
-        return error_handler(500, "Unable to add component to database")
+    return core.success_handler()
 
 
 def update_component(input_dict: dict) -> dict:
@@ -142,12 +134,7 @@ def update_component(input_dict: dict) -> dict:
     component.category = input_dict["category"]
     component.last_timestamp = str(datetime.now())
 
-    successful = True
-
-    try:
-        component.save()
-    except:  # since here can happen multiple errors we don't catch a explicit exception
-        successful = False
+    component.save()
 
     component_dict = get_component({"uid": uid})
 
@@ -160,15 +147,9 @@ def update_component(input_dict: dict) -> dict:
         metric_object = metric_handler.get_metric(metric)
         rel = component.hasMetric.relationship(metric_object)
         rel.value = new_metrics[metric]
-        try:
-            rel.save()
-        except:  # since here can happen multiple errors we don't catch a explicit exception
-            successful = False
+        rel.save()
 
-    if successful:
-        return success_handler()
-    else:
-        return error_handler(500, "Unable to update component in database")
+    return core.success_handler()
 
 
 def delete_component(uid_dict: dict) -> dict:
@@ -179,7 +160,5 @@ def delete_component(uid_dict: dict) -> dict:
     :type uid_dict: dict
     :return: Status dict
     """
-    if Component.nodes.get(uid=uid_dict["uid"]).delete():
-        return success_handler()
-    else:
-        return error_handler(500, "Unable to delete component from database")
+    Component.nodes.get(uid=uid_dict["uid"]).delete()
+    return core.success_handler()

@@ -1,18 +1,21 @@
-def error_handler(error_status: int, error_message: str) -> dict:
+import processing
+
+
+def error_handler(error_type: str, error_message: str) -> str:
     """
     Creates and returns an error dict
 
-    :param error_status: The error status, e.g. 500
-    :type error_status: int
+    :param error_type: The error name, e.g. TypeError
+    :type error_type: str
     :param error_message: The error message briefly explaining the error occurrence
     :type error_message: str
-    :return: dict
+    :return: str
     """
 
     error_response = {
         "success": False,
-        "error_status": error_status,
+        "error_type": error_type,
         "error_message": error_message
     }
 
-    return error_response
+    return processing.dict_to_json(error_response)

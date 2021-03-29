@@ -4,6 +4,7 @@ import json
 from neomodel import config, StructuredNode, StringProperty, UniqueIdProperty
 
 from database.config import *
+import processing
 
 config.DATABASE_URL = 'bolt://{}:{}@{}:{}'.format(NEO4J_USER, NEO4J_PASSWORD, NEO4J_IP, NEO4J_PORT)
 
@@ -34,10 +35,11 @@ def create_from_csv(path: str):
 
     with open(path) as csv_file:
         csv_reader_object = csv.reader(csv_file)
-        for row in csv_reader_object:
-            print(row)
-            Metric.create({'name': row[0]})
-        print(Metric.nodes.all())
+
+    for row in csv_reader_object:
+        print(row)
+        Metric.create({'name': row[0]})
+    print(Metric.nodes.all())
 
 
 def create_from_frontend_json(path: str):
@@ -46,14 +48,15 @@ def create_from_frontend_json(path: str):
     """
     with open(path) as json_file:
         data = json.load(json_file)
-        data_dict = json_to_dict(data)
-        features = data_dict["features"]
+        data_dict = processing.json_to_dict(data)
 
-        for key in features:
-            feature = features[key]
-            metrics = feature["metrics"]
-            for metric in metrics:
-                Metric.create({'name': metric})
+    features = data_dict["features"]
+
+    for key in features:
+        feature = features[key]
+        metrics = feature["metrics"]
+        for metric in metrics:
+            Metric.create({'name': metric})
 
 
 def get_metric(input_name: str) -> Metric:

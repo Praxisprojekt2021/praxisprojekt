@@ -1,8 +1,6 @@
 import json
 from typing import Dict, Any, Union
 
-from core.error_handler import error_handler
-
 
 def dict_to_json(dictionary: Dict[str, Any]) -> str:
     """
@@ -12,5 +10,8 @@ def dict_to_json(dictionary: Dict[str, Any]) -> str:
     :type dictionary: Dict[str, Any]
     :return: Returns a JSON object
     """
+
+    if not isinstance(dictionary, dict):
+        raise TypeError(f'The passed parameter "{dictionary}" is not a dictionary')
 
     return json.dumps(dictionary)
