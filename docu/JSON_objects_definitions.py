@@ -212,6 +212,7 @@ data = {
             # ...
         ]
     },
+    # nach risk calc dann nicht mehr drin
     "target_metrics": {
         "codelines": 25000,
         "admins": 12,
@@ -220,20 +221,50 @@ data = {
     },
     # ab jetzt erst ab Backend durch Risk calc
     "score": 80,  # percent as integer
-    "actual_metrics": {
+    "actual_target_metrics": {
         "codelines": {
-            "value": 30,
+            "actual": {
+                "average": 30,
+                "max": 50,
+                "min": 20,
+                "total": 300,  # je nach Berechnungsart addieren oder multiplizieren
+            },
+            "target": {
+                "average": 30,
+                "total": 300,  # je nach Berechnungsart addieren oder multiplizieren
+            },
+            "component_count": 10,
             "fulfillment": True
-        },  # true means that the metric is fine --> no problem.
+        },  # true means that the metric is fulfilled --> no problem.
         "admins": {
-            "value": 30,
+            "actual": {
+                "average": 30,
+                "max": 50,
+                "min": 20,
+                "total": 300,     # je nach Berechnungsart addieren oder multiplizieren
+            },
+            "target": {
+                "average": 30,
+                "total": 300,     # je nach Berechnungsart addieren oder multiplizieren
+            },
+            "component_count": 10,
             "fulfillment": True
         },
         "recovery_time": {
-            "value": 20,
-            "fulfillment": False
-        },  # false means that the metric is not fine --> problem.
-    },
+            "actual": {
+                "average": 0.65,
+                "max": 0.8,
+                "min": 0.5,
+                "total": 0.4,     # je nach Berechnungsart addieren oder multiplizieren
+            },
+            "target": {
+                "average": 0.8,
+                "total": 0.64,     # je nach Berechnungsart addieren oder multiplizieren
+            },
+            "component_count": 2,
+            "fulfillment": True
+        },  # false means that the metric is not fulfilled --> problem.
+    }
 }
 
 # -----------------------------------------------------------
@@ -248,13 +279,12 @@ data = {
         "name": "Kunde anlegen",
         "description": "Prozess zum anlegen von einem neuen Kunden in allen Systemen",
     },
-    "target_metrics":
-        {
-            "codelines": 25000,
-            "admins": 12,
-            "recovery_time": 3,
-            # ...
-        }
+    "target_metrics":{
+        "codelines": 25000,
+        "admins": 12,
+        "recovery_time": 3,
+        # ...
+    }
 }
 
 # Database -> Backend 
@@ -388,18 +418,48 @@ data = {
 # Backend Processing -> Backend Core
 data = {
     "score": 80,  # percent as integer
-    "actual_metrics": {
+    "actual_target_metrics": {
         "codelines": {
-            "value": 30,
+            "actual": {
+                "average": 30,
+                "max": 50,
+                "min": 20,
+                "total": 300,  # je nach Berechnungsart addieren oder multiplizieren
+            },
+            "target": {
+                "average": 30,
+                "total": 300,  # je nach Berechnungsart addieren oder multiplizieren
+            },
+            "component_count": 10,
             "fulfillment": True
         },  # true means that the metric is fulfilled --> no problem.
         "admins": {
-            "value": 30,
+            "actual": {
+                "average": 30,
+                "max": 50,
+                "min": 20,
+                "total": 300,     # je nach Berechnungsart addieren oder multiplizieren
+            },
+            "target": {
+                "average": 30,
+                "total": 300,     # je nach Berechnungsart addieren oder multiplizieren
+            },
+            "component_count": 10,
             "fulfillment": True
         },
         "recovery_time": {
-            "value": 20,
-            "fulfillment": False
+            "actual": {
+                "average": 0.65,
+                "max": 0.8,
+                "min": 0.5,
+                "total": 0.4,     # je nach Berechnungsart addieren oder multiplizieren
+            },
+            "target": {
+                "average": 0.8,
+                "total": 0.64,     # je nach Berechnungsart addieren oder multiplizieren
+            },
+            "component_count": 2,
+            "fulfillment": True
         },  # false means that the metric is not fulfilled --> problem.
-    },
+    }
 }

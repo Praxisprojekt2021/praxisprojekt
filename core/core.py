@@ -160,26 +160,51 @@ def get_process(input_dict: dict) -> str:
                 }
             ]
         },
-        "target_metrics": {
-            "codelines": 25000,
-            "admins": 12,
-            "recovery_time": 3
-        },
         "score": 80,  # percent as integer
-        "actual_metrics": {
+        "actual_target_metrics": {
             "codelines": {
-                "value": 30,
+                "actual": {
+                    "average": 30,
+                    "max": 50,
+                    "min": 20,
+                    "total": 300,  # je nach Berechnungsart addieren oder multiplizieren
+                },
+                "target": {
+                    "average": 30,
+                    "total": 300,  # je nach Berechnungsart addieren oder multiplizieren
+                },
+                "component_count": 10,
                 "fulfillment": True
             },  # true means that the metric is fulfilled --> no problem.
             "admins": {
-                "value": 30,
+                "actual": {
+                    "average": 30,
+                    "max": 50,
+                    "min": 20,
+                    "total": 300,     # je nach Berechnungsart addieren oder multiplizieren
+                },
+                "target": {
+                    "average": 30,
+                    "total": 300,     # je nach Berechnungsart addieren oder multiplizieren
+                },
+                "component_count": 10,
                 "fulfillment": True
             },
             "recovery_time": {
-                "value": 20,
-                "fulfillment": False
+                "actual": {
+                    "average": 0.65,
+                    "max": 0.8,
+                    "min": 0.5,
+                    "total": 0.4,     # je nach Berechnungsart addieren oder multiplizieren
+                },
+                "target": {
+                    "average": 0.8,
+                    "total": 0.64,     # je nach Berechnungsart addieren oder multiplizieren
+                },
+                "component_count": 2,
+                "fulfillment": True
             },  # false means that the metric is not fulfilled --> problem.
-        },
+        }
     }
     
     return processing.dict_to_json(data)
