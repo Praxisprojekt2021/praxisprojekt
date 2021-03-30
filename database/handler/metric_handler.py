@@ -24,8 +24,6 @@ class Metric(StructuredNode):
 
     uid = UniqueIdProperty()
     name = StringProperty()
-    calculationType = StringProperty()
-    fulfilledIf = StringProperty()
 
 
 def create_from_csv(path: str):
