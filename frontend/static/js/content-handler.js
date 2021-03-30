@@ -19,7 +19,7 @@ function init() {
         console.log('Editing existing component');
 
         // Trigger function which gathers component data and processes it
-        getComponentData(uid);
+        getComponent(uid);
     } else {
         // If not, prepare for new component input...
         console.log('Entering new component');
@@ -116,7 +116,7 @@ function getFeatures() {
  * @param {string} uid: The uid of the component to get data for
  */
 
-function getComponentData(uid) {
+function getComponent(uid) {
     const post_data = {
         "uid": uid
     }

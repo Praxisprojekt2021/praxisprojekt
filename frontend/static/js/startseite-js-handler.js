@@ -13,14 +13,14 @@ document.addEventListener("DOMContentLoaded", loadData(), false);
  * Get component and process Data from Back-End and then populate the tables.
  */
 function loadData() {
-    loadComponents();
-    loadProcesses();
+    getComponentList();
+    getProcessList();
 }
 
 /**
  * Get processes data from Back-End and then populate the processes table in FE.
  */
-function loadProcesses() {
+function getProcessList() {
     // Create new HTTP-Request to processes-endpoint
     let xhttp = new XMLHttpRequest();
     xhttp.open("GET", base_url + "content/mock-data.json", true);
@@ -41,7 +41,7 @@ function loadProcesses() {
 /**
  * Get components data from Back-End and then populate the processes table in FE.
  */
-function loadComponents() {
+function getComponentList() {
     // Create new HTTP-Request to components-endpoint
     let xhttp = new XMLHttpRequest();
     xhttp.open("GET", base_url + "component/overview", true);
