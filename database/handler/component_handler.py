@@ -133,14 +133,10 @@ def update_component(input_dict: dict) -> dict:
     component.description = input_dict["description"]
     component.category = input_dict["category"]
     component.last_timestamp = str(datetime.now())
-
     component.save()
 
-    component_dict = get_component({"uid": uid})
-
-    metrics_dict = component_dict["metrics"]
     metrics = []
-    for key in metrics_dict:
+    for key in input_dict["metrics"]:
         metrics.append(key)
     for metric in metrics:
         new_metrics = input_dict["metrics"]
