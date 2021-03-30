@@ -2,6 +2,7 @@ import csv
 import json
 
 from neomodel import config, StructuredNode, StringProperty, UniqueIdProperty
+from core.success_handler import success_handler
 
 from database.config import *
 
@@ -22,6 +23,7 @@ class Metric(StructuredNode):
 
     uid = UniqueIdProperty()
     name = StringProperty()
+    fulfilled_if = StringProperty()
 
 
 def create_from_csv(path: str):
@@ -65,6 +67,25 @@ def get_metric(input_name: str) -> Metric:
     :type input_name: str
     """
     return Metric.nodes.get(name=input_name)
+
+
+def get_metrics_data() -> dict:
+    """
+    Function to get all metrics and their attributes
+    """
+
+    metrics = Metric.nodes.all()
+    metrics_data_dict = success_handler()
+
+    for metric in metrics:
+        metric_dict = metric.__dict__
+        metric_name = metric_dict.pop('name')
+        metrics_data_dict[metric_name] = metric_dict
+
+        # TODO: delete the following two codelines
+        metrics_data_dict[metric_name]["fulfilled_if"] = ">"  # oder "<"
+
+    return metrics_data_dict
 
 
 def add_metric(input_dict: dict) -> Metric:
