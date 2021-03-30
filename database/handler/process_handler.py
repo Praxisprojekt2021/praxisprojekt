@@ -1,7 +1,7 @@
 from neomodel import config, StructuredNode, StringProperty, UniqueIdProperty, \
     RelationshipTo, StructuredRel, FloatProperty
 
-import core
+from core.success_handler import success_handler
 
 import database.handler.metric_handler as metric_handler
 import database.handler.component_handler as component_handler
@@ -190,7 +190,7 @@ def update_process(input_dict: dict) -> dict:
     :type input_dict: dict
     :return: Status dict
     """
-    return core.success_handler()
+    return success_handler()
 
 
 def delete_process(uid_dict: dict) -> dict:
@@ -201,7 +201,7 @@ def delete_process(uid_dict: dict) -> dict:
     :type uid_dict: dict
     :return: Status dict
     """
-    return core.success_handler()
+    return success_handler()
 
 
 def add_process_reference(input_dict: dict) -> dict:
@@ -212,7 +212,7 @@ def add_process_reference(input_dict: dict) -> dict:
     :type input_dict: dict
     :return: Status dict
     """
-    return core.success_handler()
+    return success_handler()
 
 
 def update_process_reference(input_dict: dict) -> dict:
@@ -223,7 +223,7 @@ def update_process_reference(input_dict: dict) -> dict:
     :type input_dict: dict
     :return: Status dict
     """
-    return core.success_handler()
+    return success_handler()
 
 
 def delete_process_reference(input_dict: dict) -> dict:
@@ -235,4 +235,4 @@ def delete_process_reference(input_dict: dict) -> dict:
     :return: Status dict
     """
 
-    return core.success_handler()
+    return success_handler()

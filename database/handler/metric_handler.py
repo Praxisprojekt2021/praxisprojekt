@@ -3,6 +3,7 @@ import json
 from typing import Dict
 
 from neomodel import config, StructuredNode, StringProperty, UniqueIdProperty
+from core.success_handler import success_handler
 
 from database.config import *
 
@@ -70,12 +71,11 @@ def get_metric(input_name: str) -> Metric:
 
 def get_metrics_data() -> Dict:
     """
-    Function to get metrics by its name
-
+    Function to get all metrics and their attributes
     """
 
     metrics = Metric.nodes.all()
-    metrics_data_dict = {"sucess": True}
+    metrics_data_dict = success_handler()
 
     for metric in metrics:
         metric_dict = metric.__dict__

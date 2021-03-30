@@ -2,7 +2,8 @@
 from flask import Flask, render_template, request
 import sys
 
-import core
+import core.core as core
+from core.error_handler import error_handler
 
 app = Flask(__name__, static_url_path='',
             template_folder='../frontend/templates', static_folder='../frontend/static')
@@ -223,7 +224,7 @@ def page_not_found(error):
     :return: an error JSON
     """
     exc_type, value, traceback = sys.exc_info()
-    error_json = core.error_handler(exc_type.__name__, str(value))
+    error_json = error_handler(exc_type.__name__, str(value))
     return error_json, 500
 
 

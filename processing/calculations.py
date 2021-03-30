@@ -1,7 +1,7 @@
 from typing import Dict, Any
 
 
-def start_calculate_risk(process_dict: Dict[str: Any], metrics_dict: Dict[str: Any]) -> Dict[str: Any]:
+def start_calculate_risk(process_dict: Dict[str, Any], metrics_dict: Dict[str, Any]) -> Dict[str, Any]:
     """
     The entry function and handler for the risk calculations. The risk score is calculated and returned with all related
     values.

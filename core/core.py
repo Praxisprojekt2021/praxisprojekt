@@ -103,9 +103,9 @@ def get_process(input_dict: dict) -> str:
 
     output_dict = processing.calculations.start_calculate_risk(process_dict, metrics_dict)
 
-    output_json = processing.dict_to_json(output_dict)
+    # output_json = processing.dict_to_json(output_dict)
 
-    # TO DO Risk Calculation on output_json
+    # TODO: change output
 
     data = {
         "success": True,
