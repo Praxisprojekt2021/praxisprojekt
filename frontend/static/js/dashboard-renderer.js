@@ -1,3 +1,4 @@
+import {formatDate, post_request} from './helper.js';
 /*TODO:
 *       Call in loadProcesses an Backend-Endpoint senden statt an Mock-Datei --> Abhängigkeit Back-End
 *       In add/edit/delete-functions entsprechende URL aufrufen --> Abhängigkeit Tom/Roman
@@ -190,37 +191,14 @@ function deleteProcess(uid) {
 }
 
 /**
- * Routes to the URL where the user can delete the component with the given uid.
+ * Delete Component with given Id.
  * @param {String} uid
  */
 function deleteComponent(uid) {
-    // Create new HTTP-Request to component-delete-endpoint
-    let xhttp = new XMLHttpRequest();
-    xhttp.open("POST", base_url + "component/delete", true);
-    xhttp.setRequestHeader("Content-Type", "application/json");
-
-    // Handle response of HTTP-request
-    xhttp.onreadystatechange = function () {
-        if (this.readyState === XMLHttpRequest.DONE && (this.status >= 200 && this.status < 300)) {
-            // Process response and show data in tables
-            location.reload();
-        }
-    }
-    // add component uid as parameter
     let params = JSON.stringify({uid: uid});
-
-    // Send HTTP-request
-    xhttp.send(params);
+    post_request("component/delete", params, deleteCallback());
 }
 
-/**
- * Formats date to a DD.MM.YYYY-String to show it in Front-End as German date format.
- * @param {String} date
- * @returns formatted Date
- */
-function formatDate(date) {
-    return new Date(date).toLocaleDateString("DE", dateOptions);
-}
 
 /**
  * Renders column to show status as red or green.
@@ -231,4 +209,16 @@ function renderStatusColumn(viv_value) {
     // if viv_value > 4, status is green, else status is red;
     // TODO: adapt to requirements (when it should be red or green)
     return viv_value > 4 ? '<td>🟢</td>' : '<td>🔴</td>';
+}
+
+deleteCallback() {
+// Check if component has been created/edited successfully
+if (response['success']) {
+    // Component has been created/edited successfully
+    window.alert('Object has been deleted.');
+    window.location = base_url;
+} else {
+    // Component has not been created/edited successfully
+    window.alert('Object could not be deleted.');
+}
 }
