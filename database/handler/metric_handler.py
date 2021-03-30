@@ -1,5 +1,6 @@
 import csv
 import json
+from typing import Dict
 
 from neomodel import config, StructuredNode, StringProperty, UniqueIdProperty
 
@@ -65,6 +66,27 @@ def get_metric(input_name: str) -> Metric:
     :type input_name: str
     """
     return Metric.nodes.get(name=input_name)
+
+
+def get_metrics_data() -> Dict:
+    """
+    Function to get metrics by its name
+
+    """
+
+    metrics = Metric.nodes.all()
+    metrics_data_dict = {"sucess": True}
+
+    for metric in metrics:
+        metric_dict = metric.__dict__
+        metric_name = metric_dict.pop('name')
+        metrics_data_dict[metric_name] = metric_dict
+
+        # TODO: delete the following two codelines
+        metrics_data_dict[metric_name]["compared_to_target"] = ">"  # oder "<"
+        metrics_data_dict[metric_name]["calculation_total"] = "sum"  # oder "product"
+
+    return metrics_data_dict
 
 
 def add_metric(input_dict: dict) -> Metric:

@@ -58,7 +58,7 @@ def get_component_list() -> dict:
 
     :return: List of components in a dict
     """
-    data = {"success": True}
+    data = core.success_handler()
     components = Component.nodes.all()
     components_list = []
     for component in components:
