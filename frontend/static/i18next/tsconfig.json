@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es5",
+    "lib": ["es6", "dom"],
+    "jsx": "react",
+    "moduleResolution": "node",
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noEmit": true,
+    "baseUrl": "../../../../i18next-19.9.2",
+    "paths": { "i18next": ["./index.d.ts"] },
+
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true
+  },
+  "include": [
+    "./index.d.ts", "./test/**/*.ts*"],
+  "exclude": ["test/typescript/nonEsModuleInterop/**/*.ts"]
+}

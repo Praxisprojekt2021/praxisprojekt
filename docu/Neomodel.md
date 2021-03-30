@@ -6,7 +6,8 @@ Die Datenbank kann dadurch komplett ohne die eigene DQL Cypher genutzt werden._
 Jede Art von Node, die wir in der Datenbank vorfinden muss als Klasse in unserem Handler hinterlegt sein. Lesen wir dann Nodes aus der Datenbank aus, werden diese dann als Python-Objekte zurückgegeben ud können auch so weiter verarabeitet werden. 
 Jedes Merkmal, dass unsere Node haben soll muss als Attribut in der Klasse angelegt werden. Dazu gehören auch Relationships (siehe unten). Der Datentyp sollte für jedes Attribut analog zum Datentyp in der Neo4j-Datenbank angelegt werden. Dafür stehen uns verschiedene hinterlegte Klassen zur Verfügung.:
 
-AliasProperty	        IntegerProperty
+> AliasProperty  
+> IntegerProperty
 ArrayProperty	        JSONProperty
 BooleanProperty	        RegexProperty
 DateProperty	        StringProperty (Notes)
