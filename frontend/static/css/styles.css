@@ -1,9 +1,13 @@
-
+/* titillium-web-regular - latin */
+@font-face {
+    font-family: 'Titillium';
+    font-style: normal;
+    font-weight: 400;
+    src: url(fonts/TitilliumWeb-Regular.ttf);
+  }
 body {
-    @font-face { font-family: 'Titillium Web'; font-style: normal; font-weight: 400; src: url('../fonts/titillium-web-v9-latin-regular.eot'); src: url('../fonts/titillium-web-v9-latin-regular.eot?#iefix') format('embedded-opentype'), url('../fonts/titillium-web-v9-latin-regular.woff2') format('woff2'), url('../fonts/titillium-web-v9-latin-regular.woff') format('woff'), url('../fonts/titillium-web-v9-latin-regular.ttf') format('truetype'), url('../fonts/titillium-web-v9-latin-regular.svg#TitilliumWeb') format('svg'); }
-    font-family: 'Titillium Web', sans-serif;
+    font-family: Titillium;
 }
-
 table {
     width: 100%;
     border-collapse: collapse;
@@ -11,7 +15,7 @@ table {
     border-color: #2286fb;
     border-style: solid;
     color: #000000;
-    font-family: 'Titillium Web', sans-serif;
+    font-family: Titillium;
 }
 
 td, th {
