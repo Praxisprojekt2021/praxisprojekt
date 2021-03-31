@@ -59,7 +59,8 @@
     <div class="center">
       <button class="button" type="button" onclick="addComponent()" data-i18n="add"></button>
     </div>
-      <script src="{{ url_for('static', filename='js/startseite-js-handler.js') }}"></script>
+      <script src="{{  url_for('static', filename='js/helper.js') }}"></script>
+      <script src="{{ url_for('static', filename='js/dashboard-renderer.js') }}"></script>
       <script type="module" src="{{ url_for('static', filename='js/translator.js') }}"></script>
   </body>
 </html>

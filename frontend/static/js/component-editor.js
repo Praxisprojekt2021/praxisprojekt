@@ -1,7 +1,7 @@
-import {post_request} from './helper.js';
-
 //Base url to distinguish between localhost and production environment
 const base_url = window.location.origin;
+// instantiate object of helper class
+const helper = new Helper();
 
 /**
  * This function initializes the view and distinguishes between create and edit functionality
@@ -122,7 +122,7 @@ function getComponent(uid) {
     const post_data = {
         "uid": uid
     }
-    post_request('/component/view', JSON.stringify(post_data), processComponentData);
+    helper.post_request('/component/view', JSON.stringify(post_data), processComponentData);
 }
 
 /**
@@ -258,7 +258,7 @@ function createEditComponent() {
 
     // If a input have been performend, post changes to backend
     if (required_helper_flag) {
-        post_request('/component/create_edit', JSON.stringify(component), saveCallback);
+        helper.post_request('/component/create_edit', JSON.stringify(component), saveCallback);
     } else {
         let alert_string = 'Changes could not be saved. Please fill all metrics fields.';
         if (text_replaced_flag === true) {

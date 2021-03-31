@@ -1,4 +1,3 @@
-import {formatDate, post_request} from './helper.js';
 /*TODO:
 *       Call in loadProcesses an Backend-Endpoint senden statt an Mock-Datei --> Abhängigkeit Back-End
 *       In add/edit/delete-functions entsprechende URL aufrufen --> Abhängigkeit Tom/Roman
@@ -6,7 +5,9 @@ import {formatDate, post_request} from './helper.js';
 
 //Base url to distinguish between localhost and production environment
 const base_url = window.location.href;
-const dateOptions = { year: 'numeric', month: '2-digit', day: '2-digit' };
+
+//instantiate object of Helper class
+const helper = new Helper();
 
 document.addEventListener("DOMContentLoaded", loadData(), false);
 
@@ -73,8 +74,8 @@ function refreshProcessTable(json) {
             '<td>' + object.components + '</td>' +
             '<td>' + object.viv_value + '</td>' +
             renderStatusColumn(object.viv_value) +
-            '<td>' + formatDate(object.created) + '</td>' +
-            '<td>' + formatDate(object.edited) + '</td>' +
+            '<td>' + helper.formatDate(object.created) + '</td>' +
+            '<td>' + helper.formatDate(object.edited) + '</td>' +
             '<td>' + renderEditProcessButton(object.uid) + '</td>' +
             '<td>' + renderDeleteProcessButton(object.uid) + '</td>';
         table.appendChild(tr);
@@ -93,30 +94,12 @@ function refreshComponentTable(json) {
         tr.innerHTML = '<td>' + object.name + '</td>' +
             '<td>' + object.category + '</td>' +    // TODO: erst mappen mit tatsächlicher Kategorie
             '<td></td>' +
-            '<td>' + formatDate(object.creation_timestamp) + '</td>' +
-            '<td>' + formatDate(object.last_timestamp) + '</td>' +
+            '<td>' + helper.formatDate(object.creation_timestamp) + '</td>' +
+            '<td>' + helper.formatDate(object.last_timestamp) + '</td>' +
             '<td>' + renderEditComponentButton(object.uid) + '</td>' +
             '<td>' + renderDeleteComponentButton(object.uid) + '</td>';
         table.appendChild(tr);
     });
-}
-
-/**
- * Renders HTML-Button to add a process.
- * 
- * @returns {String} Add-Process-Button HTML-Element
- */
-function renderAddProcessButton() {
-    return `<div onclick="addProcess()">+</div>`;
-}
-
-/**
- * Renders HTML-Button to add a component.
- * 
- * @returns {String} Add-Component-Button HTML-Element
- */
-function renderAddComponentButton() {
-    return `<div onclick="addComponent()">+</div>`;
 }
 
 /**
@@ -207,7 +190,7 @@ function deleteProcess(uid) {
  */
 function deleteComponent(uid) {
     let params = JSON.stringify({uid: uid});
-    post_request("component/delete", params, deleteCallback());
+    helper.post_request("component/delete", params, deleteCallback());
 }
 
 
@@ -226,7 +209,7 @@ function renderStatusColumn(viv_value) {
 /**
  * Shows success/error message and reloads dashboard.
  */
-deleteCallback() {
+function deleteCallback() {
 // Check if component has been created/edited successfully
 if (response['success']) {
     // Component has been created/edited successfully
