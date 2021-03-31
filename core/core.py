@@ -161,7 +161,7 @@ def get_process(input_dict: dict) -> str:
                 "actual": {
                     "average": 30,
                     "max": 50,
-                    "min": 20,,
+                    "min": 20,
                     "standard_deviation": 5,
                     "total": 300,  # summe
                 },
@@ -191,7 +191,7 @@ def get_process(input_dict: dict) -> str:
                 "actual": {
                     "average": 0.65,
                     "max": 0.8,
-                    "min": 0.5,,
+                    "min": 0.5,
                     "standard_deviation": 5,
                     "total": 0.4,     # summe
                 },
