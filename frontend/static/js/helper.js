@@ -1,4 +1,3 @@
-
 class Helper {
     /**
      * This function sends a post request to the backend
@@ -8,7 +7,7 @@ class Helper {
      * @param {function} callback: The function to be executed with the response
      */
 
-     post_request(endpoint, data_json, callback) {
+    post_request(endpoint, data_json, callback) {
         const base_url = window.location.origin;
         let xhttp = new XMLHttpRequest();
         xhttp.open("POST", base_url + endpoint, true);
@@ -50,7 +49,7 @@ class Helper {
             }
         }
 
-        if(data_json!=="") {
+        if (data_json !== "") {
             // Send HTTP-request
             xhttp.send(data_json);
         } else {
