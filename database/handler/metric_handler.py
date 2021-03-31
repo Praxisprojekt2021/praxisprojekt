@@ -1,6 +1,5 @@
 import csv
 import json
-from typing import Dict
 
 from neomodel import config, StructuredNode, StringProperty, UniqueIdProperty
 from core.success_handler import success_handler
@@ -24,6 +23,7 @@ class Metric(StructuredNode):
 
     uid = UniqueIdProperty()
     name = StringProperty()
+    fulfilled_if = StringProperty()
 
 
 def create_from_csv(path: str):
@@ -69,7 +69,7 @@ def get_metric(input_name: str) -> Metric:
     return Metric.nodes.get(name=input_name)
 
 
-def get_metrics_data() -> Dict:
+def get_metrics_data() -> dict:
     """
     Function to get all metrics and their attributes
     """
@@ -83,8 +83,7 @@ def get_metrics_data() -> Dict:
         metrics_data_dict[metric_name] = metric_dict
 
         # TODO: delete the following two codelines
-        metrics_data_dict[metric_name]["compared_to_target"] = ">"  # oder "<"
-        metrics_data_dict[metric_name]["calculation_total"] = "sum"  # oder "product"
+        metrics_data_dict[metric_name]["fulfilled_if"] = ">"  # oder "<"
 
     return metrics_data_dict
 
