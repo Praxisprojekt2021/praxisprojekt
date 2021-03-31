@@ -226,12 +226,13 @@ data = {
             "actual": {
                 "average": 30,
                 "max": 50,
-                "min": 20,
-                "total": 300,  # je nach Berechnungsart addieren oder multiplizieren
+                "min": 20,,
+                "standard_deviation": 5,
+                "total": 300,  # summe
             },
             "target": {
                 "average": 30,
-                "total": 300,  # je nach Berechnungsart addieren oder multiplizieren
+                "total": 300,  # summe
             },
             "component_count": 10,
             "fulfillment": True
@@ -241,11 +242,12 @@ data = {
                 "average": 30,
                 "max": 50,
                 "min": 20,
-                "total": 300,     # je nach Berechnungsart addieren oder multiplizieren
+                "standard_deviation": 5,
+                "total": 300,     # summe
             },
             "target": {
                 "average": 30,
-                "total": 300,     # je nach Berechnungsart addieren oder multiplizieren
+                "total": 300,     # summe
             },
             "component_count": 10,
             "fulfillment": True
@@ -254,12 +256,13 @@ data = {
             "actual": {
                 "average": 0.65,
                 "max": 0.8,
-                "min": 0.5,
-                "total": 0.4,     # je nach Berechnungsart addieren oder multiplizieren
+                "min": 0.5,,
+                "standard_deviation": 5,
+                "total": 0.4,     # summe
             },
             "target": {
                 "average": 0.8,
-                "total": 0.64,     # je nach Berechnungsart addieren oder multiplizieren
+                "total": 0.64,     # summe
             },
             "component_count": 2,
             "fulfillment": True
@@ -423,12 +426,13 @@ data = {
             "actual": {
                 "average": 30,
                 "max": 50,
-                "min": 20,
-                "total": 300,  # je nach Berechnungsart addieren oder multiplizieren
+                "min": 20,,
+                "standard_deviation": 5,
+                "total": 300,  # summe
             },
             "target": {
                 "average": 30,
-                "total": 300,  # je nach Berechnungsart addieren oder multiplizieren
+                "total": 300,  # summe
             },
             "component_count": 10,
             "fulfillment": True
@@ -438,11 +442,12 @@ data = {
                 "average": 30,
                 "max": 50,
                 "min": 20,
-                "total": 300,     # je nach Berechnungsart addieren oder multiplizieren
+                "standard_deviation": 5,
+                "total": 300,     # summe
             },
             "target": {
                 "average": 30,
-                "total": 300,     # je nach Berechnungsart addieren oder multiplizieren
+                "total": 300,     # summe
             },
             "component_count": 10,
             "fulfillment": True
@@ -451,12 +456,13 @@ data = {
             "actual": {
                 "average": 0.65,
                 "max": 0.8,
-                "min": 0.5,
-                "total": 0.4,     # je nach Berechnungsart addieren oder multiplizieren
+                "min": 0.5,,
+                "standard_deviation": 5,
+                "total": 0.4,     # summe
             },
             "target": {
                 "average": 0.8,
-                "total": 0.64,     # je nach Berechnungsart addieren oder multiplizieren
+                "total": 0.64,     # summe
             },
             "component_count": 2,
             "fulfillment": True
