@@ -67,42 +67,7 @@ function getFeatures() {
             const categories = data['categories'];
             const features = data['features'];
 
-            Object.keys(features).forEach(function (key) {
-                let feature = features[key];
-                let metrics = feature['metrics'];
-
-                let div = document.createElement('div');
-                div.id = key;
-                div.className = 'feature-section';
-
-                let innerHTML = '';
-                innerHTML += '<div data-hover="" data-delay="0" class="accordion-item w-dropdown">';
-                innerHTML += '<div class="accordion-toggle w-dropdown-toggle" onclick="toggleSection(this)">';
-                innerHTML += '<div class="accordion-icon w-icon-dropdown-toggle"></div>';
-                innerHTML += ('<div class="features-label">' + feature['name'] + '</div>');
-                innerHTML += '</div>';
-                innerHTML += '<nav class="dropdown-list w-dropdown-list">';
-                innerHTML += '<div class="features-columns w-row">';
-
-                Object.keys(metrics).forEach(function (key) {
-                    let metric = metrics[key];
-                    innerHTML += '<div class="metric-entry-element w-clearfix">';
-                    innerHTML += ('<label for="availability-metric-7" class="entry-label">' + metric['name'] + '</label>');
-                    innerHTML += '<input type="text" maxLength="256" data-name="availability-metric-1" id="' + key + '"' +
-                        ' name="availability-metric-1" class="metric-input textfield w-input">';
-                    innerHTML += `<img src="images/info.png" loading="lazy" width="35" alt="" class="info-icon">`;
-                    innerHTML += '</div>';
-                });
-
-                innerHTML += '</div>';
-                innerHTML += '</nav>';
-                innerHTML += '</div>';
-                div.innerHTML = innerHTML;
-
-                // Append element to document
-                document.getElementById('metrics-input').appendChild(div);
-            });
-
+            helper.createMetricsSection(features);
             let div = document.createElement('div');
             div.className = 'control-area';
             div.innerHTML = '<a href="#" data-wait="Bitte warten..." id="save-button" class="create-button w-button" onclick="createEditComponent()">Speichern</a>';

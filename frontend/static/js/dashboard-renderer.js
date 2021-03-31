@@ -23,42 +23,14 @@ function loadData() {
  * Get processes data from Back-End and then populate the processes table in FE.
  */
 function getProcessList() {
-    // Create new HTTP-Request to processes-endpoint
-    let xhttp = new XMLHttpRequest();
-    xhttp.open("GET", base_url + "content/mock-data.json", true);
-    xhttp.setRequestHeader("Content-Type", "application/json");
-
-    // Handle response of HTTP-request
-    xhttp.onreadystatechange = function () {
-        if (this.readyState === XMLHttpRequest.DONE && (this.status >= 200 && this.status < 300)) {
-            // Process response and show data in tables
-            let json = JSON.parse(this.responseText);
-            refreshProcessTable(json);
-        }
-    }
-    // Send HTTP-request
-    xhttp.send();
+    helper.get_request("/content/mock-data.json", "", refreshProcessTable);
 }
 
 /**
  * Get components data from Back-End and then populate the processes table in FE.
  */
 function getComponentList() {
-    // Create new HTTP-Request to components-endpoint
-    let xhttp = new XMLHttpRequest();
-    xhttp.open("GET", base_url + "component/overview", true);
-    xhttp.setRequestHeader("Content-Type", "application/json");
-
-    // Handle response of HTTP-request
-    xhttp.onreadystatechange = function () {
-        if (this.readyState === XMLHttpRequest.DONE && (this.status >= 200 && this.status < 300)) {
-            // Process response and show data in tables
-            let json = JSON.parse(this.responseText);
-            refreshComponentTable(json);
-        }
-    }
-    // Send HTTP-request
-    xhttp.send();
+    helper.get_request("/component/overview", "", refreshComponentTable);
 }
 
 /**
