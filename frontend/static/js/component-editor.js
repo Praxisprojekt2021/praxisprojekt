@@ -177,7 +177,7 @@ function createEditComponent() {
     for (let i = 0; i < metric_elements.length; i++) {
         // TODO also check if values are within min and max values
         // Replace non quantitative metric inputs with an emtpy string to have them discarded
-        if (metric_elements[i].value !== '' && ! parseFloat(metric_elements[i].value)) {
+        if (metric_elements[i].value !== '' && !parseFloat(metric_elements[i].value)) {
             metric_elements[i].value = '';
             text_replaced_flag = true;
         }

@@ -35,8 +35,8 @@ function getComponentList() {
 
 /**
  * Populate Process Table.
- * 
- * @param {JSON} json 
+ *
+ * @param {JSON} json
  */
 function refreshProcessTable(json) {
     var table = document.getElementById('processTable');
@@ -56,7 +56,7 @@ function refreshProcessTable(json) {
 
 /**
  * Populate Component Table.
- * 
+ *
  * @param {JSON} json object containing a list of components
  */
 function refreshComponentTable(json) {
@@ -76,7 +76,7 @@ function refreshComponentTable(json) {
 
 /**
  * Renders HTML-Button to edit a process.
- * 
+ *
  * @returns {String} Edit-Process-Button HTML-Element
  */
 function renderEditProcessButton(uid) {
@@ -85,7 +85,7 @@ function renderEditProcessButton(uid) {
 
 /**
  * Renders HTML-Button to edit a component.
- * 
+ *
  * @returns {String} Edit-Component-Button HTML-Element
  */
 function renderEditComponentButton(uid) {
@@ -94,7 +94,7 @@ function renderEditComponentButton(uid) {
 
 /**
  * Renders HTML-Button to delete a process.
- * 
+ *
  * @returns {String} Delete-Process-Button HTML-Element
  */
 function renderDeleteProcessButton(uid) {
@@ -103,7 +103,7 @@ function renderDeleteProcessButton(uid) {
 
 /**
  * Renders HTML-Button to delete a component.
- * 
+ *
  * @returns {String} Delete-Component-Button HTML-Element
  */
 function renderDeleteComponentButton(uid) {
@@ -129,7 +129,7 @@ function addComponent() {
 
 /**
  * Routes to the URL where the user can edit the process with the given uid.
- * 
+ *
  * @param {String} uid
  */
 function editProcess(uid) {
@@ -138,7 +138,7 @@ function editProcess(uid) {
 
 /**
  * Routes to the URL where the user can edit the component with the given uid.
- * 
+ *
  * @param {String} uid
  */
 function editComponent(uid) {
@@ -148,7 +148,7 @@ function editComponent(uid) {
 
 /**
  * Routes to the URL where the user can delete the process with the given uid.
- * 
+ *
  * @param {String} uid
  */
 function deleteProcess(uid) {
@@ -157,7 +157,7 @@ function deleteProcess(uid) {
 
 /**
  * Delete Component with given Id.
- * 
+ *
  * @param {String} uid
  */
 function deleteComponent(uid) {
@@ -168,8 +168,8 @@ function deleteComponent(uid) {
 
 /**
  * Renders column to show status as red or green.
- * 
- * @param {String} viv_value 
+ *
+ * @param {String} viv_value
  * @returns {String} green or red td-cell (depending on viv-value)
  */
 function renderStatusColumn(viv_value) {
@@ -183,12 +183,12 @@ function renderStatusColumn(viv_value) {
  */
 function deleteCallback() {
 // Check if component has been created/edited successfully
-if (response['success']) {
-    // Component has been created/edited successfully
-    window.alert('Object has been deleted.');
-    window.location.reload();
-} else {
-    // Component has not been created/edited successfully
-    window.alert('Object could not be deleted.');
-}
+    if (response['success']) {
+        // Component has been created/edited successfully
+        window.alert('Object has been deleted.');
+        window.location.reload();
+    } else {
+        // Component has not been created/edited successfully
+        window.alert('Object could not be deleted.');
+    }
 }
