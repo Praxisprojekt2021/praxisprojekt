@@ -5,8 +5,9 @@ File containing definitions of JSON objects for exchange between database, backe
 # error
 # Database -> Backend -> Frontend
 data = {
-    "success": False,
+    "success": False
 }
+
 # -----------------------
 # view component list
 # Database -> Backend -> Frontend
@@ -15,17 +16,17 @@ data = {
     "components": [
         {
             "uid": "b141f94973a43cf8ee972e9dffc1b004",
-         "name": "SQL Datenbank",
-         "category": "Datenbank",
-         "creation_timestamp": "20200219...",
-         "last_timestamp": "20200219...",
+            "name": "SQL Datenbank",
+            "category": "Datenbank",
+            "creation_timestamp": "20200219...",
+            "last_timestamp": "20200219...",
          },
         {
             "uid": "b141f94973a43cf8ee972e9dffc1b004",
-         "name": "Oracle Datenbank",
-         "category": "Datenbank",
-         "creation_timestamp": "20200219...",
-         "last_timestamp": "20200219...",
+            "name": "Oracle Datenbank",
+            "category": "Datenbank",
+            "creation_timestamp": "20200219...",
+            "last_timestamp": "20200219...",
          }
         # ...
     ]
@@ -41,18 +42,20 @@ data = {
 # Database -> Backend -> Frontend
 data = {
     "success": True,
-    "uid": "b141f94973a43cf8ee972e9dffc1b004",
-    "name": "SQL Datenbank",
-    "category": "Datenbank",
-    "description": "Datenbank zu xy mit ...",
-    "creation_timestamp": "20200219...",
-    "last_timestamp": "20200219...",
-    "metrics": {
-        "codelines": 20000,
-        "admins": 10,
-        "recovery_time": 5,
-        # ...
-    },
+    "component": {
+        "uid": "b141f94973a43cf8ee972e9dffc1b004",
+        "name": "SQL Datenbank",
+        "category": "Datenbank",
+        "description": "Datenbank zu xy mit ...",
+        "creation_timestamp": "20200219...",
+        "last_timestamp": "20200219...",
+        "metrics": {
+            "codelines": 20000,
+            "admins": 10,
+            "recovery_time": 5,
+            # ...
+        }
+    }
 }
 
 # -----------------------
@@ -67,12 +70,12 @@ data = {
         "codelines": 20000,
         "admins": 10,
         "recovery_time": 5,
-    },
+    }
 }
 
 # Database -> Backend -> Frontend
 data = {
-    "success": True,
+    "success": True
 }
 
 # -----------------------
@@ -84,7 +87,7 @@ data = {
 
 # Database -> Backend -> Frontend
 data = {
-    "success": True,
+    "success": True
 }
 
 # -----------------------
@@ -99,12 +102,12 @@ data = {
         "codelines": 20000,
         "admins": 10,
         "recovery_time": 5,
-    },
+    }
 }
 
 # Database -> Backend -> Frontend
 data = {
-    "success": True,
+    "success": True
 }
 
 # ----------------------------------------------------------------------------------------------------------------------

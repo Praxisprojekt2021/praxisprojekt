@@ -2,7 +2,7 @@ from datetime import datetime
 from neomodel import config, StructuredNode, StringProperty, UniqueIdProperty, \
     RelationshipTo, StructuredRel, FloatProperty
 
-import core.success_handler
+from core.success_handler import success_handler
 import database.handler.metric_handler as metric_handler
 from database.config import *
 
@@ -18,6 +18,7 @@ class Relationship(StructuredRel):
     value : float
         is value of the relationship
     """
+
     value = FloatProperty()
 
 
@@ -42,6 +43,7 @@ class Component(StructuredNode):
     hasMetric : relationship
         relationship to metric
     """
+
     uid = UniqueIdProperty()
     name = StringProperty()
     category = StringProperty()
@@ -58,16 +60,18 @@ def get_component_list() -> dict:
 
     :return: List of components in a dict
     """
-    data = {"success": True}
+
     components = Component.nodes.all()
-    components_list = []
+    components_dict = success_handler()
+    components_dict["components"] = {}
+
     for component in components:
         component_dict = component.__dict__
         del component_dict["hasMetric"]
-        components_list.append(component_dict)
+        del component_dict["id"]
+        components_dict["components"][component_dict.pop('name')] = component_dict
 
-    data["components"] = components_list
-    return data
+    return components_dict
 
 
 def get_component(uid_dict: dict) -> dict:
@@ -80,19 +84,20 @@ def get_component(uid_dict: dict) -> dict:
     """
 
     uid = uid_dict["uid"]
+
     component = Component.nodes.get(uid=uid)
-    component_dict = component.__dict__
+    component_dict = success_handler()
+    component_dict["component"] = component.__dict__
 
     metrics_list = component.hasMetric.all()
     metrics_dict = {}
     for key in metrics_list:
         relationship = component.hasMetric.relationship(key)
         metrics_dict[key.name] = relationship.value
-    component_dict["metrics"] = metrics_dict
+    component_dict["component"]["metrics"] = metrics_dict
 
-    del component_dict["hasMetric"]
-    del component_dict["id"]
-    component_dict.update(core.success_handler())
+    del component_dict["component"]["hasMetric"]
+    del component_dict["component"]["id"]
 
     return component_dict
 
@@ -109,13 +114,12 @@ def add_component(input_dict: dict) -> dict:
     output = Component(name=input_dict["name"], category=input_dict["category"],
                        creation_timestamp=str(datetime.now()),
                        last_timestamp=str(datetime.now()), description=input_dict["description"])
-
     output.save()
 
     for metric in input_dict["metrics"]:
         output.hasMetric.connect(metric_handler.get_metric(metric), {"value": input_dict["metrics"][metric]})
 
-    return core.success_handler()
+    return success_handler()
 
 
 def update_component(input_dict: dict) -> dict:
@@ -128,6 +132,7 @@ def update_component(input_dict: dict) -> dict:
     """
 
     uid = input_dict["uid"]
+
     component = Component.nodes.get(uid=uid)
     component.name = input_dict["name"]
     component.description = input_dict["description"]
@@ -137,9 +142,9 @@ def update_component(input_dict: dict) -> dict:
     component.save()
 
     component_dict = get_component({"uid": uid})
-
     metrics_dict = component_dict["metrics"]
     metrics = []
+
     for key in metrics_dict:
         metrics.append(key)
     for metric in metrics:
@@ -149,7 +154,7 @@ def update_component(input_dict: dict) -> dict:
         rel.value = new_metrics[metric]
         rel.save()
 
-    return core.success_handler()
+    return success_handler()
 
 
 def delete_component(uid_dict: dict) -> dict:
@@ -160,5 +165,7 @@ def delete_component(uid_dict: dict) -> dict:
     :type uid_dict: dict
     :return: Status dict
     """
+
     Component.nodes.get(uid=uid_dict["uid"]).delete()
-    return core.success_handler()
+
+    return success_handler()
