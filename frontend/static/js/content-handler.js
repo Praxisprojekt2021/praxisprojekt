@@ -103,7 +103,8 @@ function getFeatures() {
 
             let div = document.createElement('div');
             div.className = 'control-area';
-            div.innerHTML = '<a href="#" data-wait="Bitte warten..." id="save-button" class="create-button w-button" onclick="saveComponent()">Speichern</a>';
+            div.innerHTML = '<button id="save-button" class="create-button w-button" onclick="saveComponent()" type="button">Speichern</button>'//'<button="#" data-wait="Bitte warten..." id="save-button" class="create-button w-button" onclick="saveComponent()">Speichern</a>';
+            
 
             // Append element to document
             document.getElementById('metrics-input').appendChild(div);
@@ -231,6 +232,11 @@ function toggleSection(element) {
  */
 
 function saveComponent() {
+
+    document.getElementById('save-button').setAttribute("disabled","disabled");
+    document.getElementById('save-button').style.backgroundColor='grey';
+
+
     let metric_elements = document.getElementsByClassName('metric-input');
     let metrics = {};
     let text_replaced_flag = false; // Helper variable that indicates, whether or not a non quantitative metric input has been found and discarded

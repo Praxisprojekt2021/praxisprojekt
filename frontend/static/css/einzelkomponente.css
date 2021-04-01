@@ -1,8 +1,26 @@
+@font-face {
+  font-family: 'Titillium Web';
+  font-style: normal;
+  font-weight: 400;
+  src: url('fonts/titillium-web-v9-latin-regular.eot'); /* IE9 Compat Modes */
+  src: local(''),
+       url('fonts/titillium-web-v9-latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('fonts/titillium-web-v9-latin-regular.woff2') format('woff2'), /* Super Modern Browsers */
+       url('fonts/titillium-web-v9-latin-regular.woff') format('woff'), /* Modern Browsers */
+       url('fonts/titillium-web-v9-latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */
+       url('fonts/titillium-web-v9-latin-regular.svg#TitilliumWeb') format('svg'); /* Legacy iOS */
+}
 body {
-  font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+  font-family: 'Titillium Web';
   color: #333;
   font-size: 14px;
   line-height: 20px;
+}
+.w-input {
+  font-family: 'Titillium Web';
+}
+.w-select {
+  font-family: 'Titillium Web';
 }
 
 .body {
@@ -62,7 +80,7 @@ body {
 }
 
 .view-description-label {
-  font-family: 'Titillium Web', sans-serif;
+  font-family: 'Titillium Web';
   font-size: 17px;
   font-weight: 700;
 }
@@ -71,7 +89,7 @@ body {
   display: block;
   margin-top: 0px;
   margin-bottom: 15px;
-  font-family: 'Titillium Web', sans-serif;
+  font-family: 'Titillium Web';
   font-weight: 700;
 }
 
@@ -94,7 +112,7 @@ body {
   padding-left: 5px;
   float: left;
   clear: left;
-  font-family: 'Titillium Web', sans-serif;
+  font-family: 'Titillium Web';
   font-weight: 400;
 }
 
@@ -105,7 +123,7 @@ body {
   clear: none;
   border-radius: 5px;
   background-color: #1f299c;
-  font-family: 'Titillium Web', sans-serif;
+  font-family: 'Titillium Web';
   font-size: 15px;
 }
 
@@ -141,6 +159,7 @@ body {
 }
 
 .dropdown-list {
+  font-family: 'Titillium Web';
   position: static;
   display: block;
   overflow: visible;
@@ -186,7 +205,7 @@ body {
 }
 
 .features-label {
-  font-family: 'Titillium Web', sans-serif;
+  font-family: 'Titillium Web';
   font-weight: 700;
 }
 
@@ -220,7 +239,7 @@ body {
   padding-left: 5px;
   float: left;
   border-radius: 0px;
-  font-family: 'Titillium Web', sans-serif;
+  font-family: 'Titillium Web';
   color: #000;
   text-decoration: none;
   cursor: pointer;
@@ -266,7 +285,7 @@ body {
   clear: none;
   border-radius: 5px;
   background-color: #1f299c;
-  font-family: 'Titillium Web', sans-serif;
+  font-family: 'Titillium Web';
   font-size: 15px;
 }
 
@@ -284,3 +303,4 @@ body {
   width: 50%;
   display: inline-block;
 }
+
