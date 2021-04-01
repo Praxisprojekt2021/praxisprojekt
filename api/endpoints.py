@@ -118,10 +118,34 @@ def process_overview_route():
     :receives: None
     :return: a JSON object containing a list of processes
     """
-
-    processes = core.get_process_list()
-
-    return processes
+    # TODO: Uncomment when Backend is working
+    # processes = core.get_process_list()
+    data = {
+        "success": True,
+        "process": [
+            {
+                "uid": "b141f94973a43cf8ee972e9dffc1b004",
+                "name": "Kunde anlegen",
+                "creation_timestamp": "20210210...",
+                "last_timestamp": "20200211...",
+                # erst ab Backend nach Risk calc
+                "score": 80,
+                "components_count": 4,
+            },
+            {
+                "uid": "b141f94973a43cf8ee972e9dffc1b004",
+                "name": "Kunde löschen",
+                "creation_timestamp": "20210209...",
+                "last_timestamp": "20210210...",
+                # erst ab Backend nach Risk calc
+                "score": 40,
+                "components_count": 15,
+            }
+            # ...
+        ]
+    }
+    # TODO: return processes
+    return data
 
 
 @app.route('/process/delete', methods=["POST"])
@@ -222,6 +246,7 @@ def page_not_found(error):
     :receives: None
     :return: an error JSON
     """
+
     exc_type, value, traceback = sys.exc_info()
     error_json = core.error_handler(exc_type.__name__, str(value))
     return error_json, 500
