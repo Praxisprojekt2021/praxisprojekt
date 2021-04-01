@@ -23,7 +23,7 @@ function loadData() {
 function loadProcesses() {
     // Create new HTTP-Request to processes-endpoint
     let xhttp = new XMLHttpRequest();
-    xhttp.open("GET", base_url + "content/mock-data.json", true);
+    xhttp.open("GET", base_url + "process/overview", true);
     xhttp.setRequestHeader("Content-Type", "application/json");
 
     // Handle response of HTTP-request
