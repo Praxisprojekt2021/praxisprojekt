@@ -14,7 +14,6 @@ def start_calculate_risk(process_dict: dict, metrics_dict: dict) -> dict:
     """
 
     current_val = calculate_current_values(process_dict)
-    return current_val
 
 
 def calculate_current_values(process_dict: dict) -> dict:
