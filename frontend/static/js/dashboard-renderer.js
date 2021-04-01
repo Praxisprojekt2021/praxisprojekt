@@ -155,7 +155,7 @@ function editComponent(uid) {
 function deleteProcess(uid) {
     // call delete-process endpoint
     let params = JSON.stringify({uid: uid});
-    helper.post_request("process/delete", params, deleteCallback);
+    helper.post_request("/process/delete", params, deleteCallback);
 }
 
 /**
@@ -165,7 +165,7 @@ function deleteProcess(uid) {
  */
 function deleteComponent(uid) {
     let params = JSON.stringify({uid: uid});
-    helper.post_request("component/delete", params, deleteCallback);
+    helper.post_request("/component/delete", params, deleteCallback);
 }
 
 
