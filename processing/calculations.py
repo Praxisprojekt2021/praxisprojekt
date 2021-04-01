@@ -1,8 +1,7 @@
-from typing import Dict, Any
 from statistics import mean, stdev
 
 
-def start_calculate_risk(process_dict: Dict[str, Any], metrics_dict: Dict[str, Any]) -> Dict[str, Any]:
+def start_calculate_risk(process_dict: dict, metrics_dict: dict) -> dict:
     """
     The entry function and handler for the risk calculations. The risk score is calculated and returned with all related
     values.
@@ -17,7 +16,7 @@ def start_calculate_risk(process_dict: Dict[str, Any], metrics_dict: Dict[str, A
     current_val = calculate_current_values(process_dict)
 
 
-def calculate_current_values(process_dict):
+def calculate_current_values(process_dict: dict) -> dict:
     """
     Function that extracts the current metrics values from a process dict
 
