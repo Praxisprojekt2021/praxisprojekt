@@ -120,7 +120,7 @@ function renderAddComponentButton() {
  * @returns Edit-Process-Button HTML-Element
  */
 function renderEditProcessButton(uid) {
-    return `<div onclick="editProcess('${uid}')">🖊️</div>`;
+    return `<div onclick="editProcess('${uid}')"><i class="fas fa-pencil-alt"></i></div>`;
 }
 
 /**
