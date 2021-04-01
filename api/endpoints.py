@@ -126,8 +126,8 @@ def process_overview_route():
             {
                 "uid": "b141f94973a43cf8ee972e9dffc1b004",
                 "name": "Kunde anlegen",
-                "creation_timestamp": "20210210...",
-                "last_timestamp": "20200211...",
+                "creation_timestamp": "2021-03-29 12:02:52.897594",
+                "last_timestamp": "2021-03-31 14:11:20.824657",
                 # erst ab Backend nach Risk calc
                 "score": 80,
                 "components_count": 4,
@@ -135,8 +135,8 @@ def process_overview_route():
             {
                 "uid": "b141f94973a43cf8ee972e9dffc1b004",
                 "name": "Kunde löschen",
-                "creation_timestamp": "20210209...",
-                "last_timestamp": "20210210...",
+                "creation_timestamp": "2021-03-31 14:11:20.824657",
+                "last_timestamp": "2021-03-31 14:11:20.824657",
                 # erst ab Backend nach Risk calc
                 "score": 40,
                 "components_count": 15,
