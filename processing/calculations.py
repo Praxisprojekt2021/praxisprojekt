@@ -14,6 +14,7 @@ def start_calculate_risk(process_dict: dict, metrics_dict: dict) -> dict:
     """
 
     current_val = calculate_current_values(process_dict)
+    return current_val
 
 
 def calculate_current_values(process_dict: dict) -> dict:
@@ -25,21 +26,24 @@ def calculate_current_values(process_dict: dict) -> dict:
    :return: Dict[str: Any]
    """
 
-    metrics_dict = {}
+    component_metrics = {}
     for components in (process_dict["process"]["components"]):
         for key, value in components["metrics"].items():
-            if key not in metrics_dict:
-                metrics_dict[key] = [value]
+            if key not in component_metrics:
+                component_metrics[key] = [value]
             else:
-                metrics_dict[key].append(value)
+                component_metrics[key].append(value)
 
     calculations = {}
-    for key, value in metrics_dict.items():
+    for key, value in component_metrics.items():
         calculations[key] = {"sum": sum(value),
                              "min": min(value),
                              "max": max(value),
-                             "avg": int(mean(value)),
-                             "std_dev": int(stdev(value))
+                             "avg": int(mean(value))
                              }
+        try:
+            calculations[key].update({"std_dev": int(stdev(value))})
+        except ValueError:
+            calculations[key].update({"std_dev": None})
 
     return calculations
