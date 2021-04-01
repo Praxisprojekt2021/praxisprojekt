@@ -118,34 +118,10 @@ def process_overview_route():
     :receives: None
     :return: a JSON object containing a list of processes
     """
-    # TODO: Uncomment when Backend is working
-    # processes = core.get_process_list()
-    data = {
-        "success": True,
-        "process": [
-            {
-                "uid": "b141f94973a43cf8ee972e9dffc1b004",
-                "name": "Kunde anlegen",
-                "creation_timestamp": "2021-03-29 12:02:52.897594",
-                "last_timestamp": "2021-03-31 14:11:20.824657",
-                # erst ab Backend nach Risk calc
-                "score": 80,
-                "components_count": 4,
-            },
-            {
-                "uid": "b141f94973a43cf8ee972e9dffc1b004",
-                "name": "Kunde löschen",
-                "creation_timestamp": "2021-03-31 14:11:20.824657",
-                "last_timestamp": "2021-03-31 14:11:20.824657",
-                # erst ab Backend nach Risk calc
-                "score": 40,
-                "components_count": 15,
-            }
-            # ...
-        ]
-    }
-    # TODO: return processes
-    return data
+
+    processes = core.get_process_list()
+
+    return processes
 
 
 @app.route('/process/delete', methods=["POST"])

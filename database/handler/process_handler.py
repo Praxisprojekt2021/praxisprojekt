@@ -79,14 +79,14 @@ def get_process_list() -> dict:
             {
                 "uid": "b141f94973a43cf8ee972e9dffc1b004",
                 "name": "Kunde anlegen",
-                "creation_timestamp": "20210210...",
-                "last_timestamp": "20200211..."
+                "creation_timestamp": "2021-03-29 12:02:52.897594",
+                "last_timestamp": "2021-03-29 12:02:52.897594"
             },
             {
                 "uid": "b141f94973a43cf8ee972e9dffc1b004",
                 "name": "Kunde löschen",
-                "creation_timestamp": "20210209...",
-                "last_timestamp": "20210210..."
+                "creation_timestamp": "2021-03-29 12:02:52.897594",
+                "last_timestamp": "2021-03-29 12:02:52.897594"
             }
         ]
     }
