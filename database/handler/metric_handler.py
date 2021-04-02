@@ -72,4 +72,4 @@ def get_metrics_data() -> dict:
         metric_dict = metric.__dict__
         metrics_dict["metrics"][metric_dict.pop('name')] = metric_dict
 
-    return metrics_data_dict
+    return metrics_dict
