@@ -254,7 +254,7 @@ def delete_process_reference(input_dict: dict) -> dict:
     :return: Status dict
     """
 
-    db.cypher_query('Match (n: Process {uid: "' + input_dict['process_uid'] +
+    db.cypher_query('Match (n: Process {uid: "' + input_dict['process_uid'] + 
     '"})-[r: includes {weight: ' + str(input_dict['weight']) + '}] -() Delete r')
 
     return success_handler()
