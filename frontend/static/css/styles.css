@@ -70,11 +70,11 @@ th {
 .headline{
     font-size: 2em;
 }
-.TrashIcon{
+.fas fa-pencil-alt{
     width: 2%;
     max-height: 3%;
 }
-.PenIcon{
+.fas fa-trash-alt{
     width: 2%;
     max-height: 3%;
 }
