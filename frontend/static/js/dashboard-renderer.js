@@ -79,7 +79,7 @@ function refreshComponentTable(json) {
  * @returns {String} Edit-Process-Button HTML-Element
  */
 function renderEditProcessButton(uid) {
-    return `<div onclick="editProcess('${uid}')"><img name="PenIcon" src="/images/penIcon.png" alt="pencil"></div>`;
+    return `<div onclick="editProcess('${uid}')"><i id="PenIcon" class="fas fa-pencil-alt"></i></div>`;
 }
 
 /**
@@ -88,7 +88,7 @@ function renderEditProcessButton(uid) {
  * @returns {String} Edit-Component-Button HTML-Element
  */
 function renderEditComponentButton(uid) {
-    return `<div onclick="editComponent('${uid}')"><img name="PenIcon"  src="/images/penIcon.png" alt="pencil"></div>`;
+    return `<div onclick="editComponent('${uid}')"><i  id="PenIcon"class="fas fa-pencil-alt"></i></div>`;
 }
 
 /**
@@ -97,7 +97,7 @@ function renderEditComponentButton(uid) {
  * @returns {String} Delete-Process-Button HTML-Element
  */
 function renderDeleteProcessButton(uid) {
-    return `<div onclick="deleteProcess('${uid}')"><i name="TrashIcon" class="fas fa-trash-alt"></i></div>`;
+    return `<div onclick="deleteProcess('${uid}')"><i id="TrashIcon" class="fas fa-trash-alt"></i></div>`;
 }
 
 /**
@@ -106,11 +106,11 @@ function renderDeleteProcessButton(uid) {
  * @returns {String} Delete-Component-Button HTML-Element
  */
 function renderDeleteComponentButton(uid) {
-    return `<div onclick="deleteComponent('${uid}')"><i name="TrashIcon" class="fas fa-trash-alt"></i></div>`;
+    return `<div onclick="deleteComponent('${uid}')"><i id="TrashIcon" class="fas fa-trash-alt"></i></div>`;
 }
 
 /**
- * Routes to the URL where user can add a new process.
+ * Routes to the URL where user can add a new process
  */
 function addProcess() {
     // ... open edit process URL without param
