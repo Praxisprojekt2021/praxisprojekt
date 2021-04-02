@@ -178,6 +178,12 @@ function renderStatusColumn(viv_value) {
     return viv_value > 4 ? '<td><i id="GreenCircle" class="fas fa-circle"></i></td>' : '<td><i id="RedCircle" class="fas fa-circle"></i></td>';
 }
 
+/**
+ * Load Metrics Definition data from json file.
+ *
+ * Could not be realized be helper.get_request because callback function needs to be called with two params. To be checked later if needed.
+ * @param componentData
+ */
 function loadMetricsDefinition(componentData) {
     const base_url = window.location.origin;
     let xhttp = new XMLHttpRequest();
