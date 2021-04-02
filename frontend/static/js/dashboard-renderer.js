@@ -30,7 +30,7 @@ function getProcessList() {
  * Get components data from Back-End and then populate the processes table in FE.
  */
 function getComponentList() {
-    helper.get_request("/component/overview", "", refreshComponentTable);
+    helper.get_request("/component/overview", "", loadMetricsDefinition);
 }
 
 /**
@@ -59,12 +59,13 @@ function refreshProcessTable(json) {
  *
  * @param {JSON} json object containing a list of components
  */
-function refreshComponentTable(json) {
+function refreshComponentTable(json, metricsDefinition) {
     var table = document.getElementById('componentTable');
     json.components.forEach(function (object) {
+        let category = object.category;
         let tr = document.createElement('tr');
         tr.innerHTML = '<td>' + object.name + '</td>' +
-            '<td>' + object.category + '</td>' +    // TODO: erst mappen mit tatsächlicher Kategorie
+            '<td>' + metricsDefinition.categories[category].name + '</td>' +    // TODO: erst mappen mit tatsächlicher Kategorie
             '<td>' + helper.formatDate(object.creation_timestamp) + '</td>' +
             '<td>' + helper.formatDate(object.last_timestamp) + '</td>' +
             '<td>' + renderEditComponentButton(object.uid) + '</td>' +
@@ -174,7 +175,25 @@ function deleteComponent(uid) {
 function renderStatusColumn(viv_value) {
     // if viv_value > 4, status is green, else status is red;
     // TODO: adapt to requirements (when it should be red or green)
-    return viv_value > 4 ? '<td>🟢</td>' : '<td>🔴</td>';
+    return viv_value > 4 ? '<td><i id="GreenCircle" class="fas fa-circle"></i></td>' : '<td><i id="RedCircle" class="fas fa-circle"></i></td>';
+}
+
+function loadMetricsDefinition(componentData) {
+    const base_url = window.location.origin;
+    let xhttp = new XMLHttpRequest();
+    xhttp.open("GET", base_url + "/content/mapping_metrics_definition.json", true);
+    xhttp.setRequestHeader("Content-Type", "application/json");
+
+    // Handle response of HTTP-request
+    xhttp.onreadystatechange = function () {
+        if (this.readyState === XMLHttpRequest.DONE && (this.status >= 200 && this.status < 300)) {
+            // Process response and show sum in output field
+            let metricsDefinition = JSON.parse(this.responseText);
+            refreshComponentTable(componentData, metricsDefinition);
+        }
+    }
+    xhttp.send();
+
 }
 
 /**

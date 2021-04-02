@@ -78,3 +78,14 @@ th {
     width: 2%;
     max-height: 3%;
 }
+.GreenCircle{
+    width: 2%;
+    max-height: 3%;
+    color: green;
+}
+
+.RedCircle{
+    width: 2%;
+    max-height: 3%;
+    color:red;
+}
