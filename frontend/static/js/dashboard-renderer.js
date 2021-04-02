@@ -5,7 +5,9 @@
 
 //Base url to distinguish between localhost and production environment
 const base_url = window.location.href;
-const dateOptions = { year: 'numeric', month: '2-digit', day: '2-digit' };
+
+//instantiate object of Helper class
+const helper = new Helper();
 
 document.addEventListener("DOMContentLoaded", loadData(), false);
 
@@ -13,55 +15,28 @@ document.addEventListener("DOMContentLoaded", loadData(), false);
  * Get component and process Data from Back-End and then populate the tables.
  */
 function loadData() {
-    loadComponents();
-    loadProcesses();
+    getComponentList();
+    getProcessList();
 }
 
 /**
  * Get processes data from Back-End and then populate the processes table in FE.
  */
-function loadProcesses() {
-    // Create new HTTP-Request to processes-endpoint
-    let xhttp = new XMLHttpRequest();
-    xhttp.open("GET", base_url + "content/mock-data.json", true);
-    xhttp.setRequestHeader("Content-Type", "application/json");
-
-    // Handle response of HTTP-request
-    xhttp.onreadystatechange = function () {
-        if (this.readyState === XMLHttpRequest.DONE && (this.status >= 200 && this.status < 300)) {
-            // Process response and show data in tables
-            let json = JSON.parse(this.responseText);
-            refreshProcessTable(json);
-        }
-    }
-    // Send HTTP-request
-    xhttp.send();
+function getProcessList() {
+    helper.get_request("/content/mock-data.json", "", refreshProcessTable);
 }
 
 /**
  * Get components data from Back-End and then populate the processes table in FE.
  */
-function loadComponents() {
-    // Create new HTTP-Request to components-endpoint
-    let xhttp = new XMLHttpRequest();
-    xhttp.open("GET", base_url + "component/overview", true);
-    xhttp.setRequestHeader("Content-Type", "application/json");
-
-    // Handle response of HTTP-request
-    xhttp.onreadystatechange = function () {
-        if (this.readyState === XMLHttpRequest.DONE && (this.status >= 200 && this.status < 300)) {
-            // Process response and show data in tables
-            let json = JSON.parse(this.responseText);
-            refreshComponentTable(json);
-        }
-    }
-    // Send HTTP-request
-    xhttp.send();
+function getComponentList() {
+    helper.get_request("/component/overview", "", refreshComponentTable);
 }
 
 /**
  * Populate Process Table.
- * @param {JSON} json 
+ *
+ * @param {JSON} json
  */
 function refreshProcessTable(json) {
     var table = document.getElementById('processTable');
@@ -71,8 +46,8 @@ function refreshProcessTable(json) {
             '<td>' + object.components + '</td>' +
             '<td>' + object.viv_value + '</td>' +
             renderStatusColumn(object.viv_value) +
-            '<td>' + formatDate(object.created) + '</td>' +
-            '<td>' + formatDate(object.edited) + '</td>' +
+            '<td>' + helper.formatDate(object.created) + '</td>' +
+            '<td>' + helper.formatDate(object.edited) + '</td>' +
             '<td>' + renderEditProcessButton(object.uid) + '</td>' +
             '<td>' + renderDeleteProcessButton(object.uid) + '</td>';
         table.appendChild(tr);
@@ -81,7 +56,7 @@ function refreshProcessTable(json) {
 
 /**
  * Populate Component Table.
- * 
+ *
  * @param {JSON} json object containing a list of components
  */
 function refreshComponentTable(json) {
@@ -90,8 +65,8 @@ function refreshComponentTable(json) {
         let tr = document.createElement('tr');
         tr.innerHTML = '<td>' + object.name + '</td>' +
             '<td>' + object.category + '</td>' +    // TODO: erst mappen mit tatsächlicher Kategorie
-            '<td>' + formatDate(object.creation_timestamp) + '</td>' +
-            '<td>' + formatDate(object.last_timestamp) + '</td>' +
+            '<td>' + helper.formatDate(object.creation_timestamp) + '</td>' +
+            '<td>' + helper.formatDate(object.last_timestamp) + '</td>' +
             '<td>' + renderEditComponentButton(object.uid) + '</td>' +
             '<td>' + renderDeleteComponentButton(object.uid) + '</td>';
         table.appendChild(tr);
@@ -99,24 +74,9 @@ function refreshComponentTable(json) {
 }
 
 /**
- * Renders HTML-Button to add a process.
- * @returns Add-Process-Button HTML-Element
- */
-function renderAddProcessButton() {
-    return `<div onclick="addProcess()">+</div>`;
-}
-
-/**
- * Renders HTML-Button to add a component.
- * @returns Add-Component-Button HTML-Element
- */
-function renderAddComponentButton() {
-    return `<div onclick="addComponent()">+</div>`;
-}
-
-/**
  * Renders HTML-Button to edit a process.
- * @returns Edit-Process-Button HTML-Element
+ *
+ * @returns {String} Edit-Process-Button HTML-Element
  */
 function renderEditProcessButton(uid) {
     return `<div onclick="editProcess('${uid}')"><img name="PenIcon" src="/images/penIcon.png" alt="pencil"></div>`;
@@ -124,7 +84,8 @@ function renderEditProcessButton(uid) {
 
 /**
  * Renders HTML-Button to edit a component.
- * @returns Edit-Component-Button HTML-Element
+ *
+ * @returns {String} Edit-Component-Button HTML-Element
  */
 function renderEditComponentButton(uid) {
     return `<div onclick="editComponent('${uid}')"><img name="PenIcon"  src="/images/penIcon.png" alt="pencil"></div>`;
@@ -132,7 +93,8 @@ function renderEditComponentButton(uid) {
 
 /**
  * Renders HTML-Button to delete a process.
- * @returns Delete-Process-Button HTML-Element
+ *
+ * @returns {String} Delete-Process-Button HTML-Element
  */
 function renderDeleteProcessButton(uid) {
     return `<div onclick="deleteProcess('${uid}')"><i name="TrashIcon" class="fas fa-trash-alt"></i></div>`;
@@ -140,7 +102,8 @@ function renderDeleteProcessButton(uid) {
 
 /**
  * Renders HTML-Button to delete a component.
- * @returns Delete-Component-Button HTML-Element
+ *
+ * @returns {String} Delete-Component-Button HTML-Element
  */
 function renderDeleteComponentButton(uid) {
     return `<div onclick="deleteComponent('${uid}')"><i name="TrashIcon" class="fas fa-trash-alt"></i></div>`;
@@ -165,6 +128,7 @@ function addComponent() {
 
 /**
  * Routes to the URL where the user can edit the process with the given uid.
+ *
  * @param {String} uid
  */
 function editProcess(uid) {
@@ -173,6 +137,7 @@ function editProcess(uid) {
 
 /**
  * Routes to the URL where the user can edit the component with the given uid.
+ *
  * @param {String} uid
  */
 function editComponent(uid) {
@@ -182,6 +147,7 @@ function editComponent(uid) {
 
 /**
  * Routes to the URL where the user can delete the process with the given uid.
+ *
  * @param {String} uid
  */
 function deleteProcess(uid) {
@@ -189,45 +155,39 @@ function deleteProcess(uid) {
 }
 
 /**
- * Routes to the URL where the user can delete the component with the given uid.
+ * Delete Component with given Id.
+ *
  * @param {String} uid
  */
 function deleteComponent(uid) {
-    // Create new HTTP-Request to component-delete-endpoint
-    let xhttp = new XMLHttpRequest();
-    xhttp.open("POST", base_url + "component/delete", true);
-    xhttp.setRequestHeader("Content-Type", "application/json");
-
-    // Handle response of HTTP-request
-    xhttp.onreadystatechange = function () {
-        if (this.readyState === XMLHttpRequest.DONE && (this.status >= 200 && this.status < 300)) {
-            // Process response and show data in tables
-            location.reload();
-        }
-    }
-    // add component uid as parameter
     let params = JSON.stringify({uid: uid});
-
-    // Send HTTP-request
-    xhttp.send(params);
+    helper.post_request("component/delete", params, deleteCallback());
 }
 
-/**
- * Formats date to a DD.MM.YYYY-String to show it in Front-End as German date format.
- * @param {String} date
- * @returns formatted Date
- */
-function formatDate(date) {
-    return new Date(date).toLocaleDateString("DE", dateOptions);
-}
 
 /**
  * Renders column to show status as red or green.
- * @param {String} viv_value 
- * @returns green or red td-cell (depending on viv-value)
+ *
+ * @param {String} viv_value
+ * @returns {String} green or red td-cell (depending on viv-value)
  */
 function renderStatusColumn(viv_value) {
     // if viv_value > 4, status is green, else status is red;
     // TODO: adapt to requirements (when it should be red or green)
     return viv_value > 4 ? '<td>🟢</td>' : '<td>🔴</td>';
+}
+
+/**
+ * Shows success/error message and reloads dashboard.
+ */
+function deleteCallback() {
+// Check if component has been created/edited successfully
+    if (response['success']) {
+        // Component has been created/edited successfully
+        window.alert('Object has been deleted.');
+        window.location.reload();
+    } else {
+        // Component has not been created/edited successfully
+        window.alert('Object could not be deleted.');
+    }
 }
