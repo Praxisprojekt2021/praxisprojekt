@@ -90,7 +90,6 @@ function refreshComponentTable(json) {
         let tr = document.createElement('tr');
         tr.innerHTML = '<td>' + object.name + '</td>' +
             '<td>' + object.category + '</td>' +    // TODO: erst mappen mit tatsächlicher Kategorie
-            '<td></td>' +
             '<td>' + formatDate(object.creation_timestamp) + '</td>' +
             '<td>' + formatDate(object.last_timestamp) + '</td>' +
             '<td>' + renderEditComponentButton(object.uid) + '</td>' +
