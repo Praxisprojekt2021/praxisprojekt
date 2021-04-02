@@ -1,7 +1,7 @@
 from neomodel import config, StructuredNode, StringProperty, UniqueIdProperty, \
     RelationshipTo, StructuredRel, FloatProperty, relationship, db
 
-#import core
+# import core
 from core.success_handler import success_handler 
 
 import database.handler.metric_handler as metric_handler
@@ -215,8 +215,8 @@ def add_process_reference(input_dict: dict) -> dict:
     :return: Status dict
     """
 
-    process = Process.nodes.get(uid = input_dict['process_uid'])
-    component = component_handler.Component.nodes.get(uid = input_dict['component_uid'])
+    process = Process.nodes.get(uid=input_dict['process_uid'])
+    component = component_handler.Component.nodes.get(uid=input_dict['component_uid'])
 
     process.hasComponent.connect(component, {"weight": input_dict["weight"]})
 
@@ -232,7 +232,7 @@ def update_process_reference(input_dict: dict) -> dict:
     :return: Status dict
     """
 
-    process = Process.nodes.get(uid = input_dict['process_uid'])
+    process = Process.nodes.get(uid=input_dict['process_uid'])
 
     component_list = process.hasComponent.all()
 
@@ -254,7 +254,7 @@ def delete_process_reference(input_dict: dict) -> dict:
     :return: Status dict
     """
 
-    db.cypher_query('Match (n: Process {uid: "' + input_dict['process_uid'] + 
-    '"})-[r: includes {weight: ' + str(input_dict['weight']) + '}] -() Delete r')
+    db.cypher_query('Match (n: Process {uid: "' + input_dict['process_uid'] +
+                    '"})-[r: includes {weight: ' + str(input_dict['weight']) + '}] -() Delete r')
 
     return success_handler()
