@@ -119,7 +119,7 @@ function renderAddComponentButton() {
  * @returns Edit-Process-Button HTML-Element
  */
 function renderEditProcessButton(uid) {
-    return `<div onclick="editProcess('${uid}')"><img src="/images/penIcon.png" alt="pencil"></div>`;
+    return `<div onclick="editProcess('${uid}')"><img name="PenIcon" src="/images/penIcon.png" alt="pencil"></div>`;
 }
 
 /**
@@ -127,7 +127,7 @@ function renderEditProcessButton(uid) {
  * @returns Edit-Component-Button HTML-Element
  */
 function renderEditComponentButton(uid) {
-    return `<div onclick="editComponent('${uid}')"><img src="/images/penIcon.png" alt="pencil"></div>`;
+    return `<div onclick="editComponent('${uid}')"><img name="PenIcon"  src="/images/penIcon.png" alt="pencil"></div>`;
 }
 
 /**
@@ -135,7 +135,7 @@ function renderEditComponentButton(uid) {
  * @returns Delete-Process-Button HTML-Element
  */
 function renderDeleteProcessButton(uid) {
-    return `<div onclick="deleteProcess('${uid}')"><i class="fas fa-trash-alt"></i></div>`;
+    return `<div onclick="deleteProcess('${uid}')"><i name="TrashIcon" class="fas fa-trash-alt"></i></div>`;
 }
 
 /**
@@ -143,7 +143,7 @@ function renderDeleteProcessButton(uid) {
  * @returns Delete-Component-Button HTML-Element
  */
 function renderDeleteComponentButton(uid) {
-    return `<div onclick="deleteComponent('${uid}')">🗑️</div>`;
+    return `<div onclick="deleteComponent('${uid}')"><i name="TrashIcon" class="fas fa-trash-alt"></i></div>`;
 }
 
 /**

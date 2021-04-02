@@ -70,3 +70,11 @@ th {
 .headline{
     font-size: 2em;
 }
+.TrashIcon{
+    width: 2%;
+    max-height: 3%;
+}
+.PenIcon{
+    width: 2%;
+    max-height: 3%;
+}
