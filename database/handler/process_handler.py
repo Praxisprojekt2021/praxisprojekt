@@ -232,7 +232,7 @@ def update_process_reference(input_dict: dict) -> dict:
     :return: Status dict
     """
 
-    process = Process.nodes.get(uid=input_dict['process_uid'])
+    process = Process.nodes.get(uid=input_dict['uid'])
 
     component_list = process.hasComponent.all()
 
@@ -254,7 +254,7 @@ def delete_process_reference(input_dict: dict) -> dict:
     :return: Status dict
     """
 
-    db.cypher_query('Match (n: Process {uid: "' + input_dict['process_uid'] +
+    db.cypher_query('Match (n: Process {uid: "' + input_dict['uid'] +
                     '"})-[r: includes {weight: ' + str(input_dict['weight']) + '}] -() Delete r')
 
     return success_handler()
