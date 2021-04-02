@@ -38,7 +38,8 @@ def calculate_current_values(process_dict: dict) -> dict:
         calculations[key] = {"sum": sum(value),
                              "min": min(value),
                              "max": max(value),
-                             "avg": int(mean(value))
+                             "avg": int(mean(value)),
+                             "count_component": len(value)
                              }
         try:
             calculations[key].update({"std_dev": int(stdev(value))})
