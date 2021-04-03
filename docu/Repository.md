@@ -4,7 +4,7 @@ Autoren: \
 Tom Hinzmann \
 Jasmin Čapka
 
-Stand: 30.03.2021
+Stand: 03.04.2021
 
 ## Repo Struktur
 
@@ -82,8 +82,11 @@ Das `docu/` Verzeichnis soll alle wichtigen Projektdokumentationen, Leitfäden u
       - styles.css
     - i18next/
     - images/
+      - favicon.png
       - info.png
       - logo.png
+      - penIcon.png
+      - trashIcon.png
     - js/
       - dashboard-renderer.js
       - component-editor.js
