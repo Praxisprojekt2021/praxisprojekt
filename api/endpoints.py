@@ -107,7 +107,7 @@ def process_route():
     :receives: None
     :return: the rendered html process page
     """
-    raise NotImplementedError("Noch nicht umgesetzt")
+    return render_template("process.html")
 
 
 @app.route('/process/overview', methods=["GET"])
