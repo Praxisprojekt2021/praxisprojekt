@@ -46,3 +46,15 @@ def calculate_current_values(process_dict: dict) -> dict:
             calculations[key].update({"std_dev": None})
 
     return calculations
+
+def compare_actual_target_metrics(process_dict: dict) -> dict:
+    """Function that compares the actual_target_metrics against the target values
+
+    Args:
+        process_dict (Dict): A dict containing all relevant data of a 
+        process to calculate the risk score
+
+    Returns:
+        Dict[str: Any]
+    """
+    pass
