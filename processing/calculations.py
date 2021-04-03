@@ -25,6 +25,7 @@ def calculate_current_values(process_dict: dict) -> dict:
    :return: Dict[str: Any]
    """
 
+    # get all metric values
     component_metrics = {}
     for components in (process_dict["process"]["components"]):
         for key, value in components["metrics"].items():
@@ -33,20 +34,34 @@ def calculate_current_values(process_dict: dict) -> dict:
             else:
                 component_metrics[key].append(value)
 
-    calculations = {}
-    for key, value in component_metrics.items():
-        calculations[key] = {"sum": sum(value),
-                             "min": min(value),
-                             "max": max(value),
-                             "avg": int(mean(value)),
-                             "count_component": len(value)
-                             }
-        try:
-            calculations[key].update({"std_dev": int(stdev(value))})
-        except ValueError:
-            calculations[key].update({"std_dev": None})
+    # prepare output dict
+    output_dict = {'actual_target_metrics': {}}
+    calculations = output_dict['actual_target_metrics']
 
-    return calculations
+    for key, value in component_metrics.items():
+        calculations[key] = {}
+
+        # calculate actual metrics
+        calculations[key]['actual'] = {"total": sum(value),
+                                       "min": min(value),
+                                       "max": max(value),
+                                       "avg": mean(value),
+                                       }
+        try:
+            calculations[key]['actual'].update({"std_dev": stdev(value)})
+        # TODO: wann wäre das der Fall?
+        except ValueError:
+            calculations[key]['actual'].update({"std_dev": None})
+
+        # get amount of components
+        calculations[key]["count_component"] = len(value)
+
+        # calculate and get target metrics
+        calculations[key]['target'] = {'avg': process_dict['target_metrics'][key],
+                                       'total': process_dict['target_metrics'][key] * len(value)}
+
+    return output_dict
+
 
 def compare_actual_target_metrics(process_dict: dict, metrics_dict: dict) -> dict:
     # how to compare? -> Metrics Dict?
@@ -63,6 +78,10 @@ def compare_actual_target_metrics(process_dict: dict, metrics_dict: dict) -> dic
 
 
     """
+<<<<<<< HEAD
 
 
     pass
+=======
+    pass
+>>>>>>> c00eda2106839152eaf651e9cc956e7888230c2a
