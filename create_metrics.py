@@ -5,5 +5,5 @@ import core.core as core
 # create_from_csv('database/metrics.csv')
 
 
-print(get_metrics_data())
+# print(get_metrics_data())
 print(core.get_process(123))
