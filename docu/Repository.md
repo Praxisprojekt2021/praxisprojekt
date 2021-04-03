@@ -76,8 +76,10 @@ Das `docu/` Verzeichnis soll alle wichtigen Projektdokumentationen, Leitfäden u
       - component-sections.json
       - de.json
       - en.json
-      - mapping_metrics_definition.py
+      - mapping_metrics_definition.json
+      - mock-data.json
     - css/
+      - fonts/
       - einzelkomponente.css
       - styles.css
     - i18next/
