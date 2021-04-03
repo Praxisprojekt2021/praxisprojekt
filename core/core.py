@@ -254,8 +254,9 @@ def add_process_reference(input_dict: dict) -> str:
     :return: A JSON object containing either the success state if False, otherwise calls get_process
     """
 
-    result_dict = process_handler.add_process_reference(input_dict)
-    output_object = get_process(input_dict["uid"])
+    process_handler.add_process_reference(input_dict)
+
+    output_object = get_process(input_dict["process_uid"])
     return output_object
 
 
@@ -268,7 +269,8 @@ def update_process_reference(input_dict: dict) -> str:
     :return: A JSON object containing either the success state if False, otherwise calls get_process
     """
 
-    result_dict = process_handler.update_process_reference(input_dict)
+    process_handler.update_process_reference(input_dict)
+
     output_object = get_process(input_dict["uid"])
     return output_object
 
@@ -282,6 +284,7 @@ def delete_process_reference(input_dict: dict) -> str:
     :return: A JSON object containing either the success state if False, otherwise calls get_process
     """
 
-    result_dict = process_handler.delete_process_reference(input_dict)
+    process_handler.delete_process_reference(input_dict)
+
     output_object = get_process(input_dict["uid"])
     return output_object

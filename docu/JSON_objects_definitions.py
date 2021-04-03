@@ -301,7 +301,7 @@ data = {
 """ Prozess anzeigen JSON"""
 
 # -----------------------
-# delete process step
+# delete process reference
 # Frontend -> Backend -> Database
 data = {
     "uid": "b141f94973a43cf8ee972e9dffc1b004",  # process uid not component uid
@@ -317,7 +317,7 @@ data = {
 """ Prozess anzeigen JSON"""
 
 # -----------------------
-# edit process step
+# edit process reference
 # Frontend -> Backend -> Database
 data = {
     "uid": "b141f94973a43cf8ee972e9dffc1b004",  # process uid not component uid
@@ -334,7 +334,7 @@ data = {
 """ Prozess anzeigen JSON"""
 
 # -----------------------
-# create process step
+# add process reference
 # Frontend -> Backend -> Database
 data = {
     "process_uid": "b141f94973a43cf8ee972e9dffc1b004",
