@@ -5,24 +5,28 @@
       "metrics": {
         "number_of_lines_of_source_code_loc": {
           "name": "Number of lines of source code (LOC)",
+          "fulfilled_if": ">",
           "max_value": -1,
           "min_value": 0,
           "helper_text": " Sum of actual code lines excl. blank and comment lines: ..."
         },
         "development_time": {
           "name": "Development time",
+          "fulfilled_if": ">",
           "max_value": -1,
           "min_value": 0,
           "helper_text": "How long does the development of a patch take in developer days: ..."
         },
         "code_review_frequency": {
           "name": "Code Review Frequency",
+          "fulfilled_if": ">",
           "max_value": 365,
           "min_value": 0,
           "helper_text": "How often is the code reviewed per year: ..."
         },
         "comment_quality": {
           "name": "Comment quality",
+          "fulfilled_if": ">",
           "max_value": 100,
           "min_value": 0,
           "helper_text": "Ratio of comments to total code lines: ..."
@@ -34,18 +38,21 @@
       "metrics": {
         "back-up": {
           "name": "Back-Up",
+          "fulfilled_if": ">",
           "max_value": -1,
           "min_value": 0,
           "helper_text": "How often are backups created (per month)? Usually one day full backup and other incremental/differential: ..."
         },
         "change_tracking": {
           "name": "Change tracking",
+          "fulfilled_if": ">",
           "max_value": 1,
           "min_value": 0,
           "helper_text": "Are changes logged/held in the components: ..."
         },
         "patch_status_check": {
           "name": "Patch status check",
+          "fulfilled_if": ">",
           "max_value": -1,
           "min_value": 0,
           "helper_text": "How often are systems checked for patch status?: ..."
@@ -57,18 +64,21 @@
       "metrics": {
         "complaints": {
           "name": "Complaints",
+          "fulfilled_if": ">",
           "max_value": -1,
           "min_value": 0,
           "helper_text": "Number of user complaints per month: ..."
         },
         "training": {
           "name": "Training",
+          "fulfilled_if": ">",
           "max_value": 1,
           "min_value": 0,
           "helper_text": "Have all users of the software been adequately trained: ..."
         },
         "automation": {
           "name": "Automation",
+          "fulfilled_if": ">",
           "max_value": 1,
           "min_value": 0,
           "helper_text": "Can the component be operated automatically: ..."
@@ -80,36 +90,42 @@
       "metrics": {
         "test_automation": {
           "name": "Test Automation",
+          "fulfilled_if": ">",
           "max_value": 100,
           "min_value": 0,
           "helper_text": "Ratio of automated test cases to the total of all test cases.: ..."
         },
         "ratio_of_late_corrections": {
           "name": "Ratio of late corrections",
+          "fulfilled_if": ">",
           "max_value": 100,
           "min_value": 0,
           "helper_text": "Ratio: bugs that were not fixed within the scheduled time period and bugs that were fixed within the time period.: ..."
         },
         "pre_post_release_faults_ratio": {
           "name": "Pre/Post Release Faults Ratio",
+          "fulfilled_if": ">",
           "max_value": 100,
           "min_value": 0,
           "helper_text": "Number of detected bugs, before and after release. Good index: 90% of bugs detected before release: ..."
         },
         "error_during_testing": {
           "name": "Error during testing",
+          "fulfilled_if": ">",
           "max_value": 100,
           "min_value": 0,
           "helper_text": "Indicates how high the number of successful tests is in relation to all tests: ..."
         },
         "testability": {
           "name": "Testability",
+          "fulfilled_if": ">",
           "max_value": -1,
           "min_value": 0,
           "helper_text": "How many different test cases are there: ..."
         },
         "test_scope": {
           "name": "Test scope",
+          "fulfilled_if": ">",
           "max_value": -1,
           "min_value": 0,
           "helper_text": "How many hours were tested: ..."
@@ -121,18 +137,21 @@
       "metrics": {
         "time_to_implement_updates": {
           "name": "Time to implement updates",
+          "fulfilled_if": ">",
           "max_value": -1,
           "min_value": 0,
           "helper_text": "Time to update after release in days (until they are installed on all systems/components): ..."
         },
         "external_support": {
           "name": "External Support",
+          "fulfilled_if": ">",
           "max_value": 1,
           "min_value": 0,
           "helper_text": "Is external support available: ..."
         },
         "internal_support": {
           "name": "Internal Support",
+          "fulfilled_if": ">",
           "max_value": 1,
           "min_value": 0,
           "helper_text": "Is internal support available?: ..."
@@ -144,48 +163,56 @@
       "metrics": {
         "number_of_views_per_day": {
           "name": "Number of views per day",
+          "fulfilled_if": ">",
           "max_value": -1,
           "min_value": 0,
           "helper_text": "How many calls can the system handle in a day. Note: Average calls are considered (related to complexity): ..."
         },
         "restart": {
           "name": "Restart",
+          "fulfilled_if": ">",
           "max_value": -1,
           "min_value": 0,
           "helper_text": "How long does a complete restart of the component take in minutes: ..."
         },
         "downtime": {
           "name": "Downtime",
+          "fulfilled_if": ">",
           "max_value": -1,
           "min_value": 0,
           "helper_text": "Average downtime per year in minutes 99.999% (5 Nines Standard Uptime) --> 5min downtime per year 99% Uptime --> 3.6T: ..."
         },
         "maximum_downtime_at_a_time": {
           "name": "Maximum downtime at a time",
+          "fulfilled_if": ">",
           "max_value": -1,
           "min_value": 0,
           "helper_text": "Maximum downtime at a stretch within the last year in minutes: ..."
         },
         "time_between_failures": {
           "name": "Time between failures",
+          "fulfilled_if": ">",
           "max_value": -1,
           "min_value": 0,
           "helper_text": "Average time between crashes that occurred within the last year, in days: ..."
         },
         "restore_time": {
           "name": "Restore time",
+          "fulfilled_if": ">",
           "max_value": -1,
           "min_value": 0,
           "helper_text": "Average time until the system is functional again after a failure in minutes: ..."
         },
         "planned_maintenance_percentage": {
           "name": "Planned Maintenance Percentage (PMP)",
+          "fulfilled_if": ">",
           "max_value": -1,
           "min_value": 0,
           "helper_text": "Number of total maintenance hours in one year/Number of planned maintenance hours in one year: ..."
         },
         "redundancy": {
           "name": "Redundancy",
+          "fulfilled_if": ">",
           "max_value": 1,
           "min_value": 0,
           "helper_text": "Is the component redundant: ..."
@@ -197,12 +224,14 @@
       "metrics": {
         "number_of_administrators": {
           "name": "Number of administrators",
+          "fulfilled_if": ">",
           "max_value": -1,
           "min_value": 0,
           "helper_text": "How many administrators are there for the component: ..."
         },
         "encryption": {
           "name": "Encryption",
+          "fulfilled_if": ">",
           "max_value": 1,
           "min_value": 0,
           "helper_text": "Is the data sufficiently encrypted..."
