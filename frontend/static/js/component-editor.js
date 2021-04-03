@@ -70,7 +70,7 @@ function getFeatures() {
             helper.createMetricsSection(features);
             let div = document.createElement('div');
             div.className = 'control-area';
-            div.innerHTML = '<button id="save-button" class="create-button w-button" onclick="createEditComponent()" type="button">Speichern</button>'//'<button="#" data-wait="Bitte warten..." id="save-button" class="create-button w-button" onclick="saveComponent()">Speichern</a>';
+            div.innerHTML = '<button id="save-button" class="create-button" onclick="createEditComponent()" type="button">Speichern</button>'//'<button="#" data-wait="Bitte warten..." id="save-button" class="create-button w-button" onclick="saveComponent()">Speichern</a>';
 
             // Append element to document
             document.getElementById('metrics-input').appendChild(div);

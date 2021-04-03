@@ -12,7 +12,7 @@
          url('fonts/titillium-web-v9-latin-regular.svg#TitilliumWeb') format('svg'); /* Legacy iOS */
   }
 body {
-    font-family: 'Titillium Web';
+    font-family: 'Titillium Web', monospace;
 }
 
 table {
@@ -22,7 +22,7 @@ table {
     border-color: #2286fb;
     border-style: solid;
     color: #000000;
-    font-family: 'Titillium Web';
+    font-family: 'Titillium Web', monospace;
 }
 
 td, th {

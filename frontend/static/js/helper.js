@@ -82,20 +82,20 @@ class Helper {
             div.className = 'feature-section';
 
             let innerHTML = '';
-            innerHTML += '<div data-hover="" data-delay="0" class="accordion-item w-dropdown">';
-            innerHTML += '<div class="accordion-toggle w-dropdown-toggle" onclick="toggleSection(this)">';
-            innerHTML += '<div class="accordion-icon w-icon-dropdown-toggle"></div>';
+            innerHTML += '<div data-hover="" data-delay="0" class="accordion-item">';
+            innerHTML += '<div class="accordion-toggle" onclick="toggleSection(this)">';
+            innerHTML += '<div class="accordion-icon"></div>';
             innerHTML += ('<div class="features-label">' + feature['name'] + '</div>');
             innerHTML += '</div>';
-            innerHTML += '<nav class="dropdown-list w-dropdown-list">';
-            innerHTML += '<div class="features-columns w-row">';
+            innerHTML += '<nav class="dropdown-list">';
+            innerHTML += '<div class="features-columns">';
 
             Object.keys(metrics).forEach(function (key) {
                 let metric = metrics[key];
-                innerHTML += '<div class="metric-entry-element w-clearfix">';
-                innerHTML += ('<label for="availability-metric-7" class="entry-label">' + metric['name'] + '</label>');
+                innerHTML += '<div class="metric-entry-element">';
+                innerHTML += ('<label for="availability-metric" class="entry-label">' + metric['name'] + '</label>');
                 innerHTML += '<input type="text" maxLength="256" data-name="availability-metric-1" id="' + key + '"' +
-                    ' name="availability-metric-1" class="metric-input textfield w-input">';
+                    ' name="availability-metric" class="metric-input textfield">';
                 innerHTML += `<img src="images/info.png" loading="lazy" width="35" alt="" class="info-icon">`;
                 innerHTML += '</div>';
             });

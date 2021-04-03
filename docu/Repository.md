@@ -79,9 +79,7 @@ Das `docu/` Verzeichnis soll alle wichtigen Projektdokumentationen, Leitfäden u
       - mapping_metrics_definition.py
     - css/
       - einzelkomponente.css
-      - normalize.css
       - styles.css
-      - webflow.css
     - i18next/
     - images/
       - info.png
