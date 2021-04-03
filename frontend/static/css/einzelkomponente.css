@@ -139,6 +139,10 @@ button, html input[type="button"], input[type="reset"] {
   cursor: pointer;
 }
 
+.accordion-toggle[disabled] {
+  cursor: default;
+}
+
 .accordion-item {
   display: block;
   overflow: hidden;
