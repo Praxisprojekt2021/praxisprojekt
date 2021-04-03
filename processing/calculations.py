@@ -12,7 +12,7 @@ def start_calculate_risk(process_dict: dict, metrics_dict: dict) -> dict:
     :type process_dict: Dict[str: Any]
     :return: Dict[str: Any]
     """
-
+    print("TEST")
     current_val = calculate_current_values(process_dict)
 
 
@@ -48,14 +48,21 @@ def calculate_current_values(process_dict: dict) -> dict:
 
     return calculations
 
-def compare_actual_target_metrics(process_dict: dict) -> dict:
+def compare_actual_target_metrics(process_dict: dict, metrics_dict: dict) -> dict:
+    # how to compare? -> Metrics Dict?
+    # fullfillment ergänzen
     """Function that compares the actual_target_metrics against the target values
 
     Args:
         process_dict (Dict): A dict containing all relevant data of a 
         process to calculate the risk score
+        list of components with metrics and also the target metrics
 
     Returns:
-        Dict[str: Any]
+        Dict[str: Any]: key=Metric, values: actual, target, count of components have this metrics, fullfillment(bool)
+
+
     """
+
+
     pass
