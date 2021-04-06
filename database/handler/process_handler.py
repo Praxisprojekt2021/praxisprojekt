@@ -203,6 +203,7 @@ def delete_process(uid_dict: dict) -> dict:
     :type uid_dict: dict
     :return: Status dict
     """
+    Process.nodes.get(uid=uid_dict["uid"]).delete()
     return success_handler()
 
 
