@@ -63,8 +63,10 @@ def calculate_current_values(process_dict: dict) -> dict:
     return output_dict
 
 
-def compare_actual_target_metrics(process_dict: dict, metrics_dict: dict) -> dict:
-    """Compares the actuals against the target and sets the fulfillment to true or false
+def compare_actual_target_metrics(process_dict: dict,
+            metrics_dict: dict) -> dict:
+    """Compares the actuals against the target and 
+        sets the fulfillment to true or false
 
     Args:
         process_dict (dict): from calculate_current_values()
@@ -76,11 +78,14 @@ def compare_actual_target_metrics(process_dict: dict, metrics_dict: dict) -> dic
     for metric in process_dict['actual_target_metrics']:
         comparator = metrics_dict[metric]['fulfilled_if']
 
-        if eval(f"{metric['actual']['avg']} {comparator} {process_dict['target_metrics'][metric]}"):
+        if eval(f"{metric['actual']['avg']} {comparator}"
+                f"{process_dict['target_metrics'][metric]}"):
+            
             fulfillment = True
         else:
             fulfillment = False
         
-        process_dict['actual_target_metrics'][metric]['fulfillment'] = fulfillment
-    
+        process_dict['actual_target_metrics']\
+            [metric]['fulfillment'] = fulfillment
+
     return process_dict
