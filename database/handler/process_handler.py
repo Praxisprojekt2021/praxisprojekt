@@ -176,6 +176,18 @@ def add_process(input_dict: dict) -> dict:
     :type input_dict: dict
     :return: Status dict
     """
+     output = Process(
+        name=input_dict["name"],
+        creation_timestamp=str(datetime.now()),
+        last_timestamp=str(datetime.now()), description=input_dict["description"]
+                        )
+    output.save()
+     for component in input_dict["component"]:
+        output.hasComponent.connect(component_handler.get_component(component), {"value": input_dict["component"][component]})
+
+     for metric in input_dict["metrics"]:
+        output.hasMetric.connect(metric_handler.get_metric(metric), {"value": input_dict["metrics"][metric]})
+
     data = {
         "success": True,
         "process_uid": "b141f94973a43cf8ee972e9dffc1b004"
