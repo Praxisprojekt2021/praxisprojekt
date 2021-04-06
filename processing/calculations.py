@@ -35,7 +35,9 @@ def calculate_current_values(process_dict: dict) -> dict:
                 component_metrics[key].append(value)
 
     # prepare output dict
-    output_dict = {'actual_target_metrics': {}}
+    output_dict = {'process': process_dict["process"],
+                   'actual_target_metrics': {}}
+
     calculations = output_dict['actual_target_metrics']
 
     for key, value in component_metrics.items():
@@ -64,7 +66,7 @@ def calculate_current_values(process_dict: dict) -> dict:
 
 
 def compare_actual_target_metrics(process_dict: dict,
-            metrics_dict: dict) -> dict:
+                                  metrics_dict: dict) -> dict:
     """Compares the actuals against the target and 
         sets the fulfillment to true or false
 
@@ -80,12 +82,12 @@ def compare_actual_target_metrics(process_dict: dict,
 
         if eval(f"{metric['actual']['avg']} {comparator}"
                 f"{process_dict['target_metrics'][metric]}"):
-            
+
             fulfillment = True
         else:
             fulfillment = False
-        
-        process_dict['actual_target_metrics']\
+
+        process_dict['actual_target_metrics'] \
             [metric]['fulfillment'] = fulfillment
 
     return process_dict
