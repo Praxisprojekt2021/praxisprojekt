@@ -64,24 +64,23 @@ def calculate_current_values(process_dict: dict) -> dict:
 
 
 def compare_actual_target_metrics(process_dict: dict, metrics_dict: dict) -> dict:
-    # how to compare? -> Metrics Dict?
-    # fullfillment ergänzen
-    """Function that compares the actual_target_metrics against the target values
+    """Compares the actuals against the target and sets the fulfillment to true or false
 
     Args:
-        process_dict (Dict): A dict containing all relevant data of a 
-        process to calculate the risk score
-        list of components with metrics and also the target metrics
+        process_dict (dict): from calculate_current_values()
+        metrics_dict (dict): from get_metrics_data()
 
     Returns:
-        Dict[str: Any]: key=Metric, values: actual, target, count of components have this metrics, fullfillment(bool)
-
-
+        dict: process_dict
     """
-<<<<<<< HEAD
+    for metric in process_dict['actual_target_metrics']:
+        comparator = metrics_dict[metric]['fulfilled_if']
 
-
-    pass
-=======
-    pass
->>>>>>> c00eda2106839152eaf651e9cc956e7888230c2a
+        if eval(f"{metric['actual']['avg']} {comparator} {process_dict['target_metrics'][metric]}"):
+            fulfillment = True
+        else:
+            fulfillment = False
+        
+        process_dict['actual_target_metrics'][metric]['fulfillment'] = fulfillment
+    
+    return process_dict
