@@ -27,13 +27,14 @@ class RelationshipComponent(StructuredRel):
 
 class RelationshipMetric(StructuredRel):
     """
-    A class to represent the relationship between a Component and a Metric.
+    A class to represent the relationship between a Process and a Metric.
 
     Attributes
     ----------
     value : float
         is value of the relationship
     """
+
     value = FloatProperty()
 
 
@@ -106,67 +107,31 @@ def get_process(uid_dict: dict) -> dict:
     :return: process dict
     """
 
-    data = {
-        "success": True,
-        "process": {
-            "uid": "b141f94973a43cf8ee972e9dffc1b004",
-            "name": "Kunde anlegen",
-            "description": "Prozess zum anlegen von einem neuen Kunden in allen Systemen",
-            "creation_timestamp": "20210210...",
-            "last_timestamp": "20200211...",
-            "components": [
-                {
-                    "uid": "b141f94973a43cf8ee972e9dffc1b004",
-                    "weight": 1,  # different from single component view!
-                    "name": "SQL Datenbank",
-                    "category": "Datenbank",
-                    "description": "Kundendatenbank",
-                    "creation_timestamp": "20200219...",
-                    "last_timestamp": "20200219...",
-                    "metrics": {
-                        "codelines": 20000,
-                        "admins": 10,
-                        "recovery_time": 5
-                    }
-                },
-                {
-                    "uid": "b141f94973a43cf8ee972e9dffc1b004",
-                    "weight": 1.5,
-                    "name": "Frontend API",
-                    "category": "API",
-                    "description": "API für das Frontend",
-                    "creation_timestamp": "20200219...",
-                    "last_timestamp": "20200219...",
-                    "metrics": {
-                        "codelines": 20000,
-                        "admins": 10,
-                        "recovery_time": 5
-                    }
-                },
-                {
-                    "uid": "b141f94973a43cf8ee972e9dffc1b004",
-                    "weight": 2,
-                    "name": "Hadoop Cluster",
-                    "category": "Datenbank",
-                    "description": "Big Data Plattform",
-                    "creation_timestamp": "20200219...",
-                    "last_timestamp": "20200219...",
-                    "metrics": {
-                        "codelines": 20000,
-                        "admins": 10,
-                        "recovery_time": 5
-                    }
-                }
-            ]
-        },
-        "target_metrics": {
-            "codelines": 25000,
-            "admins": 12,
-            "recovery_time": 3
-        }
-    }
+    uid = uid_dict["uid"]
+    process = Process.nodes.get(uid=uid)
+    process_dict = success_handler()
+    process_dict["process"] = process.__dict__
 
-    return data
+    component_list = process.hasComponent.all()
+    process_dict["process"]["components"] = []
+
+    for component in component_list:
+        component_dict = component_handler.get_component({"uid": component.uid})
+        del component_dict["success"]
+        process_dict["process"]["components"].append(component_dict)
+
+    metrics_list = process.hasMetric.all()
+    process_dict["target_metrics"] = {}
+
+    for metric in metrics_list:
+        rel = process.hasMetric.relationship(metric)
+        process_dict["target_metrics"][metric.name] = rel.value
+
+    del process_dict["process"]["hasComponent"]
+    del process_dict["process"]["hasMetric"]
+    del process_dict["process"]["id"]
+
+    return process_dict
 
 
 def add_process(input_dict: dict) -> dict:
