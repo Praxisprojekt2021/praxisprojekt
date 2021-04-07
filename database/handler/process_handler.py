@@ -204,6 +204,29 @@ def update_process(input_dict: dict) -> dict:
     :type input_dict: dict
     :return: Status dict
     """
+    
+    uid = input_dict["uid"]
+    process = Process.nodes.get(uid=uid)
+    process.name = input_dict["name"]
+    process.description = input_dict["description"]
+    process.category = input_dict["category"]
+    process.last_timestamp = str(datetime.now())
+
+    process.save()
+
+    process_dict = get_process({"uid": uid})
+
+    metrics_dict = process_dict["metrics"]
+    metrics = []
+    for key in metrics_dict:
+        metrics.append(key)
+    for metric in metrics:
+        new_metrics = input_dict["metrics"]
+        metric_object = metric_handler.get_metric(metric)
+        rel = process.hasMetric.relationship(metric_object)
+        rel.value = new_metrics[metric]
+        rel.save()
+
     return success_handler()
 
 
