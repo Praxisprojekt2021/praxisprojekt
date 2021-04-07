@@ -75,7 +75,8 @@ def get_process_list() -> dict:
 
     :return: List of processes in a dict
     """
-    data = {"success": True}
+
+    data = success_handler()
     processes = Process.nodes.all()
     processes_list = []
     wanted_keys = ['uid', 'name', 'creation_timestamp', 'last_timestamp']
@@ -83,8 +84,7 @@ def get_process_list() -> dict:
         process_dict = process.__dict__
         processes_list.append(dict((k, process_dict[k]) for k in wanted_keys if k in process_dict))
 
-    data["processes"] = processes_list
-
+    data["process"] = processes_list
     return data
 
 
