@@ -12,8 +12,12 @@ def start_calculate_risk(process_dict: dict, metrics_dict: dict) -> dict:
     :type process_dict: Dict[str: Any]
     :return: Dict[str: Any]
     """
-    print("TEST")
+    # print("TEST")
     current_val = calculate_current_values(process_dict)
+    compared_vals = compare_actual_target_metrics(current_val, metrics_dict)
+    full_process_dict = calculate_risk_score(compared_vals)
+
+    return full_process_dict
 
 
 def calculate_current_values(process_dict: dict) -> dict:
@@ -87,7 +91,26 @@ def compare_actual_target_metrics(process_dict: dict,
         else:
             fulfillment = False
 
-        process_dict['actual_target_metrics'] \
-            [metric]['fulfillment'] = fulfillment
+        process_dict['actual_target_metrics'][metric]['fulfillment'] = fulfillment
+
+    return process_dict
+
+
+def calculate_risk_score(process_dict: dict) -> dict:
+    """Calculates the average fulfillment rate for all compared metrics
+
+    Args:
+        process_dict (dict): from compare_actual_target_metrics()
+
+    Returns:
+        dict: process_dict
+    """
+
+    sum = 0
+    sub_dict = process_dict["actual_target_metrics"]
+    for metric in sub_dict:
+        sum += sub_dict[metric]["fulfillment"]
+
+    process_dict["score"] = int((sum/len(sub_dict))*100)
 
     return process_dict
