@@ -133,7 +133,9 @@ function addComponent() {
  * @param {String} uid
  */
 function editProcess(uid) {
-    // ... open edit process URL with param uid
+    // open edit process URL with param uid
+    window.location.replace(base_url + "process?uid=" + uid);
+
 }
 
 /**
