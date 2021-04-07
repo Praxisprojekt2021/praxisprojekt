@@ -23,7 +23,7 @@ function loadData() {
  * Get processes data from Back-End and then populate the processes table in FE.
  */
 function getProcessList() {
-    helper.get_request("/content/mock-data.json", "", refreshProcessTable);
+    helper.get_request("/process/overview", "", refreshProcessTable);
 }
 
 /**
@@ -40,14 +40,14 @@ function getComponentList() {
  */
 function refreshProcessTable(json) {
     var table = document.getElementById('processTable');
-    json.processes.forEach(function (object) {
+    json.process.forEach(function (object) {
         var tr = document.createElement('tr');
-        tr.innerHTML = '<td>' + object.process + '</td>' +
-            '<td>' + object.components + '</td>' +
-            '<td>' + object.viv_value + '</td>' +
-            renderStatusColumn(object.viv_value) +
-            '<td>' + helper.formatDate(object.created) + '</td>' +
-            '<td>' + helper.formatDate(object.edited) + '</td>' +
+        tr.innerHTML = '<td>' + object.name + '</td>' +
+            '<td>' + object.components_count + '</td>' +
+            '<td>' + object.score + '</td>' +
+            renderStatusColumn(object.score) +
+            '<td>' + helper.formatDate(object.creation_timestamp) + '</td>' +
+            '<td>' + helper.formatDate(object.last_timestamp) + '</td>' +
             '<td>' + renderEditProcessButton(object.uid) + '</td>' +
             '<td>' + renderDeleteProcessButton(object.uid) + '</td>';
         table.appendChild(tr);
@@ -114,8 +114,8 @@ function renderDeleteComponentButton(uid) {
  * Routes to the URL where user can add a new process
  */
 function addProcess() {
-    // ... open edit process URL without param
-    window.location.replace(base_url + "/process");
+    // open edit process URL without param
+    window.location.replace(base_url + "process");
 }
 
 /**
@@ -155,6 +155,8 @@ function editComponent(uid) {
  */
 function deleteProcess(uid) {
     // call delete-process endpoint
+    let params = JSON.stringify({uid: uid});
+    helper.post_request("/process/delete", params, deleteCallback);
 }
 
 /**
@@ -164,7 +166,7 @@ function deleteProcess(uid) {
  */
 function deleteComponent(uid) {
     let params = JSON.stringify({uid: uid});
-    helper.post_request("component/delete", params, deleteCallback());
+    helper.post_request("/component/delete", params, deleteCallback);
 }
 
 
@@ -207,7 +209,7 @@ function loadMetricsDefinition(componentData) {
 /**
  * Shows success/error message and reloads dashboard.
  */
-function deleteCallback() {
+function deleteCallback(response) {
 // Check if component has been created/edited successfully
     if (response['success']) {
         // Component has been created/edited successfully

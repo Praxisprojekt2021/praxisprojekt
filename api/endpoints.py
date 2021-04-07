@@ -222,6 +222,7 @@ def page_not_found(error):
     :receives: None
     :return: an error JSON
     """
+
     exc_type, value, traceback = sys.exc_info()
     error_json = core.error_handler(exc_type.__name__, str(value))
     return error_json, 500
