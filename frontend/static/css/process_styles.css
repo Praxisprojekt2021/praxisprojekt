@@ -308,13 +308,11 @@
 }
 .left-div {
   width: 50%;
-  float:left; /* add this */
-  border: 1px solid red;
+  float:left;
 }
 .right-div {
   width: 50%;
-  border: 1px solid green;
-  overflow: hidden; /* if you don't want #second to wrap below #first */
+  overflow: hidden;
 }
 
 .circle {
