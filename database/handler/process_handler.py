@@ -1,3 +1,4 @@
+from datetime import datetime
 from neomodel import config, StructuredNode, StringProperty, UniqueIdProperty, \
     RelationshipTo, StructuredRel, FloatProperty, relationship, db
 
@@ -176,22 +177,20 @@ def add_process(input_dict: dict) -> dict:
     :type input_dict: dict
     :return: Status dict
     """
-     output = Process(
-        name=input_dict["name"],
+
+    output = Process(
+        name=input_dict["process"]["name"],
         creation_timestamp=str(datetime.now()),
-        last_timestamp=str(datetime.now()), description=input_dict["description"]
-                        )
+        last_timestamp=str(datetime.now()),
+        description=input_dict["process"]["description"])
+
     output.save()
-     for component in input_dict["component"]:
-        output.hasComponent.connect(component_handler.get_component(component), {"value": input_dict["component"][component]})
 
-     for metric in input_dict["metrics"]:
-        output.hasMetric.connect(metric_handler.get_metric(metric), {"value": input_dict["metrics"][metric]})
+    for metric in input_dict["target_metrics"]:
+        output.hasMetric.connect(metric_handler.get_metric(metric), {"value": input_dict["target_metrics"][metric]})
 
-    data = {
-        "success": True,
-        "process_uid": "b141f94973a43cf8ee972e9dffc1b004"
-    }
+    data = success_handler()
+    data["process_uid"] = output.uid
 
     return data
 
@@ -205,23 +204,23 @@ def update_process(input_dict: dict) -> dict:
     :return: Status dict
     """
     
-    uid = input_dict["uid"]
+    uid = input_dict["process"]["uid"]
     process = Process.nodes.get(uid=uid)
-    process.name = input_dict["name"]
-    process.description = input_dict["description"]
-    process.category = input_dict["category"]
+    process.name = input_dict["process"]["name"]
+    process.description = input_dict["process"]["description"]
     process.last_timestamp = str(datetime.now())
 
     process.save()
 
     process_dict = get_process({"uid": uid})
 
-    metrics_dict = process_dict["metrics"]
+    metrics_dict = process_dict["target_metrics"]
     metrics = []
     for key in metrics_dict:
         metrics.append(key)
+    print(metrics)
     for metric in metrics:
-        new_metrics = input_dict["metrics"]
+        new_metrics = input_dict["target_metrics"]
         metric_object = metric_handler.get_metric(metric)
         rel = process.hasMetric.relationship(metric_object)
         rel.value = new_metrics[metric]
@@ -238,7 +237,9 @@ def delete_process(uid_dict: dict) -> dict:
     :type uid_dict: dict
     :return: Status dict
     """
+
     Process.nodes.get(uid=uid_dict["uid"]).delete()
+
     return success_handler()
 
 
