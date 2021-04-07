@@ -195,7 +195,7 @@ def process_create_edit_route():
         raise TypeError("No JSON body was transferred")
 
 
-@app.route('/process/view', methods=["GET"])
+@app.route('/process/view', methods=["POST"])
 def process_view_route():
     """
     API endpoint to use the function from the Core-Module to view processes
@@ -225,6 +225,7 @@ def page_not_found(error):
 
     exc_type, value, traceback = sys.exc_info()
     error_json = core.error_handler(exc_type.__name__, str(value))
+    print(error)
     return error_json, 500
 
 

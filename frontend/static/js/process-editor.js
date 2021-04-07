@@ -2,24 +2,25 @@
 const base_url = window.location.origin;
 // instantiate object of helper class
 const helper = new Helper();
+let uid = null;
 
 function init() {
     const url_string = window.location.href;
     const url = new URL(url_string);
-    const uid = url.searchParams.get('uid');
+    uid = url.searchParams.get('uid');
 
     getFeatures();
 
     // Check if view has received an uid as URL parameter to check whether to create a new component or edit an existing one
     if (uid && uid.length === 32) {
         // If so, load component data...
-        console.log('Editing existing component');
+        console.log('Editing existing process');
 
         // Trigger function which gathers component data and processes it
-        getComponent(uid);
+        getProcess(uid);
     } else {
         // If not, prepare for new component input...
-        console.log('Entering new component');
+        console.log('Entering new process');
         setSections("default");
 
         // Set component uid to -1
@@ -50,17 +51,18 @@ function getFeatures() {
             const categories = data['categories'];
             const features = data['features'];
 
-            createMetricsSection(features);
+            //TODO: auskommentieren
+            // createMetricsSection(features);
             let div = document.createElement('div');
             div.className = 'control-area';
 
             let buttonType;
-            if (uid != "" || !uid == undefined) {
+            if (typeof uid !== undefined && uid !="" && uid != null) {
                 buttonType = "Save";
             } else {
                 buttonType = "Create";
             }
-            div.innerHTML = '<button id="save-button" class="create-button" onclick="createEditComponent()" type="button">${buttonType}</button>'//'<button="#" data-wait="Bitte warten..." id="save-button" class="create-button w-button" onclick="saveComponent()">Speichern</a>';
+            div.innerHTML = `<button id="save-button" class="create-button" onclick="createEditComponent()" type="button">${buttonType}</button>`//'<button="#" data-wait="Bitte warten..." id="save-button" class="create-button w-button" onclick="saveComponent()">Speichern</a>';
 
             // Append element to document
             document.getElementById('buttons').appendChild(div);
@@ -68,16 +70,16 @@ function getFeatures() {
 }
 
 /**
- * This function fetches the component data from the backend
+ * This function fetches the process data from the backend
  *
  * @param {string} uid: The uid of the component to get data for
  */
 
-function getComponent(uid) {
+function getProcess(uid) {
     const post_data = {
         "uid": uid
     }
-    helper.post_request('/component/view', JSON.stringify(post_data), processComponentData);
+    helper.post_request('/process/view', JSON.stringify(post_data), processComponentData);
 }
 
 /**
@@ -93,13 +95,8 @@ function processComponentData(json_data) {
         // Component data has been received
 
         // Set uid and data fields
-        document.getElementById('component-uid').value = json_data['uid'];
-        document.getElementById('component-name').value = json_data['name'];
-        document.getElementById('component-description-textarea').value = json_data['description'];
-
-        // Set dropdown and disable it
-        document.getElementById('component-category').value = json_data['category'];
-        document.getElementById('component-category').setAttribute("disabled", "true");
+        document.getElementById('process-name-textarea').value = json_data['process']['name'];
+        document.getElementById('process-beschreibung-textarea').value = json_data['process']['description'];
 
         // Set all metrics
         let metrics = json_data['metrics'];
