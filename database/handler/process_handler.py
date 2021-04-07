@@ -183,7 +183,6 @@ def update_process(input_dict: dict) -> dict:
     metrics = []
     for key in metrics_dict:
         metrics.append(key)
-    print(metrics)
     for metric in metrics:
         new_metrics = input_dict["target_metrics"]
         metric_object = metric_handler.get_metric(metric)
