@@ -1,3 +1,4 @@
+from datetime import datetime
 from neomodel import config, StructuredNode, StringProperty, UniqueIdProperty, \
     RelationshipTo, StructuredRel, FloatProperty, relationship, db
 
@@ -132,10 +133,20 @@ def add_process(input_dict: dict) -> dict:
     :type input_dict: dict
     :return: Status dict
     """
-    data = {
-        "success": True,
-        "process_uid": "b141f94973a43cf8ee972e9dffc1b004"
-    }
+
+    output = Process(
+        name=input_dict["process"]["name"],
+        creation_timestamp=str(datetime.now()),
+        last_timestamp=str(datetime.now()),
+        description=input_dict["process"]["description"])
+
+    output.save()
+
+    for metric in input_dict["target_metrics"]:
+        output.hasMetric.connect(metric_handler.get_metric(metric), {"value": input_dict["target_metrics"][metric]})
+
+    data = success_handler()
+    data["process_uid"] = output.uid
 
     return data
 
@@ -148,6 +159,28 @@ def update_process(input_dict: dict) -> dict:
     :type input_dict: dict
     :return: Status dict
     """
+    
+    uid = input_dict["process"]["uid"]
+    process = Process.nodes.get(uid=uid)
+    process.name = input_dict["process"]["name"]
+    process.description = input_dict["process"]["description"]
+    process.last_timestamp = str(datetime.now())
+
+    process.save()
+
+    process_dict = get_process({"uid": uid})
+
+    metrics_dict = process_dict["target_metrics"]
+    metrics = []
+    for key in metrics_dict:
+        metrics.append(key)
+    for metric in metrics:
+        new_metrics = input_dict["target_metrics"]
+        metric_object = metric_handler.get_metric(metric)
+        rel = process.hasMetric.relationship(metric_object)
+        rel.value = new_metrics[metric]
+        rel.save()
+
     return success_handler()
 
 
@@ -159,6 +192,9 @@ def delete_process(uid_dict: dict) -> dict:
     :type uid_dict: dict
     :return: Status dict
     """
+
+    Process.nodes.get(uid=uid_dict["uid"]).delete()
+
     return success_handler()
 
 
