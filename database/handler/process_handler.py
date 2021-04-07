@@ -2,7 +2,7 @@ from neomodel import config, StructuredNode, StringProperty, UniqueIdProperty, \
     RelationshipTo, StructuredRel, FloatProperty, relationship, db
 
 # import core
-from core.success_handler import success_handler 
+from core.success_handler import success_handler
 
 import database.handler.metric_handler as metric_handler
 import database.handler.component_handler as component_handler
@@ -75,24 +75,15 @@ def get_process_list() -> dict:
 
     :return: List of processes in a dict
     """
+    data = {"success": True}
+    processes = Process.nodes.all()
+    processes_list = []
+    wanted_keys = ['uid', 'name', 'creation_timestamp', 'last_timestamp']
+    for process in processes:
+        process_dict = process.__dict__
+        processes_list.append(dict((k, process_dict[k]) for k in wanted_keys if k in process_dict))
 
-    data = {
-        "success": True,
-        "process": [
-            {
-                "uid": "b141f94973a43cf8ee972e9dffc1b004",
-                "name": "Kunde anlegen",
-                "creation_timestamp": "20210210...",
-                "last_timestamp": "20200211..."
-            },
-            {
-                "uid": "b141f94973a43cf8ee972e9dffc1b004",
-                "name": "Kunde löschen",
-                "creation_timestamp": "20210209...",
-                "last_timestamp": "20210210..."
-            }
-        ]
-    }
+    data["processes"] = processes_list
 
     return data
 
