@@ -2,7 +2,6 @@ from datetime import datetime
 from neomodel import config, StructuredNode, StringProperty, UniqueIdProperty, \
     RelationshipTo, StructuredRel, FloatProperty, relationship, db
 
-# import core
 from core.success_handler import success_handler
 
 import database.handler.metric_handler as metric_handler
