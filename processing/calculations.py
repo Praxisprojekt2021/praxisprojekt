@@ -35,7 +35,8 @@ def calculate_current_values(process_dict: dict) -> dict:
                 component_metrics[key].append(value)
 
     # prepare output dict
-    output_dict = {'process': process_dict["process"],
+    output_dict = {'success': process_dict["success"],
+                   'process': process_dict["process"],
                    'actual_target_metrics': {}}
 
     calculations = output_dict['actual_target_metrics']
