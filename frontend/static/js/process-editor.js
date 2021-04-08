@@ -7,25 +7,12 @@ let uid = null;
 function init() {
     const url_string = window.location.href;
     const url = new URL(url_string);
-    uid = url.searchParams.get('uid');
 
-    getFeatures();
+    getFeatures().then(data => {
+        getProcess(data);
+    });
+    // getProcess(features);
 
-    // Check if view has received an uid as URL parameter to check whether to create a new component or edit an existing one
-    if (uid && uid.length === 32) {
-        // If so, load component data...
-        console.log('Editing existing process');
-
-        // Trigger function which gathers component data and processes it
-        getProcess(uid);
-    } else {
-        // If not, prepare for new component input...
-        console.log('Entering new process');
-        setSections("default");
-
-        // Set component uid to -1
-        document.getElementById('component-uid').value = -1;
-    }
 
     // TODO: change param to process score of the process
     this.renderWholeProcessScoreCircle(12);
@@ -43,16 +30,16 @@ function renderWholeProcessScoreCircle(wholeProcessScore) {
 /**
  * TODO comment here
  */
-function getFeatures() {
+async function getFeatures() {
     // Read JSON file
-    fetch(base_url + '/content/mapping_metrics_definition.json')
+    let features = await fetch(base_url + '/content/mapping_metrics_definition.json')
         .then(response => response.json())
         .then(data => {
-            const categories = data['categories'];
-            const features = data['features'];
+            let features = data['features'];
 
             //TODO: auskommentieren
-            createMetricsSection(features);
+
+            // createMetricsSection(features);
             let div = document.createElement('div');
             div.className = 'control-area';
 
@@ -62,78 +49,55 @@ function getFeatures() {
             } else {
                 buttonType = "Create";
             }
-            div.innerHTML = `<button id="save-button" class="create-button" onclick="createEditComponent()" type="button">${buttonType}</button>`//'<button="#" data-wait="Bitte warten..." id="save-button" class="create-button w-button" onclick="saveComponent()">Speichern</a>';
+            div.innerHTML = `<button id="save-button" class="create-button" onclick="createEditProcess()" type="button">${buttonType}</button>`//'<button="#" data-wait="Bitte warten..." id="save-button" class="create-button w-button" onclick="saveComponent()">Speichern</a>';
 
             // Append element to document
             document.getElementById('buttons').appendChild(div);
+            return features;
         });
+    return features;
 }
 
 /**
  * This function fetches the process data from the backend
  *
- * @param {string} uid: The uid of the component to get data for
  */
 
-function getProcess(uid) {
-    const post_data = {
-        "uid": uid
+function getProcess(features) {
+    debugger;
+    const url_string = window.location.href;
+    const url = new URL(url_string);
+    let uid = url.searchParams.get('uid');
+
+    // Check if view has received an uid as URL parameter to check whether to create a new component or edit an existing one
+    if (uid && uid.length === 32) {
+        // If so, load component data...
+        console.log('Editing existing process');
+
+        // Trigger function which gathers process data and processes it
+        const post_data = `{
+        "uid": "${uid}"
+    }`
+        const base_url = window.location.origin;
+        let xhttp = new XMLHttpRequest();
+        xhttp.open("POST", base_url + "/process/view", true);
+        xhttp.setRequestHeader("Content-Type", "application/json");
+
+        // Handle response of HTTP-request
+        xhttp.onreadystatechange = function () {
+            if (this.readyState === XMLHttpRequest.DONE && (this.status >= 200 && this.status < 300)) {
+                // Process response and show sum in output field
+                let processData = JSON.parse(this.responseText);
+                console.log(processData);
+                createMetricsSection(features, processData);
+            }
+        }
+        xhttp.send(post_data);
+    } else {
+        // If not, prepare for new component input...
+        console.log('Entering new process');
     }
-    helper.post_request('/process/view', JSON.stringify(post_data), processComponentData);
-}
 
-/**
- * This function receives the component data and processes it
- *
- * @param {string} json_data: The component data
- */
-
-function processComponentData(json_data) {
-    // Check if the request has succeeded
-    if (json_data['success']) {
-        // Component data has been received
-
-        // Set uid and data fields
-        document.getElementById('process-name-textarea').value = json_data['process']['name'];
-        document.getElementById('process-beschreibung-textarea').value = json_data['process']['description'];
-
-        // Set all metrics
-        let metrics = json_data['metrics'];
-        Object.keys(metrics).forEach(function (key) {
-            document.getElementById(key).value = metrics[key];
-        });
-
-        // Set sections according to the category
-        setSections(json_data['category']);
-    }
-}
-
-/**
- * This function enables and disables the component metrics for user input
- *
- * @param {string} selected_category: The component category selected in the dropdown
- */
-
-function setSections(selected_category) {
-
-    // Read JSON file
-    fetch(base_url + '/content/mapping_metrics_definition.json')
-        .then(response => response.json())
-        .then(data => {
-            const category = data['categories'][selected_category]['sections'];
-            Object.keys(category).forEach(function (key) {
-                const feature_child = document.getElementById(key).children[0].children[0];
-                const metrics_child = document.getElementById(key).children[0].children[1];
-                if (category[key] === 'true') {
-                    feature_child.style.color = 'inherit';
-                    feature_child.removeAttribute("disabled");
-                } else {
-                    feature_child.style.color = '#999999';
-                    feature_child.setAttribute("disabled", "true");
-                    metrics_child.style.display = 'none';
-                }
-            });
-        });
 }
 
 /**
@@ -156,7 +120,7 @@ function toggleSection(element) {
  * This function saves the data entered to the database by transmitting the data to the backend
  */
 
-function createEditComponent() {
+function createEditProcess() {
 
     document.getElementById('save-button').setAttribute("disabled","disabled");
     document.getElementById('save-button').style.backgroundColor='grey';
@@ -232,8 +196,17 @@ function createEditComponent() {
  *
  * @param {json} features
  */
-function createMetricsSection(features) {
-    let i=0;
+function createMetricsSection(features, processData) {
+    // Check if the request has succeeded
+    if (processData['success']) {
+        // Component data has been received
+
+        // Set uid and data fields
+        document.getElementById('process-name-textarea').value = processData['process']['name'];
+        document.getElementById('process-beschreibung-textarea').value = processData['process']['description'];
+    }
+
+        let i=0;
     Object.keys(features).forEach(function (key) {
         i++;
         let feature = features[key];
