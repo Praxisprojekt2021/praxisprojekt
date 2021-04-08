@@ -108,6 +108,10 @@ def get_process(uid_dict: dict) -> dict:
     for component in component_list:
         component_dict = component_handler.get_component({"uid": component.uid})
         del component_dict["success"]
+
+        rel = process.hasComponent.relationship(component)
+        component_dict["weight"] = rel.weight
+
         process_dict["process"]["components"].append(component_dict)
 
     metrics_list = process.hasMetric.all()
