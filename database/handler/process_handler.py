@@ -1,3 +1,4 @@
+from datetime import datetime
 from neomodel import config, StructuredNode, StringProperty, UniqueIdProperty, \
     RelationshipTo, StructuredRel, FloatProperty, relationship, db
 
@@ -25,13 +26,14 @@ class RelationshipComponent(StructuredRel):
 
 class RelationshipMetric(StructuredRel):
     """
-    A class to represent the relationship between a Component and a Metric.
+    A class to represent the relationship between a Process and a Metric.
 
     Attributes
     ----------
     value : float
         is value of the relationship
     """
+
     value = FloatProperty()
 
 
@@ -74,24 +76,15 @@ def get_process_list() -> dict:
     :return: List of processes in a dict
     """
 
-    data = {
-        "success": True,
-        "process": [
-            {
-                "uid": "b141f94973a43cf8ee972e9dffc1b004",
-                "name": "Kunde anlegen",
-                "creation_timestamp": "20210210...",
-                "last_timestamp": "20200211..."
-            },
-            {
-                "uid": "b141f94973a43cf8ee972e9dffc1b004",
-                "name": "Kunde löschen",
-                "creation_timestamp": "20210209...",
-                "last_timestamp": "20210210..."
-            }
-        ]
-    }
+    data = success_handler()
+    processes = Process.nodes.all()
+    processes_list = []
+    wanted_keys = ['uid', 'name', 'creation_timestamp', 'last_timestamp']
+    for process in processes:
+        process_dict = process.__dict__
+        processes_list.append(dict((k, process_dict[k]) for k in wanted_keys if k in process_dict))
 
+    data["process"] = processes_list
     return data
 
 
@@ -104,65 +97,35 @@ def get_process(uid_dict: dict) -> dict:
     :return: process dict
     """
 
-    data = {
-        "success": True,
-        "process": {
-            "uid": "b141f94973a43cf8ee972e9dffc1b004",
-            "name": "Kunde anlegen",
-            "description": "Prozess zum anlegen von einem neuen Kunden in allen Systemen",
-            "creation_timestamp": "20210210...",
-            "last_timestamp": "20200211...",
-            "components": [
-                {
-                    "uid": "b141f94973a43cf8ee972e9dffc1b004",
-                    "weight": 1,  # different from single component view!
-                    "name": "SQL Datenbank",
-                    "category": "Datenbank",
-                    "description": "Kundendatenbank",
-                    "creation_timestamp": "20200219...",
-                    "last_timestamp": "20200219...",
-                    "metrics": {
-                        "complaints": 20000,
-                        "number_of_administrators": 10,
-                        "restore_time": 5
-                    }
-                },
-                {
-                    "uid": "b141f94973a43cf8ee972e9dffc1b004",
-                    "weight": 1.5,
-                    "name": "Frontend API",
-                    "category": "API",
-                    "description": "API für das Frontend",
-                    "creation_timestamp": "20200219...",
-                    "last_timestamp": "20200219...",
-                    "metrics": {
-                        "number_of_administrators": 10,
-                        "restore_time": 5
-                    }
-                },
-                {
-                    "uid": "b141f94973a43cf8ee972e9dffc1b004",
-                    "weight": 2,
-                    "name": "Hadoop Cluster",
-                    "category": "Datenbank",
-                    "description": "Big Data Plattform",
-                    "creation_timestamp": "20200219...",
-                    "last_timestamp": "20200219...",
-                    "metrics": {
-                        "number_of_administrators": 10,
-                        "restore_time": 5
-                    }
-                }
-            ]
-        },
-        "target_metrics": {
-            "complaints": 25000,
-            "number_of_administrators": 12,
-            "restore_time": 3
-        }
-    }
+    uid = uid_dict["uid"]
+    process = Process.nodes.get(uid=uid)
+    process_dict = success_handler()
+    process_dict["process"] = process.__dict__
 
-    return data
+    component_list = process.hasComponent.all()
+    process_dict["process"]["components"] = []
+
+    for component in component_list:
+        component_dict = component_handler.get_component({"uid": component.uid})
+        del component_dict["success"]
+
+        rel = process.hasComponent.relationship(component)
+        component_dict["weight"] = rel.weight
+
+        process_dict["process"]["components"].append(component_dict)
+
+    metrics_list = process.hasMetric.all()
+    process_dict["target_metrics"] = {}
+
+    for metric in metrics_list:
+        rel = process.hasMetric.relationship(metric)
+        process_dict["target_metrics"][metric.name] = rel.value
+
+    del process_dict["process"]["hasComponent"]
+    del process_dict["process"]["hasMetric"]
+    del process_dict["process"]["id"]
+
+    return process_dict
 
 
 def add_process(input_dict: dict) -> dict:
@@ -173,10 +136,20 @@ def add_process(input_dict: dict) -> dict:
     :type input_dict: dict
     :return: Status dict
     """
-    data = {
-        "success": True,
-        "process_uid": "b141f94973a43cf8ee972e9dffc1b004"
-    }
+
+    output = Process(
+        name=input_dict["process"]["name"],
+        creation_timestamp=str(datetime.now()),
+        last_timestamp=str(datetime.now()),
+        description=input_dict["process"]["description"])
+
+    output.save()
+
+    for metric in input_dict["target_metrics"]:
+        output.hasMetric.connect(metric_handler.get_metric(metric), {"value": input_dict["target_metrics"][metric]})
+
+    data = success_handler()
+    data["process_uid"] = output.uid
 
     return data
 
@@ -189,6 +162,33 @@ def update_process(input_dict: dict) -> dict:
     :type input_dict: dict
     :return: Status dict
     """
+
+    uid = input_dict["process"]["uid"]
+    process = Process.nodes.get(uid=uid)
+    process.name = input_dict["process"]["name"]
+    process.description = input_dict["process"]["description"]
+    process.last_timestamp = str(datetime.now())
+    process.save()
+
+    old_metrics = get_process({"uid": uid})["target_metrics"]
+    new_metrics = input_dict["target_metrics"]
+
+    for metric in old_metrics:
+        metric_object = metric_handler.Metric.nodes.get(name=metric)
+        if metric in new_metrics:
+            rel = process.hasMetric.relationship(metric_object)
+            rel.value = new_metrics[metric]
+            rel.save()
+
+            new_metrics.pop(metric)
+        else:
+            db.cypher_query('Match (m: Process {uid: "' + uid + '"})-[r: has]-(n: Metric {uid: "' +
+                            metric_object.uid + '"}) Delete r')
+
+    for metric in new_metrics:
+        metric_object = metric_handler.Metric.nodes.get(name=metric)
+        process.hasMetric.connect(metric_object, {"value": new_metrics[metric]})
+
     return success_handler()
 
 
@@ -200,6 +200,9 @@ def delete_process(uid_dict: dict) -> dict:
     :type uid_dict: dict
     :return: Status dict
     """
+
+    Process.nodes.get(uid=uid_dict["uid"]).delete()
+
     return success_handler()
 
 
@@ -251,13 +254,7 @@ def delete_process_reference(input_dict: dict) -> dict:
     :return: Status dict
     """
 
-    process = Process.nodes.get(uid=input_dict['uid'])
-
-    component_list = process.hasComponent.all()
-
-    for component in component_list:
-        rel = process.hasComponent.relationship(component)
-        if rel.weight == input_dict['weight']:
-            rel.disconnect()
+    db.cypher_query('Match (n: Process {uid: "' + input_dict['uid'] +
+                    '"})-[r: includes {weight: ' + str(input_dict['weight']) + '}] -() Delete r')
 
     return success_handler()

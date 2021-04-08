@@ -1,10 +1,5 @@
-from database.handler.metric_handler import create_from_frontend_json
-import core.core as core
+import database.handler.metric_handler as mh
+import database.handler.process_handler as ph
+import database.handler.component_handler as ch
 
-# create_from_frontend_json('frontend/static/content/mapping_metrics_definition.json')
-# create_from_csv('database/metrics.csv')
-
-
-#print(get_metrics_data())
-#print(core.get_process(12))
-print(core.get_process(123))
+# print(mh.create_from_frontend_json('frontend/static/content/mapping_metrics_definition.json'))
