@@ -52,7 +52,7 @@ function getFeatures() {
             const features = data['features'];
 
             //TODO: auskommentieren
-            // createMetricsSection(features);
+            createMetricsSection(features);
             let div = document.createElement('div');
             div.className = 'control-area';
 
@@ -89,7 +89,6 @@ function getProcess(uid) {
  */
 
 function processComponentData(json_data) {
-
     // Check if the request has succeeded
     if (json_data['success']) {
         // Component data has been received
@@ -234,7 +233,9 @@ function createEditComponent() {
  * @param {json} features
  */
 function createMetricsSection(features) {
+    let i=0;
     Object.keys(features).forEach(function (key) {
+        i++;
         let feature = features[key];
         let metrics = feature['metrics'];
 
@@ -250,13 +251,31 @@ function createMetricsSection(features) {
         innerHTML += '</div>';
         innerHTML += '<nav class="dropdown-list">';
         innerHTML += '<div class="features-columns">';
-
+        // TODO: Tabellenheader erzeugen
+        innerHTML += `
+        <label>Feature ${i}: ${feature['name']}</label>
+        <table id="process-feature-table">
+            <tr>
+                <th name="metric">Metric</th>
+                <th name="average">Average</th>
+                <th name="standard-deviation">Std. Dev.</th>
+                <th name="sum">Sum</th>
+                <th name="min">Min</th>
+                <th name="max">Max</th>
+                <th name="target-avg">Target Average</th>
+                <th name="target-sum">Target Sum</th>
+                <th name="ampel"></th>
+                <th name="info">Info</th>
+            </tr>
+        </table>`;
         Object.keys(metrics).forEach(function (key) {
             let metric = metrics[key];
             innerHTML += '<div class="metric-entry-element">';
-            innerHTML += ('<label for="availability-metric" class="entry-label">' + metric['name'] + '</label>');
+            // TODO: hier Tabelle erzeugen
+
+            /*innerHTML += ('<label for="availability-metric" class="entry-label">' + metric['name'] + '</label>');
             innerHTML += '<input type="text" maxLength="256" data-name="availability-metric-1" id="' + key + '"' +
-                ' name="availability-metric" class="metric-input textfield">';
+                ' name="availability-metric" class="metric-input textfield">';*/
             innerHTML += `<img src="images/info.png" loading="lazy" width="35" alt="" class="info-icon">`;
             innerHTML += '</div>';
         });
@@ -267,7 +286,7 @@ function createMetricsSection(features) {
         div.innerHTML = innerHTML;
 
         // Append element to document
-        document.getElementById('metrics-input').appendChild(div);
+        document.getElementById('metrics-input-processes').appendChild(div);
     });
 }
 
