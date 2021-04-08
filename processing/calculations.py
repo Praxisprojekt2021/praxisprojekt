@@ -14,7 +14,8 @@ def start_calculate_risk(process_dict: dict, metrics_dict: dict) -> dict:
     """
 
     current_values = calculate_current_values(process_dict)
-    compared_values = compare_actual_target_metrics(current_values, metrics_dict)
+    compared_values = compare_actual_target_metrics(
+        current_values, metrics_dict)
     full_process_dict = calculate_risk_score(compared_values)
 
     return full_process_dict
@@ -113,10 +114,16 @@ def calculate_risk_score(process_dict: dict) -> dict:
     """
 
     sum = 0
-    sub_dict = process_dict["actual_target_metrics"]
-    for metric in sub_dict:
-        sum += sub_dict[metric]["fulfillment"]
+    if "actual_target_metrics" in process_dict:
+        sub_dict = process_dict["actual_target_metrics"]
+        for metric in sub_dict:
+            if "fulfillment" in sub_dict[metric]:
+                sum += sub_dict[metric]["fulfillment"]
 
-    process_dict["score"] = int((sum / len(sub_dict)) * 100)
+        score = int((sum / max(len(sub_dict), 1)) * 100)
+    else:
+        score = 0
+
+    process_dict["score"] = score
 
     return process_dict
