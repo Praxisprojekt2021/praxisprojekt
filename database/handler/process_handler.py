@@ -121,9 +121,9 @@ def get_process(uid_dict: dict) -> dict:
                     "creation_timestamp": "20200219...",
                     "last_timestamp": "20200219...",
                     "metrics": {
-                        "codelines": 20000,
-                        "admins": 10,
-                        "recovery_time": 5
+                        "complaints": 20000,
+                        "number_of_administrators": 10,
+                        "restore_time": 5
                     }
                 },
                 {
@@ -135,9 +135,8 @@ def get_process(uid_dict: dict) -> dict:
                     "creation_timestamp": "20200219...",
                     "last_timestamp": "20200219...",
                     "metrics": {
-                        "codelines": 20000,
-                        "admins": 10,
-                        "recovery_time": 5
+                        "number_of_administrators": 10,
+                        "restore_time": 5
                     }
                 },
                 {
@@ -149,17 +148,16 @@ def get_process(uid_dict: dict) -> dict:
                     "creation_timestamp": "20200219...",
                     "last_timestamp": "20200219...",
                     "metrics": {
-                        "codelines": 20000,
-                        "admins": 10,
-                        "recovery_time": 5
+                        "number_of_administrators": 10,
+                        "restore_time": 5
                     }
                 }
             ]
         },
         "target_metrics": {
-            "codelines": 25000,
-            "admins": 12,
-            "recovery_time": 3
+            "complaints": 25000,
+            "number_of_administrators": 12,
+            "restore_time": 3
         }
     }
 
