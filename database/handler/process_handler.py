@@ -1,5 +1,5 @@
 from neomodel import config, StructuredNode, StringProperty, UniqueIdProperty, \
-    RelationshipTo, StructuredRel, FloatProperty
+    RelationshipTo, StructuredRel, FloatProperty, relationship, db
 
 from core.success_handler import success_handler
 
@@ -19,6 +19,7 @@ class RelationshipComponent(StructuredRel):
     weight : float
         is the weight of the relationship
     """
+
     weight = FloatProperty()
 
 
@@ -62,7 +63,7 @@ class Process(StructuredNode):
     creation_timestamp = StringProperty()  # evtl. float
     last_timestamp = StringProperty()  # evtl. float
 
-    includesComponent = RelationshipTo(component_handler.Component, "includes", model=RelationshipComponent)
+    hasComponent = RelationshipTo(component_handler.Component, "includes", model=RelationshipComponent)
     hasMetric = RelationshipTo(metric_handler.Metric, "has", model=RelationshipMetric)
 
 
@@ -204,33 +205,59 @@ def delete_process(uid_dict: dict) -> dict:
 
 def add_process_reference(input_dict: dict) -> dict:
     """
-    Function to add a process reference/ add a process step
+    Function to add a process reference (to a component included in the respective process)
 
-    :param input_dict: process is plus component id plus weight
+    :param input_dict: a dictionary containing process uid, component id and weight
     :type input_dict: dict
     :return: Status dict
     """
+
+    process = Process.nodes.get(uid=input_dict['process_uid'])
+    component = component_handler.Component.nodes.get(uid=input_dict['component_uid'])
+
+    process.hasComponent.connect(component, {"weight": input_dict["weight"]})
+
     return success_handler()
 
 
 def update_process_reference(input_dict: dict) -> dict:
     """
-    Function to edit a process reference/ edit a process step
+    Function to edit a process reference (to a component included in the respective process)
 
-    :param input_dict: process id plus weights
+    :param input_dict: process uid and an old and new weight
     :type input_dict: dict
     :return: Status dict
     """
+
+    process = Process.nodes.get(uid=input_dict['uid'])
+
+    component_list = process.hasComponent.all()
+
+    for component in component_list:
+        rel = process.hasComponent.relationship(component)
+        if rel.weight == input_dict['old_weight']:
+            rel.weight = input_dict['new_weight']
+            rel.save()
+
     return success_handler()
 
 
 def delete_process_reference(input_dict: dict) -> dict:
     """
-    Function to edit a process reference/ edit a process step
+    Function to delete a process reference (to a component not longer in the respective process)
 
-    :param input_dict: process id plus weight
+    :param input_dict: a dictionary including the process uid and a weight
     :type input_dict: dict
     :return: Status dict
     """
+
+    process = Process.nodes.get(uid=input_dict['uid'])
+
+    component_list = process.hasComponent.all()
+
+    for component in component_list:
+        rel = process.hasComponent.relationship(component)
+        if rel.weight == input_dict['weight']:
+            rel.disconnect()
 
     return success_handler()
