@@ -12,8 +12,12 @@ def start_calculate_risk(process_dict: dict, metrics_dict: dict) -> dict:
     :type process_dict: Dict[str: Any]
     :return: Dict[str: Any]
     """
-    print("TEST")
+    # print("TEST")
     current_val = calculate_current_values(process_dict)
+    compared_vals = compare_actual_target_metrics(current_val, metrics_dict)
+    full_process_dict = calculate_risk_score(compared_vals)
+
+    return full_process_dict
 
 
 def calculate_current_values(process_dict: dict) -> dict:
@@ -68,15 +72,15 @@ def calculate_current_values(process_dict: dict) -> dict:
 
 def compare_actual_target_metrics(process_dict: dict,
                                   metrics_dict: dict) -> dict:
-    """Compares the actuals against the target and 
-        sets the fulfillment to true or false
+    """Compares the actual value against the target value
+        and sets the fulfillment to true or false based on
+        the comparator of the related metric.
 
-    Args:
-        process_dict (dict): from calculate_current_values()
-        metrics_dict (dict): from get_metrics_data()
-
-    Returns:
-        dict: process_dict
+        :param process_dict: output from calculate_current_values()
+        :type process_dict: dict
+        :param metrics_dict: output from get_metrics_data()
+        :type metrics_dict: dict
+        :return: process_dict
     """
     for metric in process_dict['actual_target_metrics']:
         comparator = metrics_dict[metric]['fulfilled_if']
@@ -88,7 +92,25 @@ def compare_actual_target_metrics(process_dict: dict,
         else:
             fulfillment = False
 
-        process_dict['actual_target_metrics'] \
-            [metric]['fulfillment'] = fulfillment
+        process_dict['actual_target_metrics'][metric]['fulfillment'] = fulfillment
+
+    return process_dict
+
+
+def calculate_risk_score(process_dict: dict) -> dict:
+    """Calculates the average fulfillment rate for 
+       all compared metrics
+
+        :param process_dict: from compare_actual_target_metrics()
+        :type process_dict: dict
+        :return: process_dict
+    """
+
+    sum = 0
+    sub_dict = process_dict["actual_target_metrics"]
+    for metric in sub_dict:
+        sum += sub_dict[metric]["fulfillment"]
+
+    process_dict["score"] = int((sum/len(sub_dict))*100)
 
     return process_dict
