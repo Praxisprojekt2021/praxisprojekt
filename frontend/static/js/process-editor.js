@@ -64,7 +64,6 @@ async function getFeatures() {
  */
 
 function getProcess(features) {
-    debugger;
     const url_string = window.location.href;
     const url = new URL(url_string);
     let uid = url.searchParams.get('uid');
@@ -88,7 +87,6 @@ function getProcess(features) {
             if (this.readyState === XMLHttpRequest.DONE && (this.status >= 200 && this.status < 300)) {
                 // Process response and show sum in output field
                 let processData = JSON.parse(this.responseText);
-                console.log(processData);
                 createMetricsSection(features, processData);
             }
         }
@@ -239,21 +237,30 @@ function createMetricsSection(features, processData) {
                 <th name="target-sum">Target Sum</th>
                 <th name="ampel"></th>
                 <th name="info">Info</th>
-            </tr>
-        </table>`;
+            </tr>`;
         Object.keys(metrics).forEach(function (key) {
             let metric = metrics[key];
-            innerHTML += '<div class="metric-entry-element">';
-            // TODO: hier Tabelle erzeugen
+            console.log(processData);
 
-            /*innerHTML += ('<label for="availability-metric" class="entry-label">' + metric['name'] + '</label>');
-            innerHTML += '<input type="text" maxLength="256" data-name="availability-metric-1" id="' + key + '"' +
-                ' name="availability-metric" class="metric-input textfield">';*/
-            innerHTML += `<img src="images/info.png" loading="lazy" width="35" alt="" class="info-icon">`;
-            innerHTML += '</div>';
+            //TODO: if wieder entfernen, ist nur weil es nicht überall die id gibt momentan!
+            if(processData['actual_target_metrics'][`${metric}`]) {
+                let metricId = metric;
+                console.log(metricId);
+
+                console.log(processData['actual_target_metrics'][metricId]['actual']);
+                let codelines = processData['actual_target_metrics'][`${metricId}`]['actual']['average'];
+
+                // TODO: hier Tabelle erzeugen
+                innerHTML += `
+            <tr>
+                <td id="${metric['name']}">${metric['name']}</td>
+                <td>${codelines}</td>
+                <td><img src="images/info.png" loading="lazy" width="35" alt="" class="info-icon"></td>
+            </tr>`
+            }
         });
-
-        innerHTML += '</div>';
+    innerHTML += `</table>`;
+    innerHTML += '</div>';
         innerHTML += '</nav>';
         innerHTML += '</div>';
         div.innerHTML = innerHTML;
