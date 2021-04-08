@@ -164,21 +164,26 @@ def update_process(input_dict: dict) -> dict:
     process.name = input_dict["process"]["name"]
     process.description = input_dict["process"]["description"]
     process.last_timestamp = str(datetime.now())
-
     process.save()
 
-    process_dict = get_process({"uid": uid})
+    old_metrics = get_process({"uid": uid})["target_metrics"]
+    new_metrics = input_dict["target_metrics"]
 
-    metrics_dict = process_dict["target_metrics"]
-    metrics = []
-    for key in metrics_dict:
-        metrics.append(key)
-    for metric in metrics:
-        new_metrics = input_dict["target_metrics"]
-        metric_object = metric_handler.get_metric(metric)
-        rel = process.hasMetric.relationship(metric_object)
-        rel.value = new_metrics[metric]
-        rel.save()
+    for metric in old_metrics:
+        metric_object = metric_handler.Metric.nodes.get(name=metric)
+        if metric in new_metrics:
+            rel = process.hasMetric.relationship(metric_object)
+            rel.value = new_metrics[metric]
+            rel.save()
+
+            new_metrics.pop(metric)
+        else:
+            db.cypher_query('Match (m: Process {uid: "' + uid + '"})-[r: has]-(n: Metric {uid: "' +
+                            metric_object.uid + '"}) Delete r')
+
+    for metric in new_metrics:
+        metric_object = metric_handler.Metric.nodes.get(name=metric)
+        process.hasMetric.connect(metric_object, {"value": new_metrics[metric]})
 
     return success_handler()
 
