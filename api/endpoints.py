@@ -216,7 +216,7 @@ def process_view_route():
 
 
 @app.errorhandler(Exception)
-def page_not_found(error):
+def error_occurred(error):
     """
     API error handler
 
@@ -225,6 +225,7 @@ def page_not_found(error):
     """
     exc_type, value, traceback = sys.exc_info()
     error_json = error_handler(exc_type.__name__, str(value))
+    print(error)
     return error_json, 500
 
 

@@ -13,63 +13,85 @@ def start_calculate_risk(process_dict: dict, metrics_dict: dict) -> dict:
     :return: Dict[str: Any]
     """
 
-    current_values = calculate_current_values(process_dict)
-    compared_values = compare_actual_target_metrics(
-        current_values, metrics_dict)
+    current_values = calculate_current_values(process_dict, metrics_dict)
+    compared_values = compare_actual_target_metrics(current_values, metrics_dict)
     full_process_dict = calculate_risk_score(compared_values)
 
     return full_process_dict
 
 
-def calculate_current_values(process_dict: dict) -> dict:
+def calculate_current_values(process_dict: dict, metrics_dict: dict) -> dict:
     """
     Function that extracts the current metrics values from a process dict
 
     :param process_dict: A dict containing all relevant data of a process to calculate the risk score
     :type process_dict: Dict[str: Any]
+    :param metrics_dict: output from get_metrics_data()
+    :type metrics_dict: dict
     :return: Dict[str: Any]
     """
 
-    # get all metric values
+    # get all metric values of components
     component_metrics = {}
     for components in (process_dict["process"]["components"]):
-        for key, value in components["metrics"].items():
+        for key, values in components["metrics"].items():
             if key not in component_metrics:
-                component_metrics[key] = [value]
+                component_metrics[key] = [values]
             else:
-                component_metrics[key].append(value)
+                component_metrics[key].append(values)
 
     # prepare output dict
     output_dict = {'success': process_dict["success"],
                    'process': process_dict["process"],
                    'actual_target_metrics': {}}
 
-    calculations = output_dict['actual_target_metrics']
+    # loop through all metrics
+    for metric in metrics_dict['metrics']:
+        calculations = {metric: {}}
 
-    for key, value in component_metrics.items():
-        calculations[key] = {}
+        process_target_flag = False
+        component_metric_flag = False
 
-        # calculate actual metrics
-        calculations[key]['actual'] = {"total": sum(value),
-                                       "min": min(value),
-                                       "max": max(value),
-                                       "avg": mean(value),
-                                       }
+        # if any component has this specific metric
+        if metric in component_metrics.keys():
+            values = component_metrics[metric]
 
-        # more than one component has this metric, thus a standard deviation can be calculated
-        if len(value) > 1:
-            calculations[key]['actual'].update({"std_dev": stdev(value)})
+            # calculate actual metrics
+            calculations[metric]['actual'] = {"total": sum(values), "min": min(values), "max": max(values),
+                                              "avg": mean(values)}
 
-        # only one component has this metric, thus no standard deviation can be calculated
-        else:
-            calculations[key]['actual'].update({"std_dev": None})
+            # more than one component has this metric, thus a standard deviation can be calculated
+            if len(values) > 1:
+                calculations[metric]['actual'].update({"std_dev": stdev(values)})
 
-        # get amount of components
-        calculations[key]["count_component"] = len(value)
+            # only one component has this metric, thus no standard deviation can be calculated
+            else:
+                calculations[metric]['actual'].update({"std_dev": None})
 
-        # calculate and get target metrics
-        calculations[key]['target'] = {'avg': process_dict['target_metrics'][key],
-                                       'total': process_dict['target_metrics'][key] * len(value)}
+            # get amount of components
+            calculations[metric]["count_component"] = len(values)
+
+            component_metric_flag = True
+
+        # if process has a target value for this metric
+        if metric in process_dict['target_metrics'].keys():
+            value = process_dict['target_metrics'][metric]
+
+            # calculate and get target metrics
+            calculations[metric]['target'] = {'avg': value}
+
+            process_target_flag = True
+
+        # if target values were given and the metric is filled in a component
+        if process_target_flag and component_metric_flag:
+
+            # calculate target sum
+            calculations[metric]['target']['total'] = calculations[metric]['target']['avg'] * \
+                                                      calculations[metric]['count_component']
+
+        # save calculated values in output_dict
+        if process_target_flag or component_metric_flag:
+            output_dict['actual_target_metrics'][metric] = calculations[metric]
 
     return output_dict
 
@@ -91,14 +113,16 @@ def compare_actual_target_metrics(process_dict: dict, metrics_dict: dict) -> dic
         comparator = metrics_dict['metrics'][metric]['fulfilled_if']
         process_metrics_dict = process_dict['actual_target_metrics'][metric]
 
-        if eval(f"{process_metrics_dict['actual']['avg']} {comparator}"
-                f"{process_metrics_dict['target']['avg']}"):
+        # check if target and actual values are given
+        if 'actual' in process_metrics_dict.keys() and 'target' in process_metrics_dict.keys():
 
-            fulfillment = True
-        else:
-            fulfillment = False
+            if eval(f"{process_metrics_dict['actual']['avg']} {comparator} {process_metrics_dict['target']['avg']}"):
 
-        process_dict['actual_target_metrics'][metric]['fulfillment'] = fulfillment
+                fulfillment = True
+            else:
+                fulfillment = False
+
+            process_dict['actual_target_metrics'][metric]['fulfillment'] = fulfillment
 
     return process_dict
 
@@ -114,15 +138,15 @@ def calculate_risk_score(process_dict: dict) -> dict:
     """
 
     sum = 0
-    if "actual_target_metrics" in process_dict:
-        sub_dict = process_dict["actual_target_metrics"]
-        for metric in sub_dict:
-            if "fulfillment" in sub_dict[metric]:
-                sum += sub_dict[metric]["fulfillment"]
+    amount = 0
 
-        score = int((sum / max(len(sub_dict), 1)) * 100)
-    else:
-        score = 0
+    sub_dict = process_dict["actual_target_metrics"]
+    for metric in sub_dict:
+        if 'fullfillment' in sub_dict.keys():
+            sum += sub_dict[metric]["fulfillment"]
+            amount += 1
+
+    score = int((sum / max(len(sub_dict), 1)) * 100)
 
     process_dict["score"] = score
 
