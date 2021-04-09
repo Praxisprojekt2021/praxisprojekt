@@ -162,7 +162,7 @@ def update_process(input_dict: dict) -> dict:
     :type input_dict: dict
     :return: Status dict
     """
-    
+
     uid = input_dict["process"]["uid"]
     process = Process.nodes.get(uid=uid)
     process.name = input_dict["process"]["name"]
@@ -208,9 +208,9 @@ def delete_process(uid_dict: dict) -> dict:
 
 def add_process_reference(input_dict: dict) -> dict:
     """
-    Function to add a process reference/ add a process step
+    Function to add a process reference (to a component included in the respective process)
 
-    :param input_dict: process id plus component id plus weight
+    :param input_dict: a dictionary containing process uid, component id and weight
     :type input_dict: dict
     :return: Status dict
     """
@@ -225,9 +225,9 @@ def add_process_reference(input_dict: dict) -> dict:
 
 def update_process_reference(input_dict: dict) -> dict:
     """
-    Function to edit a process reference/ edit a process step
+    Function to edit a process reference (to a component included in the respective process)
 
-    :param input_dict: process id plus weights
+    :param input_dict: process uid and an old and new weight
     :type input_dict: dict
     :return: Status dict
     """
@@ -247,9 +247,9 @@ def update_process_reference(input_dict: dict) -> dict:
 
 def delete_process_reference(input_dict: dict) -> dict:
     """
-    Function to edit a process reference/ edit a process step
+    Function to delete a process reference (to a component not longer in the respective process)
 
-    :param input_dict: process id plus weight
+    :param input_dict: a dictionary including the process uid and a weight
     :type input_dict: dict
     :return: Status dict
     """
