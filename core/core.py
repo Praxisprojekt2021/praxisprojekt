@@ -100,114 +100,13 @@ def get_process(input_dict: dict) -> str:
     """
 
     process_dict = process_handler.get_process(input_dict)
-    output_json = processing.dict_to_json(process_dict)
+    metrics_dict = metric_handler.get_metrics_data()
 
-    # TO DO Risk Calculation on output_json
+    output_dict = processing.calculations.start_calculate_risk(process_dict, metrics_dict)
 
-    data = {
-        "success": True,
-        "process": {
-            "uid": "b141f94973a43cf8ee972e9dffc1b014",
-            "name": "Kunde anlegen",
-            "description": "Prozess zum anlegen von einem neuen Kunden in allen Systemen",
-            "creation_timestamp": "20210210...",
-            "last_timestamp": "20200211...",
-            "components": [
-                {
-                    "uid": "b141f94973a43cf8ee972e9dffc1b014",
-                    "weight": 1,  # different from single component view!
-                    "name": "SQL Datenbank",
-                    "category": "Datenbank",
-                    "description": "Kundendatenbank",
-                    "creation_timestamp": "20200219...",
-                    "last_timestamp": "20200219...",
-                    "metrics": {
-                        "codelines": 20000,
-                        "admins": 10,
-                        "recovery_time": 5
-                    }
-                },
-                {
-                    "uid": "b141f94973a43cf8ee972e9dffc1b004",
-                    "weight": 1.5,
-                    "name": "Frontend API",
-                    "category": "API",
-                    "description": "API für das Frontend",
-                    "creation_timestamp": "20200219...",
-                    "last_timestamp": "20200219...",
-                    "metrics": {
-                        "codelines": 20000,
-                        "admins": 10,
-                        "recovery_time": 5
-                    }
-                },
-                {
-                    "uid": "b141f94973a43cf8ee972e9dffc1b004",
-                    "weight": 2,
-                    "name": "Hadoop Cluster",
-                    "category": "Datenbank",
-                    "description": "Big Data Plattform",
-                    "creation_timestamp": "20200219...",
-                    "last_timestamp": "20200219...",
-                    "metrics": {
-                        "codelines": 20000,
-                        "admins": 10,
-                        "recovery_time": 5
-                    }
-                }
-            ]
-        },
-        "score": 80,  # percent as integer
-        "actual_target_metrics": {
-            "codelines": {
-                "actual": {
-                    "average": 30,
-                    "max": 50,
-                    "min": 20,
-                    "standard_deviation": 5,
-                    "total": 300,  # summe
-                },
-                "target": {
-                    "average": 30,
-                    "total": 300,  # summe
-                },
-                "component_count": 10,
-                "fulfillment": False
-            },  # true means that the metric is fulfilled --> no problem.
-            "admins": {
-                "actual": {
-                    "average": 30,
-                    "max": 50,
-                    "min": 20,
-                    "standard_deviation": 5,
-                    "total": 300,     # summe
-                },
-                "target": {
-                    "average": 30,
-                    "total": 300,     # summe
-                },
-                "component_count": 10,
-                "fulfillment": True
-            },
-            "recovery_time": {
-                "actual": {
-                    "average": 0.65,
-                    "max": 0.8,
-                    "min": 0.5,
-                    "standard_deviation": 5,
-                    "total": 0.4,     # summe
-                },
-                "target": {
-                    "average": 0.8,
-                    "total": 0.64,     # summe
-                },
-                "component_count": 2,
-                "fulfillment": True
-            },  # false means that the metric is not fulfilled --> problem.
-        }
-    }
+    output_json = processing.dict_to_json(output_dict)
 
-    return processing.dict_to_json(data)
+    return output_json
 
 
 def create_edit_process(input_dict: dict) -> str:
