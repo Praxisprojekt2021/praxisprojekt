@@ -9,8 +9,10 @@ def get_component_list() -> str:
     """
     Calls the get_component_list method and converts the output to JSON
 
-    :return: Returns a JSON object, structured as described in docu/JSON_objects_definitions.py
+    :returns: Returns a JSON object, structured as described in docu/JSON_objects_definitions.py
+    :rtype: str
     """
+
     component_list_dict = component_handler.get_component_list()
     output_json = processing.dict_to_json(component_list_dict)
 
@@ -23,9 +25,9 @@ def get_component(input_dict: dict) -> str:
     It returns another JSON object, structured as described in docu/JSON_objects_definitions.py
     which is retrieved from the component_handler.
 
-    :param input_dict: dict containing the component uid
-    :type input_dict: dict
-    :return: Returns a JSON object, structured as described in docu/JSON_objects_definitions.py representing a component
+    :param input_dict: dict containing the component uid :type input_dict: dict :returns: Returns a JSON object,
+    structured as described in docu/JSON_objects_definitions.py representing a component
+    :rtype: str
     """
 
     component_dict = component_handler.get_component(input_dict)
@@ -43,7 +45,8 @@ def create_edit_component(input_dict: dict) -> str:
     :param input_dict: dict containing all component attributes (special information
     to differentiate edit or create is contained in the UID, which is either -1 or the original UID
     :type input_dict: dict
-    :return: A JSON object containing the success state, which is True or False
+    :returns: A JSON object containing the success state, which is True or False
+    :rtype: str
     """
 
     if input_dict["uid"] == "-1":
@@ -60,7 +63,8 @@ def delete_component(input_dict: dict) -> str:
 
     :param input_dict: dict containing the component uid
     :type input_dict: dict
-    :return: A JSON object containing the success state, which is True or False
+    :returns: A JSON object containing the success state, which is True or False
+    :rtype: str
     """
 
     result_dict = component_handler.delete_component(input_dict)
@@ -77,9 +81,11 @@ def get_process_list(score: int, components_count: int) -> str:
     :type score: int
     :param components_count: Number of components, to be added to the process list
     :type components_count: int
-    :return: Returns a JSON object, structured as described in docu/JSON_objects_definitions.py
+    :returns: Returns a JSON object, structured as described in docu/JSON_objects_definitions.py
     representing a process list
+    :rtype: str
     """
+
     process_list_dict = process_handler.get_process_list()
 
     process_list_dict["process"]["score"] = score
@@ -98,7 +104,8 @@ def get_process(input_dict: dict) -> str:
 
     :param input_dict: dict containing the process uid
     :type input_dict: dict
-    :return: Returns a JSON object, structured as described in docu/JSON_objects_definitions.py representing a process
+    :returns: Returns a JSON object, structured as described in docu/JSON_objects_definitions.py representing a process
+    :rtype: str
     """
 
     process_dict = process_handler.get_process(input_dict)
@@ -120,7 +127,8 @@ def create_edit_process(input_dict: dict) -> str:
     :param input_dict: dict containing all process attributes (special information
     to differentiate edit or create is contained in the UID, which is either -1 or the original UID
     :type input_dict: dict
-    :return: A JSON object containing either the success state if False, otherwise calls get_process
+    :returns: A JSON object containing either the success state if False, otherwise calls get_process
+    :rtype: str
     """
 
     if input_dict["uid"] == "-1":
@@ -138,7 +146,8 @@ def delete_process(input_dict: dict) -> str:
 
     :param input_dict: dict containing the process uid
     :type input_dict: dict
-    :return: A JSON object containing either the success state if False, otherwise calls get_process
+    :returns: A JSON object containing either the success state if False, otherwise calls get_process
+    :rtype: str
     """
 
     result_dict = process_handler.delete_process(input_dict)
@@ -153,7 +162,8 @@ def add_process_reference(input_dict: dict) -> str:
 
     :param input_dict: dict containing the process uid + component uid + weight
     :type input_dict: dict
-    :return: A JSON object containing either the success state if False, otherwise calls get_process
+    :returns: A JSON object containing either the success state if False, otherwise calls get_process
+    :rtype: str
     """
 
     process_handler.add_process_reference(input_dict)
@@ -168,7 +178,8 @@ def update_process_reference(input_dict: dict) -> str:
 
     :param input_dict: dict containing the process uid + old_weight + new_weight
     :type input_dict: dict
-    :return: A JSON object containing either the success state if False, otherwise calls get_process
+    :returns: A JSON object containing either the success state if False, otherwise calls get_process
+    :rtype: str
     """
 
     process_handler.update_process_reference(input_dict)
@@ -183,7 +194,8 @@ def delete_process_reference(input_dict: dict) -> str:
 
     :param input_dict: dict containing the process uid + weight
     :type input_dict: dict
-    :return: A JSON object containing either the success state if False, otherwise calls get_process
+    :returns: A JSON object containing either the success state if False, otherwise calls get_process
+    :rtype: str
     """
 
     process_handler.delete_process_reference(input_dict)
