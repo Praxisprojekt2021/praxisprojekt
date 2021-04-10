@@ -78,7 +78,6 @@ def get_process_list() -> str:
     """
     process_list_dict = process_handler.get_process_list()
 
-    # TODO: score und anzahl Komponenten dynamisch einfügen
     process_list_dict["process"]["score"] = 80
     process_list_dict["process"]["components_count"] = 4
 
@@ -121,11 +120,10 @@ def create_edit_process(input_dict: dict) -> str:
     """
 
     if input_dict["uid"] == "-1":
-        result_dict = process_handler.add_process(input_dict)
-        output_object = get_process(result_dict["process_uid"])
+        output_object = get_process(process_handler.add_process(input_dict)["process_uid"])
         return output_object
     else:
-        result_dict = process_handler.update_process(input_dict)
+        process_handler.update_process(input_dict)
         output_object = get_process(input_dict["uid"])
         return output_object
 
