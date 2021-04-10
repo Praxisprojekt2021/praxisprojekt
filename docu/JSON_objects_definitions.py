@@ -2,37 +2,38 @@
 File containing definitions of JSON objects for exchange between database, backend and frontend
 """
 
-# error
+# Error
 # Database -> Backend -> Frontend
 data = {
     "success": False,
 }
+
 # -----------------------
-# view component list
+# get_component_list
 # Database -> Backend -> Frontend
 data = {
     "success": True,
     "components": [
         {
             "uid": "b141f94973a43cf8ee972e9dffc1b004",
-         "name": "SQL Datenbank",
-         "category": "Datenbank",
-         "creation_timestamp": "20200219...",
-         "last_timestamp": "20200219...",
+            "name": "SQL Datenbank",
+            "category": "Datenbank",
+            "creation_timestamp": "20200219...",
+            "last_timestamp": "20200219...",
          },
         {
             "uid": "b141f94973a43cf8ee972e9dffc1b004",
-         "name": "Oracle Datenbank",
-         "category": "Datenbank",
-         "creation_timestamp": "20200219...",
-         "last_timestamp": "20200219...",
+            "name": "Oracle Datenbank",
+            "category": "Datenbank",
+            "creation_timestamp": "20200219...",
+            "last_timestamp": "20200219...",
          }
         # ...
     ]
 }
 
 # -----------------------
-# get single component
+# get_component
 # Frontend -> Backend -> Database
 data = {
     "uid": "b141f94973a43cf8ee972e9dffc1b004",
@@ -41,28 +42,30 @@ data = {
 # Database -> Backend -> Frontend
 data = {
     "success": True,
+    "component": {
+        "uid": "b141f94973a43cf8ee972e9dffc1b004",
+        "name": "SQL Datenbank",
+        "category": "Datenbank",
+        "description": "Datenbank zu xy mit ...",
+        "creation_timestamp": "20200219...",
+        "last_timestamp": "20200219...",
+        "metrics": {
+            "codelines": 20000,
+            "admins": 10,
+            "recovery_time": 5,
+            # ...
+        }
+    }
+}
+
+# -----------------------
+# update_component
+# Frontend -> Backend -> Database
+data = {
     "uid": "b141f94973a43cf8ee972e9dffc1b004",
     "name": "SQL Datenbank",
     "category": "Datenbank",
     "description": "Datenbank zu xy mit ...",
-    "creation_timestamp": "20200219...",
-    "last_timestamp": "20200219...",
-    "metrics": {
-        "codelines": 20000,
-        "admins": 10,
-        "recovery_time": 5,
-        # ...
-    },
-}
-
-# -----------------------
-# edit single component
-# Frontend -> Backend -> Database
-data = {
-    "uid": "b141f94973a43cf8ee972e9dffc1b004",
-    "name": "SQL Datenbank",
-    "category": "Datenbank",
-    "description": "Datenbank zu xy mit ...",
     "metrics": {
         "codelines": 20000,
         "admins": 10,
@@ -76,7 +79,7 @@ data = {
 }
 
 # -----------------------
-# delete single component
+# delete_component
 # Frontend -> Backend -> Database
 data = {
     "uid": "b141f94973a43cf8ee972e9dffc1b004",
@@ -88,7 +91,7 @@ data = {
 }
 
 # -----------------------
-# add a single component
+# add_component
 # Frontend -> Backend -> Database
 data = {
     "uid": -1,  # wichtig -> als Indikator, dass neu angelegt und daher kein update sondern create
@@ -108,11 +111,11 @@ data = {
 }
 
 # ----------------------------------------------------------------------------------------------------------------------
-# view process list
+# get_process_list
 # Database -> Backend -> Frontend
 data = {
     "success": True,
-    "process": [
+    "processes": [
         {
             "uid": "b141f94973a43cf8ee972e9dffc1b004",
             "name": "Kunde anlegen",
@@ -136,7 +139,7 @@ data = {
 }
 
 # -----------------------
-# delete process
+# delete_process
 # Frontend -> Backend -> Database
 data = {
     "uid": "b141f94973a43cf8ee972e9dffc1b004",
@@ -148,7 +151,7 @@ data = {
 }
 
 # -----------------------
-# view process
+# get_process
 # Frontend -> Backend -> Database
 data = {
     "uid": "b141f94973a43cf8ee972e9dffc1b004",
@@ -166,7 +169,7 @@ data = {
         "components": [
             {
                 "uid": "b141f94973a43cf8ee972e9dffc1b004",
-                "weight": 1,  # different from single component view!
+                "value": 1,  # different from single component view!
                 "name": "SQL Datenbank",
                 "category": "Datenbank",
                 "description": "Kundendatenbank",
@@ -181,7 +184,7 @@ data = {
             },
             {
                 "uid": "b141f94973a43cf8ee972e9dffc1b004",
-                "weight": 1.5,
+                "value": 1.5,
                 "name": "Frontend API",
                 "category": "API",
                 "description": "API für das Frontend",
@@ -196,7 +199,7 @@ data = {
             },
             {
                 "uid": "b141f94973a43cf8ee972e9dffc1b004",
-                "weight": 2,
+                "value": 2,
                 "name": "Hadoop Cluster",
                 "category": "Datenbank",
                 "description": "Big Data Plattform",
@@ -271,10 +274,9 @@ data = {
 }
 
 # -----------------------------------------------------------
-
 # Bei jeder Änderung wird an das Frontend das Prozess anzeigen JSON geschickt (über den entsprechenden Edit-Endpoint)
 
-# create process or edit process data
+# create_process or update_process
 # Frontend -> Backend -> Database
 data = {
     "process": {
@@ -301,11 +303,11 @@ data = {
 """ Prozess anzeigen JSON"""
 
 # -----------------------
-# delete process reference
+# delete_process_reference
 # Frontend -> Backend -> Database
 data = {
     "uid": "b141f94973a43cf8ee972e9dffc1b004",  # process uid not component uid
-    "weight": 2
+    "value": 2
 }
 
 # Database -> Backend
@@ -317,12 +319,12 @@ data = {
 """ Prozess anzeigen JSON"""
 
 # -----------------------
-# edit process reference
+# update_process_reference
 # Frontend -> Backend -> Database
 data = {
     "uid": "b141f94973a43cf8ee972e9dffc1b004",  # process uid not component uid
-    "old_weight": 3,
-    "new_weight": 2.5
+    "old_value": 3,
+    "new_value": 2.5
 }
 
 # Database -> Backend
@@ -339,7 +341,7 @@ data = {
 data = {
     "process_uid": "b141f94973a43cf8ee972e9dffc1b004",
     "component_uid": "b141f94973a43cf8ee972e9dffc1b005",
-    "weight": 2.5
+    "value": 2.5
 }
 
 # Database -> Backend
@@ -364,7 +366,7 @@ data = {
         "components": [
             {
                 "uid": "b141f94973a43cf8ee972e9dffc1b004",
-                "weight": 1,  # different from single component view!
+                "value": 1,  # different from single component view!
                 "name": "SQL Datenbank",
                 "category": "Datenbank",
                 "description": "Kundendatenbank",
@@ -379,7 +381,7 @@ data = {
             },
             {
                 "uid": "b141f94973a43cf8ee972e9dffc1b004",
-                "weight": 1.5,
+                "value": 1.5,
                 "name": "Frontend API",
                 "category": "API",
                 "description": "API für das Frontend",
@@ -394,7 +396,7 @@ data = {
             },
             {
                 "uid": "b141f94973a43cf8ee972e9dffc1b004",
-                "weight": 2,
+                "value": 2,
                 "name": "Hadoop Cluster",
                 "category": "Datenbank",
                 "description": "Big Data Plattform",

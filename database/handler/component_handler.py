@@ -1,24 +1,13 @@
-from datetime import datetime
 from neomodel import config, StructuredNode, StringProperty, UniqueIdProperty, \
     RelationshipTo, StructuredRel, FloatProperty
+from datetime import datetime
 
 from core.success_handler import success_handler
+from database.handler.relationship import Relationship
 import database.handler.metric_handler as metric_handler
 from database.config import *
 
 config.DATABASE_URL = 'bolt://{}:{}@{}:{}'.format(NEO4J_USER, NEO4J_PASSWORD, NEO4J_IP, NEO4J_PORT)
-
-
-class Relationship(StructuredRel):
-    """
-    A class to represent the relationship between a Component and a Metric.
-
-    Attributes
-    ----------
-    value : float
-        is value of the relationship
-    """
-    value = FloatProperty()
 
 
 class Component(StructuredNode):
@@ -42,6 +31,7 @@ class Component(StructuredNode):
     hasMetric : relationship
         relationship to metric
     """
+
     uid = UniqueIdProperty()
     name = StringProperty()
     category = StringProperty()
@@ -58,16 +48,18 @@ def get_component_list() -> dict:
 
     :return: List of components in a dict
     """
-    data = success_handler()
+
     components = Component.nodes.all()
-    components_list = []
+    components_dict = success_handler()
+    components_dict["components"] = []
+
     for component in components:
         component_dict = component.__dict__
         del component_dict["hasMetric"]
-        components_list.append(component_dict)
+        del component_dict["description"]
+        components_dict["components"].append(component_dict)
 
-    data["components"] = components_list
-    return data
+    return components_dict
 
 
 def get_component(uid_dict: dict) -> dict:
@@ -81,18 +73,18 @@ def get_component(uid_dict: dict) -> dict:
 
     uid = uid_dict["uid"]
     component = Component.nodes.get(uid=uid)
-    component_dict = component.__dict__
+    component_dict = success_handler()
+    component_dict["component"] = component.__dict__
 
     metrics_list = component.hasMetric.all()
-    metrics_dict = {}
+    component_dict["component"]["metrics"] = {}
+
     for key in metrics_list:
         relationship = component.hasMetric.relationship(key)
-        metrics_dict[key.name] = relationship.value
-    component_dict["metrics"] = metrics_dict
+        component_dict["component"]["metrics"][key.name] = relationship.value
 
-    del component_dict["hasMetric"]
-    del component_dict["id"]
-    component_dict.update(success_handler())
+    del component_dict["component"]["hasMetric"]
+    del component_dict["component"]["id"]
 
     return component_dict
 
@@ -113,7 +105,7 @@ def add_component(input_dict: dict) -> dict:
     output.save()
 
     for metric in input_dict["metrics"]:
-        output.hasMetric.connect(metric_handler.get_metric(metric), {"value": input_dict["metrics"][metric]})
+        output.hasMetric.connect(metric_handler.Metric.nodes.get(name=metric), {"value": input_dict["metrics"][metric]})
 
     return success_handler()
 
@@ -138,13 +130,9 @@ def update_component(input_dict: dict) -> dict:
 
     component_dict = get_component({"uid": uid})
 
-    metrics_dict = component_dict["metrics"]
-    metrics = []
-    for key in metrics_dict:
-        metrics.append(key)
-    for metric in metrics:
+    for metric in component_dict["component"]["metrics"]:
         new_metrics = input_dict["metrics"]
-        metric_object = metric_handler.get_metric(metric)
+        metric_object = metric_handler.Metric.nodes.get(name=metric)
         rel = component.hasMetric.relationship(metric_object)
         rel.value = new_metrics[metric]
         rel.save()
@@ -152,13 +140,16 @@ def update_component(input_dict: dict) -> dict:
     return success_handler()
 
 
-def delete_component(uid_dict: dict) -> dict:
+def delete_component(input_dict: dict) -> dict:
     """
     Function to delete a single component
 
-    :param uid_dict: Identifier
-    :type uid_dict: dict
+    :param input_dict: Identifier
+    :type input_dict: dict
     :return: Status dict
     """
-    Component.nodes.get(uid=uid_dict["uid"]).delete()
+
+    uid = input_dict["uid"]
+    Component.nodes.get(uid=uid).delete()
+
     return success_handler()
