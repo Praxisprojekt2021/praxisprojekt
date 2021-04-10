@@ -18,8 +18,12 @@ function init() {
 
 function renderWholeProcessScoreCircle(wholeProcessScore) {
     let color;
-    if(parseInt(wholeProcessScore) < 75) {
+    wholeProcessScore = parseInt(wholeProcessScore);
+
+    if(wholeProcessScore < 80) {
         color = "red";
+    } else if (wholeProcessScore < 90) {
+        color = "yellow"
     } else {
         color = "green";
     }
