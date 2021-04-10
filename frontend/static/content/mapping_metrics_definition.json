@@ -4,32 +4,32 @@
       "name": "Code quality",
       "metrics": {
         "number_of_lines_of_source_code_loc": {
-          "name": "Number of lines of source code (LOC)",
-          "fulfilled_if": ">",
+          "name": "Source Code Lines",
+          "fulfilled_if": "<",
           "max_value": -1,
           "min_value": 0,
-          "helper_text": " Sum of actual code lines excl. blank and comment lines: ..."
+          "helper_text": "For a total batch of 100 lines of code, with 10 blank and comment lines, an input of 80 follows."
         },
         "development_time": {
-          "name": "Development time",
-          "fulfilled_if": ">",
+          "name": "Development time [in developer days]",
+          "fulfilled_if": "<",
           "max_value": -1,
           "min_value": 0,
-          "helper_text": "How long does the development of a patch take in developer days: ..."
+          "helper_text": "For a total batch of 100 lines of code, with 10 blank and comment lines, an input of 80 follows."
         },
         "code_review_frequency": {
-          "name": "Code Review Frequency",
+          "name": "Code Reviews [per year]",
           "fulfilled_if": ">",
           "max_value": 365,
           "min_value": 0,
-          "helper_text": "How often is the code reviewed per year: ..."
+          "helper_text": "If there are 3 code reviews per month, 36 will be entered."
         },
         "comment_quality": {
-          "name": "Comment quality",
+          "name": "Quality of comments [in %]",
           "fulfilled_if": ">",
           "max_value": 100,
           "min_value": 0,
-          "helper_text": "Ratio of comments to total code lines: ..."
+          "helper_text": "For a total of 100 lines of code with 10 comment lines, the input is 10 [%]."
         }
       }
     },
@@ -37,25 +37,25 @@
       "name": "Integrity",
       "metrics": {
         "back-up": {
-          "name": "Back-Up",
+          "name": "Back-Ups [per month]",
           "fulfilled_if": ">",
           "max_value": -1,
           "min_value": 0,
-          "helper_text": "How often are backups created (per month)? Usually one day full backup and other incremental/differential: ..."
+          "helper_text": "If a backup is created every day, an input of 30 (rounded) follows."
         },
         "change_tracking": {
-          "name": "Change tracking",
+          "name": "Tracking of changes",
           "fulfilled_if": ">",
           "max_value": 1,
           "min_value": 0,
-          "helper_text": "Are changes logged/held in the components: ..."
+          "helper_text": "If this is the case, an input of 1, otherwise 0, follows."
         },
         "patch_status_check": {
-          "name": "Patch status check",
+          "name": "Review of patch status [per month]",
           "fulfilled_if": ">",
           "max_value": -1,
           "min_value": 0,
-          "helper_text": "How often are systems checked for patch status?: ..."
+          "helper_text": "If the patch status is checked 5 times per month, the input is 5."
         }
       }
     },
@@ -63,72 +63,72 @@
       "name": "Usage",
       "metrics": {
         "complaints": {
-          "name": "Complaints",
+          "name": "Complaints [per month]",
           "fulfilled_if": ">",
           "max_value": -1,
           "min_value": 0,
-          "helper_text": "Number of user complaints per month: ..."
+          "helper_text": "With a total of 15 user complaints per month, an entry of 15 follows."
         },
         "training": {
           "name": "Training",
           "fulfilled_if": ">",
           "max_value": 1,
           "min_value": 0,
-          "helper_text": "Have all users of the software been adequately trained: ..."
+          "helper_text": "If this is the case, an input of 1, otherwise 0, follows."
         },
         "automation": {
           "name": "Automation",
           "fulfilled_if": ">",
           "max_value": 1,
           "min_value": 0,
-          "helper_text": "Can the component be operated automatically: ..."
+          "helper_text": "If this is the case, an input of 1, otherwise 0, follows."
         }
       }
     },
     "test_quality": {
-      "name": "Test Quality",
+      "name": "Test quality",
       "metrics": {
         "test_automation": {
-          "name": "Test Automation",
+          "name": "Test-Automation[in %]",
           "fulfilled_if": ">",
           "max_value": 100,
           "min_value": 0,
-          "helper_text": "Ratio of automated test cases to the total of all test cases.: ..."
+          "helper_text": "With 15 automated test cases out of a total of 60 test cases, an input of 25 [%] follows."
         },
         "ratio_of_late_corrections": {
-          "name": "Ratio of late corrections",
+          "name": "Timely corrections [in %]",
           "fulfilled_if": ">",
           "max_value": 100,
           "min_value": 0,
-          "helper_text": "Ratio: bugs that were not fixed within the scheduled time period and bugs that were fixed within the time period.: ..."
+          "helper_text": "With 60 errors fixed on time, out of a total of 80 errors, an input of 75 [%] follows."
         },
         "pre_post_release_faults_ratio": {
-          "name": "Pre/Post Release Faults Ratio",
+          "name": "Pre/Post Release-Faults-Ratio [in %]",
           "fulfilled_if": ">",
           "max_value": 100,
           "min_value": 0,
-          "helper_text": "Number of detected bugs, before and after release. Good index: 90% of bugs detected before release: ..."
+          "helper_text": "With 15 detected errors before the release, out of a total of 20 errors, an input of 75 [%] follows."
         },
         "error_during_testing": {
-          "name": "Error during testing",
+          "name": "Errors when testing [in %]",
           "fulfilled_if": ">",
           "max_value": 100,
           "min_value": 0,
-          "helper_text": "Indicates how high the number of successful tests is in relation to all tests: ..."
+          "helper_text": "With 15 successful tests out of a total of 17 tests, an input of 88 [%] follows."
         },
         "testability": {
           "name": "Testability",
           "fulfilled_if": ">",
           "max_value": -1,
           "min_value": 0,
-          "helper_text": "How many different test cases are there: ..."
+          "helper_text": "The absolute number of test cases is 30. The entry of 30 is made"
         },
         "test_scope": {
-          "name": "Test scope",
+          "name": "Test scope [in hours]",
           "fulfilled_if": ">",
           "max_value": -1,
           "min_value": 0,
-          "helper_text": "How many hours were tested: ..."
+          "helper_text": "The total test duration (sum) was 400 hours. The input of 400 is made."
         }
       }
     },
@@ -136,25 +136,25 @@
       "name": "Scope",
       "metrics": {
         "time_to_implement_updates": {
-          "name": "Time to implement updates",
+          "name": "Implementation time of updates [in days]",
           "fulfilled_if": ">",
           "max_value": -1,
           "min_value": 0,
-          "helper_text": "Time to update after release in days (until they are installed on all systems/components): ..."
+          "helper_text": "It takes (on average) 27 days for updates to be implemented after release. The entry of 27 will be made."
         },
         "external_support": {
           "name": "External Support",
           "fulfilled_if": ">",
           "max_value": 1,
           "min_value": 0,
-          "helper_text": "Is external support available: ..."
+          "helper_text": "If this is the case, an input of 1, otherwise 0, follows."
         },
         "internal_support": {
           "name": "Internal Support",
           "fulfilled_if": ">",
           "max_value": 1,
           "min_value": 0,
-          "helper_text": "Is internal support available?: ..."
+          "helper_text": "If this is the case, an input of 1, otherwise 0, follows."
         }
       }
     },
@@ -162,60 +162,60 @@
       "name": "Availability",
       "metrics": {
         "number_of_views_per_day": {
-          "name": "Number of views per day",
-          "fulfilled_if": ">",
+          "name": "Requests [per day]",
+          "fulfilled_if": "<",
           "max_value": -1,
           "min_value": 0,
-          "helper_text": "How many calls can the system handle in a day. Note: Average calls are considered (related to complexity): ..."
+          "helper_text": "The component can handle 100,000 average requests per day. Input 100,000 is entered."
         },
         "restart": {
-          "name": "Restart",
-          "fulfilled_if": ">",
+          "name": "Restart time [in minutes]",
+          "fulfilled_if": "<",
           "max_value": -1,
           "min_value": 0,
-          "helper_text": "How long does a complete restart of the component take in minutes: ..."
+          "helper_text": "It takes 24 minutes to restart the component. The input of 24 is made."
         },
         "downtime": {
-          "name": "Downtime",
-          "fulfilled_if": ">",
-          "max_value": -1,
+          "name": "Downtime [in minutes per year]",
+          "fulfilled_if": "<",
+          "max_value": 525600,
           "min_value": 0,
-          "helper_text": "Average downtime per year in minutes 99.999% (5 Nines Standard Uptime) --> 5min downtime per year 99% Uptime --> 3.6T: ..."
+          "helper_text": "The total downtime of the component last year. If the component's availability was 99%, the input is 5,256 [min]."
         },
         "maximum_downtime_at_a_time": {
-          "name": "Maximum downtime at a time",
-          "fulfilled_if": ">",
-          "max_value": -1,
+          "name": "Max Donwtime at one time [in minutes]",
+          "fulfilled_if": "<",
+          "max_value": 525600,
           "min_value": 0,
-          "helper_text": "Maximum downtime at a stretch within the last year in minutes: ..."
+          "helper_text": "In the case of several failures per year, the entry for the longest consecutive downtime follows. If a component has failed for a maximum of 180min and 420min, an input of 420 follows."
         },
         "time_between_failures": {
-          "name": "Time between failures",
+          "name": "Time between crashes [in days]",
           "fulfilled_if": ">",
           "max_value": -1,
           "min_value": 0,
-          "helper_text": "Average time between crashes that occurred within the last year, in days: ..."
+          "helper_text": "With 5 failures per year, the average time between failures is 73 [days] (365/5)."
         },
         "restore_time": {
-          "name": "Restore time",
-          "fulfilled_if": ">",
+          "name": "Recovery time [in minutes]",
+          "fulfilled_if": "<",
           "max_value": -1,
           "min_value": 0,
-          "helper_text": "Average time until the system is functional again after a failure in minutes: ..."
+          "helper_text": "If the recovery for components lasts 36 minutes, an input of 36 minutes follows."
         },
         "planned_maintenance_percentage": {
-          "name": "Planned Maintenance Percentage (PMP)",
-          "fulfilled_if": ">",
+          "name": "Planned Maintenance Percentage (PMP) [in %]",
+          "fulfilled_if": "<",
           "max_value": -1,
           "min_value": 0,
-          "helper_text": "Number of total maintenance hours in one year/Number of planned maintenance hours in one year: ..."
+          "helper_text": "If 10 hours of maintenance were planned, but 12 hours of maintenance were performed, the input of 120 [%] follows."
         },
         "redundancy": {
           "name": "Redundancy",
           "fulfilled_if": ">",
           "max_value": 1,
           "min_value": 0,
-          "helper_text": "Is the component redundant: ..."
+          "helper_text": "If this is the case, an input of 1, otherwise 0, follows."
         }
       }
     },
@@ -223,18 +223,18 @@
       "name": "Confidentiality",
       "metrics": {
         "number_of_administrators": {
-          "name": "Number of administrators",
+          "name": "Administrators",
           "fulfilled_if": ">",
           "max_value": -1,
           "min_value": 0,
-          "helper_text": "How many administrators are there for the component: ..."
+          "helper_text": "If there are 4 administrators for a component, an input of 4 follows. If an administrator is responsible for multiple components, he will be considered as a single administrator for each component."
         },
         "encryption": {
           "name": "Encryption",
           "fulfilled_if": ">",
           "max_value": 1,
           "min_value": 0,
-          "helper_text": "Is the data sufficiently encrypted..."
+          "helper_text": "If this is the case, an input of 1, otherwise 0, follows."
         }
       }
     }
@@ -255,19 +255,7 @@
     "databases": {
       "name": "Databases",
       "sections": {
-        "code_quality": "true",
-        "integrity": "false",
-        "usage": "true",
-        "test_quality": "false",
-        "scope": "true",
-        "availability": "false",
-        "confidentiality": "false"
-      }
-    },
-    "interfaces": {
-      "name": "Interfaces",
-      "sections": {
-        "code_quality": "true",
+        "code_quality": "false",
         "integrity": "true",
         "usage": "true",
         "test_quality": "true",
@@ -276,10 +264,22 @@
         "confidentiality": "true"
       }
     },
-    "server_web_mail_ftp": {
-      "name": "Server (Web/Mail/FTP)",
+    "interfaces": {
+      "name": "Interfaces",
       "sections": {
         "code_quality": "true",
+        "integrity": "false",
+        "usage": "false",
+        "test_quality": "true",
+        "scope": "false",
+        "availability": "true",
+        "confidentiality": "true"
+      }
+    },
+    "server": {
+      "name": "Server",
+      "sections": {
+        "code_quality": "false",
         "integrity": "true",
         "usage": "true",
         "test_quality": "true",
@@ -293,7 +293,7 @@
       "sections": {
         "code_quality": "true",
         "integrity": "true",
-        "usage": "true",
+        "usage": "false",
         "test_quality": "true",
         "scope": "true",
         "availability": "true",
@@ -301,10 +301,10 @@
       }
     },
     "ui": {
-      "name": "UI",
+      "name": "User Interface",
       "sections": {
         "code_quality": "true",
-        "integrity": "true",
+        "integrity": "false",
         "usage": "true",
         "test_quality": "true",
         "scope": "true",
@@ -316,10 +316,10 @@
       "name": "API Gateway",
       "sections": {
         "code_quality": "true",
-        "integrity": "true",
-        "usage": "true",
+        "integrity": "false",
+        "usage": "false",
         "test_quality": "true",
-        "scope": "true",
+        "scope": "false",
         "availability": "true",
         "confidentiality": "true"
       }
@@ -328,18 +328,18 @@
       "name": "Application Gateway",
       "sections": {
         "code_quality": "true",
-        "integrity": "true",
-        "usage": "true",
+        "integrity": "false",
+        "usage": "false",
         "test_quality": "true",
-        "scope": "true",
+        "scope": "false",
         "availability": "true",
         "confidentiality": "true"
       }
     },
-    "application_services_self-developed": {
-      "name": "Applications and Services (self-developed)",
+    "custom_software": {
+      "name": "Custom Software",
       "sections": {
-        "code_quality": "true",
+        "code_quality": "false",
         "integrity": "true",
         "usage": "true",
         "test_quality": "true",
@@ -351,9 +351,9 @@
     "loadbalancer": {
       "name": "Loadbalancer",
       "sections": {
-        "code_quality": "true",
-        "integrity": "true",
-        "usage": "true",
+        "code_quality": "false",
+        "integrity": "false",
+        "usage": "false",
         "test_quality": "true",
         "scope": "true",
         "availability": "true",
@@ -363,6 +363,54 @@
     "identity_provider": {
       "name": "Identity Provider",
       "sections": {
+        "code_quality": "false",
+        "integrity": "false",
+        "usage": "false",
+        "test_quality": "true",
+        "scope": "true",
+        "availability": "true",
+        "confidentiality": "true"
+      }
+    },
+    "standardized_software": {
+      "name": "Standardized Software",
+      "sections": {
+        "code_quality": "false",
+        "integrity": "true",
+        "usage": "true",
+        "test_quality": "false",
+        "scope": "true",
+        "availability": "true",
+        "confidentiality": "true"
+      }
+    },
+ "application_admin_plug_in": {
+      "name": "Application- / Administrative tools / Plug-Ins",
+      "sections": {
+        "code_quality": "false",
+        "integrity": "false",
+        "usage": "true",
+        "test_quality": "true",
+        "scope": "true",
+        "availability": "true",
+        "confidentiality": "true"
+      }
+ },
+  "service_registry": {
+      "name": "Service Registry",
+      "sections": {
+        "code_quality": "false",
+        "integrity": "false",
+        "usage": "false",
+        "test_quality": "true",
+        "scope": "true",
+        "availability": "true",
+        "confidentiality": "true"
+      }
+  },
+   "individual_data_processing": {
+      "name": "Individual Data Processing",
+      "sections": {
         "code_quality": "true",
         "integrity": "true",
         "usage": "true",
@@ -372,30 +420,19 @@
         "confidentiality": "true"
       }
     },
-    "standard_software": {
-      "name": "Standard Software",
-      "sections": {
-        "code_quality": "false",
-        "integrity": "false",
-        "usage": "false",
-        "test_quality": "true",
-        "scope": "false",
-        "availability": "false",
-        "confidentiality": "true"
-      }
-    },
-    "individual_software_bought": {
-      "name": "Individual Software (bought)",
+     "business_logic": {
+      "name": "Business-Logic",
       "sections": {
         "code_quality": "true",
         "integrity": "false",
         "usage": "false",
-        "test_quality": "false",
+        "test_quality": "true",
         "scope": "false",
-        "availability": "false",
-        "confidentiality": "false"
+        "availability": "true",
+        "confidentiality": "true"
       }
     }
   }
 }
+
 
