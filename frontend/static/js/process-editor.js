@@ -154,7 +154,7 @@ function createEditProcess() {
         }
         // Process quantitative metrics to push them into the JSON Object to be passed to the backend
         if (metric_elements[i].value !== '') {
-            metrics[metric_elements[i].id] = metric_elements[i].value;
+            metrics[metric_elements[i].id] = parseInt(metric_elements[i].value);
         }
     }
     if (typeof uid == undefined || uid == "" || uid == null) {
