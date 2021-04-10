@@ -30,11 +30,10 @@ class Helper {
      * This function sends a post request to the backend
      *
      * @param {string} endpoint: The endpoint to be referred to
-     * @param {string} data_json: The JSON Object to be passed to the backend
      * @param {function} callback: The function to be executed with the response
      */
 
-    get_request(endpoint, data_json, callback) {
+    get_request(endpoint, callback) {
         const base_url = window.location.origin;
         let xhttp = new XMLHttpRequest();
         xhttp.open("GET", base_url + endpoint, true);

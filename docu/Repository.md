@@ -33,7 +33,10 @@ managed.
   - success_handler.py
 ```
 In dem `core/`-Verzeichnis liegen die Dateien, die die Kernfunktionalitäten der Anwendung abdecken.
+Die `core.py` ist die "Task Engine", die jegliche Logik enthält und Datenflüsse managed. Von hier werden alle Datenbank
+Funktionalitäten, alle Berechnungsfunktionen, alle Helper angesprochen und bedient.
 
+```
 - processing/
   - calculations.py
   - typeconversion.py
@@ -115,11 +118,9 @@ angeknüpft werden.
 - config.js
 - create-metrics.py
 ```
-
-Die `core.py` ist die "Task Engine", die jegliche Logik enthält und Datenflüsse managed. Von hier werden alle Datenbank
-Funktionalitäten, alle Berechnungsfunktionen, alle Helper angesprochen und bedient.
-
+Konfigurationsdateien für verschiedene Tools.
 ```
+
 - main.py
 ```
 

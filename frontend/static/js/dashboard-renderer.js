@@ -9,12 +9,12 @@ const base_url = window.location.href;
 //instantiate object of Helper class
 const helper = new Helper();
 
-document.addEventListener("DOMContentLoaded", loadData(), false);
+document.addEventListener("DOMContentLoaded", init(), false);
 
 /**
  * Get component and process Data from Back-End and then populate the tables.
  */
-function loadData() {
+function init() {
     getComponentList();
     getProcessList();
 }
@@ -23,14 +23,14 @@ function loadData() {
  * Get processes data from Back-End and then populate the processes table in FE.
  */
 function getProcessList() {
-    helper.get_request("/content/mock-data.json", "", refreshProcessTable);
+    helper.get_request("/content/mock-data.json", refreshProcessTable);
 }
 
 /**
  * Get components data from Back-End and then populate the processes table in FE.
  */
 function getComponentList() {
-    helper.get_request("/component/overview", "", refreshComponentTable);
+    helper.get_request("/component/overview", refreshComponentTable);
 }
 
 /**
@@ -182,13 +182,13 @@ function renderStatusColumn(viv_value) {
  * Shows success/error message and reloads dashboard.
  */
 function deleteCallback() {
-// Check if component has been created/edited successfully
+// Check if component has been deleted successfully
     if (response['success']) {
-        // Component has been created/edited successfully
+        // Component has been deleted successfully
         window.alert('Object has been deleted.');
         window.location.reload();
     } else {
-        // Component has not been created/edited successfully
+        // Component has not been deleted successfully
         window.alert('Object could not be deleted.');
     }
 }

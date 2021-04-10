@@ -1,4 +1,4 @@
-//Base url to distinguish between localhost and production environment
+// Base url to distinguish between localhost and production environment
 const base_url = window.location.origin;
 // instantiate object of helper class
 const helper = new Helper();
@@ -33,7 +33,7 @@ function init() {
 }
 
 /**
- * TODO comment here
+ *  Load Categories from file to get options for category dropdown.
  */
 
 function getCategoryDropdown() {
@@ -56,7 +56,7 @@ function getCategoryDropdown() {
 }
 
 /**
- * TODO comment here
+ * Load Features from file to create metrics section.
  */
 
 function getFeatures() {
@@ -64,7 +64,6 @@ function getFeatures() {
     fetch(base_url + '/content/mapping_metrics_definition.json')
         .then(response => response.json())
         .then(data => {
-            const categories = data['categories'];
             const features = data['features'];
 
             helper.createMetricsSection(features);
