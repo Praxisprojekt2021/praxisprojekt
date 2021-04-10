@@ -172,7 +172,7 @@ def get_process(input_dict: dict) -> str:
                     "total": 300,  # summe
                 },
                 "component_count": 10,
-                "fulfillment": True
+                "fulfillment": False
             },  # true means that the metric is fulfilled --> no problem.
             "admins": {
                 "actual": {

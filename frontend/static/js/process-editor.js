@@ -2,29 +2,40 @@
 const base_url = window.location.origin;
 // instantiate object of helper class
 const helper = new Helper();
-let uid = null;
+
+const url_string = window.location.href;
+const url = new URL(url_string);
+let uid = url.searchParams.get('uid');
 
 function init() {
-    const url_string = window.location.href;
-    const url = new URL(url_string);
 
     getFeatures().then(data => {
         getProcess(data);
     });
     // getProcess(features);
 
-
-    // TODO: change param to process score of the process
-    this.renderWholeProcessScoreCircle(12);
 }
 
 function renderWholeProcessScoreCircle(wholeProcessScore) {
-    if(wholeProcessScore < 75) {
-        document.getElementById("whole-process-score").setAttribute("background-color", "red");
+    let color;
+    if(parseInt(wholeProcessScore) < 75) {
+        color = "red";
     } else {
-        document.getElementById("whole-process-score").setAttribute("background-color", "green");
+        color = "green";
     }
+    document.getElementById("whole-process-score").setAttribute("style", `background-color:  ${color}`);
     document.getElementById("whole-process-score").innerHTML = `${wholeProcessScore}%`;
+}
+
+function renderCircle(fulfillment) {
+    let color;
+    if(fulfillment) {
+        color = "green";
+    } else {
+        color = "red";
+    }
+
+    return `<div class="small-circle" style="background-color: ${color}"></div>`;
 }
 
 /**
@@ -124,7 +135,8 @@ function createEditProcess() {
     document.getElementById('save-button').style.backgroundColor='grey';
 
 
-    let metric_elements = document.getElementsByClassName('metric-input');
+    let metric_elements = document.getElementsByName('target-average');
+    console.log(metric_elements);
     let metrics = {};
     let text_replaced_flag = false; // Helper variable that indicates, whether or not a non quantitative metric input has been found and discarded
     for (let i = 0; i < metric_elements.length; i++) {
@@ -139,14 +151,25 @@ function createEditProcess() {
             metrics[metric_elements[i].id] = metric_elements[i].value;
         }
     }
-
-    const component = {
+    if (typeof uid == undefined || uid == "" || uid == null) {
+        uid = -1;
+    }
+        const process = `{
+        "process": {
+            "uid": ${uid},  # when -1 it indicates that it is a new process, anything else indicates its an update
+            "name": ${document.getElementById('process-name-textarea').value},
+            "description": ${document.getElementById('process-beschreibung-textarea').value}
+    },
+        "target_metrics": ${JSON.stringify(metrics)}
+}`;
+    console.log(process);
+        /*{
         "uid": document.getElementById('component-uid').value,
         "name": document.getElementById('component-name').value,
         "category": document.getElementById('component-category').value,
         "description": document.getElementById('component-description-textarea').value,
         "metrics": metrics
-    }
+    }*/
 
     // Check if all field have been filled
     // Also, when changing between categories, discard inputs made for non-relevant metrics
@@ -199,6 +222,8 @@ function createMetricsSection(features, processData) {
     if (processData['success']) {
         // Component data has been received
 
+        this.renderWholeProcessScoreCircle(processData['score']);
+
         // Set uid and data fields
         document.getElementById('process-name-textarea').value = processData['process']['name'];
         document.getElementById('process-beschreibung-textarea').value = processData['process']['description'];
@@ -235,31 +260,25 @@ function createMetricsSection(features, processData) {
                 <th name="max">Max</th>
                 <th name="target-avg">Target Average</th>
                 <th name="target-sum">Target Sum</th>
-                <th name="ampel"></th>
+                <th name="ampel">Check</th>
                 <th name="info">Info</th>
             </tr>`;
         Object.keys(metrics).forEach(function (key) {
             let metric = metrics[key];
-            console.log(processData);
-            console.log(key)
-            //TODO: if wieder entfernen, ist nur weil es nicht überall die id gibt momentan!
+
             if(processData['actual_target_metrics'][key]) {
-                let metricId = metric;
-                console.log("test")
 
-
-
-
-                // TODO: hier Tabelle erzeugen
                 innerHTML += `
             <tr>
                 <td id="${metric['name']}">${metric['name']}</td>
                 <td>${processData['actual_target_metrics'][key]['actual']['average']}</td>
                 <td>${processData['actual_target_metrics'][key]['actual']['standard_deviation']}</td>
-                <td>${processData['actual_target_metrics'][key]['actual']['standard_deviation']}</td>
                 <td>${processData['actual_target_metrics'][key]['actual']['total']}</td>
                 <td>${processData['actual_target_metrics'][key]['actual']['min']}</td>
                 <td>${processData['actual_target_metrics'][key]['actual']['max']}</td>
+                <td><input name="target-average" id="${key}" value="${processData['actual_target_metrics'][key]['target']['average']}"></td>
+                <td>${processData['actual_target_metrics'][key]['target']['total']}</td>
+                <td>${renderCircle(processData['actual_target_metrics'][key]['fulfillment'])}</td>
                 <td><img src="images/info.png" loading="lazy" width="35" alt="" class="info-icon"></td>
             </tr>`
             }
