@@ -231,9 +231,9 @@ function createMetricsSection(features, processData) {
         document.getElementById('process-beschreibung-textarea').value = processData['process']['description'];
     }
 
-        let i=0;
+        let featureCount=0;
     Object.keys(features).forEach(function (key) {
-        i++;
+        featureCount++;
         let feature = features[key];
         let metrics = feature['metrics'];
 
@@ -251,7 +251,7 @@ function createMetricsSection(features, processData) {
         innerHTML += '<div class="features-columns">';
         // TODO: Tabellenheader erzeugen
         innerHTML += `
-        <label>Feature ${i}: ${feature['name']}</label>
+        <label>Feature ${featureCount}: ${feature['name']}</label>
         <table id="process-feature-table">
             <tr>
                 <th name="metric">Metric</th>
