@@ -104,6 +104,8 @@ function getProcess(features) {
         xhttp.send(post_data);
     } else {
         // If not, prepare for new component input...
+        let processData = {};
+        createMetricsSection(features, processData);
         console.log('Entering new process');
     }
 
@@ -266,8 +268,7 @@ function createMetricsSection(features, processData) {
         Object.keys(metrics).forEach(function (key) {
             let metric = metrics[key];
 
-            if(processData['actual_target_metrics'][key]) {
-
+            if(uid != null && uid != -1 && processData['actual_target_metrics'][key]) {
                 innerHTML += `
             <tr>
                 <td id="${metric['name']}">${metric['name']}</td>
@@ -279,6 +280,20 @@ function createMetricsSection(features, processData) {
                 <td><input name="target-average" id="${key}" value="${processData['actual_target_metrics'][key]['target']['average']}"></td>
                 <td>${processData['actual_target_metrics'][key]['target']['total']}</td>
                 <td>${renderCircle(processData['actual_target_metrics'][key]['fulfillment'])}</td>
+                <td><img src="images/info.png" loading="lazy" width="35" alt="" class="info-icon"></td>
+            </tr>`
+            } else {
+                innerHTML += `
+            <tr>
+                <td id="${metric['name']}">${metric['name']}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><input name="target-average" id="${key}" value=""></td>
+                <td></td>
+                <td></td>
                 <td><img src="images/info.png" loading="lazy" width="35" alt="" class="info-icon"></td>
             </tr>`
             }
