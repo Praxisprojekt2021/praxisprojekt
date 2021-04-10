@@ -1,5 +1,6 @@
 import database.handler.process_handler as process_handler
 import database.handler.component_handler as component_handler
+import database.handler.metric_handler as metric_handler
 
 import processing
 
@@ -76,6 +77,11 @@ def get_process_list() -> str:
     representing a process list
     """
     process_list_dict = process_handler.get_process_list()
+
+    # TODO: score und anzahl Komponenten dynamisch einfügen
+    process_list_dict["process"]["score"] = 80
+    process_list_dict["process"]["components_count"] = 4
+
     output_json = processing.dict_to_json(process_list_dict)
 
     return output_json
@@ -93,86 +99,13 @@ def get_process(input_dict: dict) -> str:
     """
 
     process_dict = process_handler.get_process(input_dict)
-    output_json = processing.dict_to_json(process_dict)
+    metrics_dict = metric_handler.get_metrics_data()
 
-    # TO DO Risk Calculation on output_json
+    output_dict = processing.calculations.start_calculate_risk(process_dict, metrics_dict)
 
-    data = {
-        "success": True,
-        "process": {
-            "uid": "b141f94973a43cf8ee972e9dffc1b014",
-            "name": "Kunde anlegen",
-            "description": "Prozess zum anlegen von einem neuen Kunden in allen Systemen",
-            "creation_timestamp": "20210210...",
-            "last_timestamp": "20200211...",
-            "components": [
-                {
-                    "uid": "b141f94973a43cf8ee972e9dffc1b014",
-                    "weight": 1,  # different from single component view!
-                    "name": "SQL Datenbank",
-                    "category": "Datenbank",
-                    "description": "Kundendatenbank",
-                    "creation_timestamp": "20200219...",
-                    "last_timestamp": "20200219...",
-                    "metrics": {
-                        "codelines": 20000,
-                        "admins": 10,
-                        "recovery_time": 5
-                    }
-                },
-                {
-                    "uid": "b141f94973a43cf8ee972e9dffc1b004",
-                    "weight": 1.5,
-                    "name": "Frontend API",
-                    "category": "API",
-                    "description": "API für das Frontend",
-                    "creation_timestamp": "20200219...",
-                    "last_timestamp": "20200219...",
-                    "metrics": {
-                        "codelines": 20000,
-                        "admins": 10,
-                        "recovery_time": 5
-                    }
-                },
-                {
-                    "uid": "b141f94973a43cf8ee972e9dffc1b004",
-                    "weight": 2,
-                    "name": "Hadoop Cluster",
-                    "category": "Datenbank",
-                    "description": "Big Data Plattform",
-                    "creation_timestamp": "20200219...",
-                    "last_timestamp": "20200219...",
-                    "metrics": {
-                        "codelines": 20000,
-                        "admins": 10,
-                        "recovery_time": 5
-                    }
-                }
-            ]
-        },
-        "target_metrics": {
-            "codelines": 25000,
-            "admins": 12,
-            "recovery_time": 3
-        },
-        "score": 80,  # percent as integer
-        "actual_metrics": {
-            "codelines": {
-                "value": 30,
-                "fulfillment": True
-            },  # true means that the metric is fulfilled --> no problem.
-            "admins": {
-                "value": 30,
-                "fulfillment": True
-            },
-            "recovery_time": {
-                "value": 20,
-                "fulfillment": False
-            },  # false means that the metric is not fulfilled --> problem.
-        },
-    }
+    output_json = processing.dict_to_json(output_dict)
     
-    return processing.dict_to_json(data)
+    return output_json
 
 
 def create_edit_process(input_dict: dict) -> str:
@@ -221,8 +154,9 @@ def add_process_reference(input_dict: dict) -> str:
     :return: A JSON object containing either the success state if False, otherwise calls get_process
     """
 
-    result_dict = process_handler.add_process_reference(input_dict)
-    output_object = get_process(input_dict["uid"])
+    process_handler.add_process_reference(input_dict)
+
+    output_object = get_process(input_dict["process_uid"])
     return output_object
 
 
@@ -235,7 +169,8 @@ def update_process_reference(input_dict: dict) -> str:
     :return: A JSON object containing either the success state if False, otherwise calls get_process
     """
 
-    result_dict = process_handler.update_process_reference(input_dict)
+    process_handler.update_process_reference(input_dict)
+
     output_object = get_process(input_dict["uid"])
     return output_object
 
@@ -249,6 +184,7 @@ def delete_process_reference(input_dict: dict) -> str:
     :return: A JSON object containing either the success state if False, otherwise calls get_process
     """
 
-    result_dict = process_handler.delete_process_reference(input_dict)
+    process_handler.delete_process_reference(input_dict)
+
     output_object = get_process(input_dict["uid"])
     return output_object

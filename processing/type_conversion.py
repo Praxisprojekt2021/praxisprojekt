@@ -2,7 +2,7 @@ import json
 from typing import Dict, Any, Union
 
 
-def dict_to_json(dictionary: Dict[str, Any]) -> str:
+def dict_to_json(dictionary: dict) -> str:
     """
     Converts a python dictionary to a JSON object
 
