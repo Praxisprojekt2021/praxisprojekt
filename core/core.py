@@ -69,17 +69,21 @@ def delete_component(input_dict: dict) -> str:
     return output_json
 
 
-def get_process_list() -> str:
+def get_process_list(score: int, components_count: int) -> str:
     """
-    Calls the get_process_list method and converts the output to JSON
+    Calls the get_process_list method and converts the output to JSON after adding a score and a components count
 
+    :param score: Score, to be added to the process list
+    :type score: int
+    :param components_count: Number of components, to be added to the process list
+    :type components_count: int
     :return: Returns a JSON object, structured as described in docu/JSON_objects_definitions.py
     representing a process list
     """
     process_list_dict = process_handler.get_process_list()
 
-    process_list_dict["process"]["score"] = 80
-    process_list_dict["process"]["components_count"] = 4
+    process_list_dict["process"]["score"] = score
+    process_list_dict["process"]["components_count"] = components_count
 
     output_json = processing.dict_to_json(process_list_dict)
 
