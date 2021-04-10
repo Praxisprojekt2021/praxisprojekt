@@ -241,20 +241,25 @@ function createMetricsSection(features, processData) {
         Object.keys(metrics).forEach(function (key) {
             let metric = metrics[key];
             console.log(processData);
-
+            console.log(key)
             //TODO: if wieder entfernen, ist nur weil es nicht überall die id gibt momentan!
-            if(processData['actual_target_metrics'][`${metric}`]) {
+            if(processData['actual_target_metrics'][key]) {
                 let metricId = metric;
-                console.log(metricId);
+                console.log("test")
 
-                console.log(processData['actual_target_metrics'][metricId]['actual']);
-                let codelines = processData['actual_target_metrics'][`${metricId}`]['actual']['average'];
+
+
 
                 // TODO: hier Tabelle erzeugen
                 innerHTML += `
             <tr>
                 <td id="${metric['name']}">${metric['name']}</td>
-                <td>${codelines}</td>
+                <td>${processData['actual_target_metrics'][key]['actual']['average']}</td>
+                <td>${processData['actual_target_metrics'][key]['actual']['standard_deviation']}</td>
+                <td>${processData['actual_target_metrics'][key]['actual']['standard_deviation']}</td>
+                <td>${processData['actual_target_metrics'][key]['actual']['total']}</td>
+                <td>${processData['actual_target_metrics'][key]['actual']['min']}</td>
+                <td>${processData['actual_target_metrics'][key]['actual']['max']}</td>
                 <td><img src="images/info.png" loading="lazy" width="35" alt="" class="info-icon"></td>
             </tr>`
             }
