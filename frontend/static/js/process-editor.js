@@ -7,6 +7,9 @@ const url_string = window.location.href;
 const url = new URL(url_string);
 let uid = url.searchParams.get('uid');
 
+/**
+ * Initialize View.
+ */
 function init() {
 
     getFeatures().then(data => {
@@ -16,6 +19,10 @@ function init() {
 
 }
 
+/**
+ * Render process ball for whole process.
+ * @param wholeProcessScore
+ */
 function renderWholeProcessScoreCircle(wholeProcessScore) {
     let color;
     wholeProcessScore = parseInt(wholeProcessScore);
@@ -31,6 +38,12 @@ function renderWholeProcessScoreCircle(wholeProcessScore) {
     document.getElementById("whole-process-score").innerHTML = `${wholeProcessScore}%`;
 }
 
+/**
+ * Render ball for each metric.
+ *
+ * @param fulfillment
+ * @returns {string}
+ */
 function renderCircle(fulfillment) {
     let color;
     if(fulfillment) {
@@ -43,7 +56,7 @@ function renderCircle(fulfillment) {
 }
 
 /**
- * TODO comment here
+* Get list of features.
  */
 async function getFeatures() {
     // Read JSON file
@@ -74,8 +87,8 @@ async function getFeatures() {
 }
 
 /**
- * This function fetches the process data from the backend
- *
+ * Fetches process data from BE.
+ * @param features
  */
 
 function getProcess(features) {
@@ -142,7 +155,6 @@ function createEditProcess() {
 
 
     let metric_elements = document.getElementsByName('target-average');
-    console.log(metric_elements);
     let metrics = {};
     let text_replaced_flag = false; // Helper variable that indicates, whether or not a non quantitative metric input has been found and discarded
     for (let i = 0; i < metric_elements.length; i++) {
@@ -162,53 +174,33 @@ function createEditProcess() {
     }
         const process = `{
         "process": {
-            "uid": ${uid},  # when -1 it indicates that it is a new process, anything else indicates its an update
-            "name": ${document.getElementById('process-name-textarea').value},
-            "description": ${document.getElementById('process-beschreibung-textarea').value}
+            "uid": "${uid}",  
+            "name": "${document.getElementById('process-name-textarea').value}",
+            "description": "${document.getElementById('process-beschreibung-textarea').value}"
     },
         "target_metrics": ${JSON.stringify(metrics)}
 }`;
-    console.log(process);
-        /*{
-        "uid": document.getElementById('component-uid').value,
-        "name": document.getElementById('component-name').value,
-        "category": document.getElementById('component-category').value,
-        "description": document.getElementById('component-description-textarea').value,
-        "metrics": metrics
-    }*/
 
     // Check if all field have been filled
     // Also, when changing between categories, discard inputs made for non-relevant metrics
     let required_helper_flag = true; // Helper variable which gets set to false, if any required field is not filled
-    const toggles = document.getElementsByClassName('feature-section');
+    const toggles = document.getElementsByName("target-average");
+    console.log(toggles);
     for (let i = 0; i < toggles.length; i++) {
-        const feature_child = toggles[i].children[0].children[0];
-        const metrics_child = toggles[i].children[0].children[1];
-        const metrics_child_input_fields = metrics_child.getElementsByTagName('input');
+        console.log(toggles[i].value);
+        const input = toggles[i].value;
 
-        // Check if metric is mandatory or even not allowed
-        if (feature_child.getAttribute("disabled") === "true") {
-            // Discard data from disabled metrics inputs
-            for (let i = 0; i < metrics_child_input_fields.length; i++) {
-                metrics_child.getElementsByTagName('input')[i].value = '';
-            }
-        } else {
-            // Check if enabled fields have been filled - all fields are required
-            for (let i = 0; i < metrics_child_input_fields.length; i++) {
-                if (metrics_child.getElementsByTagName('input')[i].value === '') {
-                    console.log(metrics_child.getElementsByTagName('input')[i].id);
+        // Check if enabled fields have been filled - all fields are required
+                if (toggles[i].value === '') {
+                    console.log(toggles[i].id);
                     required_helper_flag = false;
                 }
             }
-        }
-        if(document.getElementById("component-category").value == "default") {
-            required_helper_flag = false;
-        }
-    }
 
-    // If a input has been performend, post changes to backend
+    // If a input has been performed, post changes to backend
     if (required_helper_flag) {
-        helper.post_request('/component/create_edit', JSON.stringify(component), saveCallback);
+        console.log(process);
+        saveProcess(process);
     } else {
         let alert_string = 'Changes could not be saved. Please fill all metrics fields.';
         if (text_replaced_flag === true) {
@@ -219,9 +211,19 @@ function createEditProcess() {
 }
 
 /**
+ * Saves data.
+ * @param data
+ */
+function saveProcess(data) {
+    helper.post_request("/process/create_edit", data, saveCallback);
+}
+
+
+/**
  * Render metrics section.
  *
  * @param {json} features
+ * @param {json} processData
  */
 function createMetricsSection(features, processData) {
     // Check if the request has succeeded

@@ -282,7 +282,7 @@ data = {
         "name": "Kunde anlegen",
         "description": "Prozess zum anlegen von einem neuen Kunden in allen Systemen",
     },
-    "target_metrics":{
+    "target_metrics": {
         "codelines": 25000,
         "admins": 12,
         "recovery_time": 3,
