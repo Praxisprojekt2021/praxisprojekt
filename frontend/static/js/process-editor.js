@@ -403,7 +403,11 @@ function saveCallback(response) {
     if (response['success']) {
         // Component has been created/edited successfully
         window.alert('Changes were saved.');
-        init();
+        if (uid.length === 32) {
+            init();
+        } else {
+            location.replace(location.href + '?uid=' + response['process']['uid']);
+        }
     } else {
         // Process has not been created/edited successfully
         window.alert('Changes could not be saved.');
