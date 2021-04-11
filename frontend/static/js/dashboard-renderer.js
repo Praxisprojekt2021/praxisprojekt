@@ -9,12 +9,12 @@ const base_url = window.location.href;
 //instantiate object of Helper class
 const helper = new Helper();
 
-document.addEventListener("DOMContentLoaded", loadData(), false);
+document.addEventListener("DOMContentLoaded", init(), false);
 
 /**
  * Get component and process Data from Back-End and then populate the tables.
  */
-function loadData() {
+function init() {
     getComponentList();
     getProcessList();
 }
@@ -30,7 +30,7 @@ function getProcessList() {
  * Get components data from Back-End and then populate the processes table in FE.
  */
 function getComponentList() {
-    helper.get_request("/component/overview", "", loadMetricsDefinition);
+    helper.get_request("/component/overview", refreshComponentTable);
 }
 
 /**
@@ -65,7 +65,7 @@ function refreshComponentTable(json, metricsDefinition) {
         let category = object.category;
         let tr = document.createElement('tr');
         tr.innerHTML = '<td>' + object.name + '</td>' +
-            '<td>' + metricsDefinition.categories[category].name + '</td>' +    // TODO: erst mappen mit tatsächlicher Kategorie
+            '<td>' + metricsDefinition.categories[category].name + '</td>' +
             '<td>' + helper.formatDate(object.creation_timestamp) + '</td>' +
             '<td>' + helper.formatDate(object.last_timestamp) + '</td>' +
             '<td>' + renderEditComponentButton(object.uid) + '</td>' +
@@ -80,6 +80,7 @@ function refreshComponentTable(json, metricsDefinition) {
  * @returns {String} Edit-Process-Button HTML-Element
  */
 function renderEditProcessButton(uid) {
+    return `<div onclick="editProcess('${uid}')">🖊️</div>`;
     return `<div onclick="editProcess('${uid}')"><i id="PenIcon" class="fas fa-pencil-alt"></i></div>`;
 }
 
@@ -135,7 +136,6 @@ function addComponent() {
 function editProcess(uid) {
     // open edit process URL with param uid
     window.location.replace(base_url + "process?uid=" + uid);
-
 }
 
 /**
@@ -185,7 +185,7 @@ function renderStatusColumn(viv_value) {
 /**
  * Load Metrics Definition data from json file.
  *
- * Could not be realized be helper.get_request because callback function needs to be called with two params. To be checked later if needed.
+ * TODO: Could not be realized be helper.get_request because callback function needs to be called with two params. To be checked later if needed.
  * @param componentData
  */
 function loadMetricsDefinition(componentData) {
@@ -203,20 +203,19 @@ function loadMetricsDefinition(componentData) {
         }
     }
     xhttp.send();
-
 }
 
 /**
  * Shows success/error message and reloads dashboard.
  */
-function deleteCallback(response) {
-// Check if component has been created/edited successfully
+function deleteCallback() {
+// Check if component has been deleted successfully
     if (response['success']) {
-        // Component has been created/edited successfully
+        // Component has been deleted successfully
         window.alert('Object has been deleted.');
         window.location.reload();
     } else {
-        // Component has not been created/edited successfully
+        // Component has not been deleted successfully
         window.alert('Object could not be deleted.');
     }
 }

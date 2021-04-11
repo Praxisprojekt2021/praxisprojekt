@@ -4,7 +4,7 @@ Autoren: \
 Tom Hinzmann \
 Jasmin Čapka
 
-Stand: 03.04.2021
+Stand: 30.03.2021
 
 ## Repo Struktur
 
@@ -33,7 +33,10 @@ managed.
   - success_handler.py
 ```
 In dem `core/`-Verzeichnis liegen die Dateien, die die Kernfunktionalitäten der Anwendung abdecken.
+Die `core.py` ist die "Task Engine", die jegliche Logik enthält und Datenflüsse managed. Von hier werden alle Datenbank
+Funktionalitäten, alle Berechnungsfunktionen, alle Helper angesprochen und bedient.
 
+```
 - processing/
   - calculations.py
   - typeconversion.py
@@ -76,19 +79,16 @@ Das `docu/` Verzeichnis soll alle wichtigen Projektdokumentationen, Leitfäden u
       - component-sections.json
       - de.json
       - en.json
-      - mapping_metrics_definition.json
-      - mock-data.json
+      - mapping_metrics_definition.py
     - css/
-      - fonts/
       - einzelkomponente.css
+      - normalize.css
       - styles.css
+      - webflow.css
     - i18next/
     - images/
-      - favicon.png
       - info.png
       - logo.png
-      - penIcon.png
-      - trashIcon.png
     - js/
       - dashboard-renderer.js
       - component-editor.js
@@ -118,11 +118,9 @@ angeknüpft werden.
 - config.js
 - create-metrics.py
 ```
-
-Die `core.py` ist die "Task Engine", die jegliche Logik enthält und Datenflüsse managed. Von hier werden alle Datenbank
-Funktionalitäten, alle Berechnungsfunktionen, alle Helper angesprochen und bedient.
-
+Konfigurationsdateien für verschiedene Tools.
 ```
+
 - main.py
 ```
 

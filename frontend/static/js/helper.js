@@ -34,7 +34,7 @@ class Helper {
      * @param {function} callback: The function to be executed with the response
      */
 
-    get_request(endpoint, data_json, callback) {
+    get_request(endpoint, callback) {
         const base_url = window.location.origin;
         let xhttp = new XMLHttpRequest();
         xhttp.open("GET", base_url + endpoint, true);
@@ -48,13 +48,8 @@ class Helper {
                 callback(json);
             }
         }
-
-        if (data_json !== "") {
-            // Send HTTP-request
-            xhttp.send(data_json);
-        } else {
-            xhttp.send();
-        }
+        xhttp.send();
+   
     }
 
     /**
