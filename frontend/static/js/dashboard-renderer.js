@@ -23,14 +23,14 @@ function init() {
  * Get processes data from Back-End and then populate the processes table in FE.
  */
 function getProcessList() {
-    helper.get_request("/process/overview", "", refreshProcessTable);
+    helper.get_request("/process/overview", refreshProcessTable);
 }
 
 /**
  * Get components data from Back-End and then populate the processes table in FE.
  */
 function getComponentList() {
-    helper.get_request("/component/overview", refreshComponentTable);
+    helper.get_request("/component/overview", loadMetricsDefinition);
 }
 
 /**
@@ -80,7 +80,6 @@ function refreshComponentTable(json, metricsDefinition) {
  * @returns {String} Edit-Process-Button HTML-Element
  */
 function renderEditProcessButton(uid) {
-    return `<div onclick="editProcess('${uid}')">🖊️</div>`;
     return `<div onclick="editProcess('${uid}')"><i id="PenIcon" class="fas fa-pencil-alt"></i></div>`;
 }
 
@@ -90,7 +89,7 @@ function renderEditProcessButton(uid) {
  * @returns {String} Edit-Component-Button HTML-Element
  */
 function renderEditComponentButton(uid) {
-    return `<div onclick="editComponent('${uid}')"><i  id="PenIcon"class="fas fa-pencil-alt"></i></div>`;
+    return `<div onclick="editComponent('${uid}')"><i id="PenIcon" class="fas fa-pencil-alt"></i></div>`;
 }
 
 /**

@@ -255,7 +255,8 @@ function createMetricsSection(features, processData) {
         innerHTML += '</div>';
         innerHTML += '<nav class="dropdown-list">';
         innerHTML += '<div class="features-columns">';
-        // TODO: Tabellenheader erzeugen
+
+        // Table Headers
         innerHTML += `
         <label>Feature ${featureCount}: ${feature['name']}</label>
         <table id="process-feature-table">
@@ -274,36 +275,57 @@ function createMetricsSection(features, processData) {
         Object.keys(metrics).forEach(function (key) {
             let metric = metrics[key];
 
+            // default table row, when no metric data is provided
+            let innerHTML_actual = `
+                    <tr>
+                        <td id="${metric['name']}">${metric['name']}</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>`;
+            let innerHTML_target = `
+                        <td><input name="target-average" id="${key}" value=""></td>`;
+            let innerHTML_fulfillment = `
+                        <td></td>
+                        <td></td>
+                        <td><img src="images/info.png" loading="lazy" width="35" alt="" class="info-icon"></td>
+                    </tr>`;
+
             if(uid != null && uid != -1 && processData['actual_target_metrics'][key]) {
-                innerHTML += `
-            <tr>
-                <td id="${metric['name']}">${metric['name']}</td>
-                <td>${processData['actual_target_metrics'][key]['actual']['average']}</td>
-                <td>${processData['actual_target_metrics'][key]['actual']['standard_deviation']}</td>
-                <td>${processData['actual_target_metrics'][key]['actual']['total']}</td>
-                <td>${processData['actual_target_metrics'][key]['actual']['min']}</td>
-                <td>${processData['actual_target_metrics'][key]['actual']['max']}</td>
-                <td><input name="target-average" id="${key}" value="${processData['actual_target_metrics'][key]['target']['average']}"></td>
-                <td>${processData['actual_target_metrics'][key]['target']['total']}</td>
-                <td>${renderCircle(processData['actual_target_metrics'][key]['fulfillment'])}</td>
-                <td><img src="images/info.png" loading="lazy" width="35" alt="" class="info-icon"></td>
-            </tr>`
-            } else {
-                innerHTML += `
-            <tr>
-                <td id="${metric['name']}">${metric['name']}</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td><input name="target-average" id="${key}" value=""></td>
-                <td></td>
-                <td></td>
-                <td><img src="images/info.png" loading="lazy" width="35" alt="" class="info-icon"></td>
-            </tr>`
+
+                // check if actual values are provided
+                if(processData['actual_target_metrics'][key]['actual']) {
+                    innerHTML_actual = `
+                    <tr>
+                        <td id="${metric['name']}">${metric['name']}</td>
+                        <td>${processData['actual_target_metrics'][key]['actual']['average']}</td>
+                        <td>${processData['actual_target_metrics'][key]['actual']['standard_deviation']}</td>
+                        <td>${processData['actual_target_metrics'][key]['actual']['total']}</td>
+                        <td>${processData['actual_target_metrics'][key]['actual']['min']}</td>
+                        <td>${processData['actual_target_metrics'][key]['actual']['max']}</td>`;
+                }
+
+                // check if a target value is provided
+                if(processData['actual_target_metrics'][key]['target']) {
+                    innerHTML_target =`
+                        <td><input name="target-average" id="${key}" value="${processData['actual_target_metrics'][key]['target']['average']}"></td>`
+                }
+
+                // check if a fulfillment and consequentially a target sum is provided (if fulfillment was calculated, a target sum was also able to be calculated)
+                if(processData['actual_target_metrics'][key]['fulfillemt']) {
+                    innerHTML_fulfillment = `
+                        <td>${processData['actual_target_metrics'][key]['target']['total']}</td>
+                        <td>${renderCircle(processData['actual_target_metrics'][key]['fulfillment'])}</td>
+                        <td><img src="images/info.png" loading="lazy" width="35" alt="" class="info-icon"></td>
+                    </tr>`;
+                }
             }
+
+            innerHTML += innerHTML_actual + innerHTML_target + innerHTML_fulfillment;
+
         });
+
     innerHTML += `</table>`;
     innerHTML += '</div>';
         innerHTML += '</nav>';

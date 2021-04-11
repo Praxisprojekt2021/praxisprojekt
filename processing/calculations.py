@@ -58,15 +58,15 @@ def calculate_current_values(process_dict: dict, metrics_dict: dict) -> dict:
 
             # calculate actual metrics
             calculations[metric]['actual'] = {"total": sum(values), "min": min(values), "max": max(values),
-                                              "avg": mean(values)}
+                                              "average": mean(values)}
 
             # more than one component has this metric, thus a standard deviation can be calculated
             if len(values) > 1:
-                calculations[metric]['actual'].update({"std_dev": stdev(values)})
+                calculations[metric]['actual'].update({"standard_deviation": stdev(values)})
 
             # only one component has this metric, thus no standard deviation can be calculated
             else:
-                calculations[metric]['actual'].update({"std_dev": None})
+                calculations[metric]['actual'].update({"standard_deviation": None})
 
             # get amount of components
             calculations[metric]["count_component"] = len(values)
@@ -78,7 +78,7 @@ def calculate_current_values(process_dict: dict, metrics_dict: dict) -> dict:
             value = process_dict['target_metrics'][metric]
 
             # calculate and get target metrics
-            calculations[metric]['target'] = {'avg': value}
+            calculations[metric]['target'] = {'average': value}
 
             process_target_flag = True
 
@@ -86,7 +86,7 @@ def calculate_current_values(process_dict: dict, metrics_dict: dict) -> dict:
         if process_target_flag and component_metric_flag:
 
             # calculate target sum
-            calculations[metric]['target']['total'] = calculations[metric]['target']['avg'] * \
+            calculations[metric]['target']['total'] = calculations[metric]['target']['average'] * \
                                                       calculations[metric]['count_component']
 
         # save calculated values in output_dict
@@ -116,7 +116,7 @@ def compare_actual_target_metrics(process_dict: dict, metrics_dict: dict) -> dic
         # check if target and actual values are given
         if 'actual' in process_metrics_dict.keys() and 'target' in process_metrics_dict.keys():
 
-            if eval(f"{process_metrics_dict['actual']['avg']} {comparator} {process_metrics_dict['target']['avg']}"):
+            if eval(f"{process_metrics_dict['actual']['average']} {comparator} {process_metrics_dict['target']['average']}"):
 
                 fulfillment = True
             else:
