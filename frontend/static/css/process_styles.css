@@ -162,7 +162,7 @@
   
   .dropdown-list {
     position: static;
-    display: block;
+    display: none;
     overflow: visible;
     padding-right: 0px;
     padding-left: 0px;
