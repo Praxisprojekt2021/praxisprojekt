@@ -416,6 +416,7 @@ function saveCallback(response) {
 /**
  * This function loads component names from json file
  *
+ * TODO use modular helper functionality instead
  * @param processData
  */
 function loadComponentNames(processData) {
@@ -479,7 +480,7 @@ function createComponentTable(processData, metricsDefinition) {
             <td></td>
             <td></td>
             <td></td>
-            <td><i id="TrashIcon" class="fas fa-trash-alt"></i></td>
+            <td><i id="TrashIcon" class="fas fa-trash-alt" onclick="deleteComponent(this.parentElement.parentElement.id)"></i></td>
         `;
 
         const componentTable = document.getElementById('ComponentOverviewTable');
@@ -496,10 +497,18 @@ function createComponentTable(processData, metricsDefinition) {
 }
 
 /**
+ * This function fills the component dropdown to enable the functionality of adding components to a process
  *
- */
+ * @param {json} componentData: A list of all components available through user input
+ * */
 function fillComponentDropdown(componentData) {
     let components = componentData['components'];
+    document.getElementById('addposition').innerHTML = '';
+    let defaultOption = document.createElement('option');
+    defaultOption.value = 'default';
+    defaultOption.innerHTML = 'Select';
+    document.getElementById('addposition').appendChild(defaultOption);
+
     Object.keys(components).forEach(function (key) {
         let option = document.createElement('option');
         option.value = components[key]['uid'];
@@ -509,7 +518,7 @@ function fillComponentDropdown(componentData) {
 }
 
 /**
- *
+ * This function adds the selected component to the process
  */
 function addComponent() {
     let componentUID = document.getElementById('addposition').value;
@@ -528,21 +537,69 @@ function addComponent() {
         };
 
         helper.post_request("/process/edit/createstep", JSON.stringify(data), init);
+    } else {
+        // Please select a component from the dropdown.
     }
 }
 
+/**
+ * This function saves the component after weights have changed
+ *
+ * @param {float} oldWeight: The old weight of the component selected
+ * @param {float} newWeight: The new weight of the component selected
+ */
+function editComponent(oldWeight, newWeight) {
+    let data = {
+        "uid": uid,
+        "old_weight": oldWeight,
+        "new_weight": newWeight
+    };
+
+    helper.post_request("/process/edit/editstep", JSON.stringify(data), init);
+}
+
+/**
+ * This function deletes the selected component from the process
+ *
+ * @param {string} weight: The weight if the component to be deleted
+ */
+function deleteComponent(weight) {
+    let data = {
+        "uid": uid,
+        "weight": parseFloat(weight)
+    }
+
+    helper.post_request("/process/edit/deletestep", JSON.stringify(data), init);
+}
+
+/**
+ * This function allows for an element to have another element dropped upon
+ *
+ * @param {event} ev: The event associated with dragging and dropping elements
+ */
 function allowDrop(ev) {
     ev.preventDefault();
 }
 
+/**
+ * This function handles the data to be transferred when an element gets dragged
+ *
+ * @param {event} ev: The event associated with dragging and dropping elements
+ */
 function drag(ev) {
     ev.dataTransfer.setData("text", ev.target.id);
 }
 
+/**
+ * This function handles the data transfer when an element gets dropped
+ *
+ * @param {event} ev: The event associated with dragging and dropping elements
+ */
 function drop(ev) {
     ev.preventDefault();
     let data = ev.dataTransfer.getData("text");
     let element = document.getElementById(data);
+    let oldWeight = parseFloat(element.id);
     insertAfter(ev.target.parentElement, element);
 
     let previousID;
@@ -560,22 +617,38 @@ function drop(ev) {
     } catch (e) {
         nextID = parseFloat(element.previousSibling.id) + 1;
     }
-    console.log(previousID);
-    console.log(nextID);
-    let thisID = previousID + (nextID - previousID) / 2;
-    element.id = thisID;
-    element.children[0].innerHTML = thisID;
+    let newWeight = parseFloat(previousID + (nextID - previousID) / 2);
+    element.id = newWeight;
+    element.children[0].innerHTML = newWeight;
+
+    editComponent(oldWeight, newWeight);
 }
 
+/**
+ * This function inserts an element after another specified one
+ *
+ * @param {HTMLElement} referenceNode: The element that the other element should be inserted after
+ * @param {HTMLElement} newNode: The element to be inserted
+ */
 function insertAfter(referenceNode, newNode) {
     referenceNode.style.border = "inherit";
     referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
 }
 
+/**
+ * This function handles the styles when an element gets dragged over another specified one
+ *
+ * @param {event} ev: The event associated with dragging and dropping elements
+ */
 function enter(ev) {
     ev.target.parentElement.style.borderBottom = "15px solid black";
 }
 
+/**
+ * This function handles the styles when an element gets dragged over another specified one and then exits the scope
+ *
+ * @param {event} ev: The event associated with dragging and dropping elements
+ */
 function exit(ev) {
     ev.target.parentElement.style.border = "inherit";
 }
