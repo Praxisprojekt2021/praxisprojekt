@@ -162,7 +162,7 @@ def add_process_reference(input_dict: dict) -> str:
 
     process_handler.add_process_reference(input_dict)
 
-    output_object = get_process(input_dict["process_uid"])
+    output_object = get_process({'uid': input_dict["process_uid"]})
     return output_object
 
 
@@ -177,7 +177,7 @@ def update_process_reference(input_dict: dict) -> str:
 
     process_handler.update_process_reference(input_dict)
 
-    output_object = get_process(input_dict["uid"])
+    output_object = get_process({'uid': input_dict["process_uid"]})
     return output_object
 
 
@@ -192,5 +192,5 @@ def delete_process_reference(input_dict: dict) -> str:
 
     process_handler.delete_process_reference(input_dict)
 
-    output_object = get_process(input_dict["uid"])
+    output_object = get_process({'uid': input_dict["process_uid"]})
     return output_object
