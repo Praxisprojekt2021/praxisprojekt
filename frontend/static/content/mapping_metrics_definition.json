@@ -15,7 +15,7 @@
           "fulfilled_if": "<",
           "max_value": -1,
           "min_value": 0,
-          "helper_text": "For a total batch of 100 lines of code, with 10 blank and comment lines, an input of 80 follows."
+          "helper_text": "Average development time of a patch in developer days"
         },
         "code_review_frequency": {
           "name": "Code Reviews [per year]",
