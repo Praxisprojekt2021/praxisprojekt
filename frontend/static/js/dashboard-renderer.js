@@ -178,16 +178,9 @@ function deleteComponent(uid) {
 function renderStatusColumn(wholeProcessScore) {
     // if score > 90, status is green, elseif score > 80, status is yellow, else status is red;
     // TODO: adapt to requirements (when it should be red or green)
-    let color;
+    let color = helper.getCircleColor(wholeProcessScore);
 
-    if(wholeProcessScore < 80) {
-        color = "RedCircle";
-    } else if (wholeProcessScore < 90) {
-        color = "YellowCircle"
-    } else {
-        color = "GreenCircle";
-    }
-
+    return '<td>' + helper.renderSmallCircle(null, color) +'</td>';
     return '<td><i id="' + color + '" class="fas fa-circle"></i></td>';
 }
 

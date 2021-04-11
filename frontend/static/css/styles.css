@@ -78,6 +78,7 @@ th {
     width: 2%;
     max-height: 3%;
 }
+
 #GreenCircle{
     width: 2%;
     max-height: 3%;
@@ -94,4 +95,15 @@ th {
     width: 2%;
     max-height: 3%;
     color: #ffc800;
+}
+
+.small-circle {
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    display: table;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

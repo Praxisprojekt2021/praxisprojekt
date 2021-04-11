@@ -150,7 +150,7 @@ def calculate_risk_score(process_dict: dict) -> dict:
     if amount > 0:
         score = int((sum / amount) * 100)
     else:
-        score = 0
+        score = None
 
     process_dict["score"] = score
 

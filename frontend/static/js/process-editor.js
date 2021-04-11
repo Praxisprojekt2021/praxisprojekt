@@ -189,7 +189,7 @@ function createMetricsSection(features, processData) {
         innerHTML += '<div class="accordion-toggle" onclick="toggleSection(this)">';
         innerHTML += '<div class="accordion-icon"></div>';
         innerHTML += '<div class="features-label">' + feature_header + '</div>';
-        innerHTML += renderCircle(feature_fulfillment);
+        innerHTML += helper.renderSmallCircle(feature_fulfillment);
         innerHTML += '</div>';
         innerHTML += '<nav class="dropdown-list">';
         innerHTML += '<div class="features-columns">';
@@ -275,7 +275,7 @@ function fillMetricRows(metricData, slug, processData) {
             metric_fulfillment = processData['actual_target_metrics'][slug]['fulfillment'];
             innerHTML_fulfillment = `
                         <td>${processData['actual_target_metrics'][slug]['target']['total']}</td>
-                        <td>${renderCircle(metric_fulfillment)}</td>
+                        <td>${helper.renderSmallCircle(metric_fulfillment)}</td>
                         <td><img src="images/info.png" loading="lazy" width="35" alt="" class="info-icon"></td>
                     </tr>`;
         }
@@ -294,34 +294,10 @@ function renderWholeProcessScoreCircle(wholeProcessScore) {
     let color;
     wholeProcessScore = parseInt(wholeProcessScore);
 
-    if(wholeProcessScore < 80) {
-        color = "red";
-    } else if (wholeProcessScore < 90) {
-        color = "yellow"
-    } else {
-        color = "green";
-    }
+    color = helper.getCircleColor(wholeProcessScore);
+
     document.getElementById("whole-process-score").setAttribute("style", `background-color:  ${color}`);
     document.getElementById("whole-process-score").innerHTML = `${wholeProcessScore}%`;
-}
-
-/**
- * Render ball for each metric.
- *
- * @param fulfillment
- * @returns {string}
- */
-function renderCircle(fulfillment) {
-    let color;
-    if(fulfillment === true) {
-        color = "green";
-    } else if(fulfillment === false) {
-        color = "red";
-    } else {
-        color = "grey";
-    }
-
-    return `<div class="small-circle" style="background-color: ${color}"></div>`;
 }
 
 

@@ -104,4 +104,43 @@ class Helper {
             document.getElementById('metrics-input').appendChild(div);
         });
     }
+
+    getCircleColor(score) {
+        let color;
+
+        if (score === null) {
+            color = "grey";
+        } else if(score < 80) {
+            color = "red";
+        } else if (score < 90) {
+            color = "yellow"
+        } else if (score < 100) {
+            color = "green"
+        } else {
+            color = "grey";
+        }
+        return color;
+    }
+
+    /**
+     * Render ball for each metric.
+     *
+     * @param fulfillment
+     * @param color
+     * @returns {string}
+     */
+    renderSmallCircle(fulfillment, color = false) {
+        if (!color) {
+            if(fulfillment === true) {
+                color = "green";
+            } else if(fulfillment === false) {
+                color = "red";
+            } else {
+                color = "grey";
+            }
+        }
+
+
+        return `<div class="small-circle" style="background-color: ${color}"></div>`;
+    }
 }
