@@ -80,6 +80,7 @@ function getProcess(features) {
                 // Process response and show sum in output field
                 let processData = JSON.parse(this.responseText);
                 fillDataFields(features, processData);
+                loadComponentNames(processData);
             }
         }
         xhttp.send(post_data);
@@ -423,4 +424,120 @@ function saveCallback(response) {
         // Process has not been created/edited successfully
         window.alert('Changes could not be saved.');
     }
+}
+
+/**
+ * This function loads component names from json file
+ *
+ * @param processData
+ */
+function loadComponentNames(processData) {
+    const base_url = window.location.origin;
+    let xhttp = new XMLHttpRequest();
+    xhttp.open("GET", base_url + "/content/mapping_metrics_definition.json", true);
+    xhttp.setRequestHeader("Content-Type", "application/json");
+
+    // Handle response of HTTP-request
+    xhttp.onreadystatechange = function () {
+        if (this.readyState === XMLHttpRequest.DONE && (this.status >= 200 && this.status < 300)) {
+            // Process response and show sum in output field
+            let metricsDefinition = JSON.parse(this.responseText);
+            createComponentTable(processData, metricsDefinition);
+        }
+    }
+    xhttp.send();
+}
+
+/**
+ * This function renders the component drag and drop table
+ *
+ * @param {json} processData: JSON Object containing the process data loaded
+ * @param {json} metricsDefinition: JSON Object containing the metrics definitions and component categories
+ */
+function createComponentTable(processData, metricsDefinition) {
+    const components = processData['process']['components'];
+    console.log(components);
+    Object.keys(components).forEach(function (key) {
+        const componentData = components[key];
+
+        let component = document.createElement('tr');
+        component.id = componentData['weight'];
+        component.draggable = true;
+        component.setAttribute('ondragstart','drag(event)');
+        component.setAttribute('ondrop', 'drop(event)');
+        component.setAttribute('ondragover', 'allowDrop(event)');
+        component.setAttribute('ondragenter','enter(event)');
+        component.setAttribute('ondragleave','exit(event)');
+
+        component.innerHTML = `
+            <td>${componentData['weight']}</td>
+            <td>${componentData['name']}</td>
+            <td>${metricsDefinition['categories'][componentData['category']]['name']}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td><i id="TrashIcon" class="fas fa-trash-alt"></i></td>
+        `;
+
+        const componentTable = document.getElementById('ComponentOverviewTable');
+        for (let i = componentTable.childElementCount - 1; i >= 0; i--) {
+            const previousComponent = componentTable.children[i];
+            if (i === 0) {
+                insertAfter(previousComponent, component);
+            } else if (componentData['weight'] > previousComponent.id) {
+                insertAfter(previousComponent, component);
+                break;
+            }
+        }
+    });
+}
+
+function allowDrop(ev) {
+    ev.preventDefault();
+}
+
+function drag(ev) {
+    ev.dataTransfer.setData("text", ev.target.id);
+}
+
+function drop(ev) {
+    ev.preventDefault();
+    let data = ev.dataTransfer.getData("text");
+    let element = document.getElementById(data);
+    insertAfter(ev.target.parentElement, element);
+
+    let previousID;
+    try {
+        previousID = parseFloat(element.previousSibling.id);
+        if (isNaN(previousID)) {
+            previousID = parseFloat(element.id);
+        }
+    } catch (e) {
+        previousID = parseFloat(element.id);
+    }
+    let nextID;
+    try {
+        nextID = parseFloat(element.nextSibling.id);
+    } catch (e) {
+        nextID = parseFloat(element.previousSibling.id) + 1;
+    }
+    console.log(previousID);
+    console.log(nextID);
+    let thisID = previousID + (nextID - previousID) / 2;
+    element.id = thisID;
+    element.children[0].innerHTML = thisID;
+}
+
+function insertAfter(referenceNode, newNode) {
+    referenceNode.style.border = "inherit";
+    referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+}
+
+function enter(ev) {
+    ev.target.parentElement.style.borderBottom = "15px solid black";
+}
+
+function exit(ev) {
+    ev.target.parentElement.style.border = "inherit";
 }
