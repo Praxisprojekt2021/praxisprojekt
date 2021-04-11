@@ -454,6 +454,7 @@ function loadComponentNames(processData) {
             // Process response and show sum in output field
             let metricsDefinition = JSON.parse(this.responseText);
             createComponentTable(processData, metricsDefinition);
+            helper.get_request("/component/overview", fillComponentDropdown);
         }
     }
     xhttp.send();
@@ -467,7 +468,21 @@ function loadComponentNames(processData) {
  */
 function createComponentTable(processData, metricsDefinition) {
     const components = processData['process']['components'];
-    console.log(components);
+    document.getElementById('ComponentOverviewTable').innerHTML = '';
+
+    let header = document.createElement('tr');
+    header.innerHTML = `
+        <th name="Position"> Position</th>
+        <th name="Component">Component</th>
+        <th name="Category">Category</th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th><i id="TrashIcon" class="fas fa-trash-alt"></i></th>
+    `;
+    document.getElementById('ComponentOverviewTable').appendChild(header);
+
     Object.keys(components).forEach(function (key) {
         const componentData = components[key];
 
@@ -502,6 +517,42 @@ function createComponentTable(processData, metricsDefinition) {
             }
         }
     });
+}
+
+/**
+ *
+ */
+function fillComponentDropdown(componentData) {
+    let components = componentData['components'];
+    Object.keys(components).forEach(function (key) {
+        let option = document.createElement('option');
+        option.value = components[key]['uid'];
+        option.innerHTML = components[key]['name'];
+        document.getElementById('addposition').appendChild(option);
+    });
+}
+
+/**
+ *
+ */
+function addComponent() {
+    let componentUID = document.getElementById('addposition').value;
+    if (componentUID.length === 32) {
+        let weight = document.getElementById('ComponentOverviewTable').lastChild.id;
+        if (weight === '') {
+            weight = 1;
+        } else {
+            weight = parseFloat(weight) + 1;
+        }
+
+        let data = {
+            "process_uid": uid,
+            "component_uid": componentUID,
+            "weight": weight
+        };
+
+        helper.post_request("/process/edit/createstep", JSON.stringify(data), init);
+    }
 }
 
 function allowDrop(ev) {
