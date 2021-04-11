@@ -2,15 +2,14 @@
 <head>
     <meta charset="utf-8">
     <title>Component</title>
-    <meta content="width=device-width, initial-scale=1" name="viewport">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/einzelkomponente.css') }}" id="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}" type="text/css" >
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/einzelkomponente.css') }}" type="text/css" >
     <link href="{{ url_for('static', filename='images/favicon.png') }}" rel="icon" type="image/x-icon">
 </head>
 <body class="body" onload="init()">
 
 <header id="header" class="header"><img src="{{ url_for('static', filename='images/logo.png') }}"
-                                                   loading="lazy" alt="" class="logo">
+                                        loading="lazy" alt="" class="logo">
     <div class="navigation">
         <a href="/" class="navigation-links">Home</a>
         <div class="navigation-link-separator">&gt;</div>
@@ -24,7 +23,7 @@
     <div class="view-description-label">Einzelkomponente</div>
 
     <div class="component-form-block">
-        <form id="component-form" name="component-form" data-name="component-form" class="component-form">
+        <form class="component-form">
 
             <div class="description-columns">
                 <div class="default-column">
@@ -56,19 +55,6 @@
             <div id="metrics-input"></div>
 
         </form>
-
-        <div class="success-message" id="create-success">
-            <div class="message">Einzelkomponente wurde erstellt.</div>
-        </div>
-        <div class="error-message" id="create-fail">
-            <div class="message">Erstellen der Einzelkomponente fehlgeschlagen.</div>
-        </div>
-        <div class="success-message" id="save-success">
-            <div class="message">Einzelkomponente wurde gespeichert.</div>
-        </div>
-        <div class="error-message" id="save-fail">
-            <div class="message">Speichern der Einzelkomponente fehlgeschlagen.</div>
-        </div>
     </div>
 </div>
 <script src="{{ url_for('static', filename='js/helper.js') }}"></script>

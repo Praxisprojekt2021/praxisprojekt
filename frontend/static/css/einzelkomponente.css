@@ -67,16 +67,6 @@ button, html input[type="button"], input[type="reset"] {
   font-weight: 700;
 }
 
-.description-label {
-  display: block;
-  margin-bottom: 15px;
-  font-weight: 700;
-}
-
-.message {
-  overflow: visible;
-}
-
 .component-form-block {
   position: relative;
   margin-top: 15px;
@@ -91,14 +81,6 @@ button, html input[type="button"], input[type="reset"] {
   float: left;
   clear: left;
   font-weight: 400;
-}
-
-.save-button {
-  position: static;
-  display: block;
-  border-radius: 5px;
-  background-color: #1f299c;
-  font-size: 15px;
 }
 
 .textarea {
@@ -202,10 +184,6 @@ button, html input[type="button"], input[type="reset"] {
   font-weight: 700;
 }
 
-.component-entry-block {
-  overflow: visible;
-}
-
 .component-overview {
   margin-right: 50px;
   margin-left: 50px;
@@ -264,31 +242,9 @@ button, html input[type="button"], input[type="reset"] {
   cursor: pointer;
 }
 
-#component-id {
-  display: none;
-  width: 48px;
-  min-width: auto;
-  margin-left: 10px;
-  text-align: center;
-}
-
 .metric-entry-element {
   width: 50%;
   display: inline-block;
-}
-
-.success-message {
-  display: none;
-  padding: 20px;
-  text-align: center;
-  background-color: #ddd;
-}
-
-.error-message {
-  display: none;
-  margin-top: 10px;
-  padding: 10px;
-  background-color: #ffdede;
 }
 
 .default-column {
