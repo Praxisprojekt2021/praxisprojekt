@@ -149,21 +149,6 @@ function setSections(selected_category) {
         });
 }
 
-/**
- * This functions toggles the accordion
- *
- * @param {HTMLElement} element: HTML accordion to be either opened oder closed
- */
-
-function toggleSection(element) {
-    const metric_child = element.parentElement.children[1];
-    if (metric_child.style.display === "block" || element.getAttribute("disabled") === "true") {
-        metric_child.style.display = "none";
-    } else {
-        metric_child.style.display = "block";
-        metric_child.style.position = "static";
-    }
-}
 
 /**
  * This function saves the data entered to the database by transmitting the data to the backend

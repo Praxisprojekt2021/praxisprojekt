@@ -9,13 +9,19 @@ let uid = url.searchParams.get('uid');
 
 /**
  * Initialize View.
+ *
+ * @param {json, boolean} json_process
  */
-function init() {
+function init(json_process=false) {
 
     getFeatures().then(data => {
-        getProcess(data);
+        if (!json_process) {
+            getProcess(data);
+        } else {
+            fillDataFields(data, json_process);
+            loadComponentNames(json_process);
+        }
     });
-    // getProcess(features);
 
 }
 
@@ -98,10 +104,10 @@ function getProcess(features) {
 
 
 /**
- * This functions toggles the accordion
+ * This function fills the process data in all fields
  *
- * @param features
- * @param processData
+ * @param {json} features
+ * @param {json} processData
  */
 
 function fillDataFields(features, processData) {
@@ -119,7 +125,7 @@ function fillDataFields(features, processData) {
 }
 
 /**
- * This functions toggles the accordion
+ * This function fills the description fields
  *
  * @param {json} processData
  */
@@ -186,7 +192,7 @@ function createMetricsSection(features, processData) {
 
         let innerHTML = '';
         innerHTML += '<div data-hover="" data-delay="0" class="accordion-item">';
-        innerHTML += '<div class="accordion-toggle" onclick="toggleSection(this)">';
+        innerHTML += '<div class="accordion-toggle" onclick="helper.toggleSection(this)">';
         innerHTML += '<div class="accordion-icon"></div>';
         innerHTML += '<div class="features-label">' + feature_header + '</div>';
         innerHTML += helper.renderSmallCircle(feature_fulfillment);
@@ -223,6 +229,13 @@ function createMetricsSection(features, processData) {
     });
 }
 
+/**
+ * Create a metric row for the table.
+ *
+ * @param {json} metricData
+ * @param {string} slug
+ * @param {json} processData
+ */
 function fillMetricRows(metricData, slug, processData) {
 
     // default value, because null has no influence on feature_fulfillment if metric_fulfillment is not given
@@ -288,6 +301,7 @@ function fillMetricRows(metricData, slug, processData) {
 
 /**
  * Render process ball for whole process.
+ *
  * @param wholeProcessScore
  */
 function renderWholeProcessScoreCircle(wholeProcessScore) {
@@ -298,23 +312,6 @@ function renderWholeProcessScoreCircle(wholeProcessScore) {
 
     document.getElementById("whole-process-score").setAttribute("style", `background-color:  ${color}`);
     document.getElementById("whole-process-score").innerHTML = `${wholeProcessScore}%`;
-}
-
-
-/**
- * This functions toggles the accordion
- *
- * @param {HTMLElement} element: HTML accordion to be either opened oder closed
- */
-
-function toggleSection(element) {
-    const metric_child = element.parentElement.children[1];
-    if (metric_child.style.display === "block" || element.getAttribute("disabled") === "true") {
-        metric_child.style.display = "none";
-    } else {
-        metric_child.style.display = "block";
-        metric_child.style.position = "static";
-    }
 }
 
 

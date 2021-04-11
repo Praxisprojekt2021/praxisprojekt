@@ -105,6 +105,13 @@ class Helper {
         });
     }
 
+    /**
+     * Get the color of the process given the calculated score
+     *
+     * @param {number, null} score
+     * @returns {string}
+     */
+
     getCircleColor(score) {
         let color;
 
@@ -125,8 +132,8 @@ class Helper {
     /**
      * Render ball for each metric.
      *
-     * @param fulfillment
-     * @param color
+     * @param {boolean, null} fulfillment
+     * @param {string, boolean} color
      * @returns {string}
      */
     renderSmallCircle(fulfillment, color = false) {
@@ -142,5 +149,21 @@ class Helper {
 
 
         return `<div class="small-circle" style="background-color: ${color}"></div>`;
+    }
+
+    /**
+     * This functions toggles the accordion
+     *
+     * @param {HTMLElement} element: HTML accordion to be either opened oder closed
+     */
+
+    toggleSection(element) {
+        const metric_child = element.parentElement.children[1];
+        if (metric_child.style.display === "block" || element.getAttribute("disabled") === "true") {
+            metric_child.style.display = "none";
+        } else {
+            metric_child.style.display = "block";
+            metric_child.style.position = "static";
+        }
     }
 }
