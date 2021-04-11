@@ -226,6 +226,7 @@ def error_occurred(error):
     exc_type, value, traceback = sys.exc_info()
     error_json = error_handler(exc_type.__name__, str(value))
     print(error)
+    print(error_json)
     return error_json, 500
 
 

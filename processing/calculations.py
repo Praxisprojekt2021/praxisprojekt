@@ -116,7 +116,7 @@ def compare_actual_target_metrics(process_dict: dict, metrics_dict: dict) -> dic
         # check if target and actual values are given
         if 'actual' in process_metrics_dict.keys() and 'target' in process_metrics_dict.keys():
 
-            if eval(f"{process_metrics_dict['actual']['average']} {comparator} {process_metrics_dict['target']['average']}"):
+            if eval(f"{process_metrics_dict['actual']['average']} {comparator}= {process_metrics_dict['target']['average']}"):
 
                 fulfillment = True
             else:
@@ -141,12 +141,16 @@ def calculate_risk_score(process_dict: dict) -> dict:
     amount = 0
 
     sub_dict = process_dict["actual_target_metrics"]
-    for metric in sub_dict:
-        if 'fullfillment' in sub_dict.keys():
-            sum += sub_dict[metric]["fulfillment"]
+    for metric, values in sub_dict.items():
+        if 'fulfillment' in values.keys():
+            if values['fulfillment']:
+                sum += 1
             amount += 1
 
-    score = int((sum / max(len(sub_dict), 1)) * 100)
+    if amount > 0:
+        score = int((sum / amount) * 100)
+    else:
+        score = 0
 
     process_dict["score"] = score
 

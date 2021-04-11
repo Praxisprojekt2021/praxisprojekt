@@ -24,7 +24,7 @@ function init() {
  */
 async function getFeatures() {
     // Read JSON file
-    let features = await fetch(base_url + '/content/mapping_metrics_definition.json')
+    return await fetch(base_url + '/content/mapping_metrics_definition.json')
         .then(response => response.json())
         .then(data => {
             let features = data['features'];
@@ -36,7 +36,7 @@ async function getFeatures() {
             div.className = 'control-area';
 
             let buttonType;
-            if (typeof uid !== undefined && uid !="" && uid != null) {
+            if (typeof uid !== undefined && uid !=="" && uid != null) {
                 buttonType = "Save";
             } else {
                 buttonType = "Create";
@@ -47,7 +47,6 @@ async function getFeatures() {
             document.getElementById('buttons').appendChild(div);
             return features;
         });
-    return features;
 }
 
 /**
@@ -148,18 +147,45 @@ function createMetricsSection(features, processData) {
         div.id = key;
         div.className = 'feature-section';
 
+
+        // get all metric rows and the contained data
+        let metric_fulfillment_list = [];
+        let innerHTML_metric_block = '';
+        let feature_component_count = 0;
+
+        Object.keys(metrics).forEach(function (key) {
+            let metric = metrics[key];
+            let [metric_fulfillment, component_count, innerHTML_metric_row] = fillMetricRows(metric, key, processData);
+
+            // append metric row to a metric row block for the feature
+            innerHTML_metric_block += innerHTML_metric_row;
+
+            // calculate the feature fulfillment -> if one metric_fulfillment is false, the feature_fulfillment is also false
+            metric_fulfillment_list.push(metric_fulfillment);
+
+            // set component_count ( should be equal over all metrics contained in a feature)
+            feature_component_count = component_count;
+        });
+
+        if (metric_fulfillment_list.length === 0) {
+            const feature_fulfillment = false;
+        } else {
+            const feature_fulfillment = !metric_fulfillment_list.includes(false);
+        }
+
+        let feature_header = "Feature " + featureCount + ": " + feature['name'] + " (Components: " + feature_component_count + ")";
+
         let innerHTML = '';
         innerHTML += '<div data-hover="" data-delay="0" class="accordion-item">';
         innerHTML += '<div class="accordion-toggle" onclick="toggleSection(this)">';
         innerHTML += '<div class="accordion-icon"></div>';
-        innerHTML += '<div class="features-label">' + feature['name'] + '</div>';
+        innerHTML += '<div class="features-label">' + feature_header + '</div>';
         innerHTML += '</div>';
         innerHTML += '<nav class="dropdown-list">';
         innerHTML += '<div class="features-columns">';
 
         // Table Headers
         innerHTML += `
-        <label>Feature ${featureCount}: ${feature['name']}</label>
         <table id="process-feature-table">
             <tr>
                 <th name="metric">Metric</th>
@@ -174,12 +200,7 @@ function createMetricsSection(features, processData) {
                 <th name="info">Info</th>
             </tr>`;
 
-        let feature_fulfillment = false;
-        let innerHTML_metrics = '';
-        Object.keys(metrics).forEach(function (key) {
-            let metric = metrics[key];
-            let metric_fulfillment, innerHTML_metric_row = fillMetricRows(metric, key, processData);
-        });
+        innerHTML += innerHTML_metric_block;
 
         innerHTML += `</table>`;
         innerHTML += '</div>';
@@ -196,6 +217,7 @@ function fillMetricRows(metricData, slug, processData) {
 
     // default value, because true has no influence on feature_fulfillment if metric_fulfillment is not given
     let metric_fulfillment = true;
+    let count_component = 0;
 
     // default table row, when no metric data is provided
     let innerHTML_actual = `
@@ -214,7 +236,11 @@ function fillMetricRows(metricData, slug, processData) {
                         <td><img src="images/info.png" loading="lazy" width="35" alt="" class="info-icon"></td>
                     </tr>`;
 
-    if(uid != null && uid != -1 && (slug in processData['actual_target_metrics'])) {
+    if(uid != null && uid !== -1 && (slug in processData['actual_target_metrics'])) {
+
+        if ('count_component' in processData['actual_target_metrics'][slug]) {
+            count_component = processData['actual_target_metrics'][slug]['count_component'];
+        }
 
         // check if actual values are provided
         if('actual' in processData['actual_target_metrics'][slug]) {
@@ -247,7 +273,7 @@ function fillMetricRows(metricData, slug, processData) {
 
     let innerHTML_metric_row = innerHTML_actual + innerHTML_target + innerHTML_fulfillment;
 
-    return metric_fulfillment, innerHTML_metric_row;
+    return [metric_fulfillment, count_component, innerHTML_metric_row];
 }
 
 /**
@@ -329,7 +355,7 @@ function createEditProcess() {
             metrics[metric_elements[i].id] = parseInt(metric_elements[i].value);
         }
     }
-    if (typeof uid == undefined || uid == "" || uid == null) {
+    if (typeof uid === undefined || uid === "" || uid == null) {
         uid = -1;
     }
     const process = `{
@@ -351,10 +377,11 @@ function createEditProcess() {
         const input = toggles[i].value;
 
         // Check if enabled fields have been filled - all fields are required
-        if (toggles[i].value === '') {
+        // TODO: decide wether or not this is true
+        /*if (toggles[i].value === '') {
             console.log(toggles[i].id);
             required_helper_flag = false;
-        }
+        }*/
     }
 
     // If a input has been performed, post changes to backend

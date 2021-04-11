@@ -172,13 +172,24 @@ function deleteComponent(uid) {
 /**
  * Renders column to show status as red or green.
  *
- * @param {String} viv_value
+ * @param {String} wholeProcessScore
  * @returns {String} green or red td-cell (depending on viv-value)
  */
-function renderStatusColumn(viv_value) {
+function renderStatusColumn(wholeProcessScore) {
     // if viv_value > 4, status is green, else status is red;
     // TODO: adapt to requirements (when it should be red or green)
-    return viv_value > 4 ? '<td><i id="GreenCircle" class="fas fa-circle"></i></td>' : '<td><i id="RedCircle" class="fas fa-circle"></i></td>';
+    let color;
+    wholeProcessScore = parseInt(wholeProcessScore);
+
+    if(wholeProcessScore < 80) {
+        color = "RedCircle";
+    } else if (wholeProcessScore < 90) {
+        color = "YellowCircle"
+    } else {
+        color = "GreenCircle";
+    }
+
+    return '<td><i id="' + color + '" class="fas fa-circle"></i></td>';
 }
 
 /**

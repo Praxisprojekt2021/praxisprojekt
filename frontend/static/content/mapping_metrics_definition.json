@@ -3,7 +3,7 @@
     "code_quality": {
       "name": "Code quality",
       "metrics": {
-        "codelines": {
+        "number_of_lines_of_source_code_loc": {
           "name": "Number of lines of source code (LOC)",
           "fulfilled_if": ">",
           "max_value": -1,
@@ -222,7 +222,7 @@
     "confidentiality": {
       "name": "Confidentiality",
       "metrics": {
-        "admins": {
+        "number_of_administrators": {
           "name": "Number of administrators",
           "fulfilled_if": ">",
           "max_value": -1,

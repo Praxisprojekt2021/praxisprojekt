@@ -78,10 +78,11 @@ def get_process_list() -> str:
     """
     process_list_dict = process_handler.get_process_list()
 
-    # TODO: score und anzahl Komponenten dynamisch einfügen
+    # get the score and amount of components for each process
     for process_sub_dict in process_list_dict["process"]:
-        process_sub_dict["score"] = 80
-        process_sub_dict["components_count"] = 4
+        process = get_process({'uid': process_sub_dict['uid']})
+        process_sub_dict["score"] = processing.type_conversion.json_to_dict(process)['score']
+        process_sub_dict["components_count"] = len(processing.type_conversion.json_to_dict(process)['process']['components'])
 
     output_json = processing.dict_to_json(process_list_dict)
 
@@ -121,13 +122,13 @@ def create_edit_process(input_dict: dict) -> str:
     :return: A JSON object containing either the success state if False, otherwise calls get_process
     """
 
-    if input_dict["uid"] == "-1":
+    if input_dict["process"]["uid"] == "-1":
         result_dict = process_handler.add_process(input_dict)
-        output_object = get_process(result_dict["process_uid"])
+        output_object = get_process({'uid': result_dict["process_uid"]})
         return output_object
     else:
         result_dict = process_handler.update_process(input_dict)
-        output_object = get_process(input_dict["uid"])
+        output_object = get_process({'uid': input_dict["process"]["uid"]})
         return output_object
 
 
