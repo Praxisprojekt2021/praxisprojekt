@@ -32,6 +32,8 @@ async function getFeatures() {
             //TODO: auskommentieren
 
             // createMetricsSection(features);
+
+            document.getElementById('buttons').innerHTML = '';
             let div = document.createElement('div');
             div.className = 'control-area';
 
@@ -98,7 +100,8 @@ function getProcess(features) {
 /**
  * This functions toggles the accordion
  *
- * @param {HTMLElement} element: HTML accordion to be either opened oder closed
+ * @param features
+ * @param processData
  */
 
 function fillDataFields(features, processData) {
@@ -138,6 +141,7 @@ function fillDescriptionColumn(processData) {
  * @param {json} processData
  */
 function createMetricsSection(features, processData) {
+    document.getElementById('metrics-input-processes').innerHTML = '';
     let featureCount=0;
     Object.keys(features).forEach(function (key) {
         featureCount++;
@@ -153,6 +157,7 @@ function createMetricsSection(features, processData) {
         let metric_fulfillment_list = [];
         let innerHTML_metric_block = '';
         let feature_component_count = 0;
+        let feature_fulfillment;
 
         Object.keys(metrics).forEach(function (key) {
             let metric = metrics[key];
@@ -161,17 +166,20 @@ function createMetricsSection(features, processData) {
             // append metric row to a metric row block for the feature
             innerHTML_metric_block += innerHTML_metric_row;
 
-            // calculate the feature fulfillment -> if one metric_fulfillment is false, the feature_fulfillment is also false
-            metric_fulfillment_list.push(metric_fulfillment);
+            // create a list of all metric fulfillments
+            if (metric_fulfillment != null ) {
+                metric_fulfillment_list.push(metric_fulfillment);
+            }
 
             // set component_count ( should be equal over all metrics contained in a feature)
             feature_component_count = component_count;
         });
 
+        // calculate the feature fulfillment -> if one metric_fulfillment is false, the feature_fulfillment is also false
         if (metric_fulfillment_list.length === 0) {
-            const feature_fulfillment = false;
+            feature_fulfillment = null;
         } else {
-            const feature_fulfillment = !metric_fulfillment_list.includes(false);
+            feature_fulfillment = !metric_fulfillment_list.includes(false);
         }
 
         let feature_header = "Feature " + featureCount + ": " + feature['name'] + " (Components: " + feature_component_count + ")";
@@ -181,6 +189,7 @@ function createMetricsSection(features, processData) {
         innerHTML += '<div class="accordion-toggle" onclick="toggleSection(this)">';
         innerHTML += '<div class="accordion-icon"></div>';
         innerHTML += '<div class="features-label">' + feature_header + '</div>';
+        innerHTML += renderCircle(feature_fulfillment);
         innerHTML += '</div>';
         innerHTML += '<nav class="dropdown-list">';
         innerHTML += '<div class="features-columns">';
@@ -216,8 +225,8 @@ function createMetricsSection(features, processData) {
 
 function fillMetricRows(metricData, slug, processData) {
 
-    // default value, because true has no influence on feature_fulfillment if metric_fulfillment is not given
-    let metric_fulfillment = true;
+    // default value, because null has no influence on feature_fulfillment if metric_fulfillment is not given
+    let metric_fulfillment = null;
     let count_component = 0;
 
     // default table row, when no metric data is provided
@@ -263,7 +272,7 @@ function fillMetricRows(metricData, slug, processData) {
 
         // check if a fulfillment and consequentially a target sum is provided (if fulfillment was calculated, a target sum was also able to be calculated)
         if('fulfillment' in processData['actual_target_metrics'][slug]) {
-            let metric_fulfillment = processData['actual_target_metrics'][slug]['fulfillment'];
+            metric_fulfillment = processData['actual_target_metrics'][slug]['fulfillment'];
             innerHTML_fulfillment = `
                         <td>${processData['actual_target_metrics'][slug]['target']['total']}</td>
                         <td>${renderCircle(metric_fulfillment)}</td>
@@ -304,10 +313,12 @@ function renderWholeProcessScoreCircle(wholeProcessScore) {
  */
 function renderCircle(fulfillment) {
     let color;
-    if(fulfillment) {
+    if(fulfillment === true) {
         color = "green";
-    } else {
+    } else if(fulfillment === false) {
         color = "red";
+    } else {
+        color = "grey";
     }
 
     return `<div class="small-circle" style="background-color: ${color}"></div>`;
@@ -419,7 +430,7 @@ function saveCallback(response) {
     if (response['success']) {
         // Component has been created/edited successfully
         window.alert('Changes were saved.');
-        window.location = base_url;
+        init();
     } else {
         // Process has not been created/edited successfully
         window.alert('Changes could not be saved.');
