@@ -172,14 +172,13 @@ function deleteComponent(uid) {
 /**
  * Renders column to show status as red or green.
  *
- * @param {String} wholeProcessScore
+ * @param {number} wholeProcessScore
  * @returns {String} green or red td-cell (depending on viv-value)
  */
 function renderStatusColumn(wholeProcessScore) {
-    // if viv_value > 4, status is green, else status is red;
+    // if score > 90, status is green, elseif score > 80, status is yellow, else status is red;
     // TODO: adapt to requirements (when it should be red or green)
     let color;
-    wholeProcessScore = parseInt(wholeProcessScore);
 
     if(wholeProcessScore < 80) {
         color = "RedCircle";

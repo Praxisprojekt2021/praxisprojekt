@@ -89,3 +89,9 @@ th {
     max-height: 3%;
     color:red;
 }
+
+#YellowCircle{
+    width: 2%;
+    max-height: 3%;
+    color: #ffc800;
+}
