@@ -11,6 +11,7 @@ def get_component_list() -> str:
 
     :return: Returns a JSON object, structured as described in docu/JSON_objects_definitions.py
     """
+
     component_list_dict = component_handler.get_component_list()
     output_json = processing.dict_to_json(component_list_dict)
 
@@ -25,7 +26,8 @@ def get_component(input_dict: dict) -> str:
 
     :param input_dict: dict containing the component uid
     :type input_dict: dict
-    :return: Returns a JSON object, structured as described in docu/JSON_objects_definitions.py representing a component
+    :return: Returns a JSON object,
+    structured as described in docu/JSON_objects_definitions.py representing a component
     """
 
     component_dict = component_handler.get_component(input_dict)
@@ -76,6 +78,7 @@ def get_process_list() -> str:
     :return: Returns a JSON object, structured as described in docu/JSON_objects_definitions.py
     representing a process list
     """
+
     process_list_dict = process_handler.get_process_list()
 
     # get the score and amount of components for each process
@@ -97,7 +100,8 @@ def get_process(input_dict: dict) -> str:
 
     :param input_dict: dict containing the process uid
     :type input_dict: dict
-    :return: Returns a JSON object, structured as described in docu/JSON_objects_definitions.py representing a process
+    :returns: Returns a JSON object, structured as described in docu/JSON_objects_definitions.py representing a process
+    :rtype: str
     """
 
     process_dict = process_handler.get_process(input_dict)
