@@ -23,7 +23,7 @@ function init() {
  * Get processes data from Back-End and then populate the processes table in FE.
  */
 function getProcessList() {
-    helper.get_request("/content/mock-data.json", refreshProcessTable);
+    helper.get_request("/process/overview", "", refreshProcessTable);
 }
 
 /**
@@ -40,14 +40,14 @@ function getComponentList() {
  */
 function refreshProcessTable(json) {
     var table = document.getElementById('processTable');
-    json.processes.forEach(function (object) {
+    json.process.forEach(function (object) {
         var tr = document.createElement('tr');
-        tr.innerHTML = '<td>' + object.process + '</td>' +
-            '<td>' + object.components + '</td>' +
-            '<td>' + object.viv_value + '</td>' +
-            renderStatusColumn(object.viv_value) +
-            '<td>' + helper.formatDate(object.created) + '</td>' +
-            '<td>' + helper.formatDate(object.edited) + '</td>' +
+        tr.innerHTML = '<td>' + object.name + '</td>' +
+            '<td>' + object.components_count + '</td>' +
+            '<td>' + object.score + '</td>' +
+            renderStatusColumn(object.score) +
+            '<td>' + helper.formatDate(object.creation_timestamp) + '</td>' +
+            '<td>' + helper.formatDate(object.last_timestamp) + '</td>' +
             '<td>' + renderEditProcessButton(object.uid) + '</td>' +
             '<td>' + renderDeleteProcessButton(object.uid) + '</td>';
         table.appendChild(tr);
@@ -59,13 +59,13 @@ function refreshProcessTable(json) {
  *
  * @param {JSON} json object containing a list of components
  */
-function refreshComponentTable(json) {
+function refreshComponentTable(json, metricsDefinition) {
     var table = document.getElementById('componentTable');
     json.components.forEach(function (object) {
+        let category = object.category;
         let tr = document.createElement('tr');
         tr.innerHTML = '<td>' + object.name + '</td>' +
-            '<td>' + object.category + '</td>' +    // TODO: erst mappen mit tatsächlicher Kategorie
-            '<td></td>' +
+            '<td>' + metricsDefinition.categories[category].name + '</td>' +
             '<td>' + helper.formatDate(object.creation_timestamp) + '</td>' +
             '<td>' + helper.formatDate(object.last_timestamp) + '</td>' +
             '<td>' + renderEditComponentButton(object.uid) + '</td>' +
@@ -81,6 +81,7 @@ function refreshComponentTable(json) {
  */
 function renderEditProcessButton(uid) {
     return `<div onclick="editProcess('${uid}')">🖊️</div>`;
+    return `<div onclick="editProcess('${uid}')"><i id="PenIcon" class="fas fa-pencil-alt"></i></div>`;
 }
 
 /**
@@ -89,7 +90,7 @@ function renderEditProcessButton(uid) {
  * @returns {String} Edit-Component-Button HTML-Element
  */
 function renderEditComponentButton(uid) {
-    return `<div onclick="editComponent('${uid}')">🖊️</div>`;
+    return `<div onclick="editComponent('${uid}')"><i  id="PenIcon"class="fas fa-pencil-alt"></i></div>`;
 }
 
 /**
@@ -98,7 +99,7 @@ function renderEditComponentButton(uid) {
  * @returns {String} Delete-Process-Button HTML-Element
  */
 function renderDeleteProcessButton(uid) {
-    return `<div onclick="deleteProcess('${uid}')">🗑️</div>`;
+    return `<div onclick="deleteProcess('${uid}')"><i id="TrashIcon" class="fas fa-trash-alt"></i></div>`;
 }
 
 /**
@@ -107,15 +108,15 @@ function renderDeleteProcessButton(uid) {
  * @returns {String} Delete-Component-Button HTML-Element
  */
 function renderDeleteComponentButton(uid) {
-    return `<div onclick="deleteComponent('${uid}')">🗑️</div>`;
+    return `<div onclick="deleteComponent('${uid}')"><i id="TrashIcon" class="fas fa-trash-alt"></i></div>`;
 }
 
 /**
- * Routes to the URL where user can add a new process.
+ * Routes to the URL where user can add a new process
  */
 function addProcess() {
-    // ... open edit process URL without param
-    window.location.replace(base_url + "/process");
+    // open edit process URL without param
+    window.location.replace(base_url + "process");
 }
 
 /**
@@ -133,7 +134,8 @@ function addComponent() {
  * @param {String} uid
  */
 function editProcess(uid) {
-    // ... open edit process URL with param uid
+    // open edit process URL with param uid
+    window.location.replace(base_url + "process?uid=" + uid);
 }
 
 /**
@@ -153,6 +155,8 @@ function editComponent(uid) {
  */
 function deleteProcess(uid) {
     // call delete-process endpoint
+    let params = JSON.stringify({uid: uid});
+    helper.post_request("/process/delete", params, deleteCallback);
 }
 
 /**
@@ -162,7 +166,7 @@ function deleteProcess(uid) {
  */
 function deleteComponent(uid) {
     let params = JSON.stringify({uid: uid});
-    helper.post_request("component/delete", params, deleteCallback());
+    helper.post_request("/component/delete", params, deleteCallback);
 }
 
 
@@ -175,7 +179,30 @@ function deleteComponent(uid) {
 function renderStatusColumn(viv_value) {
     // if viv_value > 4, status is green, else status is red;
     // TODO: adapt to requirements (when it should be red or green)
-    return viv_value > 4 ? '<td>🟢</td>' : '<td>🔴</td>';
+    return viv_value > 4 ? '<td><i id="GreenCircle" class="fas fa-circle"></i></td>' : '<td><i id="RedCircle" class="fas fa-circle"></i></td>';
+}
+
+/**
+ * Load Metrics Definition data from json file.
+ *
+ * TODO: Could not be realized be helper.get_request because callback function needs to be called with two params. To be checked later if needed.
+ * @param componentData
+ */
+function loadMetricsDefinition(componentData) {
+    const base_url = window.location.origin;
+    let xhttp = new XMLHttpRequest();
+    xhttp.open("GET", base_url + "/content/mapping_metrics_definition.json", true);
+    xhttp.setRequestHeader("Content-Type", "application/json");
+
+    // Handle response of HTTP-request
+    xhttp.onreadystatechange = function () {
+        if (this.readyState === XMLHttpRequest.DONE && (this.status >= 200 && this.status < 300)) {
+            // Process response and show sum in output field
+            let metricsDefinition = JSON.parse(this.responseText);
+            refreshComponentTable(componentData, metricsDefinition);
+        }
+    }
+    xhttp.send();
 }
 
 /**

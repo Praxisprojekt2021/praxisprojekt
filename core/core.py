@@ -79,8 +79,9 @@ def get_process_list() -> str:
     process_list_dict = process_handler.get_process_list()
 
     # TODO: score und anzahl Komponenten dynamisch einfügen
-    process_list_dict["process"]["score"] = 80
-    process_list_dict["process"]["components_count"] = 4
+    for process_sub_dict in process_list_dict["process"]:
+        process_sub_dict["score"] = 80
+        process_sub_dict["components_count"] = 4
 
     output_json = processing.dict_to_json(process_list_dict)
 
@@ -104,7 +105,7 @@ def get_process(input_dict: dict) -> str:
     output_dict = processing.calculations.start_calculate_risk(process_dict, metrics_dict)
 
     output_json = processing.dict_to_json(output_dict)
-    
+
     return output_json
 
 

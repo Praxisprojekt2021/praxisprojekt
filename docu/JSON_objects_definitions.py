@@ -222,7 +222,7 @@ data = {
     # ab jetzt erst ab Backend durch Risk calc
     "score": 80,  # percent as integer
     "actual_target_metrics": {
-        "codelines": {
+        "number_of_lines_of_source_code_loc": {
             "actual": {
                 "average": 30,
                 "max": 50,
@@ -237,7 +237,7 @@ data = {
             "component_count": 10,
             "fulfillment": True
         },  # true means that the metric is fulfilled --> no problem.
-        "admins": {
+        "number_of_administrators": {
             "actual": {
                 "average": 30,
                 "max": 50,
@@ -282,7 +282,7 @@ data = {
         "name": "Kunde anlegen",
         "description": "Prozess zum anlegen von einem neuen Kunden in allen Systemen",
     },
-    "target_metrics":{
+    "target_metrics": {
         "codelines": 25000,
         "admins": 12,
         "recovery_time": 3,

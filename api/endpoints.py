@@ -108,7 +108,7 @@ def process_route():
     :receives: None
     :return: the rendered html process page
     """
-    raise NotImplementedError("Noch nicht umgesetzt")
+    return render_template("process.html")
 
 
 @app.route('/process/overview', methods=["GET"])
@@ -196,7 +196,7 @@ def process_create_edit_route():
         raise TypeError("No JSON body was transferred")
 
 
-@app.route('/process/view', methods=["GET"])
+@app.route('/process/view', methods=["POST"])
 def process_view_route():
     """
     API endpoint to use the function from the Core-Module to view processes
