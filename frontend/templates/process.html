@@ -56,9 +56,16 @@
                 <div id="modelling-process">
                 </div>
                 <div id="components-admin-process">
+                    <div class="center">
+                        <table id="ComponentOverviewTable"></table>
+                    </div>
+                    <div class="select-line">
+                        <select id="addposition"  class="postion-dropdown" ></select>
+                        <button class="button" type="button" onclick="addComponent()">+</button>
+                    </div>
                 </div>
                 <div id="control-panel-process">
-
+                    <div id="buttons"></div>
                 </div>
             </form>
 
@@ -83,17 +90,6 @@
     <script src="{{ url_for('static', filename='js/helper.js') }}"></script>
     <script src="{{ url_for('static', filename='js/process-editor.js') }}"></script>
     <script type="module" src="{{ url_for('static', filename='js/translator.js') }}"></script>
-
-    <div class="center">
-       
-        <table id="ComponentOverviewTable">
-        </table>
-    </div>
-    <div class="select-line">
-    <select id="addposition"  class="postion-dropdown" ></select>
-    <button class="button" type="button" onclick="addComponent()">+</button>
-    </div>
-    <div id="buttons"></div>
 
 </body>
 </html>

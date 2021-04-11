@@ -210,7 +210,7 @@ function loadMetricsDefinition(componentData) {
 /**
  * Shows success/error message and reloads dashboard.
  */
-function deleteCallback() {
+function deleteCallback(response) {
 // Check if component has been deleted successfully
     if (response['success']) {
         // Component has been deleted successfully
