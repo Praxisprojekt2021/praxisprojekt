@@ -121,7 +121,7 @@ class Helper {
             color = "red";
         } else if (score < 90) {
             color = "yellow"
-        } else if (score < 100) {
+        } else if (score <= 100) {
             color = "green"
         } else {
             color = "grey";
