@@ -4,7 +4,7 @@ Autoren: \
 Tom Hinzmann \
 Jasmin Čapka
 
-Stand: 04.03.2021
+Stand: 30.03.2021
 
 ## Repo Struktur
 
@@ -19,13 +19,22 @@ Python Django App, bleibt dabei aber uneingeschränkt flexibel im Aufbau.
   - pull_request_template.md
 - api/
   - endpoints.py
-  - error_handler.py
 ```
     
 In dem `api/` Verzeichnis liegen die Files, die der Flask App angehören, die wiederum durch die `main.py` gestartet wird.
 In der `endpoints.py` Datei werden die Endpoints der Flask REST API definiert, die die Schnittstelle zum Frontend bilden.
 Dort sollen die Anfragen angenommen und selektiv an die "Task Engine" `core.py`, die jegliche Logik enthält und Datenflüsse
 managed.
+
+```
+- core/
+  - core.py
+  - error_handler.py
+  - success_handler.py
+```
+In dem `core/`-Verzeichnis liegen die Dateien, die die Kernfunktionalitäten der Anwendung abdecken.
+Die `core.py` ist die "Task Engine", die jegliche Logik enthält und Datenflüsse managed. Von hier werden alle Datenbank
+Funktionalitäten, alle Berechnungsfunktionen, alle Helper angesprochen und bedient.
 
 ```
 - processing/
@@ -39,7 +48,13 @@ Prozesskomponenten bereitstellen. Hier erfolgt die Ergebnisermittlung.
 ```
 - database/
   - handler/
-    - placeholder.txt
+    - component_handler.py
+    - metric_handler.py
+    - process_handler.py
+  - config.py
+  - create_queries_template.md
+  - init_db.cypher
+  - metrics.csv
 ```
 
 Der `database/` Ordner soll alle Datenbank-bezogenen Inhalte und Funktionen enthalten, darunter die Queries (abhängig
@@ -51,6 +66,7 @@ und die Backend-seitige Schnittstelle zur Datenbank darstellt.
   - Coding Richtlinie.md
   - IntelliJ.md
   - JSON_objects_definitions.py
+  - Neomodel.md
   - Repository.md
 ```
 
@@ -60,14 +76,26 @@ Das `docu/` Verzeichnis soll alle wichtigen Projektdokumentationen, Leitfäden u
 - frontend/
   - static/
     - content/
-      - placeholder.txt
+      - component-sections.json
+      - de.json
+      - en.json
+      - mapping_metrics_definition.py
     - css/
-      - placeholder.txt
+      - einzelkomponente.css
+      - normalize.css
+      - styles.css
+      - webflow.css
+    - i18next/
     - images/
-      - placeholder.txt
+      - info.png
+      - logo.png
     - js/
-      - js-handler.js
+      - dashboard-renderer.js
+      - component-editor.js
+      - helper.js
+      - translator.js
   - templates
+    - component.html
     - index.html
 ```
 
@@ -75,7 +103,7 @@ Der `frontend/` folder soll alle Inhalte für das Frontend enthalten. Im `static
 statischen Inhalte hinterlegt. Der Unterordner `content/` soll daher ein JSON file enthalten, worin alle Texte spezifiziert
 werden, um die Templates zu entlasten und Redundanzen vermeiden zu können. Der Unterordner `css/` enthält seinem Namen
 entsprechend die CSS files, in denen alle Styles definiert werden - dies dient ebenfalls der Entlastung der Templates,
-in denen kein Inline-CSS verwendet werden soll. Im `images/` Unterordner sollen Bilder und Icons abgelegt werden, die
+in denen kein Inline-CSS verwendet werden soll. Der `i18next/` Ordner enthält die Dateien der Softwarebibliothek i18next, die für die Lokalisierung/Internationalisierung des Projekts verwendet wird. Im `images/` Unterordner sollen Bilder und Icons abgelegt werden, die
 im Frontend eingesetzt werden. Hierbei ist auf die Dateigröße der Bilder zu achten, die eine bestimmte Größe nicht
 überschreiten sollen. Der Unterordner `js/` enthält JavaScript Funktionen, die individuell in die Templates importiert
 werden können.\
@@ -87,13 +115,12 @@ angeknüpft werden.
 - .gitignore
 - app.yaml
 - cloudbuild.yaml
-- core.py
+- config.js
+- create-metrics.py
+```
+Konfigurationsdateien für verschiedene Tools.
 ```
 
-Die `core.py` ist die "Task Engine", die jegliche Logik enthält und Datenflüsse managed. Von hier werden alle Datenbank
-Funktionalitäten, alle Berechnungsfunktionen, alle Helper angesprochen und bedient.
-
-```
 - main.py
 ```
 

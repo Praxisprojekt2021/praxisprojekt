@@ -11,6 +11,7 @@ def get_component_list() -> str:
 
     :return: Returns a JSON object, structured as described in docu/JSON_objects_definitions.py
     """
+
     component_list_dict = component_handler.get_component_list()
     output_json = processing.dict_to_json(component_list_dict)
 
@@ -25,7 +26,8 @@ def get_component(input_dict: dict) -> str:
 
     :param input_dict: dict containing the component uid
     :type input_dict: dict
-    :return: Returns a JSON object, structured as described in docu/JSON_objects_definitions.py representing a component
+    :return: Returns a JSON object,
+    structured as described in docu/JSON_objects_definitions.py representing a component
     """
 
     component_dict = component_handler.get_component(input_dict)
@@ -76,11 +78,14 @@ def get_process_list() -> str:
     :return: Returns a JSON object, structured as described in docu/JSON_objects_definitions.py
     representing a process list
     """
+
     process_list_dict = process_handler.get_process_list()
 
-    # TODO: score und anzahl Komponenten dynamisch einfügen
-    process_list_dict["process"]["score"] = 80
-    process_list_dict["process"]["components_count"] = 4
+    # get the score and amount of components for each process
+    for process_sub_dict in process_list_dict["process"]:
+        process = get_process({'uid': process_sub_dict['uid']})
+        process_sub_dict["score"] = processing.type_conversion.json_to_dict(process)['score']
+        process_sub_dict["components_count"] = len(processing.type_conversion.json_to_dict(process)['process']['components'])
 
     output_json = processing.dict_to_json(process_list_dict)
 
@@ -95,7 +100,8 @@ def get_process(input_dict: dict) -> str:
 
     :param input_dict: dict containing the process uid
     :type input_dict: dict
-    :return: Returns a JSON object, structured as described in docu/JSON_objects_definitions.py representing a process
+    :returns: Returns a JSON object, structured as described in docu/JSON_objects_definitions.py representing a process
+    :rtype: str
     """
 
     process_dict = process_handler.get_process(input_dict)
@@ -104,7 +110,7 @@ def get_process(input_dict: dict) -> str:
     output_dict = processing.calculations.start_calculate_risk(process_dict, metrics_dict)
 
     output_json = processing.dict_to_json(output_dict)
-    
+
     return output_json
 
 
@@ -120,13 +126,13 @@ def create_edit_process(input_dict: dict) -> str:
     :return: A JSON object containing either the success state if False, otherwise calls get_process
     """
 
-    if input_dict["uid"] == "-1":
+    if input_dict["process"]["uid"] == "-1":
         result_dict = process_handler.add_process(input_dict)
-        output_object = get_process(result_dict["process_uid"])
+        output_object = get_process({'uid': result_dict["process_uid"]})
         return output_object
     else:
         result_dict = process_handler.update_process(input_dict)
-        output_object = get_process(input_dict["uid"])
+        output_object = get_process({'uid': input_dict["process"]["uid"]})
         return output_object
 
 
@@ -156,7 +162,7 @@ def add_process_reference(input_dict: dict) -> str:
 
     process_handler.add_process_reference(input_dict)
 
-    output_object = get_process(input_dict["process_uid"])
+    output_object = get_process({'uid': input_dict["process_uid"]})
     return output_object
 
 
@@ -171,7 +177,7 @@ def update_process_reference(input_dict: dict) -> str:
 
     process_handler.update_process_reference(input_dict)
 
-    output_object = get_process(input_dict["uid"])
+    output_object = get_process({'uid': input_dict["uid"]})
     return output_object
 
 
@@ -186,5 +192,5 @@ def delete_process_reference(input_dict: dict) -> str:
 
     process_handler.delete_process_reference(input_dict)
 
-    output_object = get_process(input_dict["uid"])
+    output_object = get_process({'uid': input_dict["uid"]})
     return output_object
