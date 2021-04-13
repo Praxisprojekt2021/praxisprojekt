@@ -1,5 +1,7 @@
-//Base url to distinguish between localhost and production environment
+// Base url to distinguish between localhost and production environment
 const base_url = window.location.origin;
+// instantiate object of helper class
+const helper = new Helper();
 
 /**
  * This function initializes the view and distinguishes between create and edit functionality
@@ -19,7 +21,7 @@ function init() {
         console.log('Editing existing component');
 
         // Trigger function which gathers component data and processes it
-        getComponentData(uid);
+        getComponent(uid);
     } else {
         // If not, prepare for new component input...
         console.log('Entering new component');
@@ -31,7 +33,7 @@ function init() {
 }
 
 /**
- * TODO comment here
+ *  Load Categories from file to get options for category dropdown.
  */
 
 function getCategoryDropdown() {
@@ -54,7 +56,7 @@ function getCategoryDropdown() {
 }
 
 /**
- * TODO comment here
+ * Load Features from file to create metrics section.
  */
 
 function getFeatures() {
@@ -62,48 +64,12 @@ function getFeatures() {
     fetch(base_url + '/content/mapping_metrics_definition.json')
         .then(response => response.json())
         .then(data => {
-            const categories = data['categories'];
             const features = data['features'];
 
-            Object.keys(features).forEach(function (key) {
-                let feature = features[key];
-                let metrics = feature['metrics'];
-
-                let div = document.createElement('div');
-                div.id = key;
-                div.className = 'feature-section';
-
-                let innerHTML = '';
-                innerHTML += '<div data-hover="" data-delay="0" class="accordion-item w-dropdown">';
-                innerHTML += '<div class="accordion-toggle w-dropdown-toggle" onclick="toggleSection(this)">';
-                innerHTML += '<div class="accordion-icon w-icon-dropdown-toggle"></div>';
-                innerHTML += ('<div class="features-label">' + feature['name'] + '</div>');
-                innerHTML += '</div>';
-                innerHTML += '<nav class="dropdown-list w-dropdown-list">';
-                innerHTML += '<div class="features-columns w-row">';
-
-                Object.keys(metrics).forEach(function (key) {
-                    let metric = metrics[key];
-                    innerHTML += '<div class="metric-entry-element w-clearfix">';
-                    innerHTML += ('<label for="availability-metric-7" class="entry-label">' + metric['name'] + '</label>');
-                    innerHTML += '<input type="text" maxLength="256" data-name="availability-metric-1" id="' + key + '"' +
-                        ' name="availability-metric-1" class="metric-input textfield w-input">';
-                    innerHTML += `<img src="images/info.png" loading="lazy" width="35" alt="" class="info-icon">`;
-                    innerHTML += '</div>';
-                });
-
-                innerHTML += '</div>';
-                innerHTML += '</nav>';
-                innerHTML += '</div>';
-                div.innerHTML = innerHTML;
-
-                // Append element to document
-                document.getElementById('metrics-input').appendChild(div);
-            });
-
+            helper.createMetricsSection(features);
             let div = document.createElement('div');
             div.className = 'control-area';
-            div.innerHTML = '<a href="#" data-wait="Bitte warten..." id="save-button" class="create-button w-button" onclick="saveComponent()">Speichern</a>';
+            div.innerHTML = '<a href="#" data-wait="Bitte warten..." id="save-button" class="create-button w-button" onclick="createEditComponent()">Speichern</a>';
 
             // Append element to document
             document.getElementById('metrics-input').appendChild(div);
@@ -116,11 +82,11 @@ function getFeatures() {
  * @param {string} uid: The uid of the component to get data for
  */
 
-function getComponentData(uid) {
+function getComponent(uid) {
     const post_data = {
         "uid": uid
     }
-    post_request('/component/view', JSON.stringify(post_data), processComponentData);
+    helper.post_request('/component/view', JSON.stringify(post_data), processComponentData);
 }
 
 /**
@@ -156,33 +122,6 @@ function processComponentData(json_data) {
 }
 
 /**
- * This function sends a post request to the backend
- *
- * @param {string} endpoint: The endpoint to be referred to
- * @param {string} data_json: The JSON Object to be passed to the backend
- * @param {function} callback: The function to be executed with the response
- */
-
-function post_request(endpoint, data_json, callback) {
-    const base_url = window.location.origin;
-    let xhttp = new XMLHttpRequest();
-    xhttp.open("POST", base_url + endpoint, true);
-    xhttp.setRequestHeader("Content-Type", "application/json");
-
-    // Handle response of HTTP-request
-    xhttp.onreadystatechange = function () {
-        if (this.readyState === XMLHttpRequest.DONE && (this.status >= 200 && this.status < 300)) {
-            // Process response and show sum in output field
-            let json = JSON.parse(this.responseText);
-            callback(json);
-        }
-    }
-
-    // Send HTTP-request
-    xhttp.send(data_json);
-}
-
-/**
  * This function enables and disables the component metrics for user input
  *
  * @param {string} selected_category: The component category selected in the dropdown
@@ -210,34 +149,23 @@ function setSections(selected_category) {
         });
 }
 
-/**
- * This functions toggles the accordion
- *
- * @param {HTMLElement} element: HTML accordion to be either opened oder closed
- */
-
-function toggleSection(element) {
-    const metric_child = element.parentElement.children[1];
-    if (metric_child.style.display === "block" || element.getAttribute("disabled") === "true") {
-        metric_child.style.display = "none";
-    } else {
-        metric_child.style.display = "block";
-        metric_child.style.position = "static";
-    }
-}
 
 /**
  * This function saves the data entered to the database by transmitting the data to the backend
  */
 
-function saveComponent() {
+function createEditComponent() {
+
+    document.getElementById('save-button').setAttribute("disabled","disabled");
+    document.getElementById('save-button').style.backgroundColor='grey';
+
     let metric_elements = document.getElementsByClassName('metric-input');
     let metrics = {};
     let text_replaced_flag = false; // Helper variable that indicates, whether or not a non quantitative metric input has been found and discarded
     for (let i = 0; i < metric_elements.length; i++) {
         // TODO also check if values are within min and max values
         // Replace non quantitative metric inputs with an emtpy string to have them discarded
-        if (metric_elements[i].value !== '' && ! parseFloat(metric_elements[i].value)) {
+        if (metric_elements[i].value !== '' && !parseFloat(metric_elements[i].value)) {
             metric_elements[i].value = '';
             text_replaced_flag = true;
         }
@@ -279,11 +207,14 @@ function saveComponent() {
                 }
             }
         }
+        if(document.getElementById("component-category").value == "default") {
+            required_helper_flag = false;
+        }
     }
 
     // If a input have been performend, post changes to backend
     if (required_helper_flag) {
-        post_request('/component/create_edit', JSON.stringify(component), saveCallback);
+        helper.post_request('/component/create_edit', JSON.stringify(component), saveCallback);
     } else {
         let alert_string = 'Changes could not be saved. Please fill all metrics fields.';
         if (text_replaced_flag === true) {
