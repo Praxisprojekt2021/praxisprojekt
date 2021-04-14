@@ -118,7 +118,10 @@ function processComponentData(json_data) {
 
         // Set sections according to the category
         setSections(json_data['category']);
-    }
+    }else {
+        // Request was not successful
+        window.alert('Component could not be loaded'); 
+}
 }
 
 /**
