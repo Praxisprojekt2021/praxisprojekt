@@ -61,6 +61,7 @@ class Process(StructuredNode):
 
     uid = UniqueIdProperty()
     name = StringProperty()
+    responsible_person = StringProperty()
     description = StringProperty()
     creation_timestamp = StringProperty()  # evtl. float
     last_timestamp = StringProperty()  # evtl. float
@@ -79,7 +80,7 @@ def get_process_list() -> dict:
     data = success_handler()
     processes = Process.nodes.all()
     processes_list = []
-    wanted_keys = ['uid', 'name', 'creation_timestamp', 'last_timestamp']
+    wanted_keys = ['uid', 'name', 'responsible_person', 'creation_timestamp', 'last_timestamp']
     for process in processes:
         process_dict = process.__dict__
         processes_list.append(dict((k, process_dict[k]) for k in wanted_keys if k in process_dict))
@@ -139,6 +140,7 @@ def add_process(input_dict: dict) -> dict:
 
     output = Process(
         name=input_dict["process"]["name"],
+        responsible_person = input_dict["process"]["responsible_person"],
         creation_timestamp=str(datetime.now()),
         last_timestamp=str(datetime.now()),
         description=input_dict["process"]["description"])
