@@ -168,6 +168,7 @@ def update_process(input_dict: dict) -> dict:
     uid = input_dict["process"]["uid"]
     process = Process.nodes.get(uid=uid)
     process.name = input_dict["process"]["name"]
+    process.responsible_person = input_dict["process"]["responsible_person"]
     process.description = input_dict["process"]["description"]
     process.last_timestamp = str(datetime.now())
     process.save()
