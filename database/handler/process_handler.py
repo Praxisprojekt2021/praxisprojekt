@@ -47,6 +47,8 @@ class Process(StructuredNode):
         process id
     name : str
         name of the process
+    responsible_person : str
+        name of the responsible person
     description : str
         description of the process
     creation_timestamp : str
