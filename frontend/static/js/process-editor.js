@@ -23,6 +23,8 @@ function init(json_process=false) {
         }
     });
 
+    visualizeProcess();
+
 }
 
 /**
@@ -652,4 +654,39 @@ function enter(ev) {
  */
 function exit(ev) {
     ev.target.parentElement.style.border = "inherit";
+}
+
+function visualizeProcess() {
+    let div = document.createElement("div");
+    let rectangle = "";
+    let arrowRight = `<div class="arrow">&#8594;</div>`;
+    let arrowDown = `<div class="arrow">&#8595;</div>`;
+    rectangle += `<div class="square-border"></div>`;
+    // Append element to document
+
+    let innerHTML = `
+        <table id="process-visualization" class="process-visualization" style="width:auto;">
+        <tr>
+            <td style="width: 150px;height: 150px">${rectangle}</td>
+            <td style="width: 150px;height: 150px">${arrowRight}</td>
+            <td style="width: 150px;height: 150px">${rectangle}</td>
+            <td style="width: 150px;height: 150px">${arrowRight}</td>
+            <td style="width: 150px;height: 150px">${rectangle}</td>
+            <td style="width: 150px;height: 150px">${arrowDown}</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td style="width: 150px;height: 150px">${rectangle}</td>
+        </tr>
+            </table>`;
+    div.innerHTML = innerHTML;
+
+    document.getElementById('modelling-process').appendChild(div);
+
+
+
 }

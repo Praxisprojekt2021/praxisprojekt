@@ -327,3 +327,20 @@
   font-size: 28px;
   font-weight: bolder;
 }
+
+.square-border {
+  background: #FFF;
+  border: 10px solid #037CA9;
+  height: 120px;
+  width: 120px;
+}
+
+.arrow {
+  font-size: 200px;
+}
+
+table .process-visualization {
+  column-width: 200px;
+  border: 1px solid black;
+}
+
