@@ -570,7 +570,7 @@ function deleteComponent(weight) {
         "weight": parseFloat(weight)
     }
 
-    helper.post_request("/process/edit/deletestep", JSON.stringify(data), init);
+    helper.post_request("/process/edit/deletestep", JSON.stringify(data), deleteCallback);
 }
 
 /**
@@ -653,3 +653,18 @@ function enter(ev) {
 function exit(ev) {
     ev.target.parentElement.style.border = "inherit";
 }
+
+/**
+ * Shows success/error message and reloads process-editor.
+ */
+ function deleteCallback(response) {
+    // Check if component has been deleted successfully
+        if (response['success']) {
+            // Component has been deleted successfully
+            window.alert('Object has been deleted.');
+            init();
+        } else {
+            // Component has not been deleted successfully
+            window.alert('Object could not be deleted.');
+        }
+    }
