@@ -3,45 +3,53 @@ class Modals {
     constructor() {
         this.oldprocesses = null;
         this.oldcomponents = null;
-        
-        // get current date
-        this.threemonth = new Date()
-        this.threemonth.setMonth(threemonth.getMonth()-3);
 
-       
+        // get current date
+        this.threemonth = new Date();
+
+        // Outdated threshold is currently set to 48 hours
+        // TODO update outdated threshold
+        this.threemonth.setHours(this.threemonth.getHours() - 48);
+        // this.threemonth.setMonth(this.threemonth.getMonth() - 3);
     }
 
     getProcessDate(json) {
-        this.oldprocesses = "";
-        json.process.forEach(function (object) {
-            var editdate = new Date(object.last_timestamp)
-            if(editdate<this.threemonth){
-                this.oldprocesses += object.name +"\n"    
+        this.oldprocesses = '';
+        Object.keys(json['process']).forEach(function (key) {
+            let process = json['process'][key];
+            let editdate = new Date(process['last_timestamp']);
+            if (editdate < this.threemonth) {
+                this.oldprocesses += process['name'] + '<br>';
             }
-        });
+        }, this);
+        this.isFilled();
     }
-    
+
     getComponentDate(json) {
-        this.oldcomponents = "";
-        json.components.forEach(function (object) {
-            var editdate = new Date(object.last_timestamp)
-            if(editdate<this.threemonth){
-                this.oldcomponents += object.name +"\n"    
-            } 
-        });
+        this.oldcomponents = '';
+        Object.keys(json['components']).forEach(function (key) {
+            let component = json['components'][key];
+            let editdate = new Date(component['last_timestamp']);
+            if (editdate < this.threemonth) {
+                this.oldcomponents += component['name'] + '<br>';
+            }
+        }, this);
+        this.isFilled();
     }
 
     isFilled() {
-        if (this.oldcomponents !== null && this.oldprocesses !== null) showModal();
+        if (this.oldcomponents !== null && this.oldprocesses !== null
+            && (this.oldcomponents !== '' || this.oldprocesses !== '')) {
+            this.showModal();
+        }
     }
 
     showModal() {
         // Modal dynamisch erstellen
-        let innerHTML = `The following entries might be outdated:<br>`;
-        if  (this.oldprocesses != "") innerHTML += this.oldprocesses + `<br>`;
-        if  (this.oldcomponents != "") innerHTML += this.oldcomponents + `<br>`;
+        let innerHTML = `The following entries might be outdated:<br><br>`;
+        if (this.oldprocesses !== '') innerHTML += this.oldprocesses + `<br>`;
+        if (this.oldcomponents !== '') innerHTML += this.oldcomponents + `<br>`;
         innerHTML += `Please check metric inputs for validity and confirm the correct values by re-saving your inputs.`;
-
         document.getElementById("modal_text").innerHTML = innerHTML;
         modal.style.display = "block";
     }
@@ -49,8 +57,7 @@ class Modals {
 }
 
 document.write('<div id=modaldiv></div>');
-document.getElementById('modaldiv').innerHTML =  `<div class="center">
-<button id="modalbtn" class="button" data-i18n="remindertest"></button>
+document.getElementById('modaldiv').innerHTML = `<div class="center">
 <div id="modal" class="modal"><div class="modal-content">
 <span class="close">&times;</span>
 <p id="modal_text"></p></div></div></div>`;
@@ -58,29 +65,22 @@ document.getElementById('modaldiv').innerHTML =  `<div class="center">
 // Get the modal
 var modal = document.getElementById("modal");
 
-// Get the button that opens the modal
-var modalbtn = document.getElementById("modalbtn");
-
 // Get the <span> element that closes the modal
 var span = document.getElementsByClassName("close")[0];
 
 // Open modal every 2 hours
-setInterval(function(){
-    modal.style.display = "block";},7200000);
-
-// When the user clicks on the test button, open the modal
-modalbtn.onclick = function() {
-  modal.style.display = "block";
-}
+setInterval(function () {
+    modal.style.display = "block";
+}, 7200000);
 
 // When the user clicks on <span> (x), close the modal
-span.onclick = function() {
-  modal.style.display = "none";
+span.onclick = function () {
+    modal.style.display = "none";
 }
 
 // When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-  if (event.target == modal) {
-    modal.style.display = "none";
-  }
+window.onclick = function (event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
 }

@@ -64,8 +64,6 @@
             "confidentiality": "Confidentiality",
             "number-of-administrators": "Number of administrators",
             "encryption": "Encryption",
-            "remindertest": "Reminder test",
-            "reminder": "Please update the actual metrics of the components and the target metrics of the processes regularly.",
             "homepage": "Praxisprojekt 2021 - Homepage"
         }
     }

@@ -362,7 +362,7 @@ function createEditProcess() {
         const input = toggles[i].value;
 
         // Check if enabled fields have been filled - all fields are required
-        // TODO: decide wether or not this is true
+        // TODO: decide whether or not this is true
         /*if (toggles[i].value === '') {
             console.log(toggles[i].id);
             required_helper_flag = false;
