@@ -118,10 +118,10 @@ function processComponentData(json_data) {
 
         // Set sections according to the category
         setSections(json_data['category']);
-    }else {
+    } else {
         // Request was not successful
-        window.alert('Component could not be loaded'); 
-}
+        window.alert('Component could not be loaded');
+    }
 }
 
 /**
@@ -159,8 +159,8 @@ function setSections(selected_category) {
 
 function createEditComponent() {
 
-    document.getElementById('save-button').setAttribute("disabled","disabled");
-    document.getElementById('save-button').style.backgroundColor='grey';
+    document.getElementById('save-button').setAttribute("disabled", "disabled");
+    document.getElementById('save-button').style.backgroundColor = 'grey';
 
     let metric_elements = document.getElementsByClassName('metric-input');
     let metrics = {};
@@ -210,7 +210,7 @@ function createEditComponent() {
                 }
             }
         }
-        if(document.getElementById("component-category").value == "default") {
+        if (document.getElementById("component-category").value == "default") {
             required_helper_flag = false;
         }
     }
