@@ -323,8 +323,6 @@ function renderWholeProcessScoreCircle(wholeProcessScore) {
 
 function createEditProcess() {
 
-    document.getElementById('save-button').setAttribute("disabled","disabled");
-    document.getElementById('save-button').style.backgroundColor='grey';
 
 
     let metric_elements = document.getElementsByName('target-average');
@@ -362,13 +360,6 @@ function createEditProcess() {
     for (let i = 0; i < toggles.length; i++) {
         console.log(toggles[i].value);
         const input = toggles[i].value;
-
-        // Check if enabled fields have been filled - all fields are required
-        // TODO: decide wether or not this is true
-        /*if (toggles[i].value === '') {
-            console.log(toggles[i].id);
-            required_helper_flag = false;
-        }*/
     }
 
     // If a input has been performed, post changes to backend

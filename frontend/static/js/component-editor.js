@@ -159,9 +159,6 @@ function setSections(selected_category) {
 
 function createEditComponent() {
 
-    document.getElementById('save-button').setAttribute("disabled", "disabled");
-    document.getElementById('save-button').style.backgroundColor = 'grey';
-
     let metric_elements = document.getElementsByClassName('metric-input');
     let metrics = {};
     let text_replaced_flag = false; // Helper variable that indicates, whether or not a non quantitative metric input has been found and discarded
@@ -210,7 +207,8 @@ function createEditComponent() {
                 }
             }
         }
-        if (document.getElementById("component-category").value == "default") {
+      
+        if(document.getElementById("component-category").value === "default") {
             required_helper_flag = false;
         }
     }
