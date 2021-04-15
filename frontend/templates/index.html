@@ -56,20 +56,10 @@
     <button class="button" type="button" onclick="addComponent()" data-i18n="add"></button>
 </div>
 
-  <!-- Modal reminder und test button für die Produktpräsentation  -->
-  <div class="center">
-    <button id="modalbtn" class="button" data-i18n="remindertest"></button>
-    <div id="modal" class="modal">
-        <div class="modal-content">
-         <span class="close">&times;</span>
-         <p data-i18n="reminder"></p>
-    </div>
-    </div>
-
-    </div>
 
 <script src="{{ url_for('static', filename='js/helper.js') }}"></script>
 <script src="{{ url_for('static', filename='js/dashboard-renderer.js') }}"></script>
 <script type="module" src="{{ url_for('static', filename='js/translator.js') }}"></script>
+<script src="{{ url_for('static', filename='js/modals.js') }}"></script>
 </body>
 </html>
