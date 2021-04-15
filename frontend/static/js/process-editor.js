@@ -82,6 +82,8 @@ function getProcess(features) {
         xhttp.open("POST", base_url + "/process/view", true);
         xhttp.setRequestHeader("Content-Type", "application/json");
 
+        // TODO: auslagern in helper js
+
         // Handle response of HTTP-request
         xhttp.onreadystatechange = function () {
             if (this.readyState === XMLHttpRequest.DONE && (this.status >= 200 && this.status < 300)) {
@@ -540,6 +542,7 @@ function addComponent() {
         helper.post_request("/process/edit/createstep", JSON.stringify(data), init);
     } else {
         // Please select a component from the dropdown.
+        // TOdO: Fill with something?
     }
 }
 
@@ -570,7 +573,7 @@ function deleteComponent(weight) {
         "weight": parseFloat(weight)
     }
 
-    helper.post_request("/process/edit/deletestep", JSON.stringify(data), init);
+    helper.post_request("/process/edit/deletestep", JSON.stringify(data), deleteCallback);
 }
 
 /**
@@ -652,4 +655,19 @@ function enter(ev) {
  */
 function exit(ev) {
     ev.target.parentElement.style.border = "inherit";
+}
+
+/**
+ * Shows success/error message and reloads process-editor.
+ */
+ function deleteCallback(response) {
+    // Check if component has been deleted successfully
+    if (response['success']) {
+        // Component has been deleted successfully
+        window.alert('Object has been deleted.');
+        init(response);
+    } else {
+        // Component has not been deleted successfully
+        window.alert('Object could not be deleted.');
+    }
 }
