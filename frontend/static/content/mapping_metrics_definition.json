@@ -123,6 +123,8 @@
           "fulfilled_if": ">",
           "max_value": -1,
           "min_value": 0,
+          "description_component": "Number of different test cases.",
+          "example_component": "The absolute number of test cases is 30. The entry of 30 is made",
           "helper_text": "The absolute number of test cases is 30. The entry of 30 is made"
         },
         "test_scope": {
@@ -130,6 +132,8 @@
           "fulfilled_if": ">",
           "max_value": -1,
           "min_value": 0,
+          "description_component": "Duration of the test activities (in hours).",
+          "example_component": "The total test duration (sum) was 400 hours. The input of 400 is made.",
           "helper_text": "The total test duration (sum) was 400 hours. The input of 400 is made."
         }
       }
@@ -142,6 +146,8 @@
           "fulfilled_if": ">",
           "max_value": -1,
           "min_value": 0,
+          "description_component":"Time to implement post-release updates (average) until they are implemented (in days).",
+          "example_component": "It takes (on average) 27 days for updates to be implemented after release. The entry of 27 will be made.",
           "helper_text": "It takes (on average) 27 days for updates to be implemented after release. The entry of 27 will be made."
         },
         "external_support": {
@@ -149,6 +155,8 @@
           "fulfilled_if": ">",
           "max_value": 1,
           "min_value": 0,
+          "description_component":"Is external support available?",
+          "example_component": "If this is the case, an input of 1, otherwise 0, follows.",
           "helper_text": "If this is the case, an input of 1, otherwise 0, follows."
         },
         "internal_support": {
@@ -156,6 +164,8 @@
           "fulfilled_if": ">",
           "max_value": 1,
           "min_value": 0,
+          "description_component": "Is internal support available?",
+          "example_component": "If this is the case, an input of 1, otherwise 0, follows.",
           "helper_text": "If this is the case, an input of 1, otherwise 0, follows."
         }
       }
@@ -168,6 +178,8 @@
           "fulfilled_if": "<",
           "max_value": -1,
           "min_value": 0,
+          "description_component": "Number of average requests that the component can handle per day.",
+          "example_component": "The component can handle 100,000 average requests per day. Input 100,000 is entered.",
           "helper_text": "The component can handle 100,000 average requests per day. Input 100,000 is entered."
         },
         "restart": {
@@ -175,6 +187,8 @@
           "fulfilled_if": "<",
           "max_value": -1,
           "min_value": 0,
+          "description_component": "Duration of a full restart of the component (in minutes).", 
+          "example_component": "It takes 24 minutes to restart the component. The input of 24 is made.", 
           "helper_text": "It takes 24 minutes to restart the component. The input of 24 is made."
         },
         "downtime": {
@@ -182,6 +196,18 @@
           "fulfilled_if": "<",
           "max_value": 525600,
           "min_value": 0,
+          "description_component": "Downtime within the last year incl. repair work (in minutes).
+          Availability 90%: 52,595 min
+          Availability 95%: 26,298 min
+          Availability 99%: 5,256 min 
+          Availability 99.9%: 525.6 min
+          Availability 99.99%: 52.56 min
+          Verfügbarkeit 90%: 52.595 min
+          Verfügbarkeit 95%: 26.298 min
+          Verfügbarkeit 99%: 5.256 min 
+          Verfügbarkeit 99,9%: 525,6 min
+          Verfügbarkeit 99,99%: 52,56 min",
+          "example_component": "The total downtime of the component last year. If the component's availability was 99%, the input is 5,256 [min]."
           "helper_text": "The total downtime of the component last year. If the component's availability was 99%, the input is 5,256 [min]."
         },
         "maximum_downtime_at_a_time": {
@@ -189,6 +215,8 @@
           "fulfilled_if": "<",
           "max_value": 525600,
           "min_value": 0,
+          "description_component":"Duration of maximum downtime at a time during the last year incl. repair work (in minutes).", 
+          "example_component": "In the case of several failures per year, the entry for the longest consecutive downtime follows. If a component has failed for a maximum of 180min and 420min, an input of 420 follows.", 
           "helper_text": "In the case of several failures per year, the entry for the longest consecutive downtime follows. If a component has failed for a maximum of 180min and 420min, an input of 420 follows."
         },
         "time_between_failures": {
@@ -196,6 +224,9 @@
           "fulfilled_if": ">",
           "max_value": -1,
           "min_value": 0,
+          "description_component": "Average duration between crashes within the last year (in days).
+          ", 
+          "example_component": "With 5 failures per year, the average time between failures is 73 [days] (365/5).",
           "helper_text": "With 5 failures per year, the average time between failures is 73 [days] (365/5)."
         },
         "restore_time": {
@@ -203,6 +234,8 @@
           "fulfilled_if": "<",
           "max_value": -1,
           "min_value": 0,
+          "description_component":"Average duration, after a failure, until the component is functional again, including repair work (in minutes).",
+          "example_component": "If the recovery for components lasts 36 minutes, an input of 36 minutes follows. ",
           "helper_text": "If the recovery for components lasts 36 minutes, an input of 36 minutes follows."
         },
         "planned_maintenance_percentage": {
@@ -210,6 +243,8 @@
           "fulfilled_if": "<",
           "max_value": -1,
           "min_value": 0,
+          "description_component":"Ratio between total maintenance hours per year and planned maintenance hours per year.",
+          "example_component": "If the recovery for components lasts 36 minutes, an input of 36 minutes follows. ",
           "helper_text": "If 10 hours of maintenance were planned, but 12 hours of maintenance were performed, the input of 120 [%] follows."
         },
         "redundancy": {
@@ -217,6 +252,10 @@
           "fulfilled_if": ">",
           "max_value": 1,
           "min_value": 0,
+          "description_component":"Is the component redundant?
+          ",
+          "example_component": "If this is the case, an input of 1, otherwise 0, follows.
+          ",
           "helper_text": "If this is the case, an input of 1, otherwise 0, follows."
         }
       }
@@ -229,6 +268,8 @@
           "fulfilled_if": ">",
           "max_value": -1,
           "min_value": 0,
+          "description_component":"Number of administrators for the component.",
+          "example_component": "If there are 4 administrators for a component, an input of 4 follows. If an administrator is responsible for multiple components, he will be considered as a single administrator for each component.",
           "helper_text": "If there are 4 administrators for a component, an input of 4 follows. If an administrator is responsible for multiple components, he will be considered as a single administrator for each component."
         },
         "encryption": {
@@ -236,6 +277,8 @@
           "fulfilled_if": ">",
           "max_value": 1,
           "min_value": 0,
+          "description_component":"Is the data sufficiently encrypted?",
+          "example_component": "If this is the case, an input of 1, otherwise 0, follows.",
           "helper_text": "If this is the case, an input of 1, otherwise 0, follows."
         }
       }
