@@ -662,12 +662,12 @@ function exit(ev) {
  */
  function deleteCallback(response) {
     // Check if component has been deleted successfully
-        if (response['success']) {
-            // Component has been deleted successfully
-            window.alert('Object has been deleted.');
-            init(response);
-        } else {
-            // Component has not been deleted successfully
-            window.alert('Object could not be deleted.');
-        }
+    if (response['success']) {
+        // Component has been deleted successfully
+        window.alert('Object has been deleted.');
+        init(response);
+    } else {
+        // Component has not been deleted successfully
+        window.alert('Object could not be deleted.');
     }
+}
