@@ -91,7 +91,8 @@ class Helper {
                 innerHTML += ('<label for="availability-metric" class="entry-label">' + metric['name'] + '</label>');
                 innerHTML += '<input type="text" maxLength="256" data-name="availability-metric-1" id="' + key + '"' +
                     ' name="availability-metric" class="metric-input textfield">';
-                innerHTML += `<img src="images/info.png" loading="lazy" width="35" alt="" class="info-icon">`;
+                innerHTML += '<img src="images/info.png" loading="lazy" width="35" alt="" title="'+ 
+                    metric['description_component'] +'\ni.e. '+metric['example_component'] +'"class="info-icon">';
                 innerHTML += '</div>';
             });
 

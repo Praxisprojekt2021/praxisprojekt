@@ -131,7 +131,7 @@
           "fulfilled_if": ">",
           "max_value": 100,
           "min_value": 0,
-          "description_component": "The ratio between detected errors before release and totality of all errors. Good index: 90% of errors were detected before the release.",
+          "description_component": "The ratio between detected errors before release and totality of all errors. \nGood index: 90% of errors were detected before the release.",
           "example_component": "With 15 detected errors before the release, out of a total of 20 errors, an input of 75 [%] follows.",
           "helper_text": "With 15 detected errors before the release, out of a total of 20 errors, an input of 75 [%] follows."
         },
@@ -222,18 +222,8 @@
           "fulfilled_if": "<",
           "max_value": 525600,
           "min_value": 0,
-          "description_component": "Downtime within the last year incl. repair work (in minutes).
-          Availability 90%: 52,595 min
-          Availability 95%: 26,298 min
-          Availability 99%: 5,256 min 
-          Availability 99.9%: 525.6 min
-          Availability 99.99%: 52.56 min
-          Verfügbarkeit 90%: 52.595 min
-          Verfügbarkeit 95%: 26.298 min
-          Verfügbarkeit 99%: 5.256 min 
-          Verfügbarkeit 99,9%: 525,6 min
-          Verfügbarkeit 99,99%: 52,56 min",
-          "example_component": "The total downtime of the component last year. If the component's availability was 99%, the input is 5,256 [min]."
+          "description_component": "Downtime within the last year incl. repair work (in minutes).\n>vailability 90%: 52,595 min\nAvailability 95%: 26,298 min\nAvailability 99%: 5,256 min\nAvailability 99.9%: 525.6 min \nAvailability 99.99%: 52.56 min",
+          "example_component": "The total downtime of the component last year. If the component's availability was 99%, the input is 5,256 [min].",
           "helper_text": "The total downtime of the component last year. If the component's availability was 99%, the input is 5,256 [min]."
         },
         "maximum_downtime_at_a_time": {
@@ -250,8 +240,7 @@
           "fulfilled_if": ">",
           "max_value": -1,
           "min_value": 0,
-          "description_component": "Average duration between crashes within the last year (in days).
-          ", 
+          "description_component": "Average duration between crashes within the last year (in days).", 
           "example_component": "With 5 failures per year, the average time between failures is 73 [days] (365/5).",
           "helper_text": "With 5 failures per year, the average time between failures is 73 [days] (365/5)."
         },
@@ -278,10 +267,8 @@
           "fulfilled_if": ">",
           "max_value": 1,
           "min_value": 0,
-          "description_component":"Is the component redundant?
-          ",
-          "example_component": "If this is the case, an input of 1, otherwise 0, follows.
-          ",
+          "description_component":"Is the component redundant?",
+          "example_component": "If this is the case, an input of 1, otherwise 0, follows.",
           "helper_text": "If this is the case, an input of 1, otherwise 0, follows."
         }
       }
