@@ -20,6 +20,12 @@
     </header>
     <div class="process-overview" id="process-overview">
 
+        <div class="loader-wrapper-hidden" id="loader-wrapper">
+            <span class="loader"><span class="loader-inner"></span></span>
+            <div class="loader-text">Loading...</div>
+        </div>
+    
+
         <div class="view-description-label">Prozessview</div>
         <div class="view-description-label" style="font-size: 13px;" >Beschreibung</div>
         <div class="process-form-block">
@@ -61,7 +67,7 @@
                     </div>
                     <div class="select-line">
                         <select id="addposition"  class="postion-dropdown" ></select>
-                        <button class="button" type="button" onclick="addComponent()">+</button>
+                        <button class="button" type="button" onclick="addComponent(); helper.showLoadingScreen()">+</button>
                     </div>
                 </div>
                 <div id="control-panel-process">

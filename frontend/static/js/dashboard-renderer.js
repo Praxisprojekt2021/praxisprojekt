@@ -14,15 +14,16 @@ document.addEventListener("DOMContentLoaded", init(), false);
 /**
  * Get component and process Data from Back-End and then populate the tables.
  */
-function init() {
+function init(){
     getComponentList();
-    getProcessList();
+    getProcessList();    
 }
 
 /**
  * Get processes data from Back-End and then populate the processes table in FE.
  */
 function getProcessList() {
+    helper.showLoadingScreen();
     helper.get_request("/process/overview", refreshProcessTable);
 }
 
@@ -52,6 +53,7 @@ function refreshProcessTable(json) {
             '<td>' + renderDeleteProcessButton(object.uid) + '</td>';
         table.appendChild(tr);
     });
+    helper.hideLoadingScreen();
 }
 
 /**

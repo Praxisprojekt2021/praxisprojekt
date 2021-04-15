@@ -18,6 +18,7 @@ function init() {
     // Check if view has received an uid as URL parameter to check whether to create a new component or edit an existing one
     if (uid && uid.length === 32) {
         // If so, load component data...
+        helper.showLoadingScreen();
         console.log('Editing existing component');
 
         // Trigger function which gathers component data and processes it
@@ -69,7 +70,7 @@ function getFeatures() {
             helper.createMetricsSection(features);
             let div = document.createElement('div');
             div.className = 'control-area';
-            div.innerHTML = '<a href="#" data-wait="Bitte warten..." id="save-button" class="create-button w-button" onclick="createEditComponent()">Speichern</a>';
+            div.innerHTML = '<a href="#" data-wait="Bitte warten..." id="save-button" class="create-button w-button" onclick="createEditComponent(); helper.showLoadingScreen()">Speichern</a>';
 
             // Append element to document
             document.getElementById('metrics-input').appendChild(div);
@@ -147,6 +148,7 @@ function setSections(selected_category) {
                 }
             });
         });
+    helper.hideLoadingScreen();
 }
 
 
@@ -155,7 +157,6 @@ function setSections(selected_category) {
  */
 
 function createEditComponent() {
-
     document.getElementById('save-button').setAttribute("disabled","disabled");
     document.getElementById('save-button').style.backgroundColor='grey';
 
@@ -231,6 +232,7 @@ function createEditComponent() {
  */
 
 function saveCallback(response) {
+    helper.hideLoadingScreen();
     // Check if component has been created/edited successfully
     if (response['success']) {
         // Component has been created/edited successfully

@@ -166,4 +166,23 @@ class Helper {
             metric_child.style.position = "static";
         }
     }
+
+    /**
+     * This functions hides the loading animation
+     */
+
+    hideLoadingScreen() {
+        let element = document.getElementById('loader-wrapper');
+        element.setAttribute("class","loader-wrapper-hidden");
+    }
+
+    /**
+     * This functions shows the loading animation
+     */
+
+    showLoadingScreen() {
+        let element = document.getElementById('loader-wrapper');
+        element.setAttribute("class","loader-wrapper");
+    }
+
 }

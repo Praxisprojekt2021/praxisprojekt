@@ -14,6 +14,8 @@ let uid = url.searchParams.get('uid');
  */
 function init(json_process=false) {
 
+    helper.showLoadingScreen();
+
     getFeatures().then(data => {
         if (!json_process) {
             getProcess(data);
@@ -49,7 +51,7 @@ async function getFeatures() {
             } else {
                 buttonType = "Create";
             }
-            div.innerHTML = `<button id="save-button" class="create-button" onclick="createEditProcess()" type="button">${buttonType}</button>`//'<button="#" data-wait="Bitte warten..." id="save-button" class="create-button w-button" onclick="saveComponent()">Speichern</a>';
+            div.innerHTML = `<button id="save-button" class="create-button" onclick="createEditProcess(); helper.showLoadingScreen()" type="button">${buttonType}</button>`//'<button="#" data-wait="Bitte warten..." id="save-button" class="create-button w-button" onclick="saveComponent()">Speichern</a>';
 
             // Append element to document
             document.getElementById('buttons').appendChild(div);
@@ -94,6 +96,7 @@ function getProcess(features) {
         xhttp.send(post_data);
     } else {
         // If not, prepare for new component input...
+        helper.hideLoadingScreen();
         let processData = {};
         createMetricsSection(features, processData);
         console.log('Entering new process');
@@ -227,6 +230,7 @@ function createMetricsSection(features, processData) {
         // Append element to document
         document.getElementById('metrics-input-processes').appendChild(div);
     });
+    helper.hideLoadingScreen();
 }
 
 /**
@@ -400,6 +404,7 @@ function saveProcess(data) {
 
 function saveCallback(response) {
     // Check if process has been created/edited successfully
+    helper.hideLoadingScreen();
     if (response['success']) {
         // Component has been created/edited successfully
         window.alert('Changes were saved.');
@@ -481,7 +486,7 @@ function createComponentTable(processData, metricsDefinition) {
             <td></td>
             <td></td>
             <td></td>
-            <td><i id="TrashIcon" class="fas fa-trash-alt" onclick="deleteComponent(this.parentElement.parentElement.id)"></i></td>
+            <td><i id="TrashIcon" class="fas fa-trash-alt" onclick="deleteComponent(this.parentElement.parentElement.id); helper.showLoadingScreen()"></i></td>
         `;
 
         const componentTable = document.getElementById('ComponentOverviewTable');
@@ -622,6 +627,7 @@ function drop(ev) {
     element.id = newWeight;
     element.children[0].innerHTML = newWeight;
 
+    helper.showLoadingScreen();
     editComponent(oldWeight, newWeight);
 }
 
