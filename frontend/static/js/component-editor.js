@@ -213,7 +213,6 @@ function createEditComponent() {
     // If a input have been performend, post changes to backend
     if (required_helper_flag) {
         document.getElementById('save-button').setAttribute("disabled","disabled");
-        document.getElementById('save-button').style.backgroundColor='grey';
         helper.post_request('/component/create_edit', JSON.stringify(component), saveCallback);
     } else {
         let alert_string = 'Changes could not be saved. Please fill all metrics fields.';

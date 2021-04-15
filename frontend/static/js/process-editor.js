@@ -321,8 +321,6 @@ function renderWholeProcessScoreCircle(wholeProcessScore) {
 
 function createEditProcess() {
 
-    document.getElementById('save-button').setAttribute("disabled","disabled");
-    document.getElementById('save-button').style.backgroundColor='grey';
 
 
     let metric_elements = document.getElementsByName('target-average');
@@ -371,6 +369,7 @@ function createEditProcess() {
 
     // If a input has been performed, post changes to backend
     if (required_helper_flag) {
+        document.getElementById('save-button').setAttribute("disabled","disabled");
         console.log(process);
         saveProcess(process);
     } else {
