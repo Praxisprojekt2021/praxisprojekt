@@ -15,7 +15,7 @@ class Helper {
 
         // Handle response of HTTP-request
         xhttp.onreadystatechange = function () {
-            if (this.readyState === XMLHttpRequest.DONE && (this.status >= 200 && this.status < 300)) {
+            if (this.readyState === XMLHttpRequest.DONE && (this.status >= 200 && this.status < 300 || this.status === 500)) {
                 // Process response and show sum in output field
                 let json = JSON.parse(this.responseText);
                 callback(json);
