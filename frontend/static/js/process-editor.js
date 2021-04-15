@@ -661,26 +661,29 @@ function visualizeProcess() {
     let rectangle = "";
     let arrowRight = `<div class="arrow">&#8594;</div>`;
     let arrowDown = `<div class="arrow">&#8595;</div>`;
-    rectangle += `<div class="square-border"></div>`;
+    let arrowLeft = `<div class="arrow">&#8592;</div>`;
+    let arrowRightDown = `<div class="arrow">&#8628;<div>`;
+
+    rectangle += `<div class="square-border">Prozess<br><br>Kategorie</div>`;
     // Append element to document
 
     let innerHTML = `
-        <table id="process-visualization" class="process-visualization" style="width:auto;">
-        <tr>
-            <td style="width: 150px;height: 150px">${rectangle}</td>
-            <td style="width: 150px;height: 150px">${arrowRight}</td>
-            <td style="width: 150px;height: 150px">${rectangle}</td>
-            <td style="width: 150px;height: 150px">${arrowRight}</td>
-            <td style="width: 150px;height: 150px">${rectangle}</td>
-            <td style="width: 150px;height: 150px">${arrowDown}</td>
+        <table id="process-visualization" class="process-visualization" style="width:auto;border:none">
+        <tr style="height: 150px;">
+            <td style="width: 150px;height: 150px; border: 0px;">${rectangle}</td>
+            <td style="width: 150px;height: 150px;  border: 0px;">${arrowRight}</td>
+            <td style="width: 150px;height: 150px;  border: 0px;">${rectangle}</td>
+            <td style="width: 150px;height: 150px;  border: 0px;">${arrowRight}</td>
+            <td style="width: 150px;height: 150px;  border: 0px;">${rectangle}</td>
+            <td style="width: 150px;height: 150px;  border: 0px;">${arrowRightDown}</td>
         </tr>
         <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td style="width: 150px;height: 150px">${rectangle}</td>
+            <td style="width: 150px;height: 150px; border: 0px;"></td>
+            <td style="width: 150px;height: 150px; border: 0px;"></td>
+            <td style="width: 150px;height: 150px; border: 0px;"></td>
+            <td style="width: 150px;height: 150px;  border: 0px;">${rectangle}</td>
+            <td style="width: 150px;height: 150px; border: 0px;">${arrowLeft}</td>
+            <td style="width: 150px;height: 150px; border: 0px;">${rectangle}</td>
         </tr>
             </table>`;
     div.innerHTML = innerHTML;

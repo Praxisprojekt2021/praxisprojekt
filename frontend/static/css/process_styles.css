@@ -333,14 +333,18 @@
   border: 10px solid #037CA9;
   height: 120px;
   width: 120px;
+  text-align: center;
 }
 
 .arrow {
-  font-size: 200px;
+  font-size: 120px;
+  /*height: 120px;*/
+  margin: 20px;
+  vertical-align: middle;
 }
 
 table .process-visualization {
   column-width: 200px;
-  border: 1px solid black;
+  border: 0px solid black;
 }
 
