@@ -205,14 +205,13 @@ function createEditComponent() {
                 }
             }
         }
-        if(document.getElementById("component-category").value == "default") {
+        if(document.getElementById("component-category").value === "default") {
             required_helper_flag = false;
         }
     }
 
     // If a input have been performend, post changes to backend
     if (required_helper_flag) {
-        document.getElementById('save-button').setAttribute("disabled","disabled");
         helper.post_request('/component/create_edit', JSON.stringify(component), saveCallback);
     } else {
         let alert_string = 'Changes could not be saved. Please fill all metrics fields.';

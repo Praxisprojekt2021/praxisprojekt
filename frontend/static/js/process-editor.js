@@ -358,18 +358,10 @@ function createEditProcess() {
     for (let i = 0; i < toggles.length; i++) {
         console.log(toggles[i].value);
         const input = toggles[i].value;
-
-        // Check if enabled fields have been filled - all fields are required
-        // TODO: decide wether or not this is true
-        /*if (toggles[i].value === '') {
-            console.log(toggles[i].id);
-            required_helper_flag = false;
-        }*/
     }
 
     // If a input has been performed, post changes to backend
     if (required_helper_flag) {
-        document.getElementById('save-button').setAttribute("disabled","disabled");
         console.log(process);
         saveProcess(process);
     } else {
