@@ -8,7 +8,7 @@
           "fulfilled_if": "<",
           "max_value": -1,
           "min_value": 0,
-          "description_component": "Sum of actual lines of code, excl. empty & comment lines",
+          "description_component": "Sum of actual lines of code, excl. empty & comment lines.",
           "example_component": "For a total batch of 100 lines of code, with 10 blank and comment lines, an input of 80 follows.",
           "helper_text": "For a total batch of 100 lines of code, with 10 blank and comment lines, an input of 80 follows."
         },
@@ -17,6 +17,8 @@
           "fulfilled_if": "<",
           "max_value": -1,
           "min_value": 0,
+          "description_component": "Average development time of a patch (in developer days).",
+          "example_component": "If three developers work on a patch for three days, the input 9 follows [Developer days].",
           "helper_text": "Average development time of a patch in developer days"
         },
         "code_review_frequency": {
@@ -24,6 +26,8 @@
           "fulfilled_if": ">",
           "max_value": 365,
           "min_value": 0,
+          "description_component": "Number of code reviews per year.",
+          "example_component": "If there are 3 code reviews per month, 36 will be entered.",
           "helper_text": "If there are 3 code reviews per month, 36 will be entered."
         },
         "comment_quality": {
@@ -31,6 +35,8 @@
           "fulfilled_if": ">",
           "max_value": 100,
           "min_value": 0,
+          "description_component": "Ratio between comment lines and number of lines of source code incl. comment lines (in %).",
+          "example_component": "For a total of 100 lines of code with 10 comment lines, the input is 10 [%].",
           "helper_text": "For a total of 100 lines of code with 10 comment lines, the input is 10 [%]."
         }
       }
@@ -43,6 +49,8 @@
           "fulfilled_if": ">",
           "max_value": -1,
           "min_value": 0,
+          "description_component": "Number of backup creations per month.",
+          "example_component": "If a backup is created every day, an input of 30 (rounded) follows.",
           "helper_text": "If a backup is created every day, an input of 30 (rounded) follows."
         },
         "change_tracking": {
@@ -50,6 +58,8 @@
           "fulfilled_if": ">",
           "max_value": 1,
           "min_value": 0,
+          "description_component": "Are changes recorded / logged in the component.",
+          "example_component": "If this is the case, an input of 1, otherwise 0, follows.",
           "helper_text": "If this is the case, an input of 1, otherwise 0, follows."
         },
         "patch_status_check": {
@@ -57,6 +67,8 @@
           "fulfilled_if": ">",
           "max_value": -1,
           "min_value": 0,
+          "description_component": "Number of system checks for patch status per month.",
+          "example_component": "If the patch status is checked 5 times per month, the input is 5.",
           "helper_text": "If the patch status is checked 5 times per month, the input is 5."
         }
       }
@@ -69,6 +81,8 @@
           "fulfilled_if": ">",
           "max_value": -1,
           "min_value": 0,
+          "description_component": "Number of user complaints per month.",
+          "example_component": "With a total of 15 user complaints per month, an entry of 15 follows.",
           "helper_text": "With a total of 15 user complaints per month, an entry of 15 follows."
         },
         "training": {
@@ -76,6 +90,8 @@
           "fulfilled_if": ">",
           "max_value": 1,
           "min_value": 0,
+          "description_component": "Have all users of the component been adequately trained?",
+          "example_component": "If this is the case, an input of 1, otherwise 0, follows.",
           "helper_text": "If this is the case, an input of 1, otherwise 0, follows."
         },
         "automation": {
@@ -83,6 +99,8 @@
           "fulfilled_if": ">",
           "max_value": 1,
           "min_value": 0,
+          "description_component": "Is the component operated automatically?",
+          "example_component": "If this is the case, an input of 1, otherwise 0, follows.",
           "helper_text": "If this is the case, an input of 1, otherwise 0, follows."
         }
       }
@@ -95,6 +113,8 @@
           "fulfilled_if": ">",
           "max_value": 100,
           "min_value": 0,
+          "description_component": "The ratio between automated test cases and the totality of all test cases.",
+          "example_component": "With 15 automated test cases out of a total of 60 test cases, an input of 25 [%] follows.",
           "helper_text": "With 15 automated test cases out of a total of 60 test cases, an input of 25 [%] follows."
         },
         "ratio_of_late_corrections": {
@@ -102,6 +122,8 @@
           "fulfilled_if": ">",
           "max_value": 100,
           "min_value": 0,
+          "description_component": "The relationship between automated test cases and the totality of all test cases.",
+          "example_component": "With 60 errors fixed on time, out of a total of 80 errors, an input of 75 [%] follows.",
           "helper_text": "With 60 errors fixed on time, out of a total of 80 errors, an input of 75 [%] follows."
         },
         "pre_post_release_faults_ratio": {
@@ -109,6 +131,8 @@
           "fulfilled_if": ">",
           "max_value": 100,
           "min_value": 0,
+          "description_component": "The ratio between detected errors before release and totality of all errors. Good index: 90% of errors were detected before the release.",
+          "example_component": "With 15 detected errors before the release, out of a total of 20 errors, an input of 75 [%] follows.",
           "helper_text": "With 15 detected errors before the release, out of a total of 20 errors, an input of 75 [%] follows."
         },
         "error_during_testing": {
@@ -116,6 +140,8 @@
           "fulfilled_if": ">",
           "max_value": 100,
           "min_value": 0,
+          "description_component": "Relationship between successful test cases and totality of all test cases.",
+          "example_component": "With 15 successful tests out of a total of 17 tests, an input of 88 [%] follows.",
           "helper_text": "With 15 successful tests out of a total of 17 tests, an input of 88 [%] follows."
         },
         "testability": {
