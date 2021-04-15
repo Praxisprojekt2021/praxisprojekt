@@ -1,9 +1,9 @@
 from neomodel import config, StructuredNode, StringProperty, UniqueIdProperty, \
-    RelationshipTo, StructuredRel, FloatProperty
+    RelationshipTo
 from datetime import datetime
 
 from core.success_handler import success_handler
-from database.handler.relationship import Relationship
+from database.handler.relationship import RelationshipComponentMetric
 import database.handler.metric_handler as metric_handler
 from database.config import *
 
@@ -36,10 +36,10 @@ class Component(StructuredNode):
     name = StringProperty()
     category = StringProperty()
     description = StringProperty()
-    creation_timestamp = StringProperty()  # evtl. float
-    last_timestamp = StringProperty()  # evtl. float
+    creation_timestamp = StringProperty()
+    last_timestamp = StringProperty()
 
-    hasMetric = RelationshipTo(metric_handler.Metric, "has", model=Relationship)
+    hasMetric = RelationshipTo(metric_handler.Metric, "has", model=RelationshipComponentMetric)
 
 
 def get_component_list() -> dict:
@@ -49,44 +49,56 @@ def get_component_list() -> dict:
     :return: List of components in a dict
     """
 
+    # get data from neo4j database
     components = Component.nodes.all()
-    components_dict = success_handler()
-    components_dict["components"] = []
+
+    output_dict = success_handler()
+    components_list = []
 
     for component in components:
         component_dict = component.__dict__
         del component_dict["hasMetric"]
         del component_dict["description"]
-        components_dict["components"].append(component_dict)
+        components_list.append(component_dict)
 
-    return components_dict
+    output_dict["components"] = components_list
+
+    return output_dict
 
 
-def get_component(uid_dict: dict) -> dict:
+def get_component(input_dict: dict) -> dict:
     """
     Function to retrieve a single component
 
-    :param uid_dict: Component uid
-    :type uid_dict: dict
+    :param input_dict: Component uid
+    :type input_dict: dict
     :return: Component dict
     """
 
-    uid = uid_dict["uid"]
-    component = Component.nodes.get(uid=uid)
-    component_dict = success_handler()
-    component_dict["component"] = component.__dict__
+    # get data from neo4j database
+    uid = input_dict["uid"]
+    component_data = Component.nodes.get(uid=uid)
+    metrics_list = component_data.hasMetric.all()
 
-    metrics_list = component.hasMetric.all()
-    component_dict["component"]["metrics"] = {}
+    # prepare general component data
+    output_dict = success_handler()
+    component_dict = component_data.__dict__
 
-    for key in metrics_list:
-        relationship = component.hasMetric.relationship(key)
-        component_dict["component"]["metrics"][key.name] = relationship.value
+    del component_dict["hasMetric"]
+    del component_dict["id"]
 
-    del component_dict["component"]["hasMetric"]
-    del component_dict["component"]["id"]
+    output_dict["component"] = component_dict
 
-    return component_dict
+    # prepare metric data
+    metrics_dict = {}
+
+    for metric in metrics_list:
+        relationship = component_data.hasMetric.relationship(metric)
+        metrics_dict[metric.name] = relationship.value
+
+    output_dict["component"]["metrics"] = metrics_dict
+
+    return output_dict
 
 
 def add_component(input_dict: dict) -> dict:
@@ -105,7 +117,7 @@ def add_component(input_dict: dict) -> dict:
     output.save()
 
     for metric in input_dict["metrics"]:
-        output.hasMetric.connect(metric_handler.Metric.nodes.get(name=metric), {"value": input_dict["metrics"][metric]})
+        output.hasMetric.connect(metric_handler.get_metric(metric), {"value": input_dict["metrics"][metric]})
 
     return success_handler()
 
@@ -119,8 +131,11 @@ def update_component(input_dict: dict) -> dict:
     :return: Status dict
     """
 
+    # get data from neo4j database
     uid = input_dict["uid"]
     component = Component.nodes.get(uid=uid)
+
+    # save general component data
     component.name = input_dict["name"]
     component.description = input_dict["description"]
     component.category = input_dict["category"]
@@ -128,11 +143,12 @@ def update_component(input_dict: dict) -> dict:
 
     component.save()
 
+    # save metrics data
     component_dict = get_component({"uid": uid})
 
     for metric in component_dict["component"]["metrics"]:
         new_metrics = input_dict["metrics"]
-        metric_object = metric_handler.Metric.nodes.get(name=metric)
+        metric_object = metric_handler.get_metric(metric)
         rel = component.hasMetric.relationship(metric_object)
         rel.value = new_metrics[metric]
         rel.save()

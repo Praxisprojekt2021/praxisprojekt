@@ -169,7 +169,7 @@ data = {
         "components": [
             {
                 "uid": "b141f94973a43cf8ee972e9dffc1b004",
-                "value": 1,  # different from single component view!
+                "weight": 1,  # different from single component view!
                 "name": "SQL Datenbank",
                 "category": "Datenbank",
                 "description": "Kundendatenbank",
@@ -184,7 +184,7 @@ data = {
             },
             {
                 "uid": "b141f94973a43cf8ee972e9dffc1b004",
-                "value": 1.5,
+                "weight": 1.5,
                 "name": "Frontend API",
                 "category": "API",
                 "description": "API für das Frontend",
@@ -199,7 +199,7 @@ data = {
             },
             {
                 "uid": "b141f94973a43cf8ee972e9dffc1b004",
-                "value": 2,
+                "weight": 2,
                 "name": "Hadoop Cluster",
                 "category": "Datenbank",
                 "description": "Big Data Plattform",
@@ -307,7 +307,7 @@ data = {
 # Frontend -> Backend -> Database
 data = {
     "uid": "b141f94973a43cf8ee972e9dffc1b004",  # process uid not component uid
-    "value": 2
+    "weight": 2
 }
 
 # Database -> Backend
@@ -323,8 +323,8 @@ data = {
 # Frontend -> Backend -> Database
 data = {
     "uid": "b141f94973a43cf8ee972e9dffc1b004",  # process uid not component uid
-    "old_value": 3,
-    "new_value": 2.5
+    "old_weight": 3,
+    "new_weight": 2.5
 }
 
 # Database -> Backend
@@ -336,12 +336,12 @@ data = {
 """ Prozess anzeigen JSON"""
 
 # -----------------------
-# add process reference
+# add_process_reference
 # Frontend -> Backend -> Database
 data = {
     "process_uid": "b141f94973a43cf8ee972e9dffc1b004",
     "component_uid": "b141f94973a43cf8ee972e9dffc1b005",
-    "value": 2.5
+    "weight": 2.5
 }
 
 # Database -> Backend
@@ -366,7 +366,7 @@ data = {
         "components": [
             {
                 "uid": "b141f94973a43cf8ee972e9dffc1b004",
-                "value": 1,  # different from single component view!
+                "weight": 1,  # different from single component view!
                 "name": "SQL Datenbank",
                 "category": "Datenbank",
                 "description": "Kundendatenbank",
@@ -381,7 +381,7 @@ data = {
             },
             {
                 "uid": "b141f94973a43cf8ee972e9dffc1b004",
-                "value": 1.5,
+                "weight": 1.5,
                 "name": "Frontend API",
                 "category": "API",
                 "description": "API für das Frontend",
@@ -396,7 +396,7 @@ data = {
             },
             {
                 "uid": "b141f94973a43cf8ee972e9dffc1b004",
-                "value": 2,
+                "weight": 2,
                 "name": "Hadoop Cluster",
                 "category": "Datenbank",
                 "description": "Big Data Plattform",

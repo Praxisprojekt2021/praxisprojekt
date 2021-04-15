@@ -1,9 +1,9 @@
 from neomodel import config, StructuredNode, StringProperty, UniqueIdProperty, \
-    RelationshipTo, StructuredRel, FloatProperty, relationship, db
+    RelationshipTo, relationship, db
 from datetime import datetime
 
 from core.success_handler import success_handler
-from database.handler.relationship import Relationship
+from database.handler.relationship import RelationshipProcessComponent, RelationshipProcessMetric
 import database.handler.metric_handler as metric_handler
 import database.handler.component_handler as component_handler
 from database.config import *
@@ -39,8 +39,8 @@ class Process(StructuredNode):
     creation_timestamp = StringProperty()  # evtl. float
     last_timestamp = StringProperty()  # evtl. float
 
-    hasComponent = RelationshipTo(component_handler.Component, "includes", model=Relationship)
-    hasMetric = RelationshipTo(metric_handler.Metric, "targets", model=Relationship)
+    hasComponent = RelationshipTo(component_handler.Component, "includes", model=RelationshipProcessComponent)
+    hasMetric = RelationshipTo(metric_handler.Metric, "targets", model=RelationshipProcessMetric)
 
 
 def get_process_list() -> dict:
@@ -50,16 +50,22 @@ def get_process_list() -> dict:
     :return: List of processes in a dict
     """
 
+    # get data from neo4j database
     processes = Process.nodes.all()
-    processes_dict = success_handler()
-    processes_dict["processes"] = []
 
-    wanted_keys = ['uid', 'name', 'creation_timestamp', 'last_timestamp']
+    output_dict = success_handler()
+    processes_list = []
+
     for process in processes:
         process_dict = process.__dict__
-        processes_dict["processes"].append(dict((k, process_dict[k]) for k in wanted_keys if k in process_dict))
+        del process_dict["hasMetric"]
+        del process_dict["description"]
+        del process_dict["hasComponent"]
+        processes_list.append(process_dict)
 
-    return processes_dict
+    output_dict["process"] = processes_list
+
+    return output_dict
 
 
 def get_process(input_dict: dict) -> dict:
@@ -71,34 +77,44 @@ def get_process(input_dict: dict) -> dict:
     :return: process dict
     """
 
+    # get data from neo4j database
     uid = input_dict["uid"]
-    process = Process.nodes.get(uid=uid)
-    process_dict = success_handler()
-    process_dict["process"] = process.__dict__
+    process_data = Process.nodes.get(uid=uid)
+    component_nodes = process_data.hasComponent.all()
+    metrics_list = process_data.hasMetric.all()
 
-    component_list = process.hasComponent.all()
-    process_dict["process"]["components"] = []
+    # prepare general process data
+    output_dict = success_handler()
+    process_dict = process_data.__dict__
 
-    for component in component_list:
+    del process_dict["hasComponent"]
+    del process_dict["hasMetric"]
+    del process_dict["id"]
+
+    # prepare component data
+    component_list = []
+
+    for component in component_nodes:
         component_dict = component_handler.get_component({"uid": component.uid})["component"]
 
-        rel = process.hasComponent.relationship(component)
-        component_dict["value"] = rel.value
+        rel = process_data.hasComponent.relationship(component)
+        component_dict["weight"] = rel.weight
 
-        process_dict["process"]["components"].append(component_dict)
+        component_list.append(component_dict)
 
-    metrics_list = process.hasMetric.all()
-    process_dict["target_metrics"] = {}
+    process_dict["components"] = component_list
+    output_dict["process"] = process_dict
+
+    # prepare metric data
+    metrics_dict = {}
 
     for metric in metrics_list:
-        rel = process.hasMetric.relationship(metric)
-        process_dict["target_metrics"][metric.name] = rel.value
+        rel = process_data.hasMetric.relationship(metric)
+        metrics_dict[metric.name] = rel.value
 
-    del process_dict["process"]["hasComponent"]
-    del process_dict["process"]["hasMetric"]
-    del process_dict["process"]["id"]
+    output_dict["target_metrics"] = metrics_dict
 
-    return process_dict
+    return output_dict
 
 
 def add_process(input_dict: dict) -> dict:
@@ -119,12 +135,12 @@ def add_process(input_dict: dict) -> dict:
     output.save()
 
     for metric in input_dict["target_metrics"]:
-        output.hasMetric.connect(metric_handler.Metric.nodes.get(name=metric), {"value": input_dict["target_metrics"][metric]})
+        output.hasMetric.connect(metric_handler.get_metric(name=metric), {"value": input_dict["target_metrics"][metric]})
 
-    data = success_handler()
-    data["process_uid"] = output.uid
+    output_dict = success_handler()
+    output_dict["process_uid"] = output.uid
 
-    return data
+    return output_dict
 
 
 def update_process(input_dict: dict) -> dict:
@@ -138,6 +154,7 @@ def update_process(input_dict: dict) -> dict:
 
     uid = input_dict["process"]["uid"]
     process = Process.nodes.get(uid=uid)
+
     process.name = input_dict["process"]["name"]
     process.description = input_dict["process"]["description"]
     process.last_timestamp = str(datetime.now())
@@ -182,7 +199,7 @@ def add_process_reference(input_dict: dict) -> dict:
     """
     Function to add a process reference (to a component included in the respective process)
 
-    :param input_dict: a dictionary containing process uid, component id and value
+    :param input_dict: a dictionary containing process uid, component id and weight
     :type input_dict: dict
     :return: Status dict
     """
@@ -190,7 +207,7 @@ def add_process_reference(input_dict: dict) -> dict:
     process = Process.nodes.get(uid=input_dict['process_uid'])
     component = component_handler.Component.nodes.get(uid=input_dict['component_uid'])
 
-    process.hasComponent.connect(component, {"value": input_dict["value"]})
+    process.hasComponent.connect(component, {"weight": input_dict["weight"]})
 
     return success_handler()
 
@@ -199,7 +216,7 @@ def update_process_reference(input_dict: dict) -> dict:
     """
     Function to edit a process reference (to a component included in the respective process)
 
-    :param input_dict: process uid and an old and new value
+    :param input_dict: process uid and an old and new weight
     :type input_dict: dict
     :return: Status dict
     """
@@ -210,8 +227,8 @@ def update_process_reference(input_dict: dict) -> dict:
 
     for component in component_list:
         rel = process.hasComponent.relationship(component)
-        if rel.value == input_dict['old_value']:
-            rel.value = input_dict['new_value']
+        if rel.weight == input_dict['old_weight']:
+            rel.weight = input_dict['new_weight']
             rel.save()
 
     return success_handler()
@@ -221,12 +238,12 @@ def delete_process_reference(input_dict: dict) -> dict:
     """
     Function to delete a process reference (to a component not longer in the respective process)
 
-    :param input_dict: a dictionary including the process uid and a value
+    :param input_dict: a dictionary including the process uid and a weight
     :type input_dict: dict
     :return: Status dict
     """
 
     db.cypher_query('Match (n: Process {uid: "' + input_dict['uid'] +
-                    '"})-[r: includes {value: ' + str(input_dict['value']) + '}] -() Delete r')
+                    '"})-[r: includes {weight: ' + str(input_dict['weight']) + '}] -() Delete r')
 
     return success_handler()

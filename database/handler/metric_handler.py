@@ -57,10 +57,22 @@ def get_metrics_data() -> dict:
 
     metrics = Metric.nodes.all()
     metrics_dict = success_handler()
-    metrics_dict["metrics"] = []
+    metrics_dict["metrics"] = {}
 
     for metric in metrics:
         metric_dict = metric.__dict__
-        metrics_dict["metrics"].append(metric_dict)
+        metrics_dict["metrics"][metric_dict.pop('name')] = metric_dict
 
     return metrics_dict
+
+
+def get_metric(input_name: str) -> Metric:
+    """
+    Function to get metrics by its name
+
+    :param input_name: Name of the metric
+    :type input_name: str
+    :return: Metric
+    """
+
+    return Metric.nodes.get(name=input_name)
