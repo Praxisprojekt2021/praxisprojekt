@@ -8,6 +8,8 @@
           "fulfilled_if": "<",
           "max_value": -1,
           "min_value": 0,
+          "description_component": "Sum of actual lines of code, excl. empty & comment lines",
+          "example_component": "For a total batch of 100 lines of code, with 10 blank and comment lines, an input of 80 follows.",
           "helper_text": "For a total batch of 100 lines of code, with 10 blank and comment lines, an input of 80 follows."
         },
         "development_time": {
