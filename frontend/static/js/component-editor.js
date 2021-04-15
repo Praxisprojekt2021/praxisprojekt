@@ -225,6 +225,7 @@ function createEditComponent() {
         if (text_replaced_flag === true) {
             alert_string += '\nNon quantitative metrics have been automatically discarded.';
         }
+        helper.hideLoadingScreen();
         window.alert(alert_string);
     }
 }
