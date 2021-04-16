@@ -1,32 +1,32 @@
 /**
-* Class that is used inside of dashboard-renderer to get the json objects of processes and components.
-*/
+ * Class that is used inside of dashboard-renderer to get the json objects of processes and components.
+ */
 class Modals {
 
     constructor() {
         this.oldprocesses = null;
         this.oldcomponents = null;
 
-        // get current date
-        this.threemonth = new Date();
+        // Get current date to define the outdated threshold
+        this.outdatedThreshold = new Date();
 
         // Outdated threshold is currently set to 48 hours
         // TODO update outdated threshold
-        this.threemonth.setHours(this.threemonth.getHours() - 48);
-        // this.threemonth.setMonth(this.threemonth.getMonth() - 3);
+        this.outdatedThreshold.setHours(this.outdatedThreshold.getHours() - 48);
+        // this.outdatedThreshold.setMonth(this.outdatedThreshold.getMonth() - 3);
     }
 
     /**
-    * Populate a list of processes that may need to be updated.
-    *
-    * @param {JSON} json object containing a list of prozesses
-    */
+     * Populate a list of processes that may need to be updated.
+     *
+     * @param {JSON} json object containing a list of prozesses
+     */
     getProcessDate(json) {
         this.oldprocesses = '';
         Object.keys(json['process']).forEach(function (key) {
             let process = json['process'][key];
-            let editdate = new Date(process['last_timestamp']);
-            if (editdate < this.threemonth) {
+            let editedDate = new Date(process['last_timestamp']);
+            if (editedDate < this.outdatedThreshold) {
                 this.oldprocesses += process['name'] + '<br>';
             }
         }, this);
@@ -34,16 +34,16 @@ class Modals {
     }
 
     /**
-    * Populate a list of components that may need to be updated.
-    *
-    * @param {JSON} json object containing a list of components
-    */
+     * Populate a list of components that may need to be updated.
+     *
+     * @param {JSON} json object containing a list of components
+     */
     getComponentDate(json) {
         this.oldcomponents = '';
         Object.keys(json['components']).forEach(function (key) {
             let component = json['components'][key];
-            let editdate = new Date(component['last_timestamp']);
-            if (editdate < this.threemonth) {
+            let editedDate = new Date(component['last_timestamp']);
+            if (editedDate < this.outdatedThreshold) {
                 this.oldcomponents += component['name'] + '<br>';
             }
         }, this);
@@ -51,8 +51,8 @@ class Modals {
     }
 
     /**
-    * Checks if the list of components and processes that may need to be updated has been filled.
-    */
+     * Checks if the list of components and processes that may need to be updated has been filled.
+     */
     isFilled() {
         if (this.oldcomponents !== null && this.oldprocesses !== null
             && (this.oldcomponents !== '' || this.oldprocesses !== '')) {
@@ -61,8 +61,8 @@ class Modals {
     }
 
     /**
-    * Shows the modal and fills it with the components and processes that may need to be updated.
-    */
+     * Shows the modal and fills it with the components and processes that may need to be updated.
+     */
     showModal() {
         let innerHTML = `The following entries might be outdated:<br><br>`;
         if (this.oldprocesses !== '') innerHTML += this.oldprocesses + `<br>`;
@@ -74,18 +74,18 @@ class Modals {
 
 }
 
-//Create modal 
-document.write('<div id=modaldiv></div>');
-document.getElementById('modaldiv').innerHTML = `<div class="center">
+// Create modal 
+document.write('<div id=modal_div></div>');
+document.getElementById('modal_div').innerHTML = `<div class="center">
 <div id="modal" class="modal"><div class="modal-content">
 <span class="close">&times;</span>
 <p id="modal_text"></p></div></div></div>`;
 
 // Get the modal
-var modal = document.getElementById("modal");
+let modal = document.getElementById("modal");
 
 // Get the <span> element that closes the modal
-var span = document.getElementsByClassName("close")[0];
+let span = document.getElementsByClassName("close")[0];
 
 // When the user clicks on <span> (x), close the modal
 span.onclick = function () {
@@ -94,7 +94,7 @@ span.onclick = function () {
 
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function (event) {
-    if (event.target == modal) {
+    if (event.target === modal) {
         modal.style.display = "none";
     }
 }
