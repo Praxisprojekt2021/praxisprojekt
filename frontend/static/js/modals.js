@@ -19,7 +19,7 @@ class Modals {
     /**
      * Populate a list of processes that may need to be updated.
      *
-     * @param {JSON} json object containing a list of prozesses
+     * @param {JSON} json object containing a list of processes
      */
     getProcessDate(json) {
         this.oldprocesses = '';
