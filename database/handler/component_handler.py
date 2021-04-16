@@ -5,21 +5,9 @@ from neomodel import config, StructuredNode, StringProperty, UniqueIdProperty, \
 from core.success_handler import success_handler
 import database.handler.metric_handler as metric_handler
 from database.config import *
+from database.handler.relationship import RelationshipComponentMetric
 
 config.DATABASE_URL = 'bolt://{}:{}@{}:{}'.format(NEO4J_USER, NEO4J_PASSWORD, NEO4J_IP, NEO4J_PORT)
-
-
-class Relationship(StructuredRel):
-    """
-    A class to represent the relationship between a Component and a Metric.
-
-    Attributes
-    ----------
-    value : float
-        is value of the relationship
-    """
-    value = FloatProperty()
-
 
 class Component(StructuredNode):
     """
@@ -49,7 +37,7 @@ class Component(StructuredNode):
     creation_timestamp = StringProperty()  # evtl. float
     last_timestamp = StringProperty()  # evtl. float
 
-    hasMetric = RelationshipTo(metric_handler.Metric, "has", model=Relationship)
+    hasMetric = RelationshipTo(metric_handler.Metric, "has", model=RelationshipComponentMetric)
 
 
 def get_component_list() -> dict:

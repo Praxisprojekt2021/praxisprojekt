@@ -7,34 +7,9 @@ from core.success_handler import success_handler
 import database.handler.metric_handler as metric_handler
 import database.handler.component_handler as component_handler
 from database.config import *
+from database.handler.relationship import RelationshipProcessComponent, RelationshipProcessMetric
 
 config.DATABASE_URL = 'bolt://{}:{}@{}:{}'.format(NEO4J_USER, NEO4J_PASSWORD, NEO4J_IP, NEO4J_PORT)
-
-
-class RelationshipComponent(StructuredRel):
-    """
-    A class to represent the relationship between a Process and a Component.
-
-    Attributes
-    ----------
-    weight : float
-        is the weight of the relationship
-    """
-
-    weight = FloatProperty()
-
-
-class RelationshipMetric(StructuredRel):
-    """
-    A class to represent the relationship between a Process and a Metric.
-
-    Attributes
-    ----------
-    value : float
-        is value of the relationship
-    """
-
-    value = FloatProperty()
 
 
 class Process(StructuredNode):
@@ -53,9 +28,9 @@ class Process(StructuredNode):
         timestamp of creation time
     last_timestamp : str
         timestamp of last update
-    includesComponent : relationship
+    hasComponent : relationship
         relationship to component
-    hasMetric : relationship
+    hasTargetMetric : relationship
         relationship to metric
     """
 
@@ -65,8 +40,8 @@ class Process(StructuredNode):
     creation_timestamp = StringProperty()  # evtl. float
     last_timestamp = StringProperty()  # evtl. float
 
-    hasComponent = RelationshipTo(component_handler.Component, "includes", model=RelationshipComponent)
-    hasMetric = RelationshipTo(metric_handler.Metric, "has", model=RelationshipMetric)
+    hasComponent = RelationshipTo(component_handler.Component, "includes", model=RelationshipProcessComponent)
+    hasTargetMetric = RelationshipTo(metric_handler.Metric, "has", model=RelationshipProcessMetric)
 
 
 def get_process_list() -> dict:
@@ -114,17 +89,15 @@ def get_process(uid_dict: dict) -> dict:
 
         process_dict["process"]["components"].append(component_dict)
 
-    metrics_list = process.hasMetric.all()
+    metrics_list = process.hasTargetMetric.all()
     process_dict["target_metrics"] = {}
-
     for metric in metrics_list:
-        rel = process.hasMetric.relationship(metric)
-        process_dict["target_metrics"][metric.name] = rel.value
+        rel = process.hasTargetMetric.relationship(metric)
+        process_dict["target_metrics"][metric.name] = {"average": rel.average, "min": rel.min, "max": rel.max}
 
     del process_dict["process"]["hasComponent"]
-    del process_dict["process"]["hasMetric"]
+    del process_dict["process"]["hasTargetMetric"]
     del process_dict["process"]["id"]
-
     return process_dict
 
 
@@ -146,7 +119,10 @@ def add_process(input_dict: dict) -> dict:
     output.save()
 
     for metric in input_dict["target_metrics"]:
-        output.hasMetric.connect(metric_handler.get_metric(metric), {"value": input_dict["target_metrics"][metric]})
+        output.hasTargetMetric.connect(metric_handler.get_metric(metric),
+                                       {"average": input_dict["target_metrics"][metric]["average"],
+                                        "min": input_dict["target_metrics"][metric]["min"],
+                                        "max": input_dict["target_metrics"][metric]["max"]})
 
     data = success_handler()
     data["process_uid"] = output.uid
@@ -176,8 +152,10 @@ def update_process(input_dict: dict) -> dict:
     for metric in old_metrics:
         metric_object = metric_handler.Metric.nodes.get(name=metric)
         if metric in new_metrics:
-            rel = process.hasMetric.relationship(metric_object)
-            rel.value = new_metrics[metric]
+            rel = process.hasTargetMetric.relationship(metric_object)
+            rel.average = new_metrics[metric]["average"]
+            rel.min = new_metrics[metric]["min"]
+            rel.max = new_metrics[metric]["max"]
             rel.save()
 
             new_metrics.pop(metric)
@@ -187,7 +165,9 @@ def update_process(input_dict: dict) -> dict:
 
     for metric in new_metrics:
         metric_object = metric_handler.Metric.nodes.get(name=metric)
-        process.hasMetric.connect(metric_object, {"value": new_metrics[metric]})
+        process.hasTargetMetric.connect(metric_object, {"average": input_dict["target_metrics"][metric]["average"],
+                                                        "min": input_dict["target_metrics"][metric]["min"],
+                                                        "max": input_dict["target_metrics"][metric]["max"]})
 
     return success_handler()
 
