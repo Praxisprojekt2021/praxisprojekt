@@ -23,8 +23,6 @@ function init(json_process=false) {
         }
     });
 
-    visualizeProcess();
-
 }
 
 /**
@@ -497,6 +495,7 @@ function createComponentTable(processData, metricsDefinition) {
             }
         }
     });
+    visualizeProcess();
 }
 
 /**
@@ -663,33 +662,54 @@ function visualizeProcess() {
     let arrowDown = `<div class="arrow">&#8595;</div>`;
     let arrowLeft = `<div class="arrow">&#8592;</div>`;
     let arrowRightDown = `<div class="arrow">&#8628;<div>`;
+    let arrowLeftDown = `TODO`;
 
-    rectangle += `<div class="square-border">Prozess<br><br>Kategorie</div>`;
+    let componentRows = document.getElementById("ComponentOverviewTable").getElementsByTagName("tr");
+
+    let innerHTML = `<table id=\"process-visualization\" class=\"process-visualization\" style=\"width:auto;border:none\">
+                            <tr style="height: 150px;">`;
+
+    // begin at index 1 because 0 contains table headers
+    for(let i=1; i<componentRows.length; i++) {
+    let currentComponent = componentRows[i];
+    console.log(currentComponent.innerHTML.toString());
+    let tds = currentComponent.getElementsByTagName("td");
+    let weight = tds[0].innerHTML;
+    let componentName = tds[1].innerHTML;
+    let category = tds[2].innerHTML;
+
+    rectangle = `<div class="square-border">${componentName}<br><br>${category}</div>`;
+    innerHTML += `<td style="width: 150px;height: 150px; border: 0px;">${rectangle}</td>`;
+    innerHTML += `<td style="width: 150px;height: 150px;  border: 0px;">${arrowRight}</td>`;
+
+        if (i%3 == 2 && componentRows.length > i) {
+        // TODO: arrowLeft manchmal
+        if(i%6 == 5) {
+            innerHTML += `<td style="width: 150px;height: 150px;  border: 0px;">${arrowLeftDown}</td>`;
+        }
+        innerHTML += `<td style="width: 150px;height: 150px;  border: 0px;">${arrowRight}</td>`;
+    }
+    if (i%3 == 0) {
+        innerHTML += `</tr><tr><td style="width: 150px;height: 150px;  border: 0px;">${rectangle}</td>`
+    }
+    }
+
+ innerHTML += "</tr></table>";
+    // rectangle += `<div class="square-border">Prozess<br><br>Kategorie</div>`;
     // Append element to document
 
-    let innerHTML = `
-        <table id="process-visualization" class="process-visualization" style="width:auto;border:none">
-        <tr style="height: 150px;">
-            <td style="width: 150px;height: 150px; border: 0px;">${rectangle}</td>
+           /* <td style="width: 150px;height: 150px; border: 0px;">${rectangle}</td>
             <td style="width: 150px;height: 150px;  border: 0px;">${arrowRight}</td>
             <td style="width: 150px;height: 150px;  border: 0px;">${rectangle}</td>
             <td style="width: 150px;height: 150px;  border: 0px;">${arrowRight}</td>
             <td style="width: 150px;height: 150px;  border: 0px;">${rectangle}</td>
             <td style="width: 150px;height: 150px;  border: 0px;">${arrowRightDown}</td>
         </tr>
-        <tr>
-            <td style="width: 150px;height: 150px; border: 0px;"></td>
-            <td style="width: 150px;height: 150px; border: 0px;"></td>
-            <td style="width: 150px;height: 150px; border: 0px;"></td>
-            <td style="width: 150px;height: 150px;  border: 0px;">${rectangle}</td>
-            <td style="width: 150px;height: 150px; border: 0px;">${arrowLeft}</td>
-            <td style="width: 150px;height: 150px; border: 0px;">${rectangle}</td>
-        </tr>
-            </table>`;
-    div.innerHTML = innerHTML;
+*/
 
-    document.getElementById('modelling-process').appendChild(div);
+     div.innerHTML = innerHTML;
 
-
+    document.getElementById('modelling-process').innerHTML = ""; // reset div
+    document.getElementById('modelling-process').appendChild(div); // populate div
 
 }
