@@ -69,7 +69,7 @@ function getFeatures() {
             helper.createMetricsSection(features);
             let div = document.createElement('div');
             div.className = 'control-area';
-            div.innerHTML = '<a href="#" data-wait="Bitte warten..." id="save-button" class="create-button w-button" onclick="createEditComponent()">Speichern</a>';
+            div.innerHTML = '<a href="#" data-wait="Bitte warten..." id="save-button" class="create-button" onclick="createEditComponent()">Speichern</a>';
 
             // Append element to document
             document.getElementById('metrics-input').appendChild(div);
@@ -144,7 +144,6 @@ function setSections(selected_category) {
                     feature_child.style.color = 'inherit';
                     feature_child.removeAttribute("disabled");
                 } else {
-                    feature_child.style.color = '#999999';
                     feature_child.setAttribute("disabled", "true");
                     metrics_child.style.display = 'none';
                 }

@@ -78,11 +78,11 @@ class Helper {
 
             let innerHTML = '';
             innerHTML += '<div data-hover="" data-delay="0" class="accordion-item">';
-            innerHTML += '<div class="accordion-toggle" onclick="helper.toggleSection(this)">';
+            innerHTML += '<div class="accordion-toggle" disabled="true" onclick="helper.toggleSection(this)">';
             innerHTML += '<div class="accordion-icon"></div>';
             innerHTML += ('<div class="features-label">' + feature['name'] + '</div>');
             innerHTML += '</div>';
-            innerHTML += '<nav class="dropdown-list">';
+            innerHTML += '<nav class="dropdown-list" style="display: none;">';
             innerHTML += '<div class="features-columns">';
 
             Object.keys(metrics).forEach(function (key) {
