@@ -386,25 +386,17 @@ function saveProcess(data) {
 
 
 /**
- * This function checks for success in communication
+ * This function gets called if saving was successful and reloads the page.
  *
- * @param {string} response: JSON Object response, whether the changes have been saved successfully
+ * @param {JSON} response
  */
-
 function saveCallback(response) {
-    // Check if process has been created/edited successfully
-    if (response['success']) {
-        // Component has been created/edited successfully
-        window.alert('Changes were saved.');
+        // Process has been created/edited successfully
         if (uid.length === 32) {
             init();
         } else {
             location.replace(location.href + '?uid=' + response['process']['uid']);
         }
-    } else {
-        // Process has not been created/edited successfully
-        window.alert('Changes could not be saved.');
-    }
 }
 
 /**
@@ -650,15 +642,10 @@ function exit(ev) {
 
 /**
  * Shows success/error message and reloads process-editor.
+ *
+ * @param {json} response
  */
  function deleteCallback(response) {
-    // Check if component has been deleted successfully
-    if (response['success']) {
         // Component has been deleted successfully
-        window.alert('Object has been deleted.');
         init(response);
-    } else {
-        // Component has not been deleted successfully
-        window.alert('Object could not be deleted.');
-    }
 }

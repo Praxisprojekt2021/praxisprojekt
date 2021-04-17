@@ -16,12 +16,22 @@ class Helper {
         // Handle response of HTTP-request
         xhttp.onreadystatechange = function () {
             if (this.readyState === XMLHttpRequest.DONE && (this.status >= 200 && this.status < 300 || this.status === 500)) {
-                // Process response and show sum in output field
+                // If status code is 500, an error message should be shown but the callback should be executed anyway.
                 let json = JSON.parse(this.responseText);
+
+                if (this.status === 500) {
+                    this.showError(endpoint);
+                } else {
+                    if (json['success']) {
+                        this.showSuccess(endpoint);
+                    }
+                }
+                // Process response and show sum in output field
                 callback(json);
+            } else {
+                this.showError(endpoint);
             }
         }
-
         // Send HTTP-request
         xhttp.send(data_json);
     }
@@ -49,6 +59,36 @@ class Helper {
         }
         xhttp.send();
    
+    }
+
+    /**
+     * Shows error message if request was not successful.
+     *
+     * @param {String} endpoint
+     */
+    showError(endpoint) {
+        // Saving the data was not successful
+        if (endpoint.includes("delete")) {
+            window.alert("Object could not be deleted.")
+        } else {
+            window.alert('Changes could not be saved.');
+        }
+    }
+
+    /**
+     * Shows success message if request was successful.
+     *
+     * @param {String} endpoint
+     */
+    showSuccess(endpoint) {
+        if (endpoint !== "/component/view") {
+            // Saving the data was successful
+            if (endpoint.includes("delete")) {
+                window.alert('Object has been deleted.');
+            } else {
+                window.alert('Changes were saved.');
+            }
+        }
     }
 
     /**

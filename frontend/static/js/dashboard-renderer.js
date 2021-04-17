@@ -213,16 +213,8 @@ function loadMetricsDefinition(componentData) {
 }
 
 /**
- * Shows success/error message and reloads dashboard.
+ * Reloads page if deletion was successful.
  */
 function deleteCallback(response) {
-// Check if component has been deleted successfully
-    if (response['success']) {
-        // Component has been deleted successfully
-        window.alert('Object has been deleted.');
-        window.location.reload();
-    } else {
-        // Component has not been deleted successfully
-        window.alert('Object could not be deleted.');
-    }
+    window.location.reload();
 }
