@@ -20,6 +20,17 @@ def index_route():
     return render_template("index.html")
 
 
+@app.route('/about', methods=["GET"])
+def index_route():
+    """
+    API endpoint to display info page view
+    
+    :receives: None
+    :return: the rendered html info page
+    """
+    return render_template("info.html")
+
+
 """
     API endpoints for component operations
 """
