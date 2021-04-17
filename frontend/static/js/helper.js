@@ -1,4 +1,5 @@
 class Helper {
+
     /**
      * This function sends a post request to the backend
      *
@@ -8,6 +9,8 @@ class Helper {
      */
 
     post_request(endpoint, data_json, callback) {
+        let helper = new Helper();
+
         const base_url = window.location.origin;
         let xhttp = new XMLHttpRequest();
         xhttp.open("POST", base_url + endpoint, true);
@@ -20,16 +23,16 @@ class Helper {
                 let json = JSON.parse(this.responseText);
 
                 if (this.status === 500) {
-                    this.showError(endpoint);
+                    helper.showError(endpoint);
                 } else {
                     if (json['success']) {
-                        this.showSuccess(endpoint);
+                        helper.showSuccess(endpoint);
                     }
                 }
                 // Process response and show sum in output field
                 callback(json);
             } else {
-                this.showError(endpoint);
+                helper.showError(endpoint);
             }
         }
         // Send HTTP-request
