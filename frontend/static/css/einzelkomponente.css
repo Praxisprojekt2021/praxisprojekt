@@ -212,14 +212,34 @@ button, html input[type="button"], input[type="reset"] {
   display: block;
   padding-right: 5px;
   padding-left: 5px;
+  font-size: 18px;
   float: left;
   color: #000;
   text-decoration: none;
   cursor: pointer;
+  transition: 0.21s ease-out;
 }
 
 .navigation-link-separator {
+  transition: 0.21s ease-out;
   float: left;
+}
+
+.navigation-selected {
+  color: #44d08b;
+}
+
+.navigation-links:hover ~ .navigation-selected {
+  color: #000000;
+}
+
+.navigation-links:hover ~ .navigation-link-separator {
+  transition: 0.21s ease-out;
+  -webkit-transform: rotateY(180deg);
+}
+
+.navigation-links:hover {
+  color: #44d08b;
 }
 
 .feature-section {
