@@ -77,11 +77,11 @@ class Helper {
 
             let innerHTML = '';
             innerHTML += '<div data-hover="" data-delay="0" class="accordion-item">';
-            innerHTML += '<div class="accordion-toggle" onclick="helper.toggleSection(this)">';
+            innerHTML += '<div class="accordion-toggle" disabled="true" onclick="helper.toggleSection(this)">';
             innerHTML += '<div class="accordion-icon"></div>';
             innerHTML += ('<div class="features-label">' + feature['name'] + '</div>');
             innerHTML += '</div>';
-            innerHTML += '<nav class="dropdown-list">';
+            innerHTML += '<nav class="dropdown-list" style="height: 0px;" data-collapsed="true">';
             innerHTML += '<div class="features-columns">';
 
             Object.keys(metrics).forEach(function (key) {
@@ -157,14 +157,16 @@ class Helper {
      */
 
     toggleSection(element) {
-        var metric_child = element.parentElement.children[1];
-        var isCollapsed = metric_child.getAttribute('data-collapsed') === 'true';
-
-        if(isCollapsed) {
-            this.expandSection(metric_child);
-            metric_child.setAttribute('data-collapsed', 'false');
-        } else {
-            this.collapseSection(metric_child);
+        const metric_child = element.parentElement.children[1];
+        const isCollapsed = metric_child.getAttribute('data-collapsed') === 'true';
+        metric_child.style.display = '';
+        if(!(element.getAttribute("disabled") === "true")) {
+            if(isCollapsed) {
+                this.expandSection(metric_child);
+                metric_child.setAttribute('data-collapsed', 'false');
+            } else {
+                this.collapseSection(metric_child);
+            }
         }
     }
 
@@ -175,9 +177,9 @@ class Helper {
      */
 
     collapseSection(element) {
-        var sectionHeight = element.scrollHeight;
+        const sectionHeight = element.scrollHeight;
 
-        var elementTransition = element.style.transition;
+        const elementTransition = element.style.transition;
         element.style.transition = '';
 
         requestAnimationFrame(function() {
@@ -198,7 +200,7 @@ class Helper {
      */
 
     expandSection(element) {
-        var sectionHeight = element.scrollHeight;
+        const sectionHeight = element.scrollHeight;
         element.style.height = sectionHeight + 'px';
         element.setAttribute('data-collapsed', 'false');
     }
