@@ -213,6 +213,8 @@ function createMetricsSection(features, processData) {
                 <th name="min">Min</th>
                 <th name="max">Max</th>
                 <th name="target-avg">Target Average</th>
+                <th name="target-min">Target Min</th>
+                <th name="target-max">Target Max</th>
                 <th name="target-sum">Target Sum</th>
                 <th name="ampel">Check</th>
                 <th name="info">Info</th>
@@ -254,7 +256,9 @@ function fillMetricRows(metricData, slug, processData) {
                         <td></td>
                         <td></td>`;
     let innerHTML_target = `
-                        <td><input name="target-average" id="${slug}" value=""></td>`;
+                        <td><input name="target-average" id="${slug}" value=""></td>
+                        <td><input name="target-min" id="${slug}" value=""></td>
+                        <td><input name="target-max" id="${slug}" value=""></td>`;
     let innerHTML_fulfillment = `
                         <td></td>
                         <td></td>
