@@ -157,12 +157,49 @@ class Helper {
      */
 
     toggleSection(element) {
-        const metric_child = element.parentElement.children[1];
-        if (metric_child.style.display === "block" || element.getAttribute("disabled") === "true") {
-            metric_child.style.display = "none";
+        var metric_child = element.parentElement.children[1];
+        var isCollapsed = metric_child.getAttribute('data-collapsed') === 'true';
+
+        if(isCollapsed) {
+            this.expandSection(metric_child);
+            metric_child.setAttribute('data-collapsed', 'false');
         } else {
-            metric_child.style.display = "block";
-            metric_child.style.position = "static";
+            this.collapseSection(metric_child);
         }
+    }
+
+    /**
+     * This functions collapses the accordion
+     *
+     * @param {HTMLElement} element: HTML accordion to be collapsed
+     */
+
+    collapseSection(element) {
+        var sectionHeight = element.scrollHeight;
+
+        var elementTransition = element.style.transition;
+        element.style.transition = '';
+
+        requestAnimationFrame(function() {
+            element.style.height = sectionHeight + 'px';
+            element.style.transition = elementTransition;
+            requestAnimationFrame(function() {
+                element.style.height = 0 + 'px';
+            });
+        });
+
+        element.setAttribute('data-collapsed', 'true');
+    }
+
+    /**
+     * This functions expands the accordion
+     *
+     * @param {HTMLElement} element: HTML accordion to be expanded
+     */
+
+    expandSection(element) {
+        var sectionHeight = element.scrollHeight;
+        element.style.height = sectionHeight + 'px';
+        element.setAttribute('data-collapsed', 'false');
     }
 }

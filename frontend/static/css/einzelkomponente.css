@@ -122,6 +122,7 @@ button, html input[type="button"], input[type="reset"] {
 }
 
 .accordion-toggle[disabled] {
+  color: #999999;
   cursor: default;
 }
 
@@ -147,9 +148,10 @@ button, html input[type="button"], input[type="reset"] {
   overflow: visible;
   padding-right: 0px;
   padding-left: 0px;
-  padding-bottom: 10px;
   width: 100%;
   min-width: 100%;
+  transition: height 0.3s ease-out;
+  height: auto;
 }
 
 .info-icon {
