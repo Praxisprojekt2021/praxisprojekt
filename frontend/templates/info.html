@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="utf-8"/>
+    <title data-i18n="homepage"></title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}" type="text/css">
+    <link href="{{ url_for('static', filename='images/favicon.png') }}" rel="icon" type="image/x-icon">
+    <script src="https://kit.fontawesome.com/f24e197897.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<div class="headline" data-i18n="riskify"><h1>Riskify</h1></div>
+
+<div class="er" data-i18n="">
+    <h3> HIER MUSS EIN TEXT AUS DEM JSON HIN</h3>
+</div>
+
+<script src="{{ url_for('static', filename='js/helper.js') }}"></script>
+<script src="{{ url_for('static', filename='js/modals.js') }}"></script>
+<script src="{{ url_for('static', filename='js/dashboard-renderer.js') }}"></script>
+<script type="module" src="{{ url_for('static', filename='js/translator.js') }}"></script>
+</body>
+</html>
