@@ -31,7 +31,7 @@ class Helper {
                 }
                 // Process response and show sum in output field
                 callback(json);
-            } else {
+            } else if (this.readyState === XMLHttpRequest.DONE) {
                 helper.showError(endpoint);
             }
         }
