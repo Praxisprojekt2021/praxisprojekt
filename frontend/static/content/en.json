@@ -22,7 +22,7 @@
             "component-id": "Component ID",
             "component-category": "Component category",
             "component-description": "Component description",
-            "please-select": "Plaese select..",
+            "please-select": "Please select..",
             "save": "Save",
             "individual-component-created": "Individual component was created.",
             "individual-component-saved": "Individual component was saved.",
@@ -64,7 +64,8 @@
             "confidentiality": "Confidentiality",
             "number-of-administrators": "Number of administrators",
             "encryption": "Encryption",
-            "homepage": "Praxisprojekt 2021 - Homepage"
+            "homepage": "Praxisprojekt 2021 - Homepage",
+            "application-definition": "Riskify is a system that captures and assesses enterprise software risks. It allows institutions to replicate internal processes, by adding all relevant software components, providing values for specific KPIs  (metrics) and defining their relationships. Based on the inputs made for metrics, Riskify then calculates a score, aggregated in various categories such as availability, code quality and more. The process is now benchmarked against target scores and can hence be monitored."
         }
     }
 }
