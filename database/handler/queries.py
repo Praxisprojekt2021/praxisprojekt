@@ -1,4 +1,6 @@
 def get_process(uid: str) -> str:
+    # ToDo. Sobald man bei den Target_metrics anstatt dem Wert ein Dict mit drei Werten zurückgegeben bekommen möchte,
+    # muss t.value durch properties(t) ersetzt werden
     return "Match (p: Process {uid: '" + uid + "'}) " \
                                               "Call {" \
                                               "With p " \

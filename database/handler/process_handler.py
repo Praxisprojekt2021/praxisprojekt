@@ -6,7 +6,8 @@ from core.success_handler import success_handler
 
 import database.handler.metric_handler as metric_handler
 import database.handler.component_handler as component_handler
-import database.handler.cypher as cypher
+import database.handler.reformatter as reformatter
+import database.handler.queries as queries
 from database.config import *
 
 config.DATABASE_URL = 'bolt://{}:{}@{}:{}'.format(NEO4J_USER, NEO4J_PASSWORD, NEO4J_IP, NEO4J_PORT)
@@ -70,23 +71,6 @@ class Process(StructuredNode):
     hasMetric = RelationshipTo(metric_handler.Metric, "has", model=RelationshipMetric)
 
 
-def reformat_process(input_dict: dict) -> (dict, dict):
-    process_dict = input_dict[0]
-
-    process_dict["components"] = []
-    for component in input_dict[1]:
-        if component["weight"] is None or component["properties"] is None:
-            continue
-        else:
-            process_dict["components"].append(component_handler.reformat_component(component))
-
-    targets_dict = {}
-    for metric in input_dict[2]:
-        targets_dict.update(metric_handler.reformat_metric(metric))
-
-    return process_dict, targets_dict
-
-
 def get_process_list() -> dict:
     """
     Function to retrieve a list of all processes
@@ -116,8 +100,8 @@ def get_process(input_dict: dict) -> dict:
     """
     output_dict = success_handler()
 
-    result, meta = db.cypher_query(cypher.get_process(input_dict["uid"]))
-    output_dict["process"], output_dict["target_metrics"] = reformat_process(result[0])
+    result, meta = db.cypher_query(queries.get_process(input_dict["uid"]))
+    output_dict["process"], output_dict["target_metrics"] = reformatter.reformat_process(result[0])
 
     return output_dict
 
