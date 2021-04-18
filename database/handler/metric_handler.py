@@ -27,6 +27,12 @@ class Metric(StructuredNode):
     fulfilled_if = StringProperty()
 
 
+def reformat_metric(input_dict: dict) -> dict:
+    output_dict = {input_dict["metric"]: input_dict["value"]}
+
+    return output_dict
+
+
 def create_from_frontend_json(path: str) -> dict:
     """
     Function to create metrics out of the frontend definition file

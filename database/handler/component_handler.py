@@ -4,6 +4,7 @@ from neomodel import config, StructuredNode, StringProperty, UniqueIdProperty, \
 
 from core.success_handler import success_handler
 import database.handler.metric_handler as metric_handler
+import database.handler.cypher as cypher
 from database.config import *
 
 config.DATABASE_URL = 'bolt://{}:{}@{}:{}'.format(NEO4J_USER, NEO4J_PASSWORD, NEO4J_IP, NEO4J_PORT)
@@ -50,6 +51,22 @@ class Component(StructuredNode):
     last_timestamp = StringProperty()  # evtl. float
 
     hasMetric = RelationshipTo(metric_handler.Metric, "has", model=Relationship)
+
+
+def reformat_component(input_dict: dict) -> dict:
+    output_dict = input_dict["properties"]
+    output_dict["metrics"] = {}
+
+    for metric in input_dict["metrics"]:
+        if metric["metric"] is None or metric["value"] is None:
+            continue
+        else:
+            output_dict["metrics"].update(metric_handler.reformat_metric(metric))
+
+    if "weight" in input_dict:
+        output_dict["weight"] = input_dict["weight"]
+
+    return output_dict
 
 
 def get_component_list() -> dict:
