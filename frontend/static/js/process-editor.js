@@ -673,7 +673,7 @@ function visualizeProcess() {
     let componentName = tds[1].innerHTML;
     let category = tds[2].innerHTML;
 
-    rectangle = `<div class="square-border">${componentName}<br><br>${category}</div>`;
+    rectangle = `<div class="square-border"><div style="font-weight:bold; text-decoration:underline;" >${componentName}</div><br><div style="font-style:italic;">${category}</div></div>`;
     innerHTML += `<td style="width: 150px;height: 150px; border: 0px;">${rectangle}</td>`;
     if (i < componentRows.length -1) {
         innerHTML += `<td style="width: 150px;height: 150px;  border: 0px;">${arrowRight}</td>`;
