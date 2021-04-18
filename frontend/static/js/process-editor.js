@@ -539,8 +539,10 @@ function addComponent() {
 
         helper.post_request("/process/edit/createstep", JSON.stringify(data), init);
     } else {
+        helper.hideLoadingScreen();
         // Please select a component from the dropdown.
-        // TOdO: Fill with something?
+        // TODO: Fill with something?
+
     }
 }
 
