@@ -208,13 +208,13 @@ function createMetricsSection(features, processData) {
         <table id="process-feature-table">
             <tr>
                 <th name="metric">Metric</th>
-                <th name="average">Average</th>
-                <th name="standard-deviation">Std. Dev.</th>
-                <th name="sum">Sum</th>
-                <th name="min">Min</th>
-                <th name="max">Max</th>
-                <th name="target-avg">Target Average</th>
-                <th name="target-sum">Target Sum</th>
+                <th name="average" title="The average value for the respective metrics across all components in the process.">Average</th>
+                <th name="standard-deviation" title="The standard deviation for each metric across all components in the process.">Std. Dev.</th>
+                <th name="sum" title="The sum for each respective metric across all components in the process.">Sum</th>
+                <th name="min" title="The minimum value specifies the smallest value for each respective metric across all components in the process.">Min</th>
+                <th name="max" title="The maximum value indicates the largest value for each respective metric across all components of the process.">Max</th>
+                <th name="target-avg" title="The average, user-entered, Target-value for each metric across all components in the process.">Target Average</th>
+                <th name="target-sum" title="The target sum for each metric across all components in the process.">Target Sum</th>
                 <th name="ampel">Check</th>
                 <th name="info">Info</th>
             </tr>`;
@@ -259,7 +259,9 @@ function fillMetricRows(metricData, slug, processData) {
     let innerHTML_fulfillment = `
                         <td></td>
                         <td></td>
-                        <td><img src="images/info.png" loading="lazy" width="35" alt="" class="info-icon"></td>
+                        <td><img src="images/info.png" loading="lazy" width="35" title=" 
+                           ${metricData['description_component']} \ni.e. ${metricData['example_component']}"
+                           alt="" class="info-icon"></td>
                     </tr>`;
 
     if(uid != null && uid !== -1 && (slug in processData['actual_target_metrics'])) {
