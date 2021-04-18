@@ -72,7 +72,7 @@
 /* Slider Box */
 .mySlides {
     position: relative;
-    width: 50%;
+    width: 100%;
 }
 .mySlides:hover .tutorial_image {
     opacity: 0.3;
