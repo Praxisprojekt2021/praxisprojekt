@@ -327,3 +327,24 @@
   font-size: 28px;
   font-weight: bolder;
 }
+
+.square-border {
+  background: #FFF;
+  border: 10px solid #4AD28F;
+  height: 120px;
+  width: 180px;
+  text-align: center;
+}
+
+.arrow {
+  font-size: 120px;
+  /*height: 120px;*/
+  margin: 20px;
+  vertical-align: middle;
+}
+
+table .process-visualization {
+  column-width: 200px;
+  border: 0px solid black;
+}
+

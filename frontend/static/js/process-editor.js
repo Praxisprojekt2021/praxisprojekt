@@ -495,6 +495,7 @@ function createComponentTable(processData, metricsDefinition) {
             }
         }
     });
+    visualizeProcess();
 }
 
 /**
@@ -658,6 +659,61 @@ function exit(ev) {
     ev.target.parentElement.style.border = "inherit";
 }
 
+/**
+ * This function visualizes the components of a process in a box above the components table
+ * */
+function visualizeProcess() {
+    let div = document.createElement("div");
+    let rectangle = "";
+    let arrowRight = `<div class="arrow">&#8594;</div>`;
+
+    let componentRows = document.getElementById("ComponentOverviewTable").getElementsByTagName("tr");
+
+    let innerHTML = `<table id=\"process-visualization\" class=\"process-visualization\" style=\"width:auto;border:none\">
+                            <tr style="height: 150px;">`;
+
+    // begin at index 1 because 0 contains table headers
+    for(let i=1; i<componentRows.length; i++) {
+        let currentComponent = componentRows[i];
+        let tds = currentComponent.getElementsByTagName("td");
+        let weight = tds[0].innerHTML;
+        let componentName = tds[1].innerHTML;
+        let category = tds[2].innerHTML;
+
+        rectangle = `<div class="square-border"><div style="font-weight:bold; text-decoration:underline;" >${componentName}</div><br><div style="font-style:italic;">${category}</div></div>`;
+        innerHTML += `<td style="width: 150px;height: 150px; border: 0px;">${rectangle}</td>`;
+        if (i < componentRows.length -1) {
+            innerHTML += `<td style="width: 150px;height: 150px;  border: 0px;">${arrowRight}</td>`;
+        }
+
+    }
+
+    innerHTML += "</tr></table>";
+
+    div.innerHTML = innerHTML;
+
+    document.getElementById('modelling-process').innerHTML = ""; // reset div
+    document.getElementById('modelling-process').appendChild(div); // populate div
+
+    horizontalScroll();
+}
+/**
+ * Makes the components visualization box from visualizeProcess() horizontally scrollable with the mouse-wheel
+ * */
+function horizontalScroll() {
+    document.getElementById("modelling-process").addEventListener('wheel', function (e) {
+        if (e.type != 'wheel') {
+            return;
+        }
+        let delta = ((e.deltaY || -e.wheelDelta || e.detail) >> 10) || 1;
+        delta = delta * (-10);
+        document.documentElement.scrollLeft -= delta;
+        document.getElementById("modelling-process").scrollLeft -= delta;
+        // safari needs also this
+        // document.getElementById("modelling-process").scrollLeft -= delta;
+        e.preventDefault();
+    });
+}
 /**
  * Shows success/error message and reloads process-editor.
  */
