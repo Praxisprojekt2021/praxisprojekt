@@ -28,7 +28,7 @@
                 <div class="description-columns">
                     <div class="div-wrapper">
                         <div class="left-div">
-                            
+
                             <label for="process-name-textarea"
                                     class="entry-label">Name des Prozesses
                             </label>
@@ -52,34 +52,32 @@
                             </label>
 
                             <textarea name="process-beschreibung-textarea"
-                                        maxlength="5000"
-                                        id="process-beschreibung-textarea"
-                                        class="textarea"></textarea>
-
+                                      maxlength="5000"
+                                      id="process-beschreibung-textarea"
+                                      class="textarea"></textarea>
+                        </div>
+                        <div class="right-div">
+                            <div id="whole-process-score" class="circle"></div>
                         </div>
                     </div>
-                    <div class="right-div">
-                        <div id="whole-process-score" class="circle"></div>
+                </div>
+                <div id="metrics-input-processes">
+                </div>
+                <div id="modelling-process" style="vertical-align: middle;   overflow-x: scroll; border:1px solid black;">
+                </div>
+                <div id="components-admin-process">
+                    <div class="center">
+                        <table id="ComponentOverviewTable"></table>
+                    </div>
+                    <div class="select-line">
+                        <select id="addposition"  class="postion-dropdown" ></select>
+                        <button class="button" type="button" onclick="addComponent()">+</button>
                     </div>
                 </div>
-            </div>
-            <div id="metrics-input-processes">
-            </div>
-            <div id="modelling-process">
-            </div>
-            <div id="components-admin-process">
-                <div class="center">
-                    <table id="ComponentOverviewTable"></table>
+                <div id="control-panel-process">
+                    <div id="buttons"></div>
                 </div>
-                <div class="select-line">
-                    <select id="addposition" class="postion-dropdown"></select>
-                    <button class="button" type="button" onclick="addComponent()">+</button>
-                </div>
-            </div>
-            <div id="control-panel-process">
-                <div id="buttons"></div>
-            </div>
-        </form>
+            </form>
 
         <!-- Placeholder following pls adapt/ add further -->
         <div class="success-message" id="create-success">
