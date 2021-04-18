@@ -283,9 +283,8 @@ function fillMetricRows(metricData, slug, processData) {
                         <td>${processData['actual_target_metrics'][slug]['actual']['max']}</td>`;
         }
 
-        //a = ${processData['actual_target_metrics'][slug]['target']['average']}
-        //console.log("Variable:" + a);
         // check if a target value is provided
+        a = processData['actual_target_metrics'][slug]['target']['average']
         if('target' in processData['actual_target_metrics'][slug]) {
             innerHTML_target =`
                         <td><input name="target-average" id="${slug}" value="${processData['actual_target_metrics'][slug]['target']['average']}"></td>
@@ -309,19 +308,6 @@ function fillMetricRows(metricData, slug, processData) {
     return [metric_fulfillment, count_component, innerHTML_metric_row];
 }
 
-/**
- * Function for replacing null with '' when loading Processes
- *
- * @param var
-
-function replace_null(var){
-
-    if(var==null){
-        var = '';
-    }
-    return var;
-}
-*/
 
 /**
  * Render process ball for whole process.
@@ -396,6 +382,11 @@ function createEditProcess() {
         }
     }
 
+    for(var key in metrics){
+        if(metrics[key]["min"] == null && metrics[key]["max"] == null && metrics[key]["average"] == null) {
+            delete metrics[key];
+        }
+    }
 
     if (typeof uid === undefined || uid === "" || uid == null) {
         uid = -1;
@@ -409,8 +400,6 @@ function createEditProcess() {
         },
             "target_metrics": ${JSON.stringify(metrics)}
         }`;
-
-
 
     // Check if all field have been filled
     // Also, when changing between categories, discard inputs made for non-relevant metrics
