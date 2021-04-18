@@ -6,6 +6,8 @@ from core.success_handler import success_handler
 
 import database.handler.metric_handler as metric_handler
 import database.handler.component_handler as component_handler
+import database.handler.reformatter as reformatter
+import database.handler.queries as queries
 from database.config import *
 
 config.DATABASE_URL = 'bolt://{}:{}@{}:{}'.format(NEO4J_USER, NEO4J_PASSWORD, NEO4J_IP, NEO4J_PORT)
@@ -91,44 +93,20 @@ def get_process_list() -> dict:
     return data
 
 
-def get_process(uid_dict: dict) -> dict:
+def get_process(input_dict: dict) -> dict:
     """
     Function to retrieve a single process
 
-    :param uid_dict: process uid
-    :type uid_dict: dict
+    :param input_dict: process uid
+    :type input_dict: dict
     :return: process dict
     """
+    output_dict = success_handler()
 
-    uid = uid_dict["uid"]
-    process = Process.nodes.get(uid=uid)
-    process_dict = success_handler()
-    process_dict["process"] = process.__dict__
+    result, meta = db.cypher_query(queries.get_process(input_dict["uid"]))
+    output_dict["process"], output_dict["target_metrics"] = reformatter.reformat_process(result[0])
 
-    component_list = process.hasComponent.all()
-    process_dict["process"]["components"] = []
-
-    for component in component_list:
-        component_dict = component_handler.get_component({"uid": component.uid})
-        del component_dict["success"]
-
-        rel = process.hasComponent.relationship(component)
-        component_dict["weight"] = rel.weight
-
-        process_dict["process"]["components"].append(component_dict)
-
-    metrics_list = process.hasMetric.all()
-    process_dict["target_metrics"] = {}
-
-    for metric in metrics_list:
-        rel = process.hasMetric.relationship(metric)
-        process_dict["target_metrics"][metric.name] = rel.value
-
-    del process_dict["process"]["hasComponent"]
-    del process_dict["process"]["hasMetric"]
-    del process_dict["process"]["id"]
-
-    return process_dict
+    return output_dict
 
 
 def add_process(input_dict: dict) -> dict:
