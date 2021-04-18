@@ -26,7 +26,8 @@ function init() {
         // If not, prepare for new component input...
         console.log('Entering new component');
         setSections("default");
-
+        // Enable component-category which is disabled by default
+        document.getElementById('component-category').removeAttribute("disabled");
         // Set component uid to -1
         document.getElementById('component-uid').value = -1;
     }
@@ -106,9 +107,9 @@ function processComponentData(json_data) {
         document.getElementById('component-name').value = json_data['name'];
         document.getElementById('component-description-textarea').value = json_data['description'];
 
-        // Set dropdown and disable it
+        // Set dropdown
         document.getElementById('component-category').value = json_data['category'];
-        document.getElementById('component-category').setAttribute("disabled", "true");
+
         // Set all metrics
         let metrics = json_data['metrics'];
         Object.keys(metrics).forEach(function (key) {
