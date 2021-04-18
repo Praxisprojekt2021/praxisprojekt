@@ -69,7 +69,9 @@
             "about": "What we're about",
             "definition-one": "Riskify is a system that captures and assesses enterprise software risks.",
             "tutorial": "How to use Riskify",
-            "Slide1": "This is your dashboard. It gives you an overview of both processes and software components. It furthermore allows you to add, edit or delete processes as well as components"
+            "Slide1": "This is your dashboard. It gives you an overview of both processes and software components. It furthermore allows you to add, edit or delete processes as well as components.",
+            "Slide2": "When adding or editing a component, you will have the opportunity to name and describe it and to specify it's category such as databases or firewalls.",
+            "Slide3": "After specifying the components' category, relevant quantifiable metrics for several attributes like integrity or code quality can be logged."
         }
     }
 }
