@@ -21,7 +21,7 @@ def index_route():
 
 
 @app.route('/about', methods=["GET"])
-def index_route():
+def info_route():
     """
     API endpoint to display info page view
     
