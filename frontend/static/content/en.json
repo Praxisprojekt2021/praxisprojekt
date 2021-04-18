@@ -65,9 +65,9 @@
             "number-of-administrators": "Number of administrators",
             "encryption": "Encryption",
             "homepage": "Praxisprojekt 2021 - Homepage",
-            "application-definition2": "It allows institutions to replicate internal processes, by adding all relevant software components, providing values for specific KPIs  (metrics) and defining their relationships. Based on the inputs made for metrics, Riskify then calculates a score, aggregated in various categories such as availability, code quality and more. The process is now benchmarked against target scores and can hence be monitored.",
-            "what-we-are-about": "What we're about",
-            "application-definition1": "Riskify is a system that captures and assesses enterprise software risks."
+            "definition-two": "It allows institutions to replicate internal processes, by adding all relevant software components, providing values for specific KPIs  (metrics) and defining their relationships. Based on the inputs made for metrics, Riskify then calculates a score, aggregated in various categories such as availability, code quality and more. The process is now benchmarked against target scores and can hence be monitored.",
+            "about": "What we're about",
+            "definition-one": "Riskify is a system that captures and assesses enterprise software risks."
         }
     }
 }
