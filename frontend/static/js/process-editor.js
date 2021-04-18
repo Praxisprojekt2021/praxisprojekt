@@ -659,10 +659,6 @@ function visualizeProcess() {
     let div = document.createElement("div");
     let rectangle = "";
     let arrowRight = `<div class="arrow">&#8594;</div>`;
-    let arrowDown = `<div class="arrow">&#8595;</div>`;
-    let arrowLeft = `<div class="arrow">&#8592;</div>`;
-    let arrowRightDown = `<div class="arrow">&#8628;<div>`;
-    let arrowLeftDown = `TODO`;
 
     let componentRows = document.getElementById("ComponentOverviewTable").getElementsByTagName("tr");
 
@@ -672,7 +668,6 @@ function visualizeProcess() {
     // begin at index 1 because 0 contains table headers
     for(let i=1; i<componentRows.length; i++) {
     let currentComponent = componentRows[i];
-    console.log(currentComponent.innerHTML.toString());
     let tds = currentComponent.getElementsByTagName("td");
     let weight = tds[0].innerHTML;
     let componentName = tds[1].innerHTML;
@@ -682,16 +677,6 @@ function visualizeProcess() {
     innerHTML += `<td style="width: 150px;height: 150px; border: 0px;">${rectangle}</td>`;
     innerHTML += `<td style="width: 150px;height: 150px;  border: 0px;">${arrowRight}</td>`;
 
-        if (i%3 == 2 && componentRows.length > i) {
-        // TODO: arrowLeft manchmal
-        if(i%6 == 5) {
-            innerHTML += `<td style="width: 150px;height: 150px;  border: 0px;">${arrowLeftDown}</td>`;
-        }
-        innerHTML += `<td style="width: 150px;height: 150px;  border: 0px;">${arrowRight}</td>`;
-    }
-    if (i%3 == 0) {
-        innerHTML += `</tr><tr><td style="width: 150px;height: 150px;  border: 0px;">${rectangle}</td>`
-    }
     }
 
  innerHTML += "</tr></table>";
@@ -712,4 +697,20 @@ function visualizeProcess() {
     document.getElementById('modelling-process').innerHTML = ""; // reset div
     document.getElementById('modelling-process').appendChild(div); // populate div
 
+    horizontalScroll();
+}
+
+function horizontalScroll() {
+    document.getElementById("modelling-process").addEventListener('wheel', function (e) {
+        if (e.type != 'wheel') {
+            return;
+        }
+        let delta = ((e.deltaY || -e.wheelDelta || e.detail) >> 10) || 1;
+        delta = delta * (-300);
+        document.documentElement.scrollLeft -= delta;
+        document.getElementById("modelling-process").scrollLeft -= delta;
+        // safari needs also this
+        // document.getElementById("modelling-process").scrollLeft -= delta;
+        e.preventDefault();
+    });
 }
