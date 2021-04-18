@@ -76,8 +76,8 @@ def get_component(input_dict: dict) -> dict:
     """
     Function to retrieve a single component
 
-    :param uid_dict: Component uid
-    :type uid_dict: dict
+    :param input_dict: Component uid
+    :type input_dict: dict
     :return: Component dict
     """
     output_dict = success_handler()

@@ -1,10 +1,24 @@
 def reformat_metric(input_dict: dict) -> dict:
+    """
+    Function to reformat a metric data from the neo4j database
+
+    :param input_dict: Metric data
+    :type input_dict: dict
+    :return: Metric as a dict
+    """
     output_dict = {input_dict["metric"]: input_dict["value"]}
 
     return output_dict
 
 
 def reformat_component(input_dict: dict) -> dict:
+    """
+    Function to reformat a component data from the neo4j database
+
+    :param input_dict: Component data
+    :type input_dict: dict
+    :return: Component as a dict
+    """
     output_dict = input_dict["properties"]
     output_dict["metrics"] = {}
 
@@ -21,6 +35,14 @@ def reformat_component(input_dict: dict) -> dict:
 
 
 def reformat_process(input_dict: dict) -> (dict, dict):
+    """
+    Function to reformat a Process data from the neo4j database
+
+    :param input_dict: Process data
+    :type input_dict: dict
+    :return: Process as a dict
+    """
+
     process_dict = input_dict[0]
 
     process_dict["components"] = []

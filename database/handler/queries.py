@@ -1,4 +1,11 @@
 def get_process(uid: str) -> str:
+    """
+    Function get the cypher query to receive a process
+
+    :param uid: UID as a String
+    :type uid: str
+    :return: Query as string
+    """
     # ToDo. Sobald man bei den Target_metrics anstatt dem Wert ein Dict mit drei Werten zurückgegeben bekommen möchte,
     # muss t.value durch properties(t) ersetzt werden
     return "Match (p: Process {uid: '" + uid + "'}) " \
@@ -21,6 +28,13 @@ def get_process(uid: str) -> str:
 
 
 def get_component(uid: str) -> str:
+    """
+    Function get the cypher query to receive a component
+
+    :param uid: UID as a String
+    :type uid: str
+    :return: Query as string
+    """
     return "Match (c: Component {uid: '" + uid + "'})" \
                                                  "Call {" \
                                                  "With c " \
@@ -31,4 +45,9 @@ def get_component(uid: str) -> str:
 
 
 def get_metrics_list() -> str:
+    """
+    Function get the cypher query to receive all Metrics
+
+    :return: Query as string
+    """
     return "Match (m: Metric) Return collect(properties(m))"
