@@ -680,17 +680,6 @@ function visualizeProcess() {
     }
 
  innerHTML += "</tr></table>";
-    // rectangle += `<div class="square-border">Prozess<br><br>Kategorie</div>`;
-    // Append element to document
-
-           /* <td style="width: 150px;height: 150px; border: 0px;">${rectangle}</td>
-            <td style="width: 150px;height: 150px;  border: 0px;">${arrowRight}</td>
-            <td style="width: 150px;height: 150px;  border: 0px;">${rectangle}</td>
-            <td style="width: 150px;height: 150px;  border: 0px;">${arrowRight}</td>
-            <td style="width: 150px;height: 150px;  border: 0px;">${rectangle}</td>
-            <td style="width: 150px;height: 150px;  border: 0px;">${arrowRightDown}</td>
-        </tr>
-*/
 
      div.innerHTML = innerHTML;
 
