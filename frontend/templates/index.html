@@ -1,14 +1,9 @@
-<!-- TODO: Tabellen untereinander alignen
-  2.
--->
-
 <html lang="de">
 <head>
     <meta charset="utf-8"/>
-    <title>Praxisprojekt 2021 - Startseite</title>
+    <title data-i18n="homepage"></title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}" type="text/css">
     <link href="{{ url_for('static', filename='images/favicon.png') }}" rel="icon" type="image/x-icon">
-    <!--<link rel="preconnect" href="https://fonts.gstatic.com">-->
     <script src="https://kit.fontawesome.com/f24e197897.js" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -45,10 +40,6 @@
     <button class="button" type="button" onclick="addProcess()" data-i18n="add"></button>
 </div>
 
-<!-- <div class="center">
-  <input type="submit" value="Löschen">
-</div> -->
-
 <div class="center">
     <h3 data-i18n="components"></h3>
     <table id="componentTable">
@@ -74,7 +65,9 @@
 <div class="center">
     <button class="button" type="button" onclick="addComponent()" data-i18n="add"></button>
 </div>
+
 <script src="{{ url_for('static', filename='js/helper.js') }}"></script>
+<script src="{{ url_for('static', filename='js/modals.js') }}"></script>
 <script src="{{ url_for('static', filename='js/dashboard-renderer.js') }}"></script>
 <script type="module" src="{{ url_for('static', filename='js/translator.js') }}"></script>
 </body>
