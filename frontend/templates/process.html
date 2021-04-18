@@ -1,7 +1,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Process</title>
+    <title data-i18n="process"></title>
     <meta content="width=device-width, initial-scale=1" name="viewport">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/process_styles.css') }}" id="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}" type="text/css">
@@ -13,15 +13,15 @@
 <header id="header" class="header"><img src="{{ url_for('static', filename='images/logo.png') }}"
                                         loading="lazy" alt="" class="logo">
     <div class="navigation">
-        <a href="/" class="navigation-links">Home</a>
+        <a href="/" class="navigation-links" data-i18n="home"></a>
         <div class="navigation-link-separator">&gt;</div>
-        <a href="#" class="navigation-links">Prozess Ansicht</a>
+        <a href="#" class="navigation-links" data-i18n="process-view"></a>
     </div>
 </header>
 <div class="process-overview" id="process-overview">
 
-    <div class="view-description-label">Prozessview</div>
-    <div class="view-description-label" style="font-size: 13px;">Beschreibung</div>
+    <div class="view-description-label" data-i18n="process-view"></div>
+    <div class="view-description-label" style="font-size: 13px;" data-i18n="description"></div>
     <div class="process-form-block">
 
         <form id="process-form" name="process-form" data-name="process-form" class="process-form">
@@ -30,7 +30,7 @@
                 <div class="div-wrapper">
                     <div class="left-div">
                         <label for="process-name-textarea"
-                               class="entry-label">Name des Prozesses
+                               class="entry-label" data-i18n="process-name">
                         </label>
                         <input type="text"
                                name="process-name-textarea"
@@ -38,7 +38,7 @@
                                id="process-name-textarea"
                                class="textfield">
                         <label for="process-beschreibung-textarea"
-                               class="entry-label">Beschreibung des Prozesses
+                               class="entry-label" data-i18n="process-description">
                         </label>
 
                         <textarea name="process-beschreibung-textarea"
