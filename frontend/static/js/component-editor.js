@@ -209,8 +209,8 @@ function createEditComponent() {
                 }
             }
         }
-      
-        if(document.getElementById("component-category").value === "default") {
+
+        if (document.getElementById("component-category").value === "default") {
             required_helper_flag = false;
         }
     }

@@ -17,9 +17,9 @@ document.addEventListener("DOMContentLoaded", init(), false);
 /**
  * Get component and process Data from Back-End and then populate the tables.
  */
-function init(){
+function init() {
     getComponentList();
-    getProcessList();    
+    getProcessList();
 }
 
 /**
@@ -187,7 +187,7 @@ function renderStatusColumn(wholeProcessScore) {
     // TODO: adapt to requirements (when it should be red or green)
     let color = helper.getCircleColor(wholeProcessScore);
 
-    return '<td>' + helper.renderSmallCircle(null, color) +'</td>';
+    return '<td>' + helper.renderSmallCircle(null, color) + '</td>';
     return '<td><i id="' + color + '" class="fas fa-circle"></i></td>';
 }
 
