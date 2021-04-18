@@ -689,7 +689,9 @@ function visualizeProcess() {
 
     horizontalScroll();
 }
-
+/**
+ * Makes the components visualization box from visualizeProcess() horizontally scrollable with the mouse-wheel
+ * */
 function horizontalScroll() {
     document.getElementById("modelling-process").addEventListener('wheel', function (e) {
         if (e.type != 'wheel') {
