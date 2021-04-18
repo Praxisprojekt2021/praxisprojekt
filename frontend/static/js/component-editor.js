@@ -69,7 +69,7 @@ function getFeatures() {
             helper.createMetricsSection(features);
             let div = document.createElement('div');
             div.className = 'control-area';
-            div.innerHTML = '<a href="#" data-wait="Bitte warten..." id="save-button" class="create-button w-button" onclick="createEditComponent()">Speichern</a>';
+            div.innerHTML = '<a href="#" data-wait="Bitte warten..." id="save-button" class="create-button" onclick="createEditComponent()">Speichern</a>';
 
             // Append element to document
             document.getElementById('metrics-input').appendChild(div);
@@ -109,7 +109,6 @@ function processComponentData(json_data) {
         // Set dropdown and disable it
         document.getElementById('component-category').value = json_data['category'];
         document.getElementById('component-category').setAttribute("disabled", "true");
-
         // Set all metrics
         let metrics = json_data['metrics'];
         Object.keys(metrics).forEach(function (key) {
@@ -140,14 +139,12 @@ function setSections(selected_category) {
             Object.keys(category).forEach(function (key) {
                 const feature_child = document.getElementById(key).children[0].children[0];
                 const metrics_child = document.getElementById(key).children[0].children[1];
-                const feature_child_label = document.getElementById(key).children[0].children[0].children[1];
                 if (category[key] === 'true') {
                     feature_child.style.color = 'inherit';
+                    feature_child.setAttribute("enabled", "true");
                     feature_child.removeAttribute("disabled");
                 } else {
-                    feature_child.style.color = '#999999';
                     feature_child.setAttribute("disabled", "true");
-                    feature_child_label.style.color = '#999999';
                     metrics_child.style.display = 'none';
                 }
             });

@@ -200,7 +200,7 @@ button, html input[type="button"], input[type="reset"] {
   font-weight: 700;
 }
 
-.features-label:hover {
+.accordion-toggle[enabled]:hover .features-label {
   transition: 0.15s ease-out;
   color: #414dde
 }
