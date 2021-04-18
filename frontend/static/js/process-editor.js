@@ -651,6 +651,9 @@ function exit(ev) {
     ev.target.parentElement.style.border = "inherit";
 }
 
+/**
+ * This function visualizes the components of a process in a box above the components table
+ * */
 function visualizeProcess() {
     let div = document.createElement("div");
     let rectangle = "";
@@ -663,23 +666,23 @@ function visualizeProcess() {
 
     // begin at index 1 because 0 contains table headers
     for(let i=1; i<componentRows.length; i++) {
-    let currentComponent = componentRows[i];
-    let tds = currentComponent.getElementsByTagName("td");
-    let weight = tds[0].innerHTML;
-    let componentName = tds[1].innerHTML;
-    let category = tds[2].innerHTML;
+        let currentComponent = componentRows[i];
+        let tds = currentComponent.getElementsByTagName("td");
+        let weight = tds[0].innerHTML;
+        let componentName = tds[1].innerHTML;
+        let category = tds[2].innerHTML;
 
-    rectangle = `<div class="square-border"><div style="font-weight:bold; text-decoration:underline;" >${componentName}</div><br><div style="font-style:italic;">${category}</div></div>`;
-    innerHTML += `<td style="width: 150px;height: 150px; border: 0px;">${rectangle}</td>`;
-    if (i < componentRows.length -1) {
-        innerHTML += `<td style="width: 150px;height: 150px;  border: 0px;">${arrowRight}</td>`;
+        rectangle = `<div class="square-border"><div style="font-weight:bold; text-decoration:underline;" >${componentName}</div><br><div style="font-style:italic;">${category}</div></div>`;
+        innerHTML += `<td style="width: 150px;height: 150px; border: 0px;">${rectangle}</td>`;
+        if (i < componentRows.length -1) {
+            innerHTML += `<td style="width: 150px;height: 150px;  border: 0px;">${arrowRight}</td>`;
+        }
+
     }
 
-    }
+    innerHTML += "</tr></table>";
 
- innerHTML += "</tr></table>";
-
-     div.innerHTML = innerHTML;
+    div.innerHTML = innerHTML;
 
     document.getElementById('modelling-process').innerHTML = ""; // reset div
     document.getElementById('modelling-process').appendChild(div); // populate div
