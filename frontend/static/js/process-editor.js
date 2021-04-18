@@ -84,6 +84,8 @@ function getProcess(features) {
         xhttp.open("POST", base_url + "/process/view", true);
         xhttp.setRequestHeader("Content-Type", "application/json");
 
+        // TODO: auslagern in helper js
+
         // Handle response of HTTP-request
         xhttp.onreadystatechange = function () {
             if (this.readyState === XMLHttpRequest.DONE && (this.status >= 200 && this.status < 300)) {
@@ -139,6 +141,7 @@ function fillDescriptionColumn(processData) {
 
     // Set uid and data fields
     document.getElementById('process-name-textarea').value = processData['process']['name'];
+    document.getElementById('process-responsible-person-textarea').value = processData['process']['responsible_person'];
     document.getElementById('process-beschreibung-textarea').value = processData['process']['description'];
 
 }
@@ -325,8 +328,6 @@ function renderWholeProcessScoreCircle(wholeProcessScore) {
 
 function createEditProcess() {
 
-    document.getElementById('save-button').setAttribute("disabled","disabled");
-    document.getElementById('save-button').style.backgroundColor='grey';
 
 
     let metric_elements = document.getElementsByName('target-average');
@@ -351,6 +352,7 @@ function createEditProcess() {
         "process": {
             "uid": "${uid}",  
             "name": "${document.getElementById('process-name-textarea').value}",
+            "responsible_person": "${document.getElementById('process-responsible-person-textarea').value}",
             "description": "${document.getElementById('process-beschreibung-textarea').value}"
         },
             "target_metrics": ${JSON.stringify(metrics)}
@@ -364,13 +366,6 @@ function createEditProcess() {
     for (let i = 0; i < toggles.length; i++) {
         console.log(toggles[i].value);
         const input = toggles[i].value;
-
-        // Check if enabled fields have been filled - all fields are required
-        // TODO: decide wether or not this is true
-        /*if (toggles[i].value === '') {
-            console.log(toggles[i].id);
-            required_helper_flag = false;
-        }*/
     }
 
     // If a input has been performed, post changes to backend
@@ -545,6 +540,7 @@ function addComponent() {
         helper.post_request("/process/edit/createstep", JSON.stringify(data), init);
     } else {
         // Please select a component from the dropdown.
+        // TOdO: Fill with something?
     }
 }
 
@@ -575,7 +571,7 @@ function deleteComponent(weight) {
         "weight": parseFloat(weight)
     }
 
-    helper.post_request("/process/edit/deletestep", JSON.stringify(data), init);
+    helper.post_request("/process/edit/deletestep", JSON.stringify(data), deleteCallback);
 }
 
 /**
@@ -658,4 +654,19 @@ function enter(ev) {
  */
 function exit(ev) {
     ev.target.parentElement.style.border = "inherit";
+}
+
+/**
+ * Shows success/error message and reloads process-editor.
+ */
+ function deleteCallback(response) {
+    // Check if component has been deleted successfully
+    if (response['success']) {
+        // Component has been deleted successfully
+        window.alert('Object has been deleted.');
+        init(response);
+    } else {
+        // Component has not been deleted successfully
+        window.alert('Object could not be deleted.');
+    }
 }

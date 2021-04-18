@@ -63,7 +63,9 @@
             "redundancy": "Redundancy",
             "confidentiality": "Confidentiality",
             "number-of-administrators": "Number of administrators",
-            "encryption": "Encryption"
+            "encryption": "Encryption",
+            "homepage": "Praxisprojekt 2021 - Homepage",
+            "responsible-person": "Responsible Person"
         }
     }
 }

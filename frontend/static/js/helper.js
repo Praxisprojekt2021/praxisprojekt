@@ -30,7 +30,6 @@ class Helper {
      * This function sends a post request to the backend
      *
      * @param {string} endpoint: The endpoint to be referred to
-     * @param {string} data_json: The JSON Object to be passed to the backend
      * @param {function} callback: The function to be executed with the response
      */
 

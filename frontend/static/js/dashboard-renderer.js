@@ -9,6 +9,9 @@ const base_url = window.location.href;
 //instantiate object of Helper class
 const helper = new Helper();
 
+//instantiate object of Modals class
+const modals = new Modals();
+
 document.addEventListener("DOMContentLoaded", init(), false);
 
 /**
@@ -54,6 +57,7 @@ function refreshProcessTable(json) {
         table.appendChild(tr);
     });
     helper.hideLoadingScreen();
+    modals.getProcessDate(json);
 }
 
 /**
@@ -74,6 +78,7 @@ function refreshComponentTable(json, metricsDefinition) {
             '<td>' + renderDeleteComponentButton(object.uid) + '</td>';
         table.appendChild(tr);
     });
+    modals.getComponentDate(json);
 }
 
 /**
