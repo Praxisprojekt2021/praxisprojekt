@@ -303,7 +303,7 @@
 
 .div-wrapper {
   width: 1000px;
-  border: 1px solid black;
+  /*border: 1px solid black;*/
   overflow: hidden; /* will contain if #first is longer than #second */
 }
 .left-div {
@@ -320,7 +320,7 @@
   width: 200px;
   border-radius: 50%;
   display: table;
-  margin: 0 auto;
+  margin: 2% auto;
   display: flex;
   align-items: center;
   justify-content: center;
