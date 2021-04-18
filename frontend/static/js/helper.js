@@ -15,7 +15,7 @@ class Helper {
 
         // Handle response of HTTP-request
         xhttp.onreadystatechange = function () {
-            if (this.readyState === XMLHttpRequest.DONE && (this.status >= 200 && this.status < 300)) {
+            if (this.readyState === XMLHttpRequest.DONE && (this.status >= 200 && this.status < 300 || this.status === 500)) {
                 // Process response and show sum in output field
                 let json = JSON.parse(this.responseText);
                 callback(json);
@@ -30,7 +30,6 @@ class Helper {
      * This function sends a post request to the backend
      *
      * @param {string} endpoint: The endpoint to be referred to
-     * @param {string} data_json: The JSON Object to be passed to the backend
      * @param {function} callback: The function to be executed with the response
      */
 
