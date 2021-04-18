@@ -78,7 +78,7 @@ def calculate_current_values(process_dict: dict, metrics_dict: dict) -> dict:
             value = process_dict['target_metrics'][metric]
 
             # calculate and get target metrics
-            calculations[metric]['target'] = {'average': value}
+            calculations[metric]['target'] = {'average': value["average"] , 'min': value["min"] ,'max': value["max"]}
 
             process_target_flag = True
 

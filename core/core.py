@@ -104,9 +104,11 @@ def get_process(input_dict: dict) -> str:
     :rtype: str
     """
 
+    print("input",input_dict)
     process_dict = process_handler.get_process(input_dict)
+    print("process",process_dict)
     metrics_dict = metric_handler.get_metrics_data()
-
+    print("metric:",metrics_dict)
     output_dict = processing.calculations.start_calculate_risk(process_dict, metrics_dict)
 
     output_json = processing.dict_to_json(output_dict)

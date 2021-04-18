@@ -191,6 +191,7 @@ def process_create_edit_route():
     :return: a JSON object with process details as specified in docu/JSON_objects_definitions.py
     """
     if request.is_json:
+        print("process_create_edit:",request.json)
         return core.create_edit_process(request.json), 200
     else:
         raise TypeError("No JSON body was transferred")
