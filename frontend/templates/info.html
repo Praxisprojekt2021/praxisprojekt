@@ -7,7 +7,10 @@
     <script src="https://kit.fontawesome.com/f24e197897.js" crossorigin="anonymous"></script>
 </head>
 <body>
-<header>
+<header id="header" class="header">
+    <a href="/">
+    <img src="{{ url_for('static', filename='images/logo.png') }}" loading="lazy" alt="" class="logo"/>
+    </a>
 
     <div class="navigation">
         <a href="/" class="navigation-links">Home</a>
@@ -16,7 +19,7 @@
     </div>
 
 </header>
-<div class="headline"><h1 data-i18n="riskify"></h1></div>
+
 
 <div>
     <p data-i18n="application-definition"></p>
