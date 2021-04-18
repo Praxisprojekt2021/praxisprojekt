@@ -236,5 +236,5 @@ function createEditComponent() {
 function saveCallback(response) {
     helper.hideLoadingScreen();
     // Component has been created/edited successfully
-    window.location = base_url;
+    window.location.replace(base_url);
 }

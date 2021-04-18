@@ -9,7 +9,6 @@ class Helper {
      */
 
     post_request(endpoint, data_json, callback) {
-        let helper = new Helper();
 
         const base_url = window.location.origin;
         let xhttp = new XMLHttpRequest();
@@ -23,16 +22,16 @@ class Helper {
                 let json = JSON.parse(this.responseText);
 
                 if (this.status === 500) {
-                    helper.showError(endpoint);
+                    Helper.showError(endpoint);
                 } else {
                     if (json['success']) {
-                        helper.showSuccess(endpoint);
+                        Helper.showSuccess(endpoint);
                     }
                 }
-                // Process response and show sum in output field
+                // Process response
                 callback(json);
             } else if (this.readyState === XMLHttpRequest.DONE) {
-                helper.showError(endpoint);
+                Helper.showError(endpoint);
             }
         }
         // Send HTTP-request
@@ -54,10 +53,21 @@ class Helper {
 
         // Handle response of HTTP-request
         xhttp.onreadystatechange = function () {
-            if (this.readyState === XMLHttpRequest.DONE && (this.status >= 200 && this.status < 300)) {
+            if (this.readyState === XMLHttpRequest.DONE && (this.status >= 200 && this.status < 300 || this.status === 500)) {
                 // Process response and show sum in output field
                 let json = JSON.parse(this.responseText);
+
+                if (this.status === 500) {
+                    Helper.showError(endpoint);
+                } else {
+                    if (json['success']) {
+                        Helper.showSuccess(endpoint);
+                    }
+                }
+
                 callback(json);
+            } else if (this.readyState === XMLHttpRequest.DONE) {
+                Helper.showError(endpoint);
             }
         }
         xhttp.send();
@@ -69,7 +79,7 @@ class Helper {
      *
      * @param {String} endpoint
      */
-    showError(endpoint) {
+    static showError(endpoint) {
         // Saving the data was not successful
         if (endpoint.includes("delete")) {
             window.alert("Object could not be deleted.")
@@ -83,13 +93,13 @@ class Helper {
      *
      * @param {String} endpoint
      */
-    showSuccess(endpoint) {
+    static showSuccess(endpoint) {
         if (endpoint !== "/component/view") {
             // Saving the data was successful
             if (endpoint.includes("delete")) {
-                window.alert('Object has been deleted.');
-            } else {
-                window.alert('Changes were saved.');
+                // window.alert('Object has been deleted.');
+            } else if (endpoint.includes("edit")) {
+                // window.alert('Changes were saved.');
             }
         }
     }
@@ -226,5 +236,4 @@ class Helper {
         let element = document.getElementById('loader-wrapper');
         element.setAttribute("class","loader-wrapper");
     }
-
 }
