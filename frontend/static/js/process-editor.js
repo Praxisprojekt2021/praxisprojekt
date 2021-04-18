@@ -283,10 +283,14 @@ function fillMetricRows(metricData, slug, processData) {
                         <td>${processData['actual_target_metrics'][slug]['actual']['max']}</td>`;
         }
 
+        //a = ${processData['actual_target_metrics'][slug]['target']['average']}
+        //console.log("Variable:" + a);
         // check if a target value is provided
         if('target' in processData['actual_target_metrics'][slug]) {
             innerHTML_target =`
-                        <td><input name="target-average" id="${slug}" value="${processData['actual_target_metrics'][slug]['target']['average']}"></td>`
+                        <td><input name="target-average" id="${slug}" value="${processData['actual_target_metrics'][slug]['target']['average']}"></td>
+                        <td><input name="target-min" id="${slug}" value="${processData['actual_target_metrics'][slug]['target']['min']}"></td>
+                        <td><input name="target-max" id="${slug}" value="${processData['actual_target_metrics'][slug]['target']['max']}"></td>`
         }
 
         // check if a fulfillment and consequentially a target sum is provided (if fulfillment was calculated, a target sum was also able to be calculated)
@@ -304,6 +308,20 @@ function fillMetricRows(metricData, slug, processData) {
 
     return [metric_fulfillment, count_component, innerHTML_metric_row];
 }
+
+/**
+ * Function for replacing null with '' when loading Processes
+ *
+ * @param var
+
+function replace_null(var){
+
+    if(var==null){
+        var = '';
+    }
+    return var;
+}
+*/
 
 /**
  * Render process ball for whole process.
@@ -327,10 +345,12 @@ function renderWholeProcessScoreCircle(wholeProcessScore) {
 
 function createEditProcess() {
 
-
-
     let metric_elements = document.getElementsByName('target-average');
+    let metric_elements_min = document.getElementsByName('target-min');
+    let metric_elements_max = document.getElementsByName('target-max');
     let metrics = {};
+
+
     let text_replaced_flag = false; // Helper variable that indicates, whether or not a non quantitative metric input has been found and discarded
     for (let i = 0; i < metric_elements.length; i++) {
         // TODO also check if values are within min and max values
@@ -340,21 +360,57 @@ function createEditProcess() {
             text_replaced_flag = true;
         }
         // Process quantitative metrics to push them into the JSON Object to be passed to the backend
+        metrics[metric_elements[i].id] = {  "average": null, "min": null, "max": null};
         if (metric_elements[i].value !== '') {
-            metrics[metric_elements[i].id] = parseInt(metric_elements[i].value);
+             metrics[metric_elements[i].id]["average"] = parseInt(metric_elements[i].value);
         }
     }
+
+    console.log(metrics);
+
+    //for min
+    for (let j = 0; j < metric_elements_min.length; j++) {
+        // TODO also check if values are within min and max values
+        // Replace non quantitative metric inputs with an emtpy string to have them discarded
+        if (metric_elements_min[j].value !== '' && !parseFloat(metric_elements_min[j].value)) {
+            metric_elements_min[j].value = '';
+            text_replaced_flag = true;
+        }
+        // Process quantitative metrics to push them into the JSON Object to be passed to the backend
+        if (metric_elements_min[j].value !== '') {
+            metrics[metric_elements_min[j].id]["min"] = parseInt(metric_elements_min[j].value);
+        }
+    }
+
+    //for max
+    for (let p = 0; p < metric_elements_max.length; p++) {
+        // TODO also check if values are within min and max values
+        // Replace non quantitative metric inputs with an emtpy string to have them discarded
+        if (metric_elements_max[p].value !== '' && !parseFloat(metric_elements_max[p].value)) {
+            metric_elements_max[p].value = '';
+            text_replaced_flag = true;
+        }
+        // Process quantitative metrics to push them into the JSON Object to be passed to the backend
+        if (metric_elements_max[p].value !== '') {
+            metrics[metric_elements_max[p].id]["max"] = parseInt(metric_elements_max[p].value);
+        }
+    }
+
+
     if (typeof uid === undefined || uid === "" || uid == null) {
         uid = -1;
     }
+
     const process = `{
         "process": {
-            "uid": "${uid}",  
+            "uid": "${uid}",
             "name": "${document.getElementById('process-name-textarea').value}",
             "description": "${document.getElementById('process-beschreibung-textarea').value}"
         },
             "target_metrics": ${JSON.stringify(metrics)}
         }`;
+
+
 
     // Check if all field have been filled
     // Also, when changing between categories, discard inputs made for non-relevant metrics
