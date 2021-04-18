@@ -675,7 +675,9 @@ function visualizeProcess() {
 
     rectangle = `<div class="square-border">${componentName}<br><br>${category}</div>`;
     innerHTML += `<td style="width: 150px;height: 150px; border: 0px;">${rectangle}</td>`;
-    innerHTML += `<td style="width: 150px;height: 150px;  border: 0px;">${arrowRight}</td>`;
+    if (i < componentRows.length -1) {
+        innerHTML += `<td style="width: 150px;height: 150px;  border: 0px;">${arrowRight}</td>`;
+    }
 
     }
 
