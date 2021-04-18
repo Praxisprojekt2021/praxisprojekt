@@ -140,12 +140,14 @@ function setSections(selected_category) {
             Object.keys(category).forEach(function (key) {
                 const feature_child = document.getElementById(key).children[0].children[0];
                 const metrics_child = document.getElementById(key).children[0].children[1];
+                const feature_child_label = document.getElementById(key).children[0].children[0].children[1];
                 if (category[key] === 'true') {
                     feature_child.style.color = 'inherit';
                     feature_child.removeAttribute("disabled");
                 } else {
                     feature_child.style.color = '#999999';
                     feature_child.setAttribute("disabled", "true");
+                    feature_child_label.style.color = '#999999';
                     metrics_child.style.display = 'none';
                 }
             });

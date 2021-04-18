@@ -196,7 +196,13 @@ button, html input[type="button"], input[type="reset"] {
 }
 
 .features-label {
+  transition: 0.17s ease-out;
   font-weight: 700;
+}
+
+.features-label:hover {
+  transition: 0.15s ease-out;
+  color: #414dde
 }
 
 .component-overview {
