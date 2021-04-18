@@ -140,8 +140,6 @@ function setSections(selected_category) {
                 const feature_child = document.getElementById(key).children[0].children[0];
                 const metrics_child = document.getElementById(key).children[0].children[1];
                 if (category[key] === 'true') {
-                    feature_child.style.color = 'inherit';
-                    feature_child.setAttribute("enabled", "true");
                     feature_child.removeAttribute("disabled");
                 } else {
                     feature_child.setAttribute("disabled", "true");
