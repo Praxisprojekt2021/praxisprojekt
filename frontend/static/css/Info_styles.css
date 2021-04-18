@@ -84,7 +84,7 @@
 /* Caption text */
 .text {
     color: dimgrey;
-    font-size: 15px;
+    font-size: 18px;
     padding: 8px 12px;
     background-color: #fefefe;
   /*  position: absolute;
@@ -111,11 +111,10 @@
     backface-visibility: hidden;
 }
 
-
 /* Number text (1/3 etc) */
 .numbertext {
     color: dimgrey;
-    font-size: 12px;
+    font-size: 18px;
     padding: 8px 12px;
     position: absolute;
     top: 0;
