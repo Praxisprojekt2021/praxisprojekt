@@ -392,25 +392,18 @@ function saveProcess(data) {
 
 
 /**
- * This function checks for success in communication
+ * This function gets called if saving was successful and reloads the page.
  *
- * @param {string} response: JSON Object response, whether the changes have been saved successfully
+ * @param {JSON} response
  */
-
 function saveCallback(response) {
-    // Check if process has been created/edited successfully
+    // Process has been created/edited successfully
     helper.hideLoadingScreen();
-    if (response['success']) {
-        // Component has been created/edited successfully
-        window.alert('Changes were saved.');
-        if (uid.length === 32) {
-            init();
-        } else {
-            location.replace(location.href + '?uid=' + response['process']['uid']);
-        }
+    window.alert('Changes were saved.');
+    if (uid.length === 32) {
+        init();
     } else {
-        // Process has not been created/edited successfully
-        window.alert('Changes could not be saved.');
+        location.replace(location.href + '?uid=' + response['process']['uid']);
     }
 }
 
@@ -542,8 +535,7 @@ function addComponent() {
     } else {
         helper.hideLoadingScreen();
         // Please select a component from the dropdown.
-        // TODO: Fill with something?
-
+        // TOdO: Fill with something?
     }
 }
 
@@ -716,15 +708,10 @@ function horizontalScroll() {
 }
 /**
  * Shows success/error message and reloads process-editor.
+ *
+ * @param {json} response
  */
- function deleteCallback(response) {
-    // Check if component has been deleted successfully
-    if (response['success']) {
-        // Component has been deleted successfully
-        window.alert('Object has been deleted.');
-        init(response);
-    } else {
-        // Component has not been deleted successfully
-        window.alert('Object could not be deleted.');
-    }
+function deleteCallback(response) {
+    // Component has been deleted successfully
+    init(response);
 }

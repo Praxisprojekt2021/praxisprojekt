@@ -229,20 +229,12 @@ function createEditComponent() {
 }
 
 /**
- * This function checks for success in communication
+ * This function gets called if saving was successful and reloads the page.
  *
- * @param {string} response: JSON Object response, whether the changes have been saved successfully
  */
 
 function saveCallback(response) {
     helper.hideLoadingScreen();
-    // Check if component has been created/edited successfully
-    if (response['success']) {
-        // Component has been created/edited successfully
-        window.alert('Changes were saved.');
-        window.location = base_url;
-    } else {
-        // Component has not been created/edited successfully
-        window.alert('Changes could not be saved.');
-    }
+    // Component has been created/edited successfully
+    window.location = base_url;
 }
