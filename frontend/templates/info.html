@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="de">
 <head>
     <meta charset="utf-8"/>
@@ -9,15 +8,13 @@
 </head>
 <body>
 
-<div class="headline" data-i18n="riskify"><h1>Riskify</h1></div>
+<div class="headline"><h1 data-i18n="riskify"></h1></div>
 
-<div class="er" data-i18n="">
-    <h3> HIER MUSS EIN TEXT AUS DEM JSON HIN</h3>
+<div>
+    <p data-i18n="application-definition"></p>
 </div>
 
 <script src="{{ url_for('static', filename='js/helper.js') }}"></script>
-<script src="{{ url_for('static', filename='js/modals.js') }}"></script>
-<script src="{{ url_for('static', filename='js/dashboard-renderer.js') }}"></script>
 <script type="module" src="{{ url_for('static', filename='js/translator.js') }}"></script>
 </body>
 </html>
