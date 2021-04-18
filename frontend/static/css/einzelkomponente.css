@@ -8,7 +8,6 @@ body {
   padding-top: 40px;
   font-size: 14px;
   line-height: 20px;
-  margin: 0;
   min-height: 100%;
   background-color: #fff;
   overflow-y: scroll;
@@ -201,8 +200,6 @@ button, html input[type="button"], input[type="reset"] {
 }
 
 .component-overview {
-  margin: auto;
-  width: 70%;
   padding-top: 40px;
   padding-left: 50px;
   padding-right: 50px;
