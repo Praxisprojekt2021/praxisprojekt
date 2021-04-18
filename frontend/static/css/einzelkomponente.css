@@ -3,11 +3,13 @@
 }
 
 body {
+  padding-top: 40px;
   font-size: 14px;
   line-height: 20px;
   margin: 0;
   min-height: 100%;
   background-color: #fff;
+  overflow-y: scroll;
 }
 
 label {
@@ -44,8 +46,8 @@ button, html input[type="button"], input[type="reset"] {
 }
 
 .logo {
+  position: inherit;
   display: block;
-  margin-top: 25px;
   margin-right: auto;
   margin-left: auto;
   text-align: left;
@@ -119,6 +121,7 @@ button, html input[type="button"], input[type="reset"] {
   margin-left: auto;
   margin-right: auto;
   cursor: pointer;
+  transition: 0.35s ease-out;
 }
 
 .accordion-toggle[disabled] {
@@ -162,7 +165,13 @@ button, html input[type="button"], input[type="reset"] {
   margin-left: 10px;
   float: left;
   border-radius: 20px;
+  transition: 0.21s ease-out;
   opacity: 0.65;
+}
+
+.info-icon:hover {
+  transition: 0.21s ease-out;
+  opacity: 1;
 }
 
 .textfield, .category-dropdown {
@@ -180,6 +189,10 @@ button, html input[type="button"], input[type="reset"] {
   color: #333333;
   vertical-align: middle;
   border: 1px solid #ccc;
+}
+
+.category-dropdown {
+  cursor: pointer;
 }
 
 .features-label {
@@ -258,10 +271,32 @@ button, html input[type="button"], input[type="reset"] {
   font-size: 15px;
   display: inline-block;
   padding: 9px 15px;
+  margin-bottom: 3px;
+  margin-right: 3px;
   background-color: #1f299c;
   color: white;
   border: 0;
   cursor: pointer;
+  text-decoration: none;
+  transition: 0.3s ease-out;
+}
+
+.create-button:hover {
+  transition: 0.3s ease-out;
+  background-color: #a3a9f5ff;
+  color: black;
+  font-weight: 900;
+  box-shadow: 3px 3px;
+}
+
+.create-button:active {
+  transition: 0.3s ease-out;
+  background-color: #1f299c;
+  margin-top: 3px;
+  margin-left: 3px;
+  margin-bottom: 0px;
+  margin-right: 0px;
+  box-shadow: 0px 0px;
 }
 
 .metric-entry-element {

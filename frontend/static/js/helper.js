@@ -185,6 +185,7 @@ class Helper {
         requestAnimationFrame(function() {
             element.style.height = sectionHeight + 'px';
             element.style.transition = elementTransition;
+            element.style.margin = "0px 0px 0px 0px";
             requestAnimationFrame(function() {
                 element.style.height = 0 + 'px';
             });
@@ -202,6 +203,7 @@ class Helper {
     expandSection(element) {
         const sectionHeight = element.scrollHeight;
         element.style.height = sectionHeight + 'px';
+        element.style.margin = "0px 0px 10px 0px";
         element.setAttribute('data-collapsed', 'false');
     }
 }
