@@ -8,6 +8,9 @@
             "riskify": "Riskify",
             "processes": "Processes",
             "process": "Process",
+            "process-name": "Process name",
+            "process-description": "Process description",
+            "process-view": "Process view",
             "components": "Components",
             "component": "Component",
             "score": "Risk Score",
@@ -16,10 +19,11 @@
             "edited": "Edited",
             "add": "Add",
             "category": "Category",
-            "home": "home",
+            "home": "Home",
             "individual-component": "Individual component",
             "component-name": "Component name",
             "component-id": "Component ID",
+            "component-uid": "Component UID",
             "component-category": "Component category",
             "component-description": "Component description",
             "please-select": "Plaese select..",
@@ -65,6 +69,7 @@
             "number-of-administrators": "Number of administrators",
             "encryption": "Encryption",
             "homepage": "Praxisprojekt 2021 - Homepage",
+            "description": "Description",
             "responsible-person": "Responsible Person"
         }
     }
