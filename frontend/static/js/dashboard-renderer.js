@@ -87,7 +87,7 @@ function refreshComponentTable(json, metricsDefinition) {
  * @returns {String} Edit-Process-Button HTML-Element
  */
 function renderEditProcessButton(uid) {
-    return `<div onclick="editProcess('${uid}')"><i id="PenIcon" class="fas fa-pencil-alt"></i></div>`;
+    return `<a href="process?uid=${uid}"><i id="PenIcon" class="fas fa-pencil-alt"></i></a>`;
 }
 
 /**
@@ -96,7 +96,7 @@ function renderEditProcessButton(uid) {
  * @returns {String} Edit-Component-Button HTML-Element
  */
 function renderEditComponentButton(uid) {
-    return `<div onclick="editComponent('${uid}')"><i id="PenIcon" class="fas fa-pencil-alt"></i></div>`;
+    return `<a href="component?uid=${uid}"><i id="PenIcon" class="fas fa-pencil-alt"></i></a>`;
 }
 
 /**
@@ -115,43 +115,6 @@ function renderDeleteProcessButton(uid) {
  */
 function renderDeleteComponentButton(uid) {
     return `<div onclick="deleteComponent('${uid}')"><i id="TrashIcon" class="fas fa-trash-alt"></i></div>`;
-}
-
-/**
- * Routes to the URL where user can add a new process
- */
-function addProcess() {
-    // open edit process URL without param
-    window.location.replace(base_url + "process");
-}
-
-/**
- * Routes to the URL where user can add a new process.
- */
-function addComponent() {
-    // open edit component URL without param
-    window.location.replace(base_url + "component");
-
-}
-
-/**
- * Routes to the URL where the user can edit the process with the given uid.
- *
- * @param {String} uid
- */
-function editProcess(uid) {
-    // open edit process URL with param uid
-    window.location.replace(base_url + "process?uid=" + uid);
-}
-
-/**
- * Routes to the URL where the user can edit the component with the given uid.
- *
- * @param {String} uid
- */
-function editComponent(uid) {
-    // open edit component URL with param uid
-    window.location.replace(base_url + "component?uid=" + uid);
 }
 
 /**
