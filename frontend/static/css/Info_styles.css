@@ -36,6 +36,7 @@
     max-width: 1500px;
     position: relative;
     margin: auto;
+    outline-color: dimgrey;
 }
 
 /* Hide the images by default
