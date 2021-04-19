@@ -345,6 +345,12 @@
 
 table .process-visualization {
   column-width: 200px;
-  border: 0px solid black;
+  width: auto;
+  border: none;
 }
 
+#modelling-process{
+  vertical-align: middle;
+  overflow-x: scroll;
+  border: 1px solid black;
+}

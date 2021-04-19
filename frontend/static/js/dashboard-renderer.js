@@ -26,6 +26,7 @@ function init() {
  * Get processes data from Back-End and then populate the processes table in FE.
  */
 function getProcessList() {
+    helper.showLoadingScreen();
     helper.get_request("/process/overview", refreshProcessTable);
 }
 
@@ -55,6 +56,7 @@ function refreshProcessTable(json) {
             '<td>' + renderDeleteProcessButton(object.uid) + '</td>';
         table.appendChild(tr);
     });
+    helper.hideLoadingScreen();
     modals.getProcessDate(json);
 }
 
@@ -185,7 +187,7 @@ function renderStatusColumn(wholeProcessScore) {
     // TODO: adapt to requirements (when it should be red or green)
     let color = helper.getCircleColor(wholeProcessScore);
 
-    return '<td>' + helper.renderSmallCircle(null, color) +'</td>';
+    return '<td>' + helper.renderSmallCircle(null, color) + '</td>';
     return '<td><i id="' + color + '" class="fas fa-circle"></i></td>';
 }
 
@@ -213,16 +215,8 @@ function loadMetricsDefinition(componentData) {
 }
 
 /**
- * Shows success/error message and reloads dashboard.
+ * Reloads page if deletion was successful.
  */
 function deleteCallback(response) {
-// Check if component has been deleted successfully
-    if (response['success']) {
-        // Component has been deleted successfully
-        window.alert('Object has been deleted.');
-        window.location.reload();
-    } else {
-        // Component has not been deleted successfully
-        window.alert('Object could not be deleted.');
-    }
+    window.location.reload();
 }
