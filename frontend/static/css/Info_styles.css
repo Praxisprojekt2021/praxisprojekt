@@ -28,6 +28,8 @@
 .view-description-label {
     font-size: 17px;
     font-weight: 700;
+    margin-top: 20px;
+    text-align: center;
 }
 * {box-sizing:border-box}
 
