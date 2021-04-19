@@ -13,7 +13,8 @@
     position: relative;
     margin-top: 15px;
     margin-bottom: 15px;
-    text-align: center;
+    text-align: justify;
+    width: 500px;
 }
 .component-overview {
     margin-right: 50px;
