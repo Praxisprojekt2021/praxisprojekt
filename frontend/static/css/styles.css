@@ -145,3 +145,14 @@ th {
     text-decoration: none;
     cursor: pointer;
   }
+.logo {
+    display: block;
+    margin-top: 25px;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: left;
+}
+.header {
+    display: block;
+    margin-bottom: 30px;
+}
