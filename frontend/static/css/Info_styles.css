@@ -36,6 +36,7 @@
     max-width: 1500px;
     position: relative;
     margin: auto;
+    outline-style: solid;
     outline-color: dimgrey;
 }
 
