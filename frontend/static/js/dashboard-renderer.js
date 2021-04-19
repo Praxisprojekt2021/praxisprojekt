@@ -26,6 +26,7 @@ function init() {
  * Get processes data from Back-End and then populate the processes table in FE.
  */
 function getProcessList() {
+    helper.showLoadingScreen();
     helper.get_request("/process/overview", refreshProcessTable);
 }
 
@@ -55,6 +56,7 @@ function refreshProcessTable(json) {
             '<td>' + renderDeleteProcessButton(object.uid) + '</td>';
         table.appendChild(tr);
     });
+    helper.hideLoadingScreen();
     modals.getProcessDate(json);
 }
 
@@ -85,7 +87,7 @@ function refreshComponentTable(json, metricsDefinition) {
  * @returns {String} Edit-Process-Button HTML-Element
  */
 function renderEditProcessButton(uid) {
-    return `<div onclick="editProcess('${uid}')"><i id="PenIcon" class="fas fa-pencil-alt"></i></div>`;
+    return `<a href="process?uid=${uid}"><i id="PenIcon" class="fas fa-pencil-alt"></i></a>`;
 }
 
 /**
@@ -94,7 +96,7 @@ function renderEditProcessButton(uid) {
  * @returns {String} Edit-Component-Button HTML-Element
  */
 function renderEditComponentButton(uid) {
-    return `<div onclick="editComponent('${uid}')"><i id="PenIcon" class="fas fa-pencil-alt"></i></div>`;
+    return `<a href="component?uid=${uid}"><i id="PenIcon" class="fas fa-pencil-alt"></i></a>`;
 }
 
 /**
@@ -113,43 +115,6 @@ function renderDeleteProcessButton(uid) {
  */
 function renderDeleteComponentButton(uid) {
     return `<div onclick="deleteComponent('${uid}')"><i id="TrashIcon" class="fas fa-trash-alt"></i></div>`;
-}
-
-/**
- * Routes to the URL where user can add a new process
- */
-function addProcess() {
-    // open edit process URL without param
-    window.location.replace(base_url + "process");
-}
-
-/**
- * Routes to the URL where user can add a new process.
- */
-function addComponent() {
-    // open edit component URL without param
-    window.location.replace(base_url + "component");
-
-}
-
-/**
- * Routes to the URL where the user can edit the process with the given uid.
- *
- * @param {String} uid
- */
-function editProcess(uid) {
-    // open edit process URL with param uid
-    window.location.replace(base_url + "process?uid=" + uid);
-}
-
-/**
- * Routes to the URL where the user can edit the component with the given uid.
- *
- * @param {String} uid
- */
-function editComponent(uid) {
-    // open edit component URL with param uid
-    window.location.replace(base_url + "component?uid=" + uid);
 }
 
 /**
@@ -185,7 +150,7 @@ function renderStatusColumn(wholeProcessScore) {
     // TODO: adapt to requirements (when it should be red or green)
     let color = helper.getCircleColor(wholeProcessScore);
 
-    return '<td>' + helper.renderSmallCircle(null, color) +'</td>';
+    return '<td>' + helper.renderSmallCircle(null, color) + '</td>';
     return '<td><i id="' + color + '" class="fas fa-circle"></i></td>';
 }
 
@@ -213,16 +178,8 @@ function loadMetricsDefinition(componentData) {
 }
 
 /**
- * Shows success/error message and reloads dashboard.
+ * Reloads page if deletion was successful.
  */
 function deleteCallback(response) {
-// Check if component has been deleted successfully
-    if (response['success']) {
-        // Component has been deleted successfully
-        window.alert('Object has been deleted.');
-        window.location.reload();
-    } else {
-        // Component has not been deleted successfully
-        window.alert('Object could not be deleted.');
-    }
+    window.location.reload();
 }
