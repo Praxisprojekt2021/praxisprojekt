@@ -13,7 +13,8 @@
     position: relative;
     margin-top: 15px;
     margin-bottom: 15px;
-    justify-content: center ;
+    position: center;
+    text-align: left ;
     width: 1000px;
 }
 .component-overview {
