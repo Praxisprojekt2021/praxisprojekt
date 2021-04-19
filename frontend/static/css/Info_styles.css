@@ -13,8 +13,9 @@
     position: relative;
     margin-top: 15px;
     margin-bottom: 15px;
+    margin-left: auto;
+    margin-right: auto;
     text-align: center;
-    max-width: 1000px;
 }
 .component-overview {
     margin-right: 50px;
