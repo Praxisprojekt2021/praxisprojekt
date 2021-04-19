@@ -20,35 +20,45 @@
 </header>
 <div class="process-overview" id="process-overview">
 
-    <div class="view-description-label" data-i18n="process-view"></div>
-    <div class="view-description-label" style="font-size: 13px;" data-i18n="description"></div>
-    <div class="process-form-block">
 
-        <form id="process-form" name="process-form" data-name="process-form" class="process-form">
+        <div class="loader-wrapper-hidden" id="loader-wrapper">
+            <span class="loader"><span class="loader-inner"></span></span>
+            <div class="loader-text">Loading...</div>
+        </div>
+
+
+        <div class="view-description-label" data-i18n="process-view"></div>
+        <div class="view-description-label" style="font-size: 13px;" data-i18n="description"></div>
+        <div class="process-form-block">
+
+            <form id="process-form" name="process-form" data-name="process-form" class="process-form">
                 <div class="description-columns">
                     <div class="div-wrapper">
                         <div class="left-div">
 
                             <label for="process-name-textarea"
+
                                     class="entry-label" data-i18n="process-name">
+
                             </label>
-                            <input  type="text"
-                                    name="process-name-textarea"
-                                    maxlength="300"
-                                    id="process-name-textarea"
-                                    class="textfield">
+                            <input type="text"
+                                   name="process-name-textarea"
+                                   maxlength="300"
+                                   id="process-name-textarea"
+                                   class="textfield">
 
                             <label for="process-responsible-person-textarea"
-                                    class="entry-label" data-i18n="responsible-person">
+                                   class="entry-label" data-i18n="responsible-person">
                             </label>
-                            <input  type="text"
-                                    name="process-responsible-person-textarea"
-                                    maxlength="300"
-                                    id="process-responsible-person-textarea"
-                                    class="textfield">
+                            <input type="text"
+                                   name="process-responsible-person-textarea"
+                                   maxlength="300"
+                                   id="process-responsible-person-textarea"
+                                   class="textfield">
 
                             <label for="process-beschreibung-textarea"
                                     class="entry-label" data-i18n="process-description">
+
                             </label>
 
                             <textarea name="process-beschreibung-textarea"
@@ -61,23 +71,23 @@
                         </div>
                     </div>
                 </div>
-                <div id="metrics-input-processes">
+            <div id="metrics-input-processes">
+            </div>
+            <div id="modelling-process">
+            </div>
+            <div id="components-admin-process">
+                <div class="center">
+                    <table id="ComponentOverviewTable"></table>
                 </div>
-                <div id="modelling-process" style="vertical-align: middle;   overflow-x: scroll; border:1px solid black;">
+                <div class="select-line">
+                    <select id="addposition" class="postion-dropdown"></select>
+                    <button class="button" type="button" onclick="helper.showLoadingScreen(); addComponent()">+</button>
                 </div>
-                <div id="components-admin-process">
-                    <div class="center">
-                        <table id="ComponentOverviewTable"></table>
-                    </div>
-                    <div class="select-line">
-                        <select id="addposition"  class="postion-dropdown" ></select>
-                        <button class="button" type="button" onclick="addComponent()">+</button>
-                    </div>
-                </div>
-                <div id="control-panel-process">
-                    <div id="buttons"></div>
-                </div>
-            </form>
+            </div>
+            <div id="control-panel-process">
+                <div id="buttons"></div>
+            </div>
+        </form>
 
         <!-- Placeholder following pls adapt/ add further -->
         <div class="success-message" id="create-success">

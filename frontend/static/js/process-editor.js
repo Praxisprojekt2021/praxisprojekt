@@ -12,7 +12,9 @@ let uid = url.searchParams.get('uid');
  *
  * @param {json, boolean} json_process
  */
-function init(json_process=false) {
+function init(json_process = false) {
+
+    helper.showLoadingScreen();
 
     getFeatures().then(data => {
         if (!json_process) {
@@ -26,7 +28,7 @@ function init(json_process=false) {
 }
 
 /**
-* Get list of features.
+ * Get list of features.
  */
 async function getFeatures() {
     // Read JSON file
@@ -44,12 +46,12 @@ async function getFeatures() {
             div.className = 'control-area';
 
             let buttonType;
-            if (typeof uid !== undefined && uid !=="" && uid != null) {
+            if (typeof uid !== undefined && uid !== "" && uid != null) {
                 buttonType = "Save";
             } else {
                 buttonType = "Create";
             }
-            div.innerHTML = `<button id="save-button" class="create-button" onclick="createEditProcess()" type="button">${buttonType}</button>`//'<button="#" data-wait="Bitte warten..." id="save-button" class="create-button w-button" onclick="saveComponent()">Speichern</a>';
+            div.innerHTML = `<button id="save-button" class="create-button" onclick="createEditProcess(); helper.showLoadingScreen()" type="button">${buttonType}</button>`
 
             // Append element to document
             document.getElementById('buttons').appendChild(div);
@@ -100,10 +102,7 @@ function getProcess(features) {
         createMetricsSection(features, processData);
         console.log('Entering new process');
     }
-
 }
-
-
 
 /**
  * This function fills the process data in all fields
@@ -111,7 +110,6 @@ function getProcess(features) {
  * @param {json} features
  * @param {json} processData
  */
-
 function fillDataFields(features, processData) {
     if (processData['success']) {
         // fill description column
@@ -123,7 +121,6 @@ function fillDataFields(features, processData) {
         // Component has not been created/edited successfully
         window.alert('Process could not be loaded.');
     }
-
 }
 
 /**
@@ -140,7 +137,6 @@ function fillDescriptionColumn(processData) {
     document.getElementById('process-name-textarea').value = processData['process']['name'];
     document.getElementById('process-responsible-person-textarea').value = processData['process']['responsible_person'];
     document.getElementById('process-beschreibung-textarea').value = processData['process']['description'];
-
 }
 
 /**
@@ -151,7 +147,7 @@ function fillDescriptionColumn(processData) {
  */
 function createMetricsSection(features, processData) {
     document.getElementById('metrics-input-processes').innerHTML = '';
-    let featureCount=0;
+    let featureCount = 0;
     Object.keys(features).forEach(function (key) {
         featureCount++;
         let feature = features[key];
@@ -176,7 +172,7 @@ function createMetricsSection(features, processData) {
             innerHTML_metric_block += innerHTML_metric_row;
 
             // create a list of all metric fulfillments
-            if (metric_fulfillment != null ) {
+            if (metric_fulfillment != null) {
                 metric_fulfillment_list.push(metric_fulfillment);
             }
 
@@ -230,6 +226,7 @@ function createMetricsSection(features, processData) {
         // Append element to document
         document.getElementById('metrics-input-processes').appendChild(div);
     });
+    helper.hideLoadingScreen();
 }
 
 /**
@@ -262,14 +259,14 @@ function fillMetricRows(metricData, slug, processData) {
                         <td><img src="images/info.png" loading="lazy" width="35" alt="" class="info-icon"></td>
                     </tr>`;
 
-    if(uid != null && uid !== -1 && (slug in processData['actual_target_metrics'])) {
+    if (uid != null && uid !== -1 && (slug in processData['actual_target_metrics'])) {
 
         if ('count_component' in processData['actual_target_metrics'][slug]) {
             count_component = processData['actual_target_metrics'][slug]['count_component'];
         }
 
         // check if actual values are provided
-        if('actual' in processData['actual_target_metrics'][slug]) {
+        if ('actual' in processData['actual_target_metrics'][slug]) {
             innerHTML_actual = `
                     <tr>
                         <td id="${metricData['name']}">${metricData['name']}</td>
@@ -281,13 +278,13 @@ function fillMetricRows(metricData, slug, processData) {
         }
 
         // check if a target value is provided
-        if('target' in processData['actual_target_metrics'][slug]) {
-            innerHTML_target =`
+        if ('target' in processData['actual_target_metrics'][slug]) {
+            innerHTML_target = `
                         <td><input name="target-average" id="${slug}" value="${processData['actual_target_metrics'][slug]['target']['average']}"></td>`
         }
 
         // check if a fulfillment and consequentially a target sum is provided (if fulfillment was calculated, a target sum was also able to be calculated)
-        if('fulfillment' in processData['actual_target_metrics'][slug]) {
+        if ('fulfillment' in processData['actual_target_metrics'][slug]) {
             metric_fulfillment = processData['actual_target_metrics'][slug]['fulfillment'];
             innerHTML_fulfillment = `
                         <td>${processData['actual_target_metrics'][slug]['target']['total']}</td>
@@ -323,7 +320,6 @@ function renderWholeProcessScoreCircle(wholeProcessScore) {
  */
 
 function createEditProcess() {
-
 
 
     let metric_elements = document.getElementsByName('target-average');
@@ -388,28 +384,6 @@ function saveProcess(data) {
 
 
 /**
- * This function checks for success in communication
- *
- * @param {string} response: JSON Object response, whether the changes have been saved successfully
- */
-
-function saveCallback(response) {
-    // Check if process has been created/edited successfully
-    if (response['success']) {
-        // Component has been created/edited successfully
-        window.alert('Changes were saved.');
-        if (uid.length === 32) {
-            init();
-        } else {
-            location.replace(location.href + '?uid=' + response['process']['uid']);
-        }
-    } else {
-        // Process has not been created/edited successfully
-        window.alert('Changes could not be saved.');
-    }
-}
-
-/**
  * This function loads component names from json file
  *
  * TODO use modular helper functionality instead
@@ -462,11 +436,11 @@ function createComponentTable(processData, metricsDefinition) {
         let component = document.createElement('tr');
         component.id = componentData['weight'];
         component.draggable = true;
-        component.setAttribute('ondragstart','drag(event)');
+        component.setAttribute('ondragstart', 'drag(event)');
         component.setAttribute('ondrop', 'drop(event)');
         component.setAttribute('ondragover', 'allowDrop(event)');
-        component.setAttribute('ondragenter','enter(event)');
-        component.setAttribute('ondragleave','exit(event)');
+        component.setAttribute('ondragenter', 'enter(event)');
+        component.setAttribute('ondragleave', 'exit(event)');
 
         component.innerHTML = `
             <td>${componentData['weight']}</td>
@@ -476,7 +450,7 @@ function createComponentTable(processData, metricsDefinition) {
             <td></td>
             <td></td>
             <td></td>
-            <td><i id="TrashIcon" class="fas fa-trash-alt" onclick="deleteComponent(this.parentElement.parentElement.id)"></i></td>
+            <td><i id="TrashIcon" class="fas fa-trash-alt" onclick="deleteComponent(this.parentElement.parentElement.id); helper.showLoadingScreen()"></i></td>
         `;
 
         const componentTable = document.getElementById('ComponentOverviewTable');
@@ -535,8 +509,9 @@ function addComponent() {
 
         helper.post_request("/process/edit/createstep", JSON.stringify(data), init);
     } else {
+        helper.hideLoadingScreen();
         // Please select a component from the dropdown.
-        // TOdO: Fill with something?
+        // TODO: Fill with something?
     }
 }
 
@@ -567,7 +542,7 @@ function deleteComponent(weight) {
         "weight": parseFloat(weight)
     }
 
-    helper.post_request("/process/edit/deletestep", JSON.stringify(data), deleteCallback);
+    helper.post_request("/process/edit/deletestep", JSON.stringify(data), init);
 }
 
 /**
@@ -619,6 +594,7 @@ function drop(ev) {
     element.id = newWeight;
     element.children[0].innerHTML = newWeight;
 
+    helper.showLoadingScreen();
     editComponent(oldWeight, newWeight);
 }
 
@@ -661,11 +637,11 @@ function visualizeProcess() {
 
     let componentRows = document.getElementById("ComponentOverviewTable").getElementsByTagName("tr");
 
-    let innerHTML = `<table id=\"process-visualization\" class=\"process-visualization\" style=\"width:auto;border:none\">
+    let innerHTML = `<table id="process-visualization" class="process-visualization">
                             <tr style="height: 150px;">`;
 
     // begin at index 1 because 0 contains table headers
-    for(let i=1; i<componentRows.length; i++) {
+    for (let i = 1; i < componentRows.length; i++) {
         let currentComponent = componentRows[i];
         let tds = currentComponent.getElementsByTagName("td");
         let weight = tds[0].innerHTML;
@@ -674,7 +650,7 @@ function visualizeProcess() {
 
         rectangle = `<div class="square-border"><div style="font-weight:bold; text-decoration:underline;" >${componentName}</div><br><div style="font-style:italic;">${category}</div></div>`;
         innerHTML += `<td style="width: 150px;height: 150px; border: 0px;">${rectangle}</td>`;
-        if (i < componentRows.length -1) {
+        if (i < componentRows.length - 1) {
             innerHTML += `<td style="width: 150px;height: 150px;  border: 0px;">${arrowRight}</td>`;
         }
 
@@ -689,6 +665,7 @@ function visualizeProcess() {
 
     horizontalScroll();
 }
+
 /**
  * Makes the components visualization box from visualizeProcess() horizontally scrollable with the mouse-wheel
  * */
@@ -706,17 +683,18 @@ function horizontalScroll() {
         e.preventDefault();
     });
 }
+
 /**
- * Shows success/error message and reloads process-editor.
+ * This function gets called if saving was successful and reloads the page.
+ *
+ * @param {JSON} response
  */
- function deleteCallback(response) {
-    // Check if component has been deleted successfully
-    if (response['success']) {
-        // Component has been deleted successfully
-        window.alert('Object has been deleted.');
+function saveCallback(response) {
+    // Process has been created/edited successfully
+    helper.hideLoadingScreen();
+    if (uid.length === 32) {
         init(response);
     } else {
-        // Component has not been deleted successfully
-        window.alert('Object could not be deleted.');
+        location.replace(location.href + '?uid=' + response['process']['uid']);
     }
 }
