@@ -1,9 +1,9 @@
-from datetime import datetime
 from neomodel import config, StructuredNode, StringProperty, UniqueIdProperty, \
-    RelationshipTo, StructuredRel, FloatProperty, db
+    RelationshipTo, relationship, db
+from datetime import datetime
 
 from core.success_handler import success_handler
-from database.handler.relationship import RelationshipComponentMetric
+from database.handler.relationships import RelationshipComponentMetric
 import database.handler.metric_handler as metric_handler
 import database.handler.reformatter as reformatter
 import database.handler.queries as queries
@@ -50,22 +50,14 @@ def get_component_list() -> dict:
 
     :return: List of components in a dict
     """
-
-    # get data from neo4j database
-    components = Component.nodes.all()
-
     output_dict = success_handler()
-    components_list = []
 
-    for component in components:
-        component_dict = component.__dict__
-        del component_dict["hasMetric"]
-        del component_dict["description"]
-        components_list.append(component_dict)
-
-    output_dict["components"] = components_list
+    query = queries.get_component_list()
+    result, meta = db.cypher_query(query)
+    output_dict["components"] = result[0][0]
 
     return output_dict
+
 
 def get_component(input_dict: dict) -> dict:
     """
@@ -99,7 +91,7 @@ def add_component(input_dict: dict) -> dict:
     output.save()
 
     for metric in input_dict["metrics"]:
-        output.hasMetric.connect(metric_handler.get_metric(metric), {"value": input_dict["metrics"][metric]})
+        output.hasMetric.connect(metric_handler.Metric.nodes.get(name=metric), {"value": input_dict["metrics"][metric]})
 
     return success_handler()
 
@@ -112,28 +104,15 @@ def update_component(input_dict: dict) -> dict:
     :type input_dict: dict
     :return: Status dict
     """
-
-    # get data from neo4j database
     uid = input_dict["uid"]
-    component = Component.nodes.get(uid=uid)
 
-    # save general component data
-    component.name = input_dict["name"]
-    component.description = input_dict["description"]
-    component.category = input_dict["category"]
-    component.last_timestamp = str(datetime.now())
+    query = queries.update_component(uid, input_dict["name"], input_dict["category"], input_dict["description"],
+                                     str(datetime.now()))
+    db.cypher_query(query)
 
-    component.save()
-
-    # save metrics data
-    component_dict = get_component({"uid": uid})
-
-    for metric in component_dict["component"]["metrics"]:
-        new_metrics = input_dict["metrics"]
-        metric_object = metric_handler.get_metric(metric)
-        rel = component.hasMetric.relationship(metric_object)
-        rel.value = new_metrics[metric]
-        rel.save()
+    for metric in input_dict["metrics"]:
+        query = queries.update_component_metric(uid, metric, input_dict["metrics"][metric])
+        db.cypher_query(query)
 
     return success_handler()
 
@@ -146,5 +125,8 @@ def delete_component(input_dict: dict) -> dict:
     :type input_dict: dict
     :return: Status dict
     """
-    Component.nodes.get(uid=input_dict["uid"]).delete()
+
+    query = queries.delete_component(input_dict["uid"])
+    db.cypher_query(query)
+
     return success_handler()
