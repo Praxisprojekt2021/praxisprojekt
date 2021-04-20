@@ -90,6 +90,24 @@ def delete_process(uid: str) -> str:
             "Detach Delete p"
 
 
+def add_process_reference(process_uid: str, component_uid: str, weight: float):
+    return f"Match (p: Process {{uid: {process_uid}}}), (c: Component {{uid: {component_uid}}}) " \
+            f"Create (p)-[i: includes {{weight: {weight}}}]->(c)"
+
+
+def delete_process_reference(uid: str, weight: float) -> str:
+    """
+    Function to get the cypher query to delete a process reference
+
+    :param uid: UID as a String
+    :type uid: str
+    :param weight: as a float
+    :type weight: float
+    :return: Query as string
+    """
+    return "Match (n: Process {uid: '" + uid + "'})-[r: includes {weight: " + str(weight) + "}]-() Delete r"
+
+
 def get_component_list() -> str:
     """
     Function to get the cypher query to get all components
