@@ -249,8 +249,8 @@ function fillMetricRows(metricData, slug, processData) {
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td></td>
-                        <td></td>`;
+                        <td name="target-min"></td>
+                        <td name="target-max"></td>`;
     let innerHTML_target = `
                         <td><input name="target-average" id="${slug}" value=""></td>`;
     let innerHTML_fulfillment = `
@@ -273,8 +273,8 @@ function fillMetricRows(metricData, slug, processData) {
                         <td>${processData['actual_target_metrics'][slug]['actual']['average']}</td>
                         <td>${processData['actual_target_metrics'][slug]['actual']['standard_deviation']}</td>
                         <td>${processData['actual_target_metrics'][slug]['actual']['total']}</td>
-                        <td>${processData['actual_target_metrics'][slug]['actual']['min']}</td>
-                        <td>${processData['actual_target_metrics'][slug]['actual']['max']}</td>`;
+                        <td name="target-min">${processData['actual_target_metrics'][slug]['actual']['min']}</td>
+                        <td name="target-max">${processData['actual_target_metrics'][slug]['actual']['max']}</td>`;
         }
 
         // check if a target value is provided
@@ -320,20 +320,36 @@ function renderWholeProcessScoreCircle(wholeProcessScore) {
  */
 
 function createEditProcess() {
-
-
+    let metric_elements_min = document.getElementsByName('target-min');
+    let metric_elements_max = document.getElementsByName('target-max');
     let metric_elements = document.getElementsByName('target-average');
     let metrics = {};
     let text_replaced_flag = false; // Helper variable that indicates, whether or not a non quantitative metric input has been found and discarded
+    let min_max_helper_flag = true;
+    let min_max_wrong_entries = '';
     for (let i = 0; i < metric_elements.length; i++) {
-        // TODO also check if values are within min and max values
         // Replace non quantitative metric inputs with an emtpy string to have them discarded
-        if (metric_elements[i].value !== '' && !parseFloat(metric_elements[i].value)) {
+        if (metric_elements[i].value !== ''
+            && !parseFloat(metric_elements[i].value)) {
             metric_elements[i].value = '';
             text_replaced_flag = true;
         }
         // Process quantitative metrics to push them into the JSON Object to be passed to the backend
         if (metric_elements[i].value !== '') {
+            let min = parseFloat(metric_elements_min[i].innerText);
+            let max = parseFloat(metric_elements_max[i].innerText);
+            let addWrongEntry_helper_flag = false;
+            if(min_max_helper_flag == true
+                && (metric_elements[i].value < min
+                    || metric_elements[i].value > max)) {
+                min_max_helper_flag = false;
+                addWrongEntry_helper_flag = true;
+            }
+            console.log("WRONG METRI"+metric_elements_min[i].parentElement.children[0].textContent);
+            if(addWrongEntry_helper_flag) {
+                console.log("WRONG METRI"+metric_elements_min[i].parentElement.children[0].textContent);
+                min_max_wrong_entries += '\n'+metric_elements[i].parentElement.children[0].textContent;
+            }
             metrics[metric_elements[i].id] = parseInt(metric_elements[i].value);
         }
     }
@@ -360,12 +376,15 @@ function createEditProcess() {
         const input = toggles[i].value;
     }
 
+    console.log(min_max_wrong_entries);
     // If a input has been performed, post changes to backend
-    if (required_helper_flag) {
+    if (required_helper_flag && min_max_helper_flag) {
         console.log(process);
         saveProcess(process);
     } else {
-        let alert_string = 'Changes could not be saved. Please fill all metrics fields.';
+        let alert_string = 'Changes could not be saved. ';
+        if(!min_max_helper_flag) alert_string += 'Target average is not within min/max threshold.';
+        if(!required_helper_flag) alert_string += 'Please fill all metrics fields.';
         if (text_replaced_flag === true) {
             alert_string += '\nNon quantitative metrics have been automatically discarded.';
         }
@@ -391,20 +410,12 @@ function saveProcess(data) {
  */
 function loadComponentNames(processData) {
     const base_url = window.location.origin;
-    let xhttp = new XMLHttpRequest();
-    xhttp.open("GET", base_url + "/content/mapping_metrics_definition.json", true);
-    xhttp.setRequestHeader("Content-Type", "application/json");
 
-    // Handle response of HTTP-request
-    xhttp.onreadystatechange = function () {
-        if (this.readyState === XMLHttpRequest.DONE && (this.status >= 200 && this.status < 300)) {
-            // Process response and show sum in output field
-            let metricsDefinition = JSON.parse(this.responseText);
-            createComponentTable(processData, metricsDefinition);
-            helper.get_request("/component/overview", fillComponentDropdown);
-        }
-    }
-    xhttp.send();
+    helper.get_request("/content/mapping_metrics_definition.json", function (responseText) {
+        let metricsDefinition = responseText;
+        createComponentTable(processData, metricsDefinition);
+        helper.get_request("/component/overview", fillComponentDropdown);
+    });
 }
 
 /**
@@ -422,7 +433,7 @@ function createComponentTable(processData, metricsDefinition) {
         <th name="Position"> Position</th>
         <th name="Component">Component</th>
         <th name="Category">Category</th>
-        <th></th>
+        <th name="Weight">Weight</th>
         <th></th>
         <th></th>
         <th></th>
@@ -432,7 +443,6 @@ function createComponentTable(processData, metricsDefinition) {
 
     Object.keys(components).forEach(function (key) {
         const componentData = components[key];
-
         let component = document.createElement('tr');
         component.id = componentData['weight'];
         component.draggable = true;
@@ -443,10 +453,10 @@ function createComponentTable(processData, metricsDefinition) {
         component.setAttribute('ondragleave', 'exit(event)');
 
         component.innerHTML = `
-            <td>${componentData['weight']}</td>
+            <td></td>
             <td>${componentData['name']}</td>
             <td>${metricsDefinition['categories'][componentData['category']]['name']}</td>
-            <td></td>
+            <td>${componentData['weight']}</td>
             <td></td>
             <td></td>
             <td></td>
@@ -592,7 +602,7 @@ function drop(ev) {
     }
     let newWeight = parseFloat(previousID + (nextID - previousID) / 2);
     element.id = newWeight;
-    element.children[0].innerHTML = newWeight;
+    element.children[3].innerHTML = newWeight;
 
     helper.showLoadingScreen();
     editComponent(oldWeight, newWeight);
@@ -644,9 +654,10 @@ function visualizeProcess() {
     for (let i = 1; i < componentRows.length; i++) {
         let currentComponent = componentRows[i];
         let tds = currentComponent.getElementsByTagName("td");
-        let weight = tds[0].innerHTML;
+        tds[0].innerHTML = i;
         let componentName = tds[1].innerHTML;
         let category = tds[2].innerHTML;
+        let weight = tds[3].innerHTML;
 
         rectangle = `<div class="square-border"><div style="font-weight:bold; text-decoration:underline;" >${componentName}</div><br><div style="font-style:italic;">${category}</div></div>`;
         innerHTML += `<td style="width: 150px;height: 150px; border: 0px;">${rectangle}</td>`;
