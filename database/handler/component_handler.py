@@ -1,9 +1,11 @@
 from datetime import datetime
 from neomodel import config, StructuredNode, StringProperty, UniqueIdProperty, \
-    RelationshipTo, StructuredRel, FloatProperty
+    RelationshipTo, StructuredRel, FloatProperty, db
 
 from core.success_handler import success_handler
 import database.handler.metric_handler as metric_handler
+import database.handler.reformatter as reformatter
+import database.handler.queries as queries
 from database.config import *
 
 config.DATABASE_URL = 'bolt://{}:{}@{}:{}'.format(NEO4J_USER, NEO4J_PASSWORD, NEO4J_IP, NEO4J_PORT)
@@ -70,31 +72,20 @@ def get_component_list() -> dict:
     return data
 
 
-def get_component(uid_dict: dict) -> dict:
+def get_component(input_dict: dict) -> dict:
     """
     Function to retrieve a single component
 
-    :param uid_dict: Component uid
-    :type uid_dict: dict
+    :param input_dict: Component uid
+    :type input_dict: dict
     :return: Component dict
     """
+    output_dict = success_handler()
 
-    uid = uid_dict["uid"]
-    component = Component.nodes.get(uid=uid)
-    component_dict = component.__dict__
+    result, meta = db.cypher_query(queries.get_component(input_dict["uid"]))
+    output_dict.update(reformatter.reformat_component(result[0][0]))
 
-    metrics_list = component.hasMetric.all()
-    metrics_dict = {}
-    for key in metrics_list:
-        relationship = component.hasMetric.relationship(key)
-        metrics_dict[key.name] = relationship.value
-    component_dict["metrics"] = metrics_dict
-
-    del component_dict["hasMetric"]
-    del component_dict["id"]
-    component_dict.update(success_handler())
-
-    return component_dict
+    return output_dict
 
 
 def add_component(input_dict: dict) -> dict:
