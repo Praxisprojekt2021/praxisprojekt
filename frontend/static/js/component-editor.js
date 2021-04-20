@@ -70,7 +70,7 @@ function getFeatures() {
             helper.createMetricsSection(features);
             let div = document.createElement('div');
             div.className = 'control-area';
-            div.innerHTML = '<a href="#" data-wait="Bitte warten..." id="save-button" class="create-button w-button" onclick="createEditComponent(); helper.showLoadingScreen()">Speichern</a>';
+            div.innerHTML = '<a href="#" data-wait="Bitte warten..." id="save-button" class="create-button w-button" onclick="createEditComponent()">Speichern</a>';
 
             // Append element to document
             document.getElementById('metrics-input').appendChild(div);
@@ -189,6 +189,7 @@ function createEditComponent() {
     // Also, when changing between categories, discard inputs made for non-relevant metrics
     let required_helper_flag = true; // Helper variable which gets set to false, if any required field is not filled
     const toggles = document.getElementsByClassName('feature-section');
+    let minmaxlist = "";// List for Metrics that are not in min or max
     for (let i = 0; i < toggles.length; i++) {
         const feature_child = toggles[i].children[0].children[0];
         const metrics_child = toggles[i].children[0].children[1];
@@ -206,6 +207,18 @@ function createEditComponent() {
                 if (metrics_child.getElementsByTagName('input')[i].value === '') {
                     console.log(metrics_child.getElementsByTagName('input')[i].id);
                     required_helper_flag = false;
+                    metrics_child.getElementsByTagName('input')[i].style.borderColor="red";
+                }
+            }
+            // Check if enabled fields mainstain min/max value
+            for (let i = 0; i < metrics_child_input_fields.length; i++) {
+                var min = parseInt(metrics_child.getElementsByTagName('input')[i].getAttribute("min"));
+                var max = parseInt(metrics_child.getElementsByTagName('input')[i].getAttribute("max"));
+                var input = parseInt(metrics_child.getElementsByTagName('input')[i].value);
+                if ( input < min ||  input > max ) {
+                    required_helper_flag = false;
+                    minmaxlist += '\n'+metrics_child.getElementsByTagName('input')[i].id;
+                    metrics_child.getElementsByTagName('input')[i].style.borderColor="red";
                 }
             }
         }
@@ -217,14 +230,19 @@ function createEditComponent() {
 
     // If a input have been performend, post changes to backend
     if (required_helper_flag) {
+        helper.showLoadingScreen()
         helper.post_request('/component/create_edit', JSON.stringify(component), saveCallback);
     } else {
         let alert_string = 'Changes could not be saved. Please fill all metrics fields.';
         if (text_replaced_flag === true) {
             alert_string += '\nNon quantitative metrics have been automatically discarded.';
         }
+        if(minmaxlist != ""){
+            alert_string +='\nThe following Metrics are not within their min/max values:'+minmaxlist;
+        }
         helper.hideLoadingScreen();
         window.alert(alert_string);
+        
     }
 }
 
