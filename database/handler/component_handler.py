@@ -1,10 +1,12 @@
-from neomodel import config, StructuredNode, StringProperty, UniqueIdProperty, \
-    RelationshipTo
 from datetime import datetime
+from neomodel import config, StructuredNode, StringProperty, UniqueIdProperty, \
+    RelationshipTo, StructuredRel, FloatProperty, db
 
 from core.success_handler import success_handler
 from database.handler.relationship import RelationshipComponentMetric
 import database.handler.metric_handler as metric_handler
+import database.handler.reformatter as reformatter
+import database.handler.queries as queries
 from database.config import *
 
 config.DATABASE_URL = 'bolt://{}:{}@{}:{}'.format(NEO4J_USER, NEO4J_PASSWORD, NEO4J_IP, NEO4J_PORT)
@@ -65,7 +67,6 @@ def get_component_list() -> dict:
 
     return output_dict
 
-
 def get_component(input_dict: dict) -> dict:
     """
     Function to retrieve a single component
@@ -74,29 +75,10 @@ def get_component(input_dict: dict) -> dict:
     :type input_dict: dict
     :return: Component dict
     """
-
-    # get data from neo4j database
-    uid = input_dict["uid"]
-    component_data = Component.nodes.get(uid=uid)
-    metrics_list = component_data.hasMetric.all()
-
-    # prepare general component data
     output_dict = success_handler()
-    component_dict = component_data.__dict__
 
-    del component_dict["hasMetric"]
-    del component_dict["id"]
-
-    output_dict["component"] = component_dict
-
-    # prepare metric data
-    metrics_dict = {}
-
-    for metric in metrics_list:
-        relationship = component_data.hasMetric.relationship(metric)
-        metrics_dict[metric.name] = relationship.value
-
-    output_dict["component"]["metrics"] = metrics_dict
+    result, meta = db.cypher_query(queries.get_component(input_dict["uid"]))
+    output_dict.update(reformatter.reformat_component(result[0][0]))
 
     return output_dict
 
@@ -164,8 +146,5 @@ def delete_component(input_dict: dict) -> dict:
     :type input_dict: dict
     :return: Status dict
     """
-
-    uid = input_dict["uid"]
-    Component.nodes.get(uid=uid).delete()
-
+    Component.nodes.get(uid=input_dict["uid"]).delete()
     return success_handler()

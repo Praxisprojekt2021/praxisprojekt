@@ -6,6 +6,8 @@ from core.success_handler import success_handler
 from database.handler.relationship import RelationshipProcessComponent, RelationshipProcessMetric
 import database.handler.metric_handler as metric_handler
 import database.handler.component_handler as component_handler
+import database.handler.reformatter as reformatter
+import database.handler.queries as queries
 from database.config import *
 
 config.DATABASE_URL = 'bolt://{}:{}@{}:{}'.format(NEO4J_USER, NEO4J_PASSWORD, NEO4J_IP, NEO4J_PORT)
@@ -21,6 +23,8 @@ class Process(StructuredNode):
         process id
     name : str
         name of the process
+    responsible_person : str
+        name of the responsible person
     description : str
         description of the process
     creation_timestamp : str
@@ -35,6 +39,7 @@ class Process(StructuredNode):
 
     uid = UniqueIdProperty()
     name = StringProperty()
+    responsible_person = StringProperty()
     description = StringProperty()
     creation_timestamp = StringProperty()  # evtl. float
     last_timestamp = StringProperty()  # evtl. float
@@ -76,43 +81,10 @@ def get_process(input_dict: dict) -> dict:
     :type input_dict: dict
     :return: process dict
     """
-
-    # get data from neo4j database
-    uid = input_dict["uid"]
-    process_data = Process.nodes.get(uid=uid)
-    component_nodes = process_data.hasComponent.all()
-    metrics_list = process_data.hasMetric.all()
-
-    # prepare general process data
     output_dict = success_handler()
-    process_dict = process_data.__dict__
 
-    del process_dict["hasComponent"]
-    del process_dict["hasMetric"]
-    del process_dict["id"]
-
-    # prepare component data
-    component_list = []
-
-    for component in component_nodes:
-        component_dict = component_handler.get_component({"uid": component.uid})["component"]
-
-        rel = process_data.hasComponent.relationship(component)
-        component_dict["weight"] = rel.weight
-
-        component_list.append(component_dict)
-
-    process_dict["components"] = component_list
-    output_dict["process"] = process_dict
-
-    # prepare metric data
-    metrics_dict = {}
-
-    for metric in metrics_list:
-        rel = process_data.hasMetric.relationship(metric)
-        metrics_dict[metric.name] = rel.value
-
-    output_dict["target_metrics"] = metrics_dict
+    result, meta = db.cypher_query(queries.get_process(input_dict["uid"]))
+    output_dict["process"], output_dict["target_metrics"] = reformatter.reformat_process(result[0])
 
     return output_dict
 
@@ -128,6 +100,7 @@ def add_process(input_dict: dict) -> dict:
 
     output = Process(
         name=input_dict["process"]["name"],
+        responsible_person = input_dict["process"]["responsible_person"],
         creation_timestamp=str(datetime.now()),
         last_timestamp=str(datetime.now()),
         description=input_dict["process"]["description"])
@@ -135,7 +108,7 @@ def add_process(input_dict: dict) -> dict:
     output.save()
 
     for metric in input_dict["target_metrics"]:
-        output.hasMetric.connect(metric_handler.get_metric(name=metric), {"value": input_dict["target_metrics"][metric]})
+        output.hasMetric.connect(metric_handler.get_metric(metric), {"value": input_dict["target_metrics"][metric]})
 
     output_dict = success_handler()
     output_dict["process_uid"] = output.uid
@@ -156,6 +129,7 @@ def update_process(input_dict: dict) -> dict:
     process = Process.nodes.get(uid=uid)
 
     process.name = input_dict["process"]["name"]
+    process.responsible_person = input_dict["process"]["responsible_person"]
     process.description = input_dict["process"]["description"]
     process.last_timestamp = str(datetime.now())
     process.save()
@@ -172,7 +146,8 @@ def update_process(input_dict: dict) -> dict:
 
             new_metrics.pop(metric)
         else:
-            process.hasMetric.disconnect(metric_object)
+            db.cypher_query('Match (m: Process {uid: "' + uid + '"})-[r: has]-(n: Metric {uid: "' +
+                            metric_object.uid + '"}) Delete r')
 
     for metric in new_metrics:
         metric_object = metric_handler.Metric.nodes.get(name=metric)

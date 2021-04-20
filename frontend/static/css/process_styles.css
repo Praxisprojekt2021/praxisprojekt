@@ -1,0 +1,356 @@
+* {
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-size: 14px;
+    line-height: 20px;
+    margin: 0;
+    min-height: 100%;
+    background-color: #fff;
+  }
+  
+  label {
+    margin-bottom: 6px;
+    max-width: 100%;
+    vertical-align: middle;
+  }
+  
+  a {
+    background-color: transparent;
+  }
+  
+  html input[disabled] {
+    cursor: default;
+    background: #dddddd;
+  }
+  
+  input, select, textarea, button {
+    font: inherit;
+  }
+  
+  button, html input[type="button"], input[type="reset"] {
+    cursor: pointer;
+  }
+  
+  .header {
+    display: block;
+    margin-bottom: 30px;
+  }
+  
+  .process-form {
+    margin-right: 15px;
+    margin-left: 15px;
+  }
+  
+  .logo {
+    display: block;
+    margin-top: 25px;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: left;
+  }
+  
+  .navigation {
+    position: relative;
+    left: auto;
+    display: inline-block;
+    overflow: visible;
+    width: 300px;
+    height: 20px;
+    margin-left: 100px;
+    float: left;
+  }
+  
+  .view-description-label {
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  
+  .description-label {
+    display: block;
+    margin-bottom: 15px;
+    font-weight: 700;
+  }
+  
+  .message {
+    overflow: visible;
+  }
+  
+  .process-form-block {
+    position: relative;
+    margin-top: 15px;
+    margin-bottom: 15px;
+  }
+  
+  .entry-label {
+    position: relative;
+    top: 3px;
+    display: inline-block;
+    padding-left: 5px;
+    float: left;
+    clear: left;
+    font-weight: 400;
+  }
+  
+  .save-button {
+    position: static;
+    display: block;
+    border-radius: 5px;
+    background-color: #1f299c;
+    font-size: 15px;
+  }
+  
+  .textarea {
+    position: relative;
+    display: block;
+    overflow: auto;
+    width: 450px;
+    max-height: 100%;
+    max-width: 100%;
+    min-height: 50px;
+    min-width: 20px;
+    float: left;
+    clear: left;
+    border-radius: 7px;
+    height: 38px;
+    padding: 8px 12px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    line-height: 1.428571429;
+    color: #333333;
+    vertical-align: middle;
+    border: 1px solid #ccc;
+  }
+  
+  .accordion-toggle {
+    display: block;
+    overflow: visible;
+    width: 100%;
+    position: relative;
+    vertical-align: top;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 10px;
+    padding-right: 40px;
+    text-align: left;
+    margin-left: auto;
+    margin-right: auto;
+    cursor: pointer;
+  }
+  
+  .accordion-toggle[disabled] {
+    cursor: default;
+  }
+  
+  .accordion-item {
+    display: block;
+    overflow: hidden;
+    height: auto;
+    width: 100%;
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .accordion-icon {
+    position: absolute;
+    margin: auto;
+    margin-right: 20px;
+  }
+  
+  .dropdown-list {
+    position: static;
+    display: none;
+    overflow: visible;
+    padding-right: 0px;
+    padding-left: 0px;
+    padding-bottom: 10px;
+    width: 100%;
+    min-width: 100%;
+  }
+  
+  .info-icon {
+    position: relative;
+    display: inline-block;
+    overflow: visible;
+    margin-top: 2px;
+    margin-left: 10px;
+    float: left;
+    border-radius: 20px;
+    opacity: 0.65;
+  }
+  
+  .textfield, .category-dropdown {
+    display: inline-block;
+    width: auto;
+    max-width: 100%;
+    min-width: 200px;
+    float: left;
+    clear: left;
+    border-radius: 7px;
+    padding: 8px 12px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    line-height: 1.428571429;
+    color: #333333;
+    vertical-align: middle;
+    border: 1px solid #ccc;
+  }
+  
+  .features-label {
+    font-weight: 700;
+  }
+  
+  .process-entry-block {
+    overflow: visible;
+  }
+  
+  .process-overview {
+    margin-right: 50px;
+    margin-left: 50px;
+    padding-top: 40px;
+    padding-left: 50px;
+    padding-right: 50px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #fff;
+    background-color: #ececec;
+  }
+  
+  .features-columns {
+    display: inline-block;
+    width: 100%;
+    margin-left: 10px;
+  }
+  
+  .description-columns {
+    display: inline-block;
+  }
+  
+  .navigation-links {
+    display: block;
+    padding-right: 5px;
+    padding-left: 5px;
+    float: left;
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  
+  .navigation-link-separator {
+    float: left;
+  }
+  
+  .feature-section {
+    overflow: visible;
+    border-bottom: 1px solid #c5c5c5;
+  }
+  
+  .control-area {
+    padding-top: 30px;
+    padding-bottom: 20px;
+    padding-left: 10px;
+  }
+  
+  .create-button {
+    position: static;
+    font-size: 15px;
+    display: inline-block;
+    padding: 9px 15px;
+    background-color: #1f299c;
+    color: white;
+    border: 0;
+    cursor: pointer;
+  }
+  
+  #process-id {
+    display: none;
+    width: 48px;
+    min-width: auto;
+    margin-left: 10px;
+    text-align: center;
+  }
+  
+  .metric-entry-element {
+    width: 50%;
+    display: inline-block;
+  }
+  
+  .success-message {
+    display: none;
+    padding: 20px;
+    text-align: center;
+    background-color: #ddd;
+  }
+  
+  .error-message {
+    display: none;
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #ffdede;
+  }
+  
+  .default-column {
+    position: relative;
+    float: left;
+    width: 50%;
+    min-height: 1px;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+.div-wrapper {
+  width: 1000px;
+  /*border: 1px solid black;*/
+  overflow: hidden; /* will contain if #first is longer than #second */
+}
+.left-div {
+  width: 50%;
+  float:left;
+}
+.right-div {
+  width: 50%;
+  overflow: hidden;
+}
+
+.circle {
+  height: 200px;
+  width: 200px;
+  border-radius: 50%;
+  display: table;
+  margin: 2% auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  font-weight: bolder;
+}
+
+.square-border {
+  background: #FFF;
+  border: 10px solid #4AD28F;
+  height: 120px;
+  width: 180px;
+  text-align: center;
+}
+
+.arrow {
+  font-size: 120px;
+  /*height: 120px;*/
+  margin: 20px;
+  vertical-align: middle;
+}
+
+table .process-visualization {
+  column-width: 200px;
+  width: auto;
+  border: none;
+}
+
+#modelling-process{
+  vertical-align: middle;
+  overflow-x: scroll;
+  border: 1px solid black;
+}
