@@ -1,6 +1,6 @@
 def get_process_list() -> str:
     """
-    Function to get the cypher query to receive all Processes
+    Function to get the cypher query to receive all processes
 
     :return: Query as string
     """
@@ -38,6 +38,21 @@ def get_process(uid: str) -> str:
 
 
 def update_process(uid: str, name: str, responsible_person: str, description: str, last_timestamp: str) -> str:
+    """
+    Function to get the cypher query to update a process
+
+    :param uid: UID as a String
+    :type uid: str
+    :param name: name as a String
+    :type name: str
+    :param responsible_person: responsible_person as a String
+    :type responsible_person: str
+    :param description: description as a String
+    :type description: str
+    :param last_timestamp: last_timestamp as a String
+    :type last_timestamp: str
+    :return: Query as string
+    """
     return "Match (p: Process {uid: '" + uid + "'}) " \
             "Optional Match (p)-[r:has]-(m:Metric) " \
             "Delete r " \
@@ -48,16 +63,39 @@ def update_process(uid: str, name: str, responsible_person: str, description: st
 
 
 def update_process_metric(uid: str, name: str, value: float) -> str:
+    """
+    Function to get the cypher query to update a process metric
+
+    :param uid: UID as a String
+    :type uid: str
+    :param name: name as a String
+    :type name: str
+    :param value: value of relation as a float
+    :type value: float
+    :return: Query as string
+    """
     return "Match (p: Process {uid: '" + uid + "'}), (m: Metric {name: '" + name + "'}) " \
             "Create (p)-[r: has {value: " + str(value) + "}]->(m)"
 
 
 def delete_process(uid: str) -> str:
+    """
+    Function to get the cypher query to delete a process
+
+    :param uid: UID as a String
+    :type uid: str
+    :return: Query as string
+    """
     return "Match (p: Process {uid: '" + uid + "'}) " \
             "Detach Delete p"
 
 
 def get_component_list() -> str:
+    """
+    Function to get the cypher query to get all components
+
+    :return: Query as string
+    """
     return "Match (c: Component) " \
             "Return collect(properties(c))"
 
@@ -80,6 +118,21 @@ def get_component(uid: str) -> str:
 
 
 def update_component(uid: str, name: str, category: str, description: str, last_timestamp: str) -> str:
+    """
+    Function to get the cypher query to update a component
+
+    :param uid: UID as a String
+    :type uid: str
+    :param name: name as a String
+    :type name: str
+    :param category: category as a String
+    :type category: str
+    :param description: description as a String
+    :type description: str
+    :param last_timestamp: last_timestamp as a String
+    :type last_timestamp: str
+    :return: Query as string
+    """
     return "Match (c: Component {uid: '" + uid + "'}) " \
             "Optional Match (c)-[r:has]-(m:Metric) " \
             "Delete r " \
@@ -90,11 +143,29 @@ def update_component(uid: str, name: str, category: str, description: str, last_
 
 
 def update_component_metric(uid: str, name: str, value: float) -> str:
+    """
+    Function to get the cypher query to update a component metric
+
+    :param uid: UID as a String
+    :type uid: str
+    :param name: name as a String
+    :type name: str
+    :param value: value of relation as a float
+    :type value: float
+    :return: Query as string
+    """
     return "Match (c: Component {uid: '" + uid + "'}), (m: Metric {name: '" + name + "'}) " \
             "Create (c)-[r: has {value: " + str(value) + "}]->(m)"
 
 
 def delete_component(uid: str) -> str:
+    """
+    Function to get the cypher query to delete a component
+
+    :param uid: UID as a String
+    :type uid: str
+    :return: Query as string
+    """
     return "Match (c: Component {uid: '" + uid + "'}) " \
             "Detach Delete c"
 
