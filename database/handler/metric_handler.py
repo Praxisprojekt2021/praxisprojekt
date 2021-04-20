@@ -1,7 +1,8 @@
-from neomodel import config, StructuredNode, StringProperty, UniqueIdProperty
+from neomodel import config, StructuredNode, StringProperty, UniqueIdProperty, db
 import json
 
 from core.success_handler import success_handler
+import database.handler.queries as queries
 from database.config import *
 
 config.DATABASE_URL = 'bolt://{}:{}@{}:{}'.format(NEO4J_USER, NEO4J_PASSWORD, NEO4J_IP, NEO4J_PORT)
@@ -55,24 +56,13 @@ def get_metrics_data() -> dict:
     :return: Metrics dict
     """
 
-    metrics = Metric.nodes.all()
-    metrics_dict = success_handler()
-    metrics_dict["metrics"] = {}
+    query = queries.get_metrics_list()
+    result, meta = db.cypher_query(query)
 
-    for metric in metrics:
-        metric_dict = metric.__dict__
-        metrics_dict["metrics"][metric_dict.pop('name')] = metric_dict
+    output_dict = success_handler()
+    output_dict["metrics"] = {}
 
-    return metrics_dict
+    for metric in result[0][0]:
+        output_dict["metrics"][metric.pop('name')] = metric
 
-
-def get_metric(input_name: str) -> Metric:
-    """
-    Function to get metrics by its name
-
-    :param input_name: Name of the metric
-    :type input_name: str
-    :return: Metric
-    """
-
-    return Metric.nodes.get(name=input_name)
+    return output_dict

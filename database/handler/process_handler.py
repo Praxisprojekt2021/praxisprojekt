@@ -48,6 +48,34 @@ class Process(StructuredNode):
     hasMetric = RelationshipTo(metric_handler.Metric, "targets", model=RelationshipProcessMetric)
 
 
+def add_process(input_dict: dict) -> dict:
+    """
+    Function to add a single process
+
+    :param input_dict: process as a dictionary
+    :type input_dict: dict
+    :return: Status dict
+    """
+
+    output = Process(
+        name=input_dict["process"]["name"],
+        responsible_person=input_dict["process"]["responsible_person"],
+        creation_timestamp=str(datetime.now()),
+        last_timestamp=str(datetime.now()),
+        description=input_dict["process"]["description"])
+
+    output.save()
+
+    for metric in input_dict["target_metrics"]:
+        output.hasMetric.connect(metric_handler.Metric.nodes.get(name=metric),
+                                 {"value": input_dict["target_metrics"][metric]})
+
+    output_dict = success_handler()
+    output_dict["process_uid"] = output.uid
+
+    return output_dict
+
+
 def get_process_list() -> dict:
     """
     Function to retrieve a list of all processes
@@ -76,34 +104,6 @@ def get_process(input_dict: dict) -> dict:
     query = queries.get_process(input_dict["uid"])
     result, meta = db.cypher_query(query)
     output_dict["process"], output_dict["target_metrics"] = reformatter.reformat_process(result[0])
-
-    return output_dict
-
-
-def add_process(input_dict: dict) -> dict:
-    """
-    Function to add a single process
-
-    :param input_dict: process as a dictionary
-    :type input_dict: dict
-    :return: Status dict
-    """
-
-    output = Process(
-        name=input_dict["process"]["name"],
-        responsible_person=input_dict["process"]["responsible_person"],
-        creation_timestamp=str(datetime.now()),
-        last_timestamp=str(datetime.now()),
-        description=input_dict["process"]["description"])
-
-    output.save()
-
-    for metric in input_dict["target_metrics"]:
-        output.hasMetric.connect(metric_handler.Metric.nodes.get(name=metric),
-                                 {"value": input_dict["target_metrics"][metric]})
-
-    output_dict = success_handler()
-    output_dict["process_uid"] = output.uid
 
     return output_dict
 
@@ -153,10 +153,8 @@ def add_process_reference(input_dict: dict) -> dict:
     :return: Status dict
     """
 
-    process = Process.nodes.get(uid=input_dict['process_uid'])
-    component = component_handler.Component.nodes.get(uid=input_dict['component_uid'])
-
-    process.hasComponent.connect(component, {"weight": input_dict["weight"]})
+    query = queries.add_process_reference(input_dict['process_uid'], input_dict['component_uid'], input_dict["weight"])
+    db.cypher_query(query)
 
     return success_handler()
 
@@ -170,15 +168,8 @@ def update_process_reference(input_dict: dict) -> dict:
     :return: Status dict
     """
 
-    process = Process.nodes.get(uid=input_dict['uid'])
-
-    component_list = process.hasComponent.all()
-
-    for component in component_list:
-        rel = process.hasComponent.relationship(component)
-        if rel.weight == input_dict['old_weight']:
-            rel.weight = input_dict['new_weight']
-            rel.save()
+    query = queries.update_process_reference(input_dict["uid"], input_dict["old_weight"], input_dict["new_weight"])
+    db.cypher_query(query)
 
     return success_handler()
 

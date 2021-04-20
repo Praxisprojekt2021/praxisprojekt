@@ -44,6 +44,27 @@ class Component(StructuredNode):
     hasMetric = RelationshipTo(metric_handler.Metric, "has", model=RelationshipComponentMetric)
 
 
+def add_component(input_dict: dict) -> dict:
+    """
+    Function to add a single component
+
+    :param input_dict: Component as a dictionary
+    :type input_dict: dict
+    :return: Status dict
+    """
+
+    output = Component(name=input_dict["name"], category=input_dict["category"],
+                       creation_timestamp=str(datetime.now()),
+                       last_timestamp=str(datetime.now()), description=input_dict["description"])
+
+    output.save()
+
+    for metric in input_dict["metrics"]:
+        output.hasMetric.connect(metric_handler.Metric.nodes.get(name=metric), {"value": input_dict["metrics"][metric]})
+
+    return success_handler()
+
+
 def get_component_list() -> dict:
     """
     Function to retrieve a list of all existing components
@@ -73,27 +94,6 @@ def get_component(input_dict: dict) -> dict:
     output_dict.update(reformatter.reformat_component(result[0][0]))
 
     return output_dict
-
-
-def add_component(input_dict: dict) -> dict:
-    """
-    Function to add a single component
-
-    :param input_dict: Component as a dictionary
-    :type input_dict: dict
-    :return: Status dict
-    """
-
-    output = Component(name=input_dict["name"], category=input_dict["category"],
-                       creation_timestamp=str(datetime.now()),
-                       last_timestamp=str(datetime.now()), description=input_dict["description"])
-
-    output.save()
-
-    for metric in input_dict["metrics"]:
-        output.hasMetric.connect(metric_handler.Metric.nodes.get(name=metric), {"value": input_dict["metrics"][metric]})
-
-    return success_handler()
 
 
 def update_component(input_dict: dict) -> dict:

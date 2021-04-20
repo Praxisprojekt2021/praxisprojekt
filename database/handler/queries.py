@@ -91,8 +91,35 @@ def delete_process(uid: str) -> str:
 
 
 def add_process_reference(process_uid: str, component_uid: str, weight: float):
-    return f"Match (p: Process {{uid: {process_uid}}}), (c: Component {{uid: {component_uid}}}) " \
-            f"Create (p)-[i: includes {{weight: {weight}}}]->(c)"
+    """
+    Function to get the cypher query to add a process reference
+
+    :param process_uid: process_uid as a String
+    :type process_uid: str
+    :param component_uid: component_uid as a String
+    :type component_uid: str
+    :param weight: weight as a float
+    :type weight: float
+    :return: Query as string
+    """
+    return f"Match (p: Process {{uid: '{process_uid}'}}), (c: Component {{uid: '{component_uid}'}}) " \
+            f"Create (p)-[i: includes {{weight: {str(weight)}}}]->(c)"
+
+
+def update_process_reference(uid: str, old_weight: float, new_weight: float):
+    """
+    Function to get the cypher query to add a process reference
+
+    :param process_uid: process_uid as a String
+    :type process_uid: str
+    :param old_weight: old_weight as a float
+    :type old_weight: float
+    :param new_weight: new_weight as a float
+    :type new_weight: float
+    :return: Query as string
+    """
+    return f"Match (p: Process {{uid: '{uid}'}})-[i: includes {{weight: {old_weight}}}]-() " \
+            f"Set i.weight={str(new_weight)}"
 
 
 def delete_process_reference(uid: str, weight: float) -> str:
@@ -101,7 +128,7 @@ def delete_process_reference(uid: str, weight: float) -> str:
 
     :param uid: UID as a String
     :type uid: str
-    :param weight: as a float
+    :param weight: weight as a float
     :type weight: float
     :return: Query as string
     """
