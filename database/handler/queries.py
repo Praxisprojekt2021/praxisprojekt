@@ -21,7 +21,7 @@ def get_process(uid: str) -> str:
     return "Match (p: Process {uid: '" + uid + "'}) " \
             "Call {" \
             "With p " \
-            "Optional Match (p)-[t:has]-(m:Metric) " \
+            "Optional Match (p)-[t:targets]-(m:Metric) " \
             "Return collect({value: t.value, metric: m.name}) As target_metrics" \
             "} " \
             "Call {" \
@@ -54,8 +54,8 @@ def update_process(uid: str, name: str, responsible_person: str, description: st
     :return: Query as string
     """
     return "Match (p: Process {uid: '" + uid + "'}) " \
-            "Optional Match (p)-[r:has]-(m:Metric) " \
-            "Delete r " \
+            "Optional Match (p)-[t:targets]-(m:Metric) " \
+            "Delete t " \
             "Set p.name = '" + name + "' " \
             "Set p.responsible_person = '" + responsible_person + "' " \
             "Set p.description = '" + description + "' " \
@@ -75,7 +75,7 @@ def update_process_metric(uid: str, name: str, value: float) -> str:
     :return: Query as string
     """
     return "Match (p: Process {uid: '" + uid + "'}), (m: Metric {name: '" + name + "'}) " \
-            "Create (p)-[r: has {value: " + str(value) + "}]->(m)"
+            "Create (p)-[t: targets {value: " + str(value) + "}]->(m)"
 
 
 def delete_process(uid: str) -> str:
