@@ -270,24 +270,24 @@ function fillMetricRows(metricData, slug, processData) {
             innerHTML_actual = `
                     <tr>
                         <td id="${metricData['name']}">${metricData['name']}</td>
-                        <td>${processData['actual_target_metrics'][slug]['actual']['average']}</td>
-                        <td>${processData['actual_target_metrics'][slug]['actual']['standard_deviation']}</td>
-                        <td>${processData['actual_target_metrics'][slug]['actual']['total']}</td>
-                        <td name="target-min">${processData['actual_target_metrics'][slug]['actual']['min']}</td>
-                        <td name="target-max">${processData['actual_target_metrics'][slug]['actual']['max']}</td>`;
+                        <td>`+ Math.round(processData['actual_target_metrics'][slug]['actual']['average']*100+Number.EPSILON)/100+`</td>
+                        <td>`+ Math.round(processData['actual_target_metrics'][slug]['actual']['standard_deviation']*100+Number.EPSILON)/100+`</td>
+                        <td>`+ Math.round(processData['actual_target_metrics'][slug]['actual']['total']*100+Number.EPSILON)/100+`</td>
+                        <td name="target-min">`+ Math.round(processData['actual_target_metrics'][slug]['actual']['min']*100+Number.EPSILON)/100+`</td>
+                        <td name="target-max">`+ Math.round(processData['actual_target_metrics'][slug]['actual']['max']*100+Number.EPSILON)/100+`</td>`;
         }
 
         // check if a target value is provided
         if ('target' in processData['actual_target_metrics'][slug]) {
             innerHTML_target = `
-                        <td><input name="target-average" id="${slug}" value="${processData['actual_target_metrics'][slug]['target']['average']}"></td>`
+                        <td><input name="target-average" id="${slug}" value="`+ Math.round(processData['actual_target_metrics'][slug]['target']['average']*100+Number.EPSILON)/100+`"></td>`
         }
 
         // check if a fulfillment and consequentially a target sum is provided (if fulfillment was calculated, a target sum was also able to be calculated)
         if ('fulfillment' in processData['actual_target_metrics'][slug]) {
             metric_fulfillment = processData['actual_target_metrics'][slug]['fulfillment'];
             innerHTML_fulfillment = `
-                        <td>${processData['actual_target_metrics'][slug]['target']['total']}</td>
+                        <td>`+ Math.round(processData['actual_target_metrics'][slug]['target']['total']*100+Number.EPSILON)/100+`</td>
                         <td>${helper.renderSmallCircle(metric_fulfillment)}</td>
                         <td><img src="images/info.png" loading="lazy" width="35" alt="" class="info-icon"></td>
                     </tr>`;
