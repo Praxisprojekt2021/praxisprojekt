@@ -51,7 +51,7 @@ async function getFeatures() {
             } else {
                 buttonType = "Create";
             }
-            div.innerHTML = `<button id="save-button" class="create-button" onclick="createEditProcess(); helper.showLoadingScreen()" type="button">${buttonType}</button>`
+            div.innerHTML = `<button id="save-button" class="create-button" onclick="createEditProcess()" type="button">${buttonType}</button>`
 
             // Append element to document
             document.getElementById('buttons').appendChild(div);
@@ -249,8 +249,8 @@ function fillMetricRows(metricData, slug, processData) {
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td name="target-min"></td>
-                        <td name="target-max"></td>`;
+                        <td></td>
+                        <td></td>`;
     let innerHTML_target = `
                         <td><input name="target-average" id="${slug}" value=""></td>`;
     let innerHTML_fulfillment = `
@@ -273,8 +273,8 @@ function fillMetricRows(metricData, slug, processData) {
                         <td>`+ Math.round(processData['actual_target_metrics'][slug]['actual']['average']*100+Number.EPSILON)/100+`</td>
                         <td>`+ Math.round(processData['actual_target_metrics'][slug]['actual']['standard_deviation']*100+Number.EPSILON)/100+`</td>
                         <td>`+ Math.round(processData['actual_target_metrics'][slug]['actual']['total']*100+Number.EPSILON)/100+`</td>
-                        <td name="target-min">`+ Math.round(processData['actual_target_metrics'][slug]['actual']['min']*100+Number.EPSILON)/100+`</td>
-                        <td name="target-max">`+ Math.round(processData['actual_target_metrics'][slug]['actual']['max']*100+Number.EPSILON)/100+`</td>`;
+                        <td>`+ Math.round(processData['actual_target_metrics'][slug]['actual']['min']*100+Number.EPSILON)/100+`</td>
+                        <td>`+ Math.round(processData['actual_target_metrics'][slug]['actual']['max']*100+Number.EPSILON)/100+`</td>`;
         }
 
         // check if a target value is provided
@@ -320,37 +320,30 @@ function renderWholeProcessScoreCircle(wholeProcessScore) {
  */
 
 function createEditProcess() {
-    let metric_elements_min = document.getElementsByName('target-min');
-    let metric_elements_max = document.getElementsByName('target-max');
+    helper.showLoadingScreen();
     let metric_elements = document.getElementsByName('target-average');
     let metrics = {};
     let text_replaced_flag = false; // Helper variable that indicates, whether or not a non quantitative metric input has been found and discarded
-    let min_max_helper_flag = true;
-    let min_max_wrong_entries = '';
+    let minmaxlist = "";// List for Metrics that are not in min or max
     for (let i = 0; i < metric_elements.length; i++) {
         // Replace non quantitative metric inputs with an emtpy string to have them discarded
-        if (metric_elements[i].value !== ''
-            && !parseFloat(metric_elements[i].value)) {
+        if (metric_elements[i].value !== '' && !parseFloat(metric_elements[i].value)) {
             metric_elements[i].value = '';
             text_replaced_flag = true;
         }
+
         // Process quantitative metrics to push them into the JSON Object to be passed to the backend
         if (metric_elements[i].value !== '') {
-            let min = parseFloat(metric_elements_min[i].innerText);
-            let max = parseFloat(metric_elements_max[i].innerText);
-            let addWrongEntry_helper_flag = false;
-            if(min_max_helper_flag == true
-                && (metric_elements[i].value < min
-                    || metric_elements[i].value > max)) {
-                min_max_helper_flag = false;
-                addWrongEntry_helper_flag = true;
-            }
-            console.log("WRONG METRI"+metric_elements_min[i].parentElement.children[0].textContent);
-            if(addWrongEntry_helper_flag) {
-                console.log("WRONG METRI"+metric_elements_min[i].parentElement.children[0].textContent);
-                min_max_wrong_entries += '\n'+metric_elements[i].parentElement.children[0].textContent;
-            }
             metrics[metric_elements[i].id] = parseInt(metric_elements[i].value);
+
+            // Check if enabled fields mainstain min/max value
+            var min = parseInt(metric_elements[i].parentElement.parentElement.children[4].innerHTML);
+            var max = parseInt(metric_elements[i].parentElement.parentElement.children[5].innerHTML);
+            var input = parseInt(metric_elements[i].value);
+            if ( input < min || input > max ) {
+                minmaxlist += '\n'+metric_elements[i].parentElement.parentElement.children[0].id;
+                metric_elements[i].style.borderColor="red";
+            }
         }
     }
     if (typeof uid === undefined || uid === "" || uid == null) {
@@ -376,18 +369,20 @@ function createEditProcess() {
         const input = toggles[i].value;
     }
 
-    console.log(min_max_wrong_entries);
     // If a input has been performed, post changes to backend
-    if (required_helper_flag && min_max_helper_flag) {
+    if (required_helper_flag && minmaxlist == "") {
         console.log(process);
         saveProcess(process);
     } else {
         let alert_string = 'Changes could not be saved. ';
-        if(!min_max_helper_flag) alert_string += 'Target average is not within min/max threshold.';
         if(!required_helper_flag) alert_string += 'Please fill all metrics fields.';
         if (text_replaced_flag === true) {
             alert_string += '\nNon quantitative metrics have been automatically discarded.';
         }
+        if(minmaxlist != ""){
+            alert_string +='\nThe following Metrics are not within their min/max values:'+minmaxlist;
+        }
+        helper.hideLoadingScreen();
         window.alert(alert_string);
     }
 }
