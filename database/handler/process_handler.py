@@ -58,7 +58,7 @@ def get_process_list() -> dict:
 
     query = queries.get_process_list()
     result, meta = db.cypher_query(query)
-    output_dict["processes"] = result[0][0]
+    output_dict["process"] = result[0][0]
 
     return output_dict
 
