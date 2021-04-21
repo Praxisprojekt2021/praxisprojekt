@@ -14,7 +14,8 @@ def start_calculate_risk(process_dict: dict, metrics_dict: dict) -> dict:
     """
 
     current_values = calculate_current_values(process_dict, metrics_dict)
-    compared_values = compare_actual_target_metrics(current_values, metrics_dict)
+    compared_values = compare_actual_target_metrics(
+        current_values, metrics_dict)
     full_process_dict = calculate_risk_score(compared_values)
 
     return full_process_dict
@@ -62,11 +63,13 @@ def calculate_current_values(process_dict: dict, metrics_dict: dict) -> dict:
 
             # more than one component has this metric, thus a standard deviation can be calculated
             if len(values) > 1:
-                calculations[metric]['actual'].update({"standard_deviation": stdev(values)})
+                calculations[metric]['actual'].update(
+                    {"standard_deviation": stdev(values)})
 
             # only one component has this metric, thus no standard deviation can be calculated
             else:
-                calculations[metric]['actual'].update({"standard_deviation": None})
+                calculations[metric]['actual'].update(
+                    {"standard_deviation": None})
 
             # get amount of components
             calculations[metric]["count_component"] = len(values)
@@ -78,7 +81,8 @@ def calculate_current_values(process_dict: dict, metrics_dict: dict) -> dict:
             value = process_dict['target_metrics'][metric]
 
             # calculate and get target metrics
-            calculations[metric]['target'] = {'average': value["average"] , 'min': value["min"] ,'max': value["max"]}
+            calculations[metric]['target'] = {
+                'average': value["average"], 'min': value["min"], 'max': value["max"]}
 
             process_target_flag = True
 
@@ -87,7 +91,7 @@ def calculate_current_values(process_dict: dict, metrics_dict: dict) -> dict:
 
             # calculate target sum
             calculations[metric]['target']['total'] = calculations[metric]['target']['average'] * \
-                                                      calculations[metric]['count_component']
+                calculations[metric]['count_component']
 
         # save calculated values in output_dict
         if process_target_flag or component_metric_flag:
@@ -116,11 +120,19 @@ def compare_actual_target_metrics(process_dict: dict, metrics_dict: dict) -> dic
         # check if target and actual values are given
         if 'actual' in process_metrics_dict.keys() and 'target' in process_metrics_dict.keys():
 
-            if eval(f"{process_metrics_dict['actual']['average']} {comparator}= {process_metrics_dict['target']['average']}"):
+            fulfillment = True
+            # if eval(f"{process_metrics_dict['actual']['average']} {comparator}= {process_metrics_dict['target']['average']}"):
+            if(process_metrics_dict['target']['min'] is not None):
+                if(process_metrics_dict['actual']['min'] < process_metrics_dict['target']['min']):
+                    fulfillment = False
 
-                fulfillment = True
-            else:
-                fulfillment = False
+            if((process_metrics_dict['target']['max'] is not None) and (fulfillment)):
+                if(process_metrics_dict['actual']['max'] > process_metrics_dict['target']['max']):
+                    fulfillment = False
+
+            if(fulfillment):
+                if not eval(f"{process_metrics_dict['actual']['average']} {comparator}= {process_metrics_dict['target']['average']}"):
+                    fulfillment = False
 
             process_dict['actual_target_metrics'][metric]['fulfillment'] = fulfillment
 
