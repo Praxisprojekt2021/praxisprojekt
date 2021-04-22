@@ -270,24 +270,24 @@ function fillMetricRows(metricData, slug, processData) {
             innerHTML_actual = `
                     <tr disabled="false">
                         <td id="${metricData['name']}">${metricData['name']}</td>
-                        <td>`+ Math.round(processData['actual_target_metrics'][slug]['actual']['average']*100+Number.EPSILON)/100+`</td>
-                        <td>`+ Math.round(processData['actual_target_metrics'][slug]['actual']['standard_deviation']*100+Number.EPSILON)/100+`</td>
-                        <td>`+ Math.round(processData['actual_target_metrics'][slug]['actual']['total']*100+Number.EPSILON)/100+`</td>
-                        <td>`+ Math.round(processData['actual_target_metrics'][slug]['actual']['min']*100+Number.EPSILON)/100+`</td>
-                        <td>`+ Math.round(processData['actual_target_metrics'][slug]['actual']['max']*100+Number.EPSILON)/100+`</td>`;
+                        <td>` + Math.round(processData['actual_target_metrics'][slug]['actual']['average'] * 100 + Number.EPSILON) / 100 + `</td>
+                        <td>` + Math.round(processData['actual_target_metrics'][slug]['actual']['standard_deviation'] * 100 + Number.EPSILON) / 100 + `</td>
+                        <td>` + Math.round(processData['actual_target_metrics'][slug]['actual']['total'] * 100 + Number.EPSILON) / 100 + `</td>
+                        <td>` + Math.round(processData['actual_target_metrics'][slug]['actual']['min'] * 100 + Number.EPSILON) / 100 + `</td>
+                        <td>` + Math.round(processData['actual_target_metrics'][slug]['actual']['max'] * 100 + Number.EPSILON) / 100 + `</td>`;
         }
 
         // check if a target value is provided
         if ('target' in processData['actual_target_metrics'][slug]) {
             innerHTML_target = `
-                        <td><input name="target-average" id="${slug}" value="`+ Math.round(processData['actual_target_metrics'][slug]['target']['average']*100+Number.EPSILON)/100+`"></td>`
+                        <td><input name="target-average" id="${slug}" value="` + Math.round(processData['actual_target_metrics'][slug]['target']['average'] * 100 + Number.EPSILON) / 100 + `"></td>`
         }
 
         // check if a fulfillment and consequentially a target sum is provided (if fulfillment was calculated, a target sum was also able to be calculated)
         if ('fulfillment' in processData['actual_target_metrics'][slug]) {
             metric_fulfillment = processData['actual_target_metrics'][slug]['fulfillment'];
             innerHTML_fulfillment = `
-                        <td>`+ Math.round(processData['actual_target_metrics'][slug]['target']['total']*100+Number.EPSILON)/100+`</td>
+                        <td>` + Math.round(processData['actual_target_metrics'][slug]['target']['total'] * 100 + Number.EPSILON) / 100 + `</td>
                         <td>${helper.renderSmallCircle(metric_fulfillment)}</td>
                         <td><img src="images/info.png" loading="lazy" width="35" alt="" class="info-icon"></td>
                     </tr>`;
@@ -330,7 +330,7 @@ function createEditProcess() {
     for (let i = 0; i < metric_elements.length; i++) {
         let metric_disabled = metric_elements[i].parentElement.parentElement.getAttribute("disabled");
 
-        if(metric_disabled == "true") continue; //skip metric if metric is disabled
+        if (metric_disabled == "true") continue; //skip metric if metric is disabled
 
         // Replace non quantitative metric inputs with an emtpy string to have them discarded
         if (metric_elements[i].value !== '' && !parseFloat(metric_elements[i].value)) {
@@ -346,17 +346,17 @@ function createEditProcess() {
             var min = parseInt(metric_elements[i].parentElement.parentElement.children[4].innerHTML);
             var max = parseInt(metric_elements[i].parentElement.parentElement.children[5].innerHTML);
             var input = parseInt(metric_elements[i].value);
-            if ( input < min || input > max ) {
-                minmaxlist += '\n'+metric_elements[i].parentElement.parentElement.children[0].id;
-                metric_elements[i].style.borderColor="red";
+            if (input < min || input > max) {
+                minmaxlist += '\n' + metric_elements[i].parentElement.parentElement.children[0].id;
+                metric_elements[i].style.borderColor = "red";
             }
         }
 
         // Check if all fields have been filled
-        if(metric_disabled == "false" && metric_elements[i].value == '') {
+        if (metric_disabled == "false" && metric_elements[i].value == '') {
             required_helper_flag = false;
-            emptyFieldList += '\n'+metric_elements[i].parentElement.parentElement.children[0].id;
-            metric_elements[i].style.borderColor="red";
+            emptyFieldList += '\n' + metric_elements[i].parentElement.parentElement.children[0].id;
+            metric_elements[i].style.borderColor = "red";
         }
     }
     if (typeof uid === undefined || uid === "" || uid == null) {
@@ -378,7 +378,7 @@ function createEditProcess() {
         saveProcess(process);
     } else {
         let alert_string = 'Changes could not be saved. ';
-        if(!required_helper_flag) {
+        if (!required_helper_flag) {
             alert_string += 'Please fill all metrics fields.';
             alert_string += '\nThe following Metrics are empty:';
             alert_string += emptyFieldList;
@@ -386,8 +386,8 @@ function createEditProcess() {
         if (text_replaced_flag === true) {
             alert_string += '\nNon quantitative metrics have been automatically discarded.';
         }
-        if(minmaxlist != ""){
-            alert_string +='\nThe following Metrics are not within their min/max values:';
+        if (minmaxlist != "") {
+            alert_string += '\nThe following Metrics are not within their min/max values:';
             alert_string += minmaxlist;
         }
         helper.hideLoadingScreen();
@@ -414,8 +414,7 @@ function saveProcess(data) {
 function loadComponentNames(processData) {
     const base_url = window.location.origin;
 
-    helper.get_request("/content/mapping_metrics_definition.json", function (responseText) {
-        let metricsDefinition = responseText;
+    helper.get_request("/content/mapping_metrics_definition.json", function (metricsDefinition) {
         createComponentTable(processData, metricsDefinition);
         helper.get_request("/component/overview", fillComponentDropdown);
     });
