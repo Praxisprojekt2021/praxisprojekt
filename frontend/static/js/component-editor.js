@@ -190,7 +190,7 @@ function createEditComponent() {
     let required_helper_flag = true; // Helper variable which gets set to false, if any required field is not filled
     const toggles = document.getElementsByClassName('feature-section');
     // Check if name field is filled
-    if(document.getElementById('component-name').value=="")required_helper_flag = false;
+    if (document.getElementById('component-name').value == "") required_helper_flag = false;
     for (let i = 0; i < toggles.length; i++) {
         const feature_child = toggles[i].children[0].children[0];
         const metrics_child = toggles[i].children[0].children[1];
