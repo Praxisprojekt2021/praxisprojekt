@@ -191,7 +191,6 @@ def process_create_edit_route():
     :return: a JSON object with process details as specified in docu/JSON_objects_definitions.py
     """
     if request.is_json:
-        print("process_create_edit:",request.json)
         return core.create_edit_process(request.json), 200
     else:
         raise TypeError("No JSON body was transferred")
@@ -214,21 +213,6 @@ def process_view_route():
 """
     API Error Handlers
 """
-
-
-@app.errorhandler(Exception)
-def error_occurred(error):
-    """
-    API error handler
-
-    :receives: None
-    :return: an error JSON
-    """
-    exc_type, value, traceback = sys.exc_info()
-    error_json = error_handler(exc_type.__name__, str(value))
-    print(error)
-    print(error_json)
-    return error_json, 500
 
 
 @app.errorhandler(404)

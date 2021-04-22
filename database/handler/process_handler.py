@@ -80,7 +80,6 @@ def get_process(input_dict: dict) -> dict:
 
     result, meta = db.cypher_query(queries.get_process(input_dict["uid"]))
     output_dict["process"], output_dict["target_metrics"] = reformatter.reformat_process(result[0])
-
     return output_dict
 
 
@@ -92,10 +91,9 @@ def add_process(input_dict: dict) -> dict:
     :type input_dict: dict
     :return: Status dict
     """
-
     output = Process(
         name=input_dict["process"]["name"],
-        responsible_person = input_dict["process"]["responsible_person"],
+        responsible_person=input_dict["process"]["responsible_person"],
         creation_timestamp=str(datetime.now()),
         last_timestamp=str(datetime.now()),
         description=input_dict["process"]["description"])

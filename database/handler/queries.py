@@ -6,13 +6,11 @@ def get_process(uid: str) -> str:
     :type uid: str
     :return: Query as string
     """
-    # ToDo. Sobald man bei den Target_metrics anstatt dem Wert ein Dict mit drei Werten zurückgegeben bekommen möchte,
-    # muss t.value durch properties(t) ersetzt werden
     return "Match (p: Process {uid: '" + uid + "'}) " \
                                               "Call {" \
                                               "With p " \
                                               "Optional Match (p)-[t:has]-(m:Metric) " \
-                                              "Return collect({value: t.value, metric: m.name}) As target_metrics" \
+                                              "Return collect({value: properties(t), metric: m.name}) As target_metrics" \
                                               "} " \
                                               "Call {" \
                                               "With p " \
