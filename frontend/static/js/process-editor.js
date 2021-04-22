@@ -79,23 +79,12 @@ function getProcess(features) {
             "uid": "${uid}"
         }`
 
-        const base_url = window.location.origin;
-        let xhttp = new XMLHttpRequest();
-        xhttp.open("POST", base_url + "/process/view", true);
-        xhttp.setRequestHeader("Content-Type", "application/json");
+        helper.http_request("POST", "/process/view", true, post_data, function (response_json) {
+            let processData = response_json;
+            fillDataFields(features, processData);
+            loadComponentNames(processData);
+        });
 
-        // TODO: auslagern in helper js
-
-        // Handle response of HTTP-request
-        xhttp.onreadystatechange = function () {
-            if (this.readyState === XMLHttpRequest.DONE && (this.status >= 200 && this.status < 300)) {
-                // Process response and show sum in output field
-                let processData = JSON.parse(this.responseText);
-                fillDataFields(features, processData);
-                loadComponentNames(processData);
-            }
-        }
-        xhttp.send(post_data);
     } else {
         // If not, prepare for new component input...
         let processData = {};
@@ -401,23 +390,23 @@ function createEditProcess() {
  * @param data
  */
 function saveProcess(data) {
-    helper.post_request("/process/create_edit", data, saveCallback);
+    helper.http_request("POST", "/process/create_edit", true, data, saveCallback);
 }
 
 
 /**
  * This function loads component names from json file
  *
- * TODO use modular helper functionality instead
+ *
  * @param processData
  */
 function loadComponentNames(processData) {
     const base_url = window.location.origin;
 
-    helper.get_request("/content/mapping_metrics_definition.json", function (responseText) {
+    helper.http_request("GET","/content/mapping_metrics_definition.json", true,"",function (responseText) {
         let metricsDefinition = responseText;
         createComponentTable(processData, metricsDefinition);
-        helper.get_request("/component/overview", fillComponentDropdown);
+        helper.http_request("GET", "/component/overview", true,"", fillComponentDropdown);
     });
 }
 
@@ -520,7 +509,7 @@ function addComponent() {
             "weight": weight
         };
 
-        helper.post_request("/process/edit/createstep", JSON.stringify(data), init);
+        helper.http_request("POST", "/process/edit/createstep", true, JSON.stringify(data), init);
     } else {
         helper.hideLoadingScreen();
         // Please select a component from the dropdown.
@@ -541,7 +530,7 @@ function editComponent(oldWeight, newWeight) {
         "new_weight": newWeight
     };
 
-    helper.post_request("/process/edit/editstep", JSON.stringify(data), init);
+    helper.http_request("POST", "/process/edit/editstep", true, JSON.stringify(data), init);
 }
 
 /**
@@ -555,7 +544,7 @@ function deleteComponent(weight) {
         "weight": parseFloat(weight)
     }
 
-    helper.post_request("/process/edit/deletestep", JSON.stringify(data), init);
+    helper.http_request("POST", "/process/edit/deletestep", true, JSON.stringify(data), init);
 }
 
 /**

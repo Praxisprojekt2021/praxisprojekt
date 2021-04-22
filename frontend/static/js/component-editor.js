@@ -87,7 +87,7 @@ function getComponent(uid) {
     const post_data = {
         "uid": uid
     }
-    helper.post_request('/component/view', JSON.stringify(post_data), processComponentData);
+    helper.http_request("POST", '/component/view', true, JSON.stringify(post_data), processComponentData);
 }
 
 /**
@@ -231,7 +231,7 @@ function createEditComponent() {
     // If a input have been performend, post changes to backend
     if (required_helper_flag) {
         helper.showLoadingScreen()
-        helper.post_request('/component/create_edit', JSON.stringify(component), saveCallback);
+        helper.http_request("POST", '/component/create_edit', true, JSON.stringify(component), saveCallback);
     } else {
         let alert_string = 'Changes could not be saved. Please fill all metrics fields.';
         if (text_replaced_flag === true) {

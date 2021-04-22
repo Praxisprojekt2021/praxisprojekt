@@ -27,14 +27,14 @@ function init() {
  */
 function getProcessList() {
     helper.showLoadingScreen();
-    helper.get_request("/process/overview", refreshProcessTable);
+    helper.http_request("GET","/process/overview",false,"", refreshProcessTable);
 }
 
 /**
  * Get components data from Back-End and then populate the processes table in FE.
  */
 function getComponentList() {
-    helper.get_request("/component/overview", loadMetricsDefinition);
+    helper.http_request("GET","/component/overview",true,"", loadMetricsDefinition);
 }
 
 /**
@@ -125,7 +125,7 @@ function renderDeleteComponentButton(uid) {
 function deleteProcess(uid) {
     // call delete-process endpoint
     let params = JSON.stringify({uid: uid});
-    helper.post_request("/process/delete", params, deleteCallback);
+    helper.http_request("POST", "/process/delete", true, params, deleteCallback);
 }
 
 /**
@@ -135,7 +135,7 @@ function deleteProcess(uid) {
  */
 function deleteComponent(uid) {
     let params = JSON.stringify({uid: uid});
-    helper.post_request("/component/delete", params, deleteCallback);
+    helper.http_request("POST", "/component/delete", true, params, deleteCallback);
 }
 
 
@@ -161,20 +161,10 @@ function renderStatusColumn(wholeProcessScore) {
  * @param componentData
  */
 function loadMetricsDefinition(componentData) {
-    const base_url = window.location.origin;
-    let xhttp = new XMLHttpRequest();
-    xhttp.open("GET", base_url + "/content/mapping_metrics_definition.json", true);
-    xhttp.setRequestHeader("Content-Type", "application/json");
-
-    // Handle response of HTTP-request
-    xhttp.onreadystatechange = function () {
-        if (this.readyState === XMLHttpRequest.DONE && (this.status >= 200 && this.status < 300)) {
-            // Process response and show sum in output field
-            let metricsDefinition = JSON.parse(this.responseText);
-            refreshComponentTable(componentData, metricsDefinition);
-        }
-    }
-    xhttp.send();
+    helper.http_request("GET","/content/mapping_metrics_definition.json",true,"",function (response_json) {
+        let metricsDefinition = response_json;
+        refreshComponentTable(componentData, metricsDefinition);
+    });
 }
 
 /**
