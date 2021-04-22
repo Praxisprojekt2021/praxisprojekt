@@ -152,17 +152,6 @@ button, html input[type="button"], input[type="reset"] {
   min-width: 100%;
 }
 
-.info-icon {
-  position: relative;
-  display: inline-block;
-  overflow: visible;
-  margin-top: 2px;
-  margin-left: 10px;
-  float: left;
-  border-radius: 20px;
-  opacity: 0.65;
-}
-
 .textfield, .category-dropdown {
   display: inline-block;
   width: auto;

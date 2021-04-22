@@ -204,13 +204,48 @@ function createMetricsSection(features, processData) {
         <table id="process-feature-table">
             <tr>
                 <th name="metric">Metric</th>
-                <th name="average" title="The average value for the respective metrics across all components in the process.">Average</th>
-                <th name="standard-deviation" title="The standard deviation for each metric across all components in the process.">Std. Dev.</th>
-                <th name="sum" title="The sum for each respective metric across all components in the process.">Sum</th>
-                <th name="min" title="The minimum value specifies the smallest value for each respective metric across all components in the process.">Min</th>
-                <th name="max" title="The maximum value indicates the largest value for each respective metric across all components of the process.">Max</th>
-                <th name="target-avg" title="The average, user-entered, Target-value for each metric across all components in the process.">Target Average</th>
-                <th name="target-sum" title="The target sum for each metric across all components in the process.">Target Sum</th>
+                <th name="average">
+                    Average
+                    <img src="images/info.png" loading="lazy" width="35" 
+                        title="The average value for the respective metrics across all components in the process." 
+                        class="info-icon-header">
+                </th>
+                <th name="standard-deviation">
+                    Std. Dev.
+                    <img src="images/info.png" loading="lazy" width="35" 
+                        title="The standard deviation for each metric across all components in the process." 
+                        class="info-icon-header">
+                </th>
+                <th name="sum">
+                    Sum 
+                    <img src="images/info.png" loading="lazy" width="35" 
+                        title="The sum for each respective metric across all components in the process." 
+                        class="info-icon-header">
+                </th>
+                <th name="min">
+                    Min
+                    <img src="images/info.png" loading="lazy" width="35" 
+                        title="The minimum value specifies the smallest value for each respective metric across all components in the process."
+                        class="info-icon-header">
+                </th>
+                <th name="max">
+                    Max
+                    <img src="images/info.png" loading="lazy" width="35" 
+                        title="The maximum value indicates the largest value for each respective metric across all components of the process."
+                        class="info-icon-header">
+                </th>
+                <th name="target-avg">
+                    Target Average
+                    <img src="images/info.png" loading="lazy" width="35" 
+                        title="The average, user-entered, Target-value for each metric across all components in the process."
+                        class="info-icon-header">
+                </th>
+                <th name="target-sum">
+                    Target Sum
+                    <img src="images/info.png" loading="lazy" width="35" 
+                        title="The target sum for each metric across all components in the process."
+                        class="info-icon-header">
+                </th>
                 <th name="ampel">Check</th>
                 <th name="info">Info</th>
             </tr>`;
@@ -245,19 +280,19 @@ function fillMetricRows(metricData, slug, processData) {
     // default table row, when no metric data is provided
     let innerHTML_actual = `
                     <tr>
-                        <td id="${metricData['name']}">${metricData['name']}</td>
+                        <td id="` + metricData['name'] + `">` + metricData['name'] + `</td>
                         <td></td>
                         <td></td>
                         <td></td>
                         <td></td>
                         <td></td>`;
     let innerHTML_target = `
-                        <td><input name="target-average" id="${slug}" value=""></td>`;
+                        <td><input name="target-average" id="` + slug + `" value=""></td>`;
     let innerHTML_fulfillment = `
                         <td></td>
                         <td></td>
                         <td><img src="images/info.png" loading="lazy" width="35"
-                        title="${metricData['description_component']} \ni.e. ${metricData['example_component']}"
+                        title="` + metricData['description_process'] + `\ni.e. ` + metricData['example_process'] + `"
                         alt="" class="info-icon"></td>
                     </tr>`;
 
