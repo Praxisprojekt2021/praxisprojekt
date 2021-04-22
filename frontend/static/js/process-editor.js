@@ -634,14 +634,14 @@ function exit(ev) {
  * */
 function visualizeProcess(processData) {
     let div = document.createElement("div");
+    div.className="modelling-processes";
+    div.id="visualizeprocess";
     let rectangle = "";
     let arrowRight = `<div class="arrow">&#8594;</div>`;
-
+    let innerHTML = "";
     let components = processData['process']['components'];
     components.sort((a,b) => (a.weight > b.weight) ? 1 : ((b.weight > a.weight) ? -1 : 0));
 
-    let innerHTML = `<table id="process-visualization" class="process-visualization">
-                            <tr style="height: 150px;">`;
 
     // begin at index 1 because 0 contains table headers
     for (let i = 0; i < components.length; i++) {
@@ -652,14 +652,14 @@ function visualizeProcess(processData) {
 
         rectangle = renderRectangle(componentName, componentCategory);
 
-        innerHTML += `<td style="width: 150px;height: 150px; border: 0px;">${rectangle}</td>`;
+        innerHTML += `<div class="visualize">${rectangle}</div>`;
         if (i < components.length - 1) {
-            innerHTML += `<td style="width: 150px;height: 150px;  border: 0px;">${arrowRight}</td>`;
+            innerHTML += `<div class="visualize" >${arrowRight}</div>`;
         }
 
     }
 
-    innerHTML += "</tr></table>";
+    
 
     div.innerHTML = innerHTML;
 
@@ -679,9 +679,9 @@ function visualizeProcess(processData) {
 function renderRectangle(componentName, componentCategory) {
     return `
         <div class="square-border">
-            <div style="font-weight:bold; text-decoration:underline;">${componentName}</div>
+            <div class="componentname" >${componentName}</div>
             <br>
-            <div style="font-style:italic;">${componentCategory}</div>
+            <div class"componentcategory" >${componentCategory}</div>
         </div>`;
 }
 
@@ -690,14 +690,14 @@ function renderRectangle(componentName, componentCategory) {
  * Makes the components visualization box from visualizeProcess() horizontally scrollable with the mouse-wheel
  * */
 function horizontalScroll() {
-    document.getElementById("modelling-process").addEventListener('wheel', function (e) {
+    document.getElementById("visualizeprocess").addEventListener('wheel', function (e) {
         if (e.type != 'wheel') {
             return;
         }
         let delta = ((e.deltaY || -e.wheelDelta || e.detail) >> 10) || 1;
-        delta = delta * (-10);
+        delta = delta * (-50);
 
-        document.getElementById("modelling-process").scrollLeft -= delta;
+        document.getElementById("visualizeprocess").scrollLeft -= delta;
 
         e.preventDefault();
     });

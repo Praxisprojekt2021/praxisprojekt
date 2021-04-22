@@ -338,9 +338,9 @@
 
 .arrow {
   font-size: 120px;
-  /*height: 120px;*/
   margin: 20px;
   vertical-align: middle;
+  transform: translateY(22px);
 }
 
 table .process-visualization {
@@ -351,6 +351,22 @@ table .process-visualization {
 
 #modelling-process{
   vertical-align: middle;
-  overflow-x: scroll;
   border: 1px solid black;
 }
+.visualize{
+  border: 0px;
+  display: inline-block;
+  
+  }
+  .modelling-processes{
+      overflow-x: scroll;
+      overflow-y: hidden;
+      white-space: nowrap; 
+  }
+  .componentcategory{
+    font-style:italic;
+  }
+  .componentname{
+  font-weight:bold;
+  text-decoration:underline;
+  }
