@@ -11,8 +11,7 @@
           "description_component": "Sum of actual lines of code, excl. empty & comment lines.",
           "example_component": "For a total batch of 100 lines of code, with 10 blank and comment lines, an input of 80 follows.",
           "description_process": "Sum of actual lines of code, excl. empty & comment lines.",
-          "example_process" : "For a process with 10 components and a target value of 10,000 lines of code, an input of 1,000 lines follows.",
-          "helper_text": "For a total batch of 100 lines of code, with 10 blank and comment lines, an input of 80 follows."
+          "example_process" : "For a process with 10 components and a target value of 10,000 lines of code, an input of 1,000 lines follows."
         },
         "development_time": {
           "name": "Development time [in developer days]",
@@ -22,8 +21,7 @@
           "description_component": "Average development time of a patch (in developer days).",
           "example_component": "If three developers work on a patch for three days, the input 9 follows [Developer days].",
           "description_process": "Average development time of a patch (in developer days).",
-          "example_process" : "If the development time of a patch should be on average 9 developer days, an input of 9 follows.",
-          "helper_text": "Average development time of a patch in developer days"
+          "example_process" : "If the development time of a patch should be on average 9 developer days, an input of 9 follows."
         },
         "code_review_frequency": {
           "name": "Code Reviews [per year]",
@@ -33,8 +31,7 @@
           "description_component": "Number of code reviews per year.",
           "example_component": "If there are 3 code reviews per month, 36 will be entered.",
           "description_process": "Number of code reviews per year.",
-          "example_process" : "If you want the code for the components to be reviewed on average once a month, an input of 12 follows.",
-          "helper_text": "If there are 3 code reviews per month, 36 will be entered."
+          "example_process" : "If you want the code for the components to be reviewed on average once a month, an input of 12 follows."
         },
         "comment_quality": {
           "name": "Quality of comments [in %]",
@@ -44,8 +41,7 @@
           "description_component": "Ratio between comment lines and number of lines of source code incl. comment lines (in %).",
           "example_component": "For a total of 100 lines of code with 10 comment lines, the input is 10 [%].",
           "description_process": "Ratio between comment lines and number of lines of source code incl. comment lines (in %).",
-          "example_process" : "If there should be 10 comment lines per 100 lines of code, an input of 10 [%] follows.",
-          "helper_text": "For a total of 100 lines of code with 10 comment lines, the input is 10 [%]."
+          "example_process" : "If there should be 10 comment lines per 100 lines of code, an input of 10 [%] follows."
         }
       }
     },
@@ -60,8 +56,7 @@
           "description_component": "Number of backup creations per month.",
           "example_component": "If a backup is created every day, an input of 30 (rounded) follows.",
           "description_process": "Number of backup creations per month.",
-          "example_process" : "If on average 2 back-ups per month are created for each component, enter 2.",
-          "helper_text": "If a backup is created every day, an input of 30 (rounded) follows."
+          "example_process" : "If on average 2 back-ups per month are created for each component, enter 2."
         },
         "change_tracking": {
           "name": "Tracking of changes",
@@ -71,8 +66,7 @@
           "description_component": "Are changes recorded / logged in the component.",
           "example_component": "If this is the case, an input of 1, otherwise 0, follows.",
           "description_process": "Proportions of components, for which change must be logged.",
-          "example_process" : "If 12 out of 15 components record changes, an input of 80 [%] follows.",
-          "helper_text": "If this is the case, an input of 1, otherwise 0, follows."
+          "example_process" : "If 12 out of 15 components record changes, an input of 80 [%] follows."
         },
         "patch_status_check": {
           "name": "Review of patch status [per month]",
@@ -82,8 +76,7 @@
           "description_component": "Number of system checks for patch status per month.",
           "example_component": "If the patch status is checked 5 times per month, the input is 5.",
           "description_process": "Number of system checks for patch status per month.",
-          "example_process" : "For a process with 15 components, which are checked for patch status once a month, an input of 1 follows.",
-          "helper_text": "If the patch status is checked 5 times per month, the input is 5."
+          "example_process" : "For a process with 15 components, which are checked for patch status once a month, an input of 1 follows."
         }
       }
     },
@@ -98,8 +91,7 @@
           "description_component": "Number of user complaints per month.",
           "example_component": "With a total of 15 user complaints per month, an entry of 15 follows.",
           "description_process": "Number of user complaints per month.",
-          "example_process" : "In a process with 15 components and a target value of 60 complaints per month, an input of 4 follows.",
-          "helper_text": "With a total of 15 user complaints per month, an entry of 15 follows."
+          "example_process" : "In a process with 15 components and a target value of 60 complaints per month, an input of 4 follows."
         },
         "training": {
           "name": "Training",
@@ -109,8 +101,7 @@
           "description_component": "Have all users of the component been adequately trained?",
           "example_component": "If this is the case, an input of 1, otherwise 0, follows.",
           "description_process": "Proportion of components that should have sufficient user training.", 
-          "example_process" : "If 12 out of 15 components have sufficient user training, an input of 80 [%] follows.",
-          "helper_text": "If this is the case, an input of 1, otherwise 0, follows."
+          "example_process" : "If 12 out of 15 components have sufficient user training, an input of 80 [%] follows."
         },
         "automation": {
           "name": "Automation",
@@ -120,8 +111,7 @@
           "description_component": "Is the component operated automatically?",
           "example_component": "If this is the case, an input of 1, otherwise 0, follows.",
           "description_process": "Proportions  of components, that must be operated automatically.",
-          "example_process" : "Proportion of components that should have sufficient user training.",
-          "helper_text": "If this is the case, an input of 1, otherwise 0, follows."
+          "example_process" : "Proportion of components that should have sufficient user training."
         }
       }
     },
@@ -136,8 +126,7 @@
           "description_component": "The ratio between automated test cases and the totality of all test cases.",
           "example_component": "With 15 automated test cases out of a total of 60 test cases, an input of 25 [%] follows.",
           "description_process": "The ratio between automated test cases and the totality of all test cases.",
-          "example_process" : "'If 75 out of 100 test cases are to be automated, an input of 75 [%] follows.",
-          "helper_text": "With 15 automated test cases out of a total of 60 test cases, an input of 25 [%] follows."
+          "example_process" : "If 75 out of 100 test cases are to be automated, an input of 75 [%] follows."
         },
         "ratio_of_late_corrections": {
           "name": "Timely corrections [in %]",
@@ -147,8 +136,7 @@
           "description_component": "The relationship between automated test cases and the totality of all test cases.",
           "example_component": "With 60 errors fixed on time, out of a total of 80 errors, an input of 75 [%] follows.",
           "description_process": "The relationship between automated test cases and the totality of all test cases.",
-          "example_process" : "If 45 out of 50 errors are fixed in time, the input of 90 [%] follows.",
-          "helper_text": "With 60 errors fixed on time, out of a total of 80 errors, an input of 75 [%] follows."
+          "example_process" : "If 45 out of 50 errors are fixed in time, the input of 90 [%] follows."
         },
         "pre_post_release_faults_ratio": {
           "name": "Pre/Post Release-Faults-Ratio [in %]",
@@ -158,8 +146,7 @@
           "description_component": "The ratio between detected errors before release and totality of all errors. \nGood index: 90% of errors were detected before the release.",
           "example_component": "With 15 detected errors before the release, out of a total of 20 errors, an input of 75 [%] follows.",
           "description_process": "The ratio between detected errors before release and totality of all errors. \nGood index: 90% of errors were detected before the release.",
-          "example_process" : "'If 15 out of 20 errors are detected before the release, the input of 75 [%] follows.",
-          "helper_text": "With 15 detected errors before the release, out of a total of 20 errors, an input of 75 [%] follows."
+          "example_process" : "If 15 out of 20 errors are detected before the release, the input of 75 [%] follows."
         },
         "error_during_testing": {
           "name": "Errors when testing [in %]",
@@ -169,8 +156,7 @@
           "description_component": "Relationship between successful test cases and totality of all test cases.",
           "example_component": "With 15 successful tests out of a total of 17 tests, an input of 88 [%] follows.",
           "description_process": "Relationship between successful test cases and totality of all test cases.",
-          "example_process" : "'If 18 out of 20 test cases are successful, an input of 90 [%] follows.",
-          "helper_text": "With 15 successful tests out of a total of 17 tests, an input of 88 [%] follows."
+          "example_process" : "If 18 out of 20 test cases are successful, an input of 90 [%] follows."
         },
         "testability": {
           "name": "Testability",
@@ -180,8 +166,7 @@
           "description_component": "Number of different test cases.",
           "example_component": "The absolute number of test cases is 30. The entry of 30 is made",
           "description_process": "Number of different test cases.",
-          "example_process" : "For a process with 15 components and a target value of 300 test cases (in total) for the process, an input of 20 follows",
-          "helper_text": "The absolute number of test cases is 30. The entry of 30 is made"
+          "example_process" : "For a process with 15 components and a target value of 300 test cases (in total) for the process, an input of 20 follows"
         },
         "test_scope": {
           "name": "Test scope [in hours]",
@@ -191,8 +176,7 @@
           "description_component": "Duration of the test activities (in hours).",
           "example_component": "The total test duration (sum) was 400 hours. The input of 400 is made.",
           "description_process": "Duration of the test activities (in hours).",
-          "example_process" : "'A process with 15 components and a desired test duration of 150h (total) for the process components, an input of 10 follows.",
-          "helper_text": "The total test duration (sum) was 400 hours. The input of 400 is made."
+          "example_process" : "A process with 15 components and a desired test duration of 150h (total) for the process components, an input of 10 follows."
         }
       }
     },
@@ -207,8 +191,7 @@
           "description_component":"Time to implement post-release updates (average) until they are implemented (in days).",
           "example_component": "It takes (on average) 27 days for updates to be implemented after release. The entry of 27 will be made.",
           "description_process":"Time to implement post-release updates (average) until they are implemented (in days).",
-          "example_process" : "If an update is implemented on average after 3 days, an input of 3 follows.",
-          "helper_text": "It takes (on average) 27 days for updates to be implemented after release. The entry of 27 will be made."
+          "example_process" : "If an update is implemented on average after 3 days, an input of 3 follows."
         },
         "external_support": {
           "name": "External Support",
@@ -217,9 +200,8 @@
           "min_value": 0,
           "description_component":"Is external support available?",
           "example_component": "If this is the case, an input of 1, otherwise 0, follows.",
-          "description_process": "'Proportions of components with external support.",
-          "example_process" : "If 5 out of 15 components have external support, enter 33 [%].",
-          "helper_text": "If this is the case, an input of 1, otherwise 0, follows."
+          "description_process": "Proportions of components with external support.",
+          "example_process" : "If 5 out of 15 components have external support, enter 33 [%]."
         },
         "internal_support": {
           "name": "Internal Support",
@@ -228,9 +210,8 @@
           "min_value": 0,
           "description_component": "Is internal support available?",
           "example_component": "If this is the case, an input of 1, otherwise 0, follows.",
-          "description_process": "'Proportions of components with internal support.",
-          "example_process" : "If 3 out of 15 components have internal support, the input is 20 [%].",
-          "helper_text": "If this is the case, an input of 1, otherwise 0, follows."
+          "description_process": "Proportions of components with internal support.",
+          "example_process" : "If 3 out of 15 components have internal support, the input is 20 [%]."
         }
       }
     },
@@ -245,8 +226,7 @@
           "description_component": "Number of average requests that the component can handle per day.",
           "example_component": "The component can handle 100,000 average requests per day. Input 100,000 is entered.",
           "description_process": "Number of average call ups, that can be handled per day.",
-          "example_process" : "For a process with a target value of 100,000 call ups per day, an input of 100,000 follows.",
-          "helper_text": "The component can handle 100,000 average requests per day. Input 100,000 is entered."
+          "example_process" : "For a process with a target value of 100,000 call ups per day, an input of 100,000 follows."
         },
         "restart": {
           "name": "Restart time [in minutes]",
@@ -256,8 +236,7 @@
           "description_component": "Duration of a full restart of the component (in minutes).", 
           "example_component": "It takes 24 minutes to restart the component. The input of 24 is made.",
           "description_process": "Duration of a full restart (in minutes).",
-          "example_process" : "In a process with 12 components and a target time of 24min per restart, an input of 2min follows (assuming the worst case: all components are restarted one after the other)",
-          "helper_text": "It takes 24 minutes to restart the component. The input of 24 is made."
+          "example_process" : "In a process with 12 components and a target time of 24min per restart, an input of 2min follows (assuming the worst case: all components are restarted one after the other)"
         },
         "downtime": {
           "name": "Downtime [in minutes per year]",
@@ -267,8 +246,7 @@
           "description_component": "Downtime within the last year incl. repair work (in minutes).\n>vailability 90%: 52,595 min\nAvailability 95%: 26,298 min\nAvailability 99%: 5,256 min\nAvailability 99.9%: 525.6 min \nAvailability 99.99%: 52.56 min",
           "example_component": "The total downtime of the component last year. If the component's availability was 99%, the input is 5,256 [min].",
           "description_process": "Downtime within the last year incl. repair work (in minutes).\n>vailability 90%: 52,595 min\nAvailability 95%: 26,298 min\nAvailability 99%: 5,256 min\nAvailability 99.9%: 525.6 min \nAvailability 99.99%: 52.56 min",
-          "example_process" : "For a process with 15 components and a target value of 45min downtime within one year, an input of 3min follows.",
-          "helper_text": "The total downtime of the component last year. If the component's availability was 99%, the input is 5,256 [min]."
+          "example_process" : "For a process with 15 components and a target value of 45min downtime within one year, an input of 3min follows."
         },
         "maximum_downtime_at_a_time": {
           "name": "Max Donwtime at one time [in minutes]",
@@ -278,8 +256,7 @@
           "description_component":"Duration of maximum downtime at a time during the last year incl. repair work (in minutes).", 
           "example_component": "In the case of several failures per year, the entry for the longest consecutive downtime follows. If a component has failed for a maximum of 180min and 420min, an input of 420 follows.",
           "description_process":"Duration of maximum downtime at a time during the last year incl. repair work (in minutes).", 
-          "example_process" : "In a process with 15 components and a maximum tolerated downtime of 45min at a time, an input of 3min follows.", 
-          "helper_text": "In the case of several failures per year, the entry for the longest consecutive downtime follows. If a component has failed for a maximum of 180min and 420min, an input of 420 follows."
+          "example_process" : "In a process with 15 components and a maximum tolerated downtime of 45min at a time, an input of 3min follows."
         },
         "time_between_failures": {
           "name": "Time between crashes [in days]",
@@ -289,8 +266,7 @@
           "description_component": "Average duration between crashes within the last year (in days).", 
           "example_component": "With 5 failures per year, the average time between failures is 73 [days] (365/5).",
           "description_process": "Average duration between crashes within the last year (in days).", 
-          "example_process" : "If the process fails on average twice a year, an input of 182.5 [days] (365/2) follows.",
-          "helper_text": "With 5 failures per year, the average time between failures is 73 [days] (365/5)."
+          "example_process" : "If the process fails on average twice a year, an input of 182.5 [days] (365/2) follows."
         },
         "restore_time": {
           "name": "Recovery time [in minutes]",
@@ -300,8 +276,7 @@
           "description_component":"Average duration, after a failure, until the component is functional again, including repair work (in minutes).",
           "example_component": "If the recovery for components lasts 36 minutes, an input of 36 minutes follows. ",
           "description_process": "Average duration after a failure until the entire process should be functional again, including repair work (in minutes).",
-          "example_process" : "In a process with 15 components and a target value of 45min for recovery, an input of 3 min follows.",
-          "helper_text": "If the recovery for components lasts 36 minutes, an input of 36 minutes follows."
+          "example_process" : "In a process with 15 components and a target value of 45min for recovery, an input of 3 min follows."
         },
         "planned_maintenance_percentage": {
           "name": "Planned Maintenance Percentage (PMP) [in %]",
@@ -311,8 +286,7 @@
           "description_component":"Ratio between total maintenance hours per year and planned maintenance hours per year.",
           "example_component": "If the recovery for components lasts 36 minutes, an input of 36 minutes follows. ",
           "description_process":"Ratio between total maintenance hours per year and planned maintenance hours per year.",
-          "example_process" : "If the actual maintenance does not exceed the planned maintenance time, an input of 100 [%] follows.",
-          "helper_text": "If 10 hours of maintenance were planned, but 12 hours of maintenance were performed, the input of 120 [%] follows."
+          "example_process" : "If the actual maintenance does not exceed the planned maintenance time, an input of 100 [%] follows."
         },
         "redundancy": {
           "name": "Redundancy",
@@ -321,9 +295,8 @@
           "min_value": 0,
           "description_component":"Is the component redundant?",
           "example_component": "If this is the case, an input of 1, otherwise 0, follows.",
-          "description_process": "'Porportions of components, that must be available redundantly.",
-          "example_process" : "If 12 out of 15 components are redundant, an input of 80 [%] follows.",
-          "helper_text": "If this is the case, an input of 1, otherwise 0, follows."
+          "description_process": "Proportions of components, that must be available redundantly.",
+          "example_process" : "If 12 out of 15 components are redundant, an input of 80 [%] follows."
         }
       }
     },
@@ -338,8 +311,7 @@
           "description_component":"Number of administrators for the component.",
           "example_component": "If there are 4 administrators for a component, an input of 4 follows. If an administrator is responsible for multiple components, he will be considered as a single administrator for each component.",
           "description_process": "Number of administrators.",
-          "example_process" : "For a process with 15 components and a target value of 45 administrators, an input of 3 [Administrators] is entered.",
-          "helper_text": "If there are 4 administrators for a component, an input of 4 follows. If an administrator is responsible for multiple components, he will be considered as a single administrator for each component."
+          "example_process" : "For a process with 15 components and a target value of 45 administrators, an input of 3 [Administrators] is entered."
         },
         "encryption": {
           "name": "Encryption",
@@ -348,9 +320,8 @@
           "min_value": 0,
           "description_component":"Is the data sufficiently encrypted?",
           "example_component": "If this is the case, an input of 1, otherwise 0, follows.",
-          "description_process": "'Porportions of components, for whose data should be sufficiently encrypted.",
-          "example_process" : "If 12 out of 15 components work with sufficiently encrypted data, an input of 80 [%] follows.",
-          "helper_text": "If this is the case, an input of 1, otherwise 0, follows."
+          "description_process": "Proportions of components, for whose data should be sufficiently encrypted.",
+          "example_process" : "If 12 out of 15 components work with sufficiently encrypted data, an input of 80 [%] follows."
         }
       }
     }
