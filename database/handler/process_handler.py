@@ -1,14 +1,15 @@
-from neomodel import config, StructuredNode, StringProperty, UniqueIdProperty, \
-    RelationshipTo, relationship, db
 from datetime import datetime
 
-from core.success_handler import success_handler
-from database.handler.relationships import RelationshipProcessComponent, RelationshipProcessMetric
+from neomodel import config, StructuredNode, StringProperty, UniqueIdProperty, \
+    RelationshipTo, relationship, db
+
 import database.handler.component_handler as component_handler
 import database.handler.metric_handler as metric_handler
-import database.handler.reformatter as reformatter
 import database.handler.queries as queries
+import database.handler.reformatter as reformatter
+from core.success_handler import success_handler
 from database.config import *
+from database.handler.relationships import RelationshipProcessComponent, RelationshipProcessMetric
 
 config.DATABASE_URL = 'bolt://{}:{}@{}:{}'.format(NEO4J_USER, NEO4J_PASSWORD, NEO4J_IP, NEO4J_PORT)
 

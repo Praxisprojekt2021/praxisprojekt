@@ -20,14 +20,14 @@ data = {
             "category": "Datenbank",
             "creation_timestamp": "20200219...",
             "last_timestamp": "20200219...",
-         },
+        },
         {
             "uid": "b141f94973a43cf8ee972e9dffc1b004",
             "name": "Oracle Datenbank",
             "category": "Datenbank",
             "creation_timestamp": "20200219...",
             "last_timestamp": "20200219...",
-         }
+        }
         # ...
     ]
 }
@@ -249,11 +249,11 @@ data = {
                 "max": 50,
                 "min": 20,
                 "standard_deviation": 5,
-                "total": 300,     # summe
+                "total": 300,  # summe
             },
             "target": {
                 "average": 30,
-                "total": 300,     # summe
+                "total": 300,  # summe
             },
             "component_count": 10,
             "fulfillment": True
@@ -264,11 +264,11 @@ data = {
                 "max": 0.8,
                 "min": 0.5,
                 "standard_deviation": 5,
-                "total": 0.4,     # summe
+                "total": 0.4,  # summe
             },
             "target": {
                 "average": 0.8,
-                "total": 0.64,     # summe
+                "total": 0.64,  # summe
             },
             "component_count": 2,
             "fulfillment": True
@@ -300,7 +300,7 @@ data = {
 # process uid only create: uid is needed to directly return the process view JSON
 data = {
     "success": True,
-    "process_uid": "b141f94973a43cf8ee972e9dffc1b004"  
+    "process_uid": "b141f94973a43cf8ee972e9dffc1b004"
 }
 
 # Backend -> Frontend
@@ -391,7 +391,7 @@ data = {
                 "description": "API für das Frontend",
                 "creation_timestamp": "20200219...",
                 "last_timestamp": "20200219...",
-                "metrics":  {
+                "metrics": {
                     "codelines": 20000,
                     "admins": 10,
                     "recovery_time": 5,
@@ -449,11 +449,11 @@ data = {
                 "max": 50,
                 "min": 20,
                 "standard_deviation": 5,
-                "total": 300,     # summe
+                "total": 300,  # summe
             },
             "target": {
                 "average": 30,
-                "total": 300,     # summe
+                "total": 300,  # summe
             },
             "component_count": 10,
             "fulfillment": True
@@ -464,11 +464,11 @@ data = {
                 "max": 0.8,
                 "min": 0.5,
                 "standard_deviation": 5,
-                "total": 0.4,     # summe
+                "total": 0.4,  # summe
             },
             "target": {
                 "average": 0.8,
-                "total": 0.64,     # summe
+                "total": 0.64,  # summe
             },
             "component_count": 2,
             "fulfillment": True

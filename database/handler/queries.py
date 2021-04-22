@@ -5,7 +5,7 @@ def get_process_list() -> str:
     :return: Query as string
     """
     return "Match (p: Process) " \
-            "Return collect(properties(p))"
+           "Return collect(properties(p))"
 
 
 def get_process(uid: str) -> str:
@@ -103,7 +103,7 @@ def add_process_reference(process_uid: str, component_uid: str, weight: float):
     :return: Query as string
     """
     return f"Match (p: Process {{uid: '{process_uid}'}}), (c: Component {{uid: '{component_uid}'}}) " \
-            f"Create (p)-[i: includes {{weight: {str(weight)}}}]->(c)"
+           f"Create (p)-[i: includes {{weight: {str(weight)}}}]->(c)"
 
 
 def update_process_reference(uid: str, old_weight: float, new_weight: float):
@@ -119,7 +119,7 @@ def update_process_reference(uid: str, old_weight: float, new_weight: float):
     :return: Query as string
     """
     return f"Match (p: Process {{uid: '{uid}'}})-[i: includes {{weight: {old_weight}}}]-() " \
-            f"Set i.weight={str(new_weight)}"
+           f"Set i.weight={str(new_weight)}"
 
 
 def delete_process_reference(uid: str, weight: float) -> str:
@@ -142,7 +142,7 @@ def get_component_list() -> str:
     :return: Query as string
     """
     return "Match (c: Component) " \
-            "Return collect(properties(c))"
+           "Return collect(properties(c))"
 
 
 def get_component(uid: str) -> str:
