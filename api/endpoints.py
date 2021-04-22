@@ -215,6 +215,20 @@ def process_view_route():
 """
 
 
+@app.errorhandler(Exception)
+def error_occurred(error):
+    """
+    API error handler
+    :receives: None
+    :return: an error JSON
+    """
+    exc_type, value, traceback = sys.exc_info()
+    error_json = error_handler(exc_type.__name__, str(value))
+    print(error)
+    print(error_json)
+    return error_json, 500
+
+
 @app.errorhandler(404)
 def page_not_found(error):
     """

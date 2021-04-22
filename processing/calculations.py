@@ -93,10 +93,10 @@ def calculate_current_values(process_dict: dict, metrics_dict: dict) -> dict:
 
         # if target values were given and the metric is filled in a component
         if process_target_flag and component_metric_flag:
-            # calculate target sum
-            calculations[metric]['target']['total'] = calculations[metric]['target']['average'] * \
-                                                      calculations[metric]['count_component']
-
+            if calculations[metric]['target']['average'] is not None:
+                # calculate target sum
+                calculations[metric]['target']['total'] = calculations[metric]['target']['average'] * \
+                                                          calculations[metric]['count_component']
         # save calculated values in output_dict
         if process_target_flag or component_metric_flag:
             output_dict['actual_target_metrics'][metric] = calculations[metric]
