@@ -401,6 +401,7 @@ function loadComponentNames(processData) {
             // Process response and show sum in output field
             let metricsDefinition = JSON.parse(this.responseText);
             createComponentTable(processData, metricsDefinition);
+            visualizeProcess(processData);
             helper.get_request("/component/overview", fillComponentDropdown);
         }
     }
@@ -464,7 +465,6 @@ function createComponentTable(processData, metricsDefinition) {
             }
         }
     });
-    visualizeProcess();
 }
 
 /**
@@ -629,28 +629,31 @@ function exit(ev) {
 
 /**
  * This function visualizes the components of a process in a box above the components table
+ *
+ * @param {json} processData
  * */
-function visualizeProcess() {
+function visualizeProcess(processData) {
     let div = document.createElement("div");
     let rectangle = "";
     let arrowRight = `<div class="arrow">&#8594;</div>`;
 
-    let componentRows = document.getElementById("ComponentOverviewTable").getElementsByTagName("tr");
+    let components = processData['process']['components'];
+    components.sort((a,b) => (a.weight > b.weight) ? 1 : ((b.weight > a.weight) ? -1 : 0));
 
     let innerHTML = `<table id="process-visualization" class="process-visualization">
                             <tr style="height: 150px;">`;
 
     // begin at index 1 because 0 contains table headers
-    for (let i = 1; i < componentRows.length; i++) {
-        let currentComponent = componentRows[i];
-        let tds = currentComponent.getElementsByTagName("td");
-        let weight = tds[0].innerHTML;
-        let componentName = tds[1].innerHTML;
-        let category = tds[2].innerHTML;
+    for (let i = 0; i < components.length; i++) {
+        let currentComponent = components[i];
 
-        rectangle = `<div class="square-border"><div style="font-weight:bold; text-decoration:underline;" >${componentName}</div><br><div style="font-style:italic;">${category}</div></div>`;
+        let componentName = currentComponent['name'];
+        let componentCategory = currentComponent['category'];
+
+        rectangle = renderRectangle(componentName, componentCategory);
+
         innerHTML += `<td style="width: 150px;height: 150px; border: 0px;">${rectangle}</td>`;
-        if (i < componentRows.length - 1) {
+        if (i < components.length - 1) {
             innerHTML += `<td style="width: 150px;height: 150px;  border: 0px;">${arrowRight}</td>`;
         }
 
@@ -665,6 +668,23 @@ function visualizeProcess() {
 
     horizontalScroll();
 }
+
+/**
+ * Returns rectangle HTML-Element to visualize one component in the process visualization.
+ *
+ * @param componentName
+ * @param componentCategory
+ * @returns {string} rectangle Element
+ */
+function renderRectangle(componentName, componentCategory) {
+    return `
+        <div class="square-border">
+            <div style="font-weight:bold; text-decoration:underline;">${componentName}</div>
+            <br>
+            <div style="font-style:italic;">${componentCategory}</div>
+        </div>`;
+}
+
 
 /**
  * Makes the components visualization box from visualizeProcess() horizontally scrollable with the mouse-wheel
