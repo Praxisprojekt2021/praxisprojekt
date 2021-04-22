@@ -125,16 +125,17 @@ def compare_actual_target_metrics(process_dict: dict, metrics_dict: dict) -> dic
         if 'actual' in process_metrics_dict.keys() and 'target' in process_metrics_dict.keys():
 
             fulfillment = True
-            # if eval(f"{process_metrics_dict['actual']['average']} {comparator}= {process_metrics_dict['target']['average']}"):
-            if (process_metrics_dict['target']['min'] is not None):
-                if (process_metrics_dict['actual']['min'] < process_metrics_dict['target']['min']):
+            # if eval(f"{process_metrics_dict['actual']['average']} {comparator}= {process_metrics_dict['target'][
+            # 'average']}"):
+            if process_metrics_dict['target']['min'] is not None:
+                if process_metrics_dict['actual']['min'] < process_metrics_dict['target']['min']:
                     fulfillment = False
 
-            if ((process_metrics_dict['target']['max'] is not None) and (fulfillment)):
-                if (process_metrics_dict['actual']['max'] > process_metrics_dict['target']['max']):
+            if (process_metrics_dict['target']['max'] is not None) and fulfillment:
+                if process_metrics_dict['actual']['max'] > process_metrics_dict['target']['max']:
                     fulfillment = False
 
-            if (fulfillment):
+            if (process_metrics_dict['target']['average'] is not None) and fulfillment:
                 if not eval(
                         f"{process_metrics_dict['actual']['average']} {comparator}= {process_metrics_dict['target']['average']}"):
                     fulfillment = False
