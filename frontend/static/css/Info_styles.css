@@ -1,10 +1,10 @@
-.generalstyle {
+.generalsubstyle {
     position: relative;
     margin: auto;
     text-align: center;
     width: 1000px;
 }
-.generalsubstyle {
+.generalstyle {
     margin-right: 50px;
     margin-left: 50px;
     padding-top: 40px;
