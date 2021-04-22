@@ -12,7 +12,7 @@ let uid = url.searchParams.get('uid');
  *
  * @param {json, boolean} json_process
  */
-function init(json_process=false) {
+function init(json_process = false) {
 
     getFeatures().then(data => {
         if (!json_process) {
@@ -44,7 +44,7 @@ async function getFeatures() {
             div.className = 'control-area';
 
             let buttonType;
-            if (typeof uid !== undefined && uid !=="" && uid != null) {
+            if (typeof uid !== undefined && uid !== "" && uid != null) {
                 buttonType = "Save";
             } else {
                 buttonType = "Create";
@@ -113,6 +113,7 @@ function getProcess(features) {
  */
 
 function fillDataFields(features, processData) {
+
     if (processData['success']) {
         // fill description column
         fillDescriptionColumn(processData);
@@ -150,7 +151,7 @@ function fillDescriptionColumn(processData) {
  */
 function createMetricsSection(features, processData) {
     document.getElementById('metrics-input-processes').innerHTML = '';
-    let featureCount=0;
+    let featureCount = 0;
     Object.keys(features).forEach(function (key) {
         featureCount++;
         let feature = features[key];
@@ -175,7 +176,7 @@ function createMetricsSection(features, processData) {
             innerHTML_metric_block += innerHTML_metric_row;
 
             // create a list of all metric fulfillments
-            if (metric_fulfillment != null ) {
+            if (metric_fulfillment != null) {
                 metric_fulfillment_list.push(metric_fulfillment);
             }
 
@@ -257,22 +258,22 @@ function fillMetricRows(metricData, slug, processData) {
                         <td></td>`;
     let innerHTML_target = `
                         <td><input name="target-average" id="${slug}" value=""></td>
-                        <td><input name="target-min" id="${slug}" value=""></td>
-                        <td><input name="target-max" id="${slug}" value=""></td>`;
+                        <td><input name="target-minimum" id="${slug}" value=""></td>
+                        <td><input name="target-maximum" id="${slug}" value=""></td>`;
     let innerHTML_fulfillment = `
                         <td></td>
                         <td></td>
                         <td><img src="images/info.png" loading="lazy" width="35" alt="" class="info-icon"></td>
                     </tr>`;
 
-    if(uid != null && uid !== -1 && (slug in processData['actual_target_metrics'])) {
+    if (uid != null && uid !== -1 && (slug in processData['actual_target_metrics'])) {
 
         if ('count_component' in processData['actual_target_metrics'][slug]) {
             count_component = processData['actual_target_metrics'][slug]['count_component'];
         }
 
         // check if actual values are provided
-        if('actual' in processData['actual_target_metrics'][slug]) {
+        if ('actual' in processData['actual_target_metrics'][slug]) {
             innerHTML_actual = `
                     <tr>
                         <td id="${metricData['name']}">${metricData['name']}</td>
@@ -283,17 +284,29 @@ function fillMetricRows(metricData, slug, processData) {
                         <td>${processData['actual_target_metrics'][slug]['actual']['max']}</td>`;
         }
 
-        // check if a target value is provided
-        a = processData['actual_target_metrics'][slug]['target']['average']
-        if('target' in processData['actual_target_metrics'][slug]) {
-            innerHTML_target =`
+
+        // check if target values are provided
+        if ('target' in processData['actual_target_metrics'][slug]) {
+
+            // replace null with empty strings, so that "null" is not entered in the table
+            if (processData['actual_target_metrics'][slug]['target']['average'] == null) {
+                processData['actual_target_metrics'][slug]['target']['average'] = '';
+            }
+            if (processData['actual_target_metrics'][slug]['target']['min'] == null) {
+                processData['actual_target_metrics'][slug]['target']['min'] = '';
+            }
+            if (processData['actual_target_metrics'][slug]['target']['max'] == null) {
+                processData['actual_target_metrics'][slug]['target']['max'] = '';
+            }
+
+            innerHTML_target = `
                         <td><input name="target-average" id="${slug}" value="${processData['actual_target_metrics'][slug]['target']['average']}"></td>
-                        <td><input name="target-min" id="${slug}" value="${processData['actual_target_metrics'][slug]['target']['min']}"></td>
-                        <td><input name="target-max" id="${slug}" value="${processData['actual_target_metrics'][slug]['target']['max']}"></td>`
+                        <td><input name="target-minimum" id="${slug}" value="${processData['actual_target_metrics'][slug]['target']['min']}"></td>
+                        <td><input name="target-maximum" id="${slug}" value="${processData['actual_target_metrics'][slug]['target']['max']}"></td>`
         }
 
         // check if a fulfillment and consequentially a target sum is provided (if fulfillment was calculated, a target sum was also able to be calculated)
-        if('fulfillment' in processData['actual_target_metrics'][slug]) {
+        if ('fulfillment' in processData['actual_target_metrics'][slug]) {
             metric_fulfillment = processData['actual_target_metrics'][slug]['fulfillment'];
             innerHTML_fulfillment = `
                         <td>${processData['actual_target_metrics'][slug]['target']['total']}</td>
@@ -331,59 +344,51 @@ function renderWholeProcessScoreCircle(wholeProcessScore) {
 
 function createEditProcess() {
 
-    let metric_elements = document.getElementsByName('target-average');
-    let metric_elements_min = document.getElementsByName('target-min');
-    let metric_elements_max = document.getElementsByName('target-max');
+    let metric_elements_average = document.getElementsByName('target-average');
+    let metric_elements_min = document.getElementsByName('target-minimum');
+    let metric_elements_max = document.getElementsByName('target-maximum');
     let metrics = {};
 
-
     let text_replaced_flag = false; // Helper variable that indicates, whether or not a non quantitative metric input has been found and discarded
-    for (let i = 0; i < metric_elements.length; i++) {
-        // TODO also check if values are within min and max values
+    for (let i = 0; i < metric_elements_average.length; i++) {
+
         // Replace non quantitative metric inputs with an emtpy string to have them discarded
-        if (metric_elements[i].value !== '' && !parseFloat(metric_elements[i].value)) {
-            metric_elements[i].value = '';
+        if (metric_elements_average[i].value !== '' && !parseFloat(metric_elements_average[i].value)) {
+            metric_elements_average[i].value = '';
             text_replaced_flag = true;
         }
+        if (metric_elements_min[i].value !== '' && !parseFloat(metric_elements_min[i].value)) {
+            metric_elements_min[i].value = '';
+            text_replaced_flag = true;
+        }
+        if (metric_elements_max[i].value !== '' && !parseFloat(metric_elements_max[i].value)) {
+            metric_elements_max[i].value = '';
+            text_replaced_flag = true;
+        }
+
         // Process quantitative metrics to push them into the JSON Object to be passed to the backend
-        metrics[metric_elements[i].id] = {  "average": null, "min": null, "max": null};
-        if (metric_elements[i].value !== '') {
-             metrics[metric_elements[i].id]["average"] = parseInt(metric_elements[i].value);
+        let id = metric_elements_average[i].id;
+
+        metrics[id] = {
+            "average": null,
+            "min": null,
+            "max": null
+        };
+
+        if (metric_elements_average[i].value !== '') {
+            metrics[id]["average"] = parseInt(metric_elements_average[i].value);
+        }
+        if (metric_elements_min[i].value !== '') {
+            metrics[id]["min"] = parseInt(metric_elements_min[i].value);
+        }
+        if (metric_elements_max[i].value !== '') {
+            metrics[id]["max"] = parseInt(metric_elements_max[i].value);
         }
     }
 
-    console.log(metrics);
-
-    //for min
-    for (let j = 0; j < metric_elements_min.length; j++) {
-        // TODO also check if values are within min and max values
-        // Replace non quantitative metric inputs with an emtpy string to have them discarded
-        if (metric_elements_min[j].value !== '' && !parseFloat(metric_elements_min[j].value)) {
-            metric_elements_min[j].value = '';
-            text_replaced_flag = true;
-        }
-        // Process quantitative metrics to push them into the JSON Object to be passed to the backend
-        if (metric_elements_min[j].value !== '') {
-            metrics[metric_elements_min[j].id]["min"] = parseInt(metric_elements_min[j].value);
-        }
-    }
-
-    //for max
-    for (let p = 0; p < metric_elements_max.length; p++) {
-        // TODO also check if values are within min and max values
-        // Replace non quantitative metric inputs with an emtpy string to have them discarded
-        if (metric_elements_max[p].value !== '' && !parseFloat(metric_elements_max[p].value)) {
-            metric_elements_max[p].value = '';
-            text_replaced_flag = true;
-        }
-        // Process quantitative metrics to push them into the JSON Object to be passed to the backend
-        if (metric_elements_max[p].value !== '') {
-            metrics[metric_elements_max[p].id]["max"] = parseInt(metric_elements_max[p].value);
-        }
-    }
-
-    for(var key in metrics){
-        if(metrics[key]["min"] == null && metrics[key]["max"] == null && metrics[key]["average"] == null) {
+    // delete metric from json if no target metric (min, max, average) is entered
+    for (var key in metrics) {
+        if (metrics[key]["min"] == null && metrics[key]["max"] == null && metrics[key]["average"] == null) {
             delete metrics[key];
         }
     }
@@ -509,11 +514,11 @@ function createComponentTable(processData, metricsDefinition) {
         let component = document.createElement('tr');
         component.id = componentData['weight'];
         component.draggable = true;
-        component.setAttribute('ondragstart','drag(event)');
+        component.setAttribute('ondragstart', 'drag(event)');
         component.setAttribute('ondrop', 'drop(event)');
         component.setAttribute('ondragover', 'allowDrop(event)');
-        component.setAttribute('ondragenter','enter(event)');
-        component.setAttribute('ondragleave','exit(event)');
+        component.setAttribute('ondragenter', 'enter(event)');
+        component.setAttribute('ondragleave', 'exit(event)');
 
         component.innerHTML = `
             <td>${componentData['weight']}</td>
@@ -700,7 +705,7 @@ function exit(ev) {
 /**
  * Shows success/error message and reloads process-editor.
  */
- function deleteCallback(response) {
+function deleteCallback(response) {
     // Check if component has been deleted successfully
     if (response['success']) {
         // Component has been deleted successfully
