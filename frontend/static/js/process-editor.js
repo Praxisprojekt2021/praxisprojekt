@@ -17,6 +17,7 @@ function init(json_process = false) {
     helper.showLoadingScreen();
 
     getFeatures().then(data => {
+        // If page is reloaded (after saving) processes are updated else => page is loaded from databased and entries are prepared
         if (!json_process) {
             getProcess(data);
         } else {
@@ -24,7 +25,6 @@ function init(json_process = false) {
             loadComponentNames(json_process);
         }
     });
-
 }
 
 /**
@@ -180,6 +180,20 @@ function createMetricsSection(features, processData) {
             feature_component_count = component_count;
         });
 
+        //Live check
+        const inputs = document.getElementsByName('target-average');
+        for (let i = 0; i < inputs.length; i++) {
+            inputs[i].addEventListener('blur', (event) => {
+                if(!targetAvgIsWithinMinMax(inputs[i]) || inputs[i].value == '') {
+                    inputs[i].style.setProperty("border-color","red",undefined);
+                } else {
+                    inputs[i].style.removeProperty("border-color");
+                }
+
+                //remove trailing zeroes or spaces
+            });
+        }
+
         // calculate the feature fulfillment -> if one metric_fulfillment is false, the feature_fulfillment is also false
         if (metric_fulfillment_list.length === 0) {
             feature_fulfillment = null;
@@ -252,7 +266,7 @@ function fillMetricRows(metricData, slug, processData) {
                         <td></td>
                         <td></td>`;
     let innerHTML_target = `
-                        <td><input name="target-average" id="${slug}" value=""></td>`;
+                        <td><input type="number" name="target-average" id="${slug}" value=""></td>`;
     let innerHTML_fulfillment = `
                         <td></td>
                         <td></td>
@@ -280,7 +294,7 @@ function fillMetricRows(metricData, slug, processData) {
         // check if a target value is provided
         if ('target' in processData['actual_target_metrics'][slug]) {
             innerHTML_target = `
-                        <td><input name="target-average" id="${slug}" value="` + Math.round(processData['actual_target_metrics'][slug]['target']['average'] * 100 + Number.EPSILON) / 100 + `"></td>`
+                        <td><input type="number" name="target-average" id="${slug}" value="` + Math.round(processData['actual_target_metrics'][slug]['target']['average'] * 100 + Number.EPSILON) / 100 + `"></td>`
         }
 
         // check if a fulfillment and consequentially a target sum is provided (if fulfillment was calculated, a target sum was also able to be calculated)
@@ -340,15 +354,14 @@ function createEditProcess() {
 
         // Process quantitative metrics to push them into the JSON Object to be passed to the backend
         if (metric_elements[i].value !== '') {
-            metrics[metric_elements[i].id] = parseInt(metric_elements[i].value);
+            metrics[metric_elements[i].id] = parseFloat(metric_elements[i].value);
 
             // Check if enabled fields mainstain min/max value
-            var min = parseInt(metric_elements[i].parentElement.parentElement.children[4].innerHTML);
-            var max = parseInt(metric_elements[i].parentElement.parentElement.children[5].innerHTML);
-            var input = parseInt(metric_elements[i].value);
-            if (input < min || input > max) {
-                minmaxlist += '\n' + metric_elements[i].parentElement.parentElement.children[0].id;
-                metric_elements[i].style.borderColor = "red";
+            if (!targetAvgIsWithinMinMax(metric_elements[i])) {
+                minmaxlist += '\n' + metric_elements[i].parentElement.parentElement.children[0].id; //Add metric name to the list of wrong target avg values
+                metric_elements[i].style.setProperty("border-color","red",undefined);
+            } else {
+                metric_elements[i].style.removeProperty("border-color");
             }
         }
 
@@ -356,12 +369,13 @@ function createEditProcess() {
         if (metric_disabled == "false" && metric_elements[i].value == '') {
             required_helper_flag = false;
             emptyFieldList += '\n' + metric_elements[i].parentElement.parentElement.children[0].id;
-            metric_elements[i].style.borderColor = "red";
+            metric_elements[i].style.setProperty("border-color","red",undefined);
         }
     }
     if (typeof uid === undefined || uid === "" || uid == null) {
         uid = -1;
     }
+    // Prepare json string
     const process = `{
         "process": {
             "uid": "${uid}",  
@@ -378,6 +392,7 @@ function createEditProcess() {
         saveProcess(process);
     } else {
         let alert_string = 'Changes could not be saved. ';
+        // Prepare alert message strings depending on the error cause
         if (!required_helper_flag) {
             alert_string += 'Please fill all metrics fields.';
             alert_string += '\nThe following Metrics are empty:';
@@ -430,12 +445,13 @@ function createComponentTable(processData, metricsDefinition) {
     const components = processData['process']['components'];
     document.getElementById('ComponentOverviewTable').innerHTML = '';
 
+    // Table header
     let header = document.createElement('tr');
     header.innerHTML = `
         <th name="Position"> Position</th>
         <th name="Component">Component</th>
         <th name="Category">Category</th>
-        <th name="Weight">Weight</th>
+        <th></th>
         <th></th>
         <th></th>
         <th></th>
@@ -443,6 +459,7 @@ function createComponentTable(processData, metricsDefinition) {
     `;
     document.getElementById('ComponentOverviewTable').appendChild(header);
 
+    // Settng elements/components
     Object.keys(components).forEach(function (key) {
         const componentData = components[key];
         let component = document.createElement('tr');
@@ -454,17 +471,19 @@ function createComponentTable(processData, metricsDefinition) {
         component.setAttribute('ondragenter', 'enter(event)');
         component.setAttribute('ondragleave', 'exit(event)');
 
+        // Filling values
         component.innerHTML = `
             <td></td>
             <td>${componentData['name']}</td>
             <td>${metricsDefinition['categories'][componentData['category']]['name']}</td>
-            <td>${componentData['weight']}</td>
+            <td></td>
             <td></td>
             <td></td>
             <td></td>
             <td><i id="TrashIcon" class="fas fa-trash-alt" onclick="deleteComponent(this.parentElement.parentElement.id); helper.showLoadingScreen()"></i></td>
         `;
 
+        // Sorting the components according to their weights
         const componentTable = document.getElementById('ComponentOverviewTable');
         for (let i = componentTable.childElementCount - 1; i >= 0; i--) {
             const previousComponent = componentTable.children[i];
@@ -507,9 +526,10 @@ function addComponent() {
     let componentUID = document.getElementById('addposition').value;
     if (componentUID.length === 32) {
         let weight = document.getElementById('ComponentOverviewTable').lastChild.id;
+        // If there is no components in the table, the new component recieves the weight = 1
         if (weight === '') {
             weight = 1;
-        } else {
+        } else { // Else it recieves the weight of the last component in the table + 1
             weight = parseFloat(weight) + 1;
         }
 
@@ -585,29 +605,28 @@ function drop(ev) {
     let data = ev.dataTransfer.getData("text");
     let element = document.getElementById(data);
     let oldWeight = parseFloat(element.id);
-    insertAfter(ev.target.parentElement, element);
+    insertAfter(ev.target.parentElement, element); // Component is inserted after the above component where the drop takes place
 
     let previousID;
     try {
-        previousID = parseFloat(element.previousSibling.id);
-        if (isNaN(previousID)) {
-            previousID = parseFloat(element.id);
+        previousID = parseFloat(element.previousSibling.id); // Trying to get the weight of the previous element
+        if (isNaN(previousID)) {                             // If there is no previous weight then default weight = own weight
+            previousID = parseFloat(element.id);            // which should be 1 by default as there are no weights in the table
         }
     } catch (e) {
         previousID = parseFloat(element.id);
     }
     let nextID;
     try {
-        nextID = parseFloat(element.nextSibling.id);
+        nextID = parseFloat(element.nextSibling.id);    //Trying to get the ID of the below component where the drop takes place
     } catch (e) {
-        nextID = parseFloat(element.previousSibling.id) + 1;
+        nextID = parseFloat(element.previousSibling.id) + 1; // If there is no next component the next weight is the weight of the previous component + 1
     }
     let newWeight = parseFloat(previousID + (nextID - previousID) / 2);
     element.id = newWeight;
-    element.children[3].innerHTML = newWeight;
 
     helper.showLoadingScreen();
-    editComponent(oldWeight, newWeight);
+    editComponent(oldWeight, newWeight); // Updating component table
 }
 
 /**
@@ -617,7 +636,7 @@ function drop(ev) {
  * @param {HTMLElement} newNode: The element to be inserted
  */
 function insertAfter(referenceNode, newNode) {
-    referenceNode.style.border = "inherit";
+    referenceNode.style.setProperty("border","inherit",undefined);
     referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
 }
 
@@ -627,7 +646,7 @@ function insertAfter(referenceNode, newNode) {
  * @param {event} ev: The event associated with dragging and dropping elements
  */
 function enter(ev) {
-    ev.target.parentElement.style.borderBottom = "15px solid black";
+    ev.target.parentElement.style.setProperty("border-bottom","15px solid black",undefined);
 }
 
 /**
@@ -636,7 +655,7 @@ function enter(ev) {
  * @param {event} ev: The event associated with dragging and dropping elements
  */
 function exit(ev) {
-    ev.target.parentElement.style.border = "inherit";
+    ev.target.parentElement.style.setProperty("border","inherit",undefined);
 }
 
 /**
@@ -659,7 +678,6 @@ function visualizeProcess() {
         tds[0].innerHTML = i;
         let componentName = tds[1].innerHTML;
         let category = tds[2].innerHTML;
-        let weight = tds[3].innerHTML;
 
         rectangle = `<div class="square-border"><div style="font-weight:bold; text-decoration:underline;" >${componentName}</div><br><div style="font-style:italic;">${category}</div></div>`;
         innerHTML += `<td style="width: 150px;height: 150px; border: 0px;">${rectangle}</td>`;
@@ -710,4 +728,22 @@ function saveCallback(response) {
     } else {
         location.replace(location.href + '?uid=' + response['process']['uid']);
     }
+}
+
+/**
+ * This function checks if the given target average is within the allowed min/max value
+ *
+ * @param {HTMLElement} element
+ */
+
+function targetAvgIsWithinMinMax(element) {
+    var min = parseFloat(element.parentElement.parentElement.children[4].innerHTML); // Getting min value for metric
+    var max = parseFloat(element.parentElement.parentElement.children[5].innerHTML); // Getting max value for metric
+    var input = parseFloat(element.value); // Getting entered value for metric
+    if (input < min || input > max) {
+        return false;
+    } else {
+        return true;
+    }
+    return false; //default return false (e.g. if the value is non numerical)
 }
