@@ -1,52 +1,11 @@
-.header {
-    display: block;
-    margin-bottom: 30px;
-}
-.logo {
-    display: block;
-    margin-top: 25px;
-    margin-right: auto;
-    margin-left: auto;
-    text-align: left;
-}
-.navigation {
-    position: relative;
-    left: auto;
-    display: inline-block;
-    overflow: visible;
-    width: 300px;
-    height: 20px;
-    margin-left: 100px;
-    float: left;
-}
-.component-form-block {
-    position: relative;
-    margin: auto;
-    text-align: center;
-    width: 1000px;
-}
-.component-overview {
-    margin-right: 50px;
-    margin-left: 50px;
-    padding-top: 40px;
-    padding-left: 50px;
-    padding-right: 50px;
-    border-style: solid;
-    border-width: 1px;
-    border-color: #fff;
-    background-color: #ececec;
-}
-.view-description-label {
-    font-size: 17px;
-    font-weight: 700;
-    text-align: center;
-}
+
+/*
 .view-description-label2 {
     font-size: 17px;
     font-weight: 700;
     margin-top: 40px;
     text-align: center;
-}
+}*/
 * {box-sizing:border-box}
 
 /* Slideshow container */
@@ -57,11 +16,6 @@
     outline-style: solid;
     outline-color: dimgrey;
 }
-
-/* Hide the images by default
-.mySlides {
-    display: none;
-}*/
 
 /* Next & previous buttons */
 .prev, .next {
@@ -101,18 +55,14 @@
 .mySlides:hover .textbackground {
     opacity: 1;
 }
-/* Caption text */
+/* Tutorial descriptive text */
 .text {
     color: dimgrey;
     font-size: 18px;
     padding: 8px 12px;
     background-color: #fefefe;
-  /*  position: absolute;
-    bottom: 8px;
-    width: 100%;
-    text-align: center;*/
 }
-/* Caption text Background */
+/* Descriptive text Background */
 .textbackground {
     transition: .5s ease;
     opacity: 0;
@@ -123,7 +73,7 @@
     -ms-transform: translate(-50%, -50%);
     text-align: center;
 }
-/* Image */
+/* Tutorial Image */
 .tutorial_image {
     opacity: 1;
     display: block;
@@ -131,7 +81,7 @@
     backface-visibility: hidden;
 }
 
-/* Number text (1/3 etc) */
+/* Orientation Numbers (1/3 etc) */
 .numbertext {
     color: dimgrey;
     font-size: 18px;
@@ -140,7 +90,7 @@
     top: 0;
 }
 
-/* The dots/bullets/indicators */
+/* Orientation Dots */
 .dot {
     cursor: pointer;
     height: 15px;
@@ -156,7 +106,7 @@
     background-color: #717171;
 }
 
-/* Fading animation */
+/* Slide Fading animation */
 .fade {
     -webkit-animation-name: fade;
     -webkit-animation-duration: 1.5s;
