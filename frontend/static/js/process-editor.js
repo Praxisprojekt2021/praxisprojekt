@@ -696,10 +696,9 @@ function horizontalScroll() {
         }
         let delta = ((e.deltaY || -e.wheelDelta || e.detail) >> 10) || 1;
         delta = delta * (-10);
-        document.documentElement.scrollLeft -= delta;
+
         document.getElementById("modelling-process").scrollLeft -= delta;
-        // safari needs also this
-        // document.getElementById("modelling-process").scrollLeft -= delta;
+
         e.preventDefault();
     });
 }
