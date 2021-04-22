@@ -244,7 +244,7 @@ function fillMetricRows(metricData, slug, processData) {
 
     // default table row, when no metric data is provided
     let innerHTML_actual = `
-                    <tr>
+                    <tr disabled="true">
                         <td id="${metricData['name']}">${metricData['name']}</td>
                         <td></td>
                         <td></td>
@@ -268,7 +268,7 @@ function fillMetricRows(metricData, slug, processData) {
         // check if actual values are provided
         if ('actual' in processData['actual_target_metrics'][slug]) {
             innerHTML_actual = `
-                    <tr>
+                    <tr disabled="false">
                         <td id="${metricData['name']}">${metricData['name']}</td>
                         <td>`+ Math.round(processData['actual_target_metrics'][slug]['actual']['average']*100+Number.EPSILON)/100+`</td>
                         <td>`+ Math.round(processData['actual_target_metrics'][slug]['actual']['standard_deviation']*100+Number.EPSILON)/100+`</td>
@@ -324,8 +324,14 @@ function createEditProcess() {
     let metric_elements = document.getElementsByName('target-average');
     let metrics = {};
     let text_replaced_flag = false; // Helper variable that indicates, whether or not a non quantitative metric input has been found and discarded
-    let minmaxlist = "";// List for Metrics that are not in min or max
+    let minmaxlist = ""; // List for Metrics that are not in min or max
+    let emptyFieldList = ""; // List for Metric inputs that are empty
+    let required_helper_flag = true; // Helper variable which gets set to false, if any required field is not filled
     for (let i = 0; i < metric_elements.length; i++) {
+        let metric_disabled = metric_elements[i].parentElement.parentElement.getAttribute("disabled");
+
+        if(metric_disabled == "true") continue; //skip metric if metric is disabled
+
         // Replace non quantitative metric inputs with an emtpy string to have them discarded
         if (metric_elements[i].value !== '' && !parseFloat(metric_elements[i].value)) {
             metric_elements[i].value = '';
@@ -345,6 +351,13 @@ function createEditProcess() {
                 metric_elements[i].style.borderColor="red";
             }
         }
+
+        // Check if all fields have been filled
+        if(metric_disabled == "false" && metric_elements[i].value == '') {
+            required_helper_flag = false;
+            emptyFieldList += '\n'+metric_elements[i].parentElement.parentElement.children[0].id;
+            metric_elements[i].style.borderColor="red";
+        }
     }
     if (typeof uid === undefined || uid === "" || uid == null) {
         uid = -1;
@@ -359,28 +372,23 @@ function createEditProcess() {
             "target_metrics": ${JSON.stringify(metrics)}
         }`;
 
-    // Check if all field have been filled
-    // Also, when changing between categories, discard inputs made for non-relevant metrics
-    let required_helper_flag = true; // Helper variable which gets set to false, if any required field is not filled
-    const toggles = document.getElementsByName("target-average");
-    console.log(toggles);
-    for (let i = 0; i < toggles.length; i++) {
-        console.log(toggles[i].value);
-        const input = toggles[i].value;
-    }
-
     // If a input has been performed, post changes to backend
     if (required_helper_flag && minmaxlist == "") {
         console.log(process);
         saveProcess(process);
     } else {
         let alert_string = 'Changes could not be saved. ';
-        if(!required_helper_flag) alert_string += 'Please fill all metrics fields.';
+        if(!required_helper_flag) {
+            alert_string += 'Please fill all metrics fields.';
+            alert_string += '\nThe following Metrics are empty:';
+            alert_string += emptyFieldList;
+        }
         if (text_replaced_flag === true) {
             alert_string += '\nNon quantitative metrics have been automatically discarded.';
         }
         if(minmaxlist != ""){
-            alert_string +='\nThe following Metrics are not within their min/max values:'+minmaxlist;
+            alert_string +='\nThe following Metrics are not within their min/max values:';
+            alert_string += minmaxlist;
         }
         helper.hideLoadingScreen();
         window.alert(alert_string);
