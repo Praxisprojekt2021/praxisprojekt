@@ -119,6 +119,7 @@ data = {
         {
             "uid": "b141f94973a43cf8ee972e9dffc1b004",
             "name": "Kunde anlegen",
+            "responsible_person": "Peter Rossbach",
             "creation_timestamp": "20210210...",
             "last_timestamp": "20200211...",
             # erst ab Backend nach Risk calc
@@ -128,6 +129,7 @@ data = {
         {
             "uid": "b141f94973a43cf8ee972e9dffc1b004",
             "name": "Kunde löschen",
+            "responsible_person": "Peter Rossbach",
             "creation_timestamp": "20210209...",
             "last_timestamp": "20210210...",
             # erst ab Backend nach Risk calc
@@ -163,6 +165,7 @@ data = {
     "process": {
         "uid": "b141f94973a43cf8ee972e9dffc1b004",
         "name": "Kunde anlegen",
+        "responsible_person": "Peter Rossbach",
         "description": "Prozess zum anlegen von einem neuen Kunden in allen Systemen",
         "creation_timestamp": "20210210...",
         "last_timestamp": "20200211...",
@@ -290,6 +293,7 @@ data = {
     "process": {
         "uid": "-1",  # when -1 it indicates that it is a new process, anything else indicates its an update
         "name": "Kunde anlegen",
+        "responsible_person": "Peter Rossbach",
         "description": "Prozess zum anlegen von einem neuen Kunden in allen Systemen",
     },
     "target_metrics": {

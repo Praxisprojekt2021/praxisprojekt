@@ -6,6 +6,8 @@ from core.success_handler import success_handler
 
 import database.handler.metric_handler as metric_handler
 import database.handler.component_handler as component_handler
+import database.handler.reformatter as reformatter
+import database.handler.queries as queries
 from database.config import *
 from database.handler.relationship import RelationshipProcessComponent, RelationshipProcessMetric
 
@@ -22,6 +24,8 @@ class Process(StructuredNode):
         process id
     name : str
         name of the process
+    responsible_person : str
+        name of the responsible person
     description : str
         description of the process
     creation_timestamp : str
@@ -36,6 +40,7 @@ class Process(StructuredNode):
 
     uid = UniqueIdProperty()
     name = StringProperty()
+    responsible_person = StringProperty()
     description = StringProperty()
     creation_timestamp = StringProperty()  # evtl. float
     last_timestamp = StringProperty()  # evtl. float
@@ -54,7 +59,7 @@ def get_process_list() -> dict:
     data = success_handler()
     processes = Process.nodes.all()
     processes_list = []
-    wanted_keys = ['uid', 'name', 'creation_timestamp', 'last_timestamp']
+    wanted_keys = ['uid', 'name', 'responsible_person', 'creation_timestamp', 'last_timestamp']
     for process in processes:
         process_dict = process.__dict__
         processes_list.append(dict((k, process_dict[k]) for k in wanted_keys if k in process_dict))
@@ -63,42 +68,20 @@ def get_process_list() -> dict:
     return data
 
 
-def get_process(uid_dict: dict) -> dict:
+def get_process(input_dict: dict) -> dict:
     """
     Function to retrieve a single process
 
-    :param uid_dict: process uid
-    :type uid_dict: dict
+    :param input_dict: process uid
+    :type input_dict: dict
     :return: process dict
     """
+    output_dict = success_handler()
 
-    uid = uid_dict["uid"]
-    process = Process.nodes.get(uid=uid)
-    process_dict = success_handler()
-    process_dict["process"] = process.__dict__
+    result, meta = db.cypher_query(queries.get_process(input_dict["uid"]))
+    output_dict["process"], output_dict["target_metrics"] = reformatter.reformat_process(result[0])
 
-    component_list = process.hasComponent.all()
-    process_dict["process"]["components"] = []
-
-    for component in component_list:
-        component_dict = component_handler.get_component({"uid": component.uid})
-        del component_dict["success"]
-
-        rel = process.hasComponent.relationship(component)
-        component_dict["weight"] = rel.weight
-
-        process_dict["process"]["components"].append(component_dict)
-
-    metrics_list = process.hasTargetMetric.all()
-    process_dict["target_metrics"] = {}
-    for metric in metrics_list:
-        rel = process.hasTargetMetric.relationship(metric)
-        process_dict["target_metrics"][metric.name] = {"average": rel.average, "min": rel.min, "max": rel.max}
-
-    del process_dict["process"]["hasComponent"]
-    del process_dict["process"]["hasTargetMetric"]
-    del process_dict["process"]["id"]
-    return process_dict
+    return output_dict
 
 
 def add_process(input_dict: dict) -> dict:
@@ -112,6 +95,7 @@ def add_process(input_dict: dict) -> dict:
 
     output = Process(
         name=input_dict["process"]["name"],
+        responsible_person = input_dict["process"]["responsible_person"],
         creation_timestamp=str(datetime.now()),
         last_timestamp=str(datetime.now()),
         description=input_dict["process"]["description"])
@@ -142,6 +126,7 @@ def update_process(input_dict: dict) -> dict:
     uid = input_dict["process"]["uid"]
     process = Process.nodes.get(uid=uid)
     process.name = input_dict["process"]["name"]
+    process.responsible_person = input_dict["process"]["responsible_person"]
     process.description = input_dict["process"]["description"]
     process.last_timestamp = str(datetime.now())
     process.save()
