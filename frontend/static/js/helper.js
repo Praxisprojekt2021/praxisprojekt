@@ -71,7 +71,7 @@ class Helper {
             }
         }
         xhttp.send();
-   
+
     }
 
     /**
@@ -143,8 +143,8 @@ class Helper {
                 innerHTML += ('<label for="availability-metric" class="entry-label">' + metric['name'] + '</label>');
                 innerHTML += '<input type="text" maxLength="256" data-name="availability-metric-1" id="' + key + '"' +
                     ' name="availability-metric" class="metric-input textfield">';
-                innerHTML += '<img src="images/info.png" loading="lazy" width="35" alt="" title="'+ 
-                    metric['description_component'] +'\ni.e. '+metric['example_component'] +'"class="info-icon">';
+                innerHTML += '<img src="images/info.png" loading="lazy" width="35" alt="" title="' +
+                    metric['description_component'] + '\ni.e. ' + metric['example_component'] + '" class="info-icon">';
                 innerHTML += '</div>';
             });
 
@@ -170,7 +170,7 @@ class Helper {
 
         if (score === null) {
             color = "grey";
-        } else if(score < 80) {
+        } else if (score < 80) {
             color = "red";
         } else if (score < 90) {
             color = "yellow"
@@ -191,9 +191,9 @@ class Helper {
      */
     renderSmallCircle(fulfillment, color = false) {
         if (!color) {
-            if(fulfillment === true) {
+            if (fulfillment === true) {
                 color = "green";
-            } else if(fulfillment === false) {
+            } else if (fulfillment === false) {
                 color = "red";
             } else {
                 color = "grey";
@@ -226,7 +226,7 @@ class Helper {
 
     hideLoadingScreen() {
         let element = document.getElementById('loader-wrapper');
-        element.setAttribute("class","loader-wrapper-hidden");
+        element.setAttribute("class", "loader-wrapper-hidden");
     }
 
     /**
@@ -235,6 +235,6 @@ class Helper {
 
     showLoadingScreen() {
         let element = document.getElementById('loader-wrapper');
-        element.setAttribute("class","loader-wrapper");
+        element.setAttribute("class", "loader-wrapper");
     }
 }

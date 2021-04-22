@@ -256,9 +256,9 @@ function fillMetricRows(metricData, slug, processData) {
     let innerHTML_fulfillment = `
                         <td></td>
                         <td></td>
-                        <td><img src="images/info.png" loading="lazy" width="35" title=" 
-                           ${metricData['description_component']} \ni.e. ${metricData['example_component']}"
-                           alt="" class="info-icon"></td>
+                        <td><img src="images/info.png" loading="lazy" width="35"
+                        title="${metricData['description_component']} \ni.e. ${metricData['example_component']}"
+                        alt="" class="info-icon"></td>
                     </tr>`;
 
     if (uid != null && uid !== -1 && (slug in processData['actual_target_metrics'])) {

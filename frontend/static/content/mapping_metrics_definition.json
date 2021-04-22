@@ -33,7 +33,7 @@
           "description_component": "Number of code reviews per year.",
           "example_component": "If there are 3 code reviews per month, 36 will be entered.",
           "description_process": "Number of code reviews per year.",
-          "example_process" : "'If you want the code for the components to be reviewed on average once a month, an input of 12 follows.",
+          "example_process" : "If you want the code for the components to be reviewed on average once a month, an input of 12 follows.",
           "helper_text": "If there are 3 code reviews per month, 36 will be entered."
         },
         "comment_quality": {
