@@ -23,8 +23,8 @@ class Modals {
      */
     getProcessDate(json) {
         this.oldprocesses = '';
-        Object.keys(json['process']).forEach(function (key) {
-            let process = json['process'][key];
+        Object.keys(json['processes']).forEach(function (key) {
+            let process = json['processes'][key];
             let editedDate = new Date(process['last_timestamp']);
             if (editedDate < this.outdatedThreshold) {
                 this.oldprocesses += process['name'] + '<br>';

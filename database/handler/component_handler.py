@@ -91,7 +91,7 @@ def get_component(input_dict: dict) -> dict:
     output_dict = success_handler()
 
     result, meta = db.cypher_query(queries.get_component(input_dict["uid"]))
-    output_dict.update(reformatter.reformat_component(result[0][0]))
+    output_dict["component"] = reformatter.reformat_component(result[0][0])
 
     return output_dict
 
