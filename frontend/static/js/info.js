@@ -1,16 +1,21 @@
 var slideIndex = 1;
 showSlides(slideIndex);
 
-// Next/previous controls
+// Next/previous functionality
 function plusSlides(n) {
     showSlides(slideIndex += n);
 }
 
-// Thumbnail image controls
+// Thumbnail image functionality
 function currentSlide(n) {
     showSlides(slideIndex = n);
 }
-
+/**
+ * i        - used for increments
+ * slides   - individual slides/images and texts
+ * dots     - dots used for orientation
+ *
+ * **/
 function showSlides(n) {
     var i;
     var slides = document.getElementsByClassName("mySlides");
