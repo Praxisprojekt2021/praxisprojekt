@@ -1,11 +1,33 @@
-
-/*
-.view-description-label2 {
+.generalstyle {
+    position: relative;
+    margin: auto;
+    text-align: center;
+    width: 1000px;
+}
+.generalsubstyle {
+    margin-right: 50px;
+    margin-left: 50px;
+    padding-top: 40px;
+    padding-left: 50px;
+    padding-right: 50px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #fff;
+    background-color: #ececec;
+}
+.subheader1 {
+    font-size: 17px;
+    font-weight: 700;
+    text-align: center;
+}
+.subheader2 {
     font-size: 17px;
     font-weight: 700;
     margin-top: 40px;
     text-align: center;
-}*/
+}
+
+
 * {box-sizing:border-box}
 
 /* Slideshow container */
