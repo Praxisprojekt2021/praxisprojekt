@@ -275,22 +275,4 @@ class Helper {
         }
         return false; //default return false (e.g. if the value is non numerical)
     }
-
-    /**
-     * This function checks if the given target average is within the allowed min/max value
-     *
-     * @param {HTMLElement} element
-     */
-
-    targetAvgIsWithinMinMax(element) {
-        var min = parseFloat(element.getAttribute("min")); // Getting min value for metric
-        var max = parseFloat(element.getAttribute("max")); // Getting max value for metric
-        var input = parseFloat(element.value); // Getting entered value for metric
-        if (input < min || input > max) {
-            return false;
-        } else {
-            return true;
-        }
-        return false; //default return false (e.g. if the value is non numerical)
-    }
 }
