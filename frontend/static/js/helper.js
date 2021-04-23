@@ -161,6 +161,20 @@ class Helper {
             // Append element to document
             document.getElementById('metrics-input').appendChild(div);
         });
+
+        // Live check for correct inputs
+        const inputs = document.getElementsByClassName('metric-input textfield');
+        console.log(inputs);
+        console.log(inputs[0]);
+        for (let i = 0; i < inputs.length; i++) {
+            inputs[i].addEventListener('blur', (event) => {
+                if(!helper.targetAvgIsWithinMinMax(inputs[i]) || inputs[i].value == '') {
+                    inputs[i].style.setProperty("border-color","red",undefined);
+                } else {
+                    inputs[i].style.removeProperty("border-color");
+                }
+            });
+        }
     }
 
     /**
@@ -241,5 +255,23 @@ class Helper {
     showLoadingScreen() {
         let element = document.getElementById('loader-wrapper');
         element.setAttribute("class","loader-wrapper");
+    }
+
+    /**
+     * This function checks if the given target average is within the allowed min/max value
+     *
+     * @param {HTMLElement} element
+     */
+
+    targetAvgIsWithinMinMax(element) {
+        var min = parseFloat(element.getAttribute("min")); // Getting min value for metric
+        var max = parseFloat(element.getAttribute("max")); // Getting max value for metric
+        var input = parseFloat(element.value); // Getting entered value for metric
+        if (input < min || input > max) {
+            return false;
+        } else {
+            return true;
+        }
+        return false; //default return false (e.g. if the value is non numerical)
     }
 }

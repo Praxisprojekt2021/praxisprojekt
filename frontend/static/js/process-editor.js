@@ -180,20 +180,6 @@ function createMetricsSection(features, processData) {
             feature_component_count = component_count;
         });
 
-        //Live check
-        const inputs = document.getElementsByName('target-average');
-        for (let i = 0; i < inputs.length; i++) {
-            inputs[i].addEventListener('blur', (event) => {
-                if(!targetAvgIsWithinMinMax(inputs[i]) || inputs[i].value == '') {
-                    inputs[i].style.setProperty("border-color","red",undefined);
-                } else {
-                    inputs[i].style.removeProperty("border-color");
-                }
-
-                //remove trailing zeroes or spaces
-            });
-        }
-
         // calculate the feature fulfillment -> if one metric_fulfillment is false, the feature_fulfillment is also false
         if (metric_fulfillment_list.length === 0) {
             feature_fulfillment = null;
@@ -240,6 +226,21 @@ function createMetricsSection(features, processData) {
         // Append element to document
         document.getElementById('metrics-input-processes').appendChild(div);
     });
+
+    // Live check for correct inputs
+    const inputs = document.getElementsByName('target-average');
+    for (let i = 0; i < inputs.length; i++) {
+        console.log(helper.targetAvgIsWithinMinMax(inputs[i]));
+        console.log(inputs[i]);
+        inputs[i].addEventListener('blur', (event) => {
+            if(!helper.targetAvgIsWithinMinMax(inputs[i]) || inputs[i].value == '') {
+                inputs[i].style.setProperty("border-color","red",undefined);
+            } else {
+                inputs[i].style.removeProperty("border-color");
+            }
+        });
+    }
+
     helper.hideLoadingScreen();
 }
 
@@ -290,11 +291,13 @@ function fillMetricRows(metricData, slug, processData) {
                         <td>` + Math.round(processData['actual_target_metrics'][slug]['actual']['min'] * 100 + Number.EPSILON) / 100 + `</td>
                         <td>` + Math.round(processData['actual_target_metrics'][slug]['actual']['max'] * 100 + Number.EPSILON) / 100 + `</td>`;
         }
-
         // check if a target value is provided
         if ('target' in processData['actual_target_metrics'][slug]) {
             innerHTML_target = `
-                        <td><input type="number" name="target-average" id="${slug}" value="` + Math.round(processData['actual_target_metrics'][slug]['target']['average'] * 100 + Number.EPSILON) / 100 + `"></td>`
+                        <td><input type="number" name="target-average" id="${slug}" min="${processData['actual_target_metrics'][slug]['actual']['min']}" max="${processData['actual_target_metrics'][slug]['actual']['max']}" value="` + Math.round(processData['actual_target_metrics'][slug]['target']['average'] * 100 + Number.EPSILON) / 100 + `"></td>`
+        } else {
+            innerHTML_target = `
+                        <td><input type="number" name="target-average" id="${slug}" min="${processData['actual_target_metrics'][slug]['actual']['min']}" max="${processData['actual_target_metrics'][slug]['actual']['max']}"></td>`
         }
 
         // check if a fulfillment and consequentially a target sum is provided (if fulfillment was calculated, a target sum was also able to be calculated)
@@ -338,9 +341,8 @@ function createEditProcess() {
     let metric_elements = document.getElementsByName('target-average');
     let metrics = {};
     let text_replaced_flag = false; // Helper variable that indicates, whether or not a non quantitative metric input has been found and discarded
-    let minmaxlist = ""; // List for Metrics that are not in min or max
+    let minmaxlist = ""; // List for Metrics that are not within min or max
     let emptyFieldList = ""; // List for Metric inputs that are empty
-    let required_helper_flag = true; // Helper variable which gets set to false, if any required field is not filled
     for (let i = 0; i < metric_elements.length; i++) {
         let metric_disabled = metric_elements[i].parentElement.parentElement.getAttribute("disabled");
 
@@ -357,9 +359,9 @@ function createEditProcess() {
             metrics[metric_elements[i].id] = parseFloat(metric_elements[i].value);
 
             // Check if enabled fields mainstain min/max value
-            if (!targetAvgIsWithinMinMax(metric_elements[i])) {
-                minmaxlist += '\n' + metric_elements[i].parentElement.parentElement.children[0].id; //Add metric name to the list of wrong target avg values
+            if (!helper.targetAvgIsWithinMinMax(metric_elements[i])) {minmaxlist += '\n' + metric_elements[i].parentElement.parentElement.children[0].id; //Add metric name to the list of wrong target avg values
                 metric_elements[i].style.setProperty("border-color","red",undefined);
+                continue;
             } else {
                 metric_elements[i].style.removeProperty("border-color");
             }
@@ -367,7 +369,6 @@ function createEditProcess() {
 
         // Check if all fields have been filled
         if (metric_disabled == "false" && metric_elements[i].value == '') {
-            required_helper_flag = false;
             emptyFieldList += '\n' + metric_elements[i].parentElement.parentElement.children[0].id;
             metric_elements[i].style.setProperty("border-color","red",undefined);
         }
@@ -387,23 +388,22 @@ function createEditProcess() {
         }`;
 
     // If a input has been performed, post changes to backend
-    if (required_helper_flag && minmaxlist == "") {
-        console.log(process);
+    if (emptyFieldList == "" && minmaxlist == "") {
         saveProcess(process);
     } else {
         let alert_string = 'Changes could not be saved. ';
         // Prepare alert message strings depending on the error cause
-        if (!required_helper_flag) {
-            alert_string += 'Please fill all metrics fields.';
-            alert_string += '\nThe following Metrics are empty:';
-            alert_string += emptyFieldList;
+        if (emptyFieldList != "") {
+            alert_string += 'Please fill all metrics fields. \n';
+            alert_string += '\nThe following Metrics are empty:\n';
+            alert_string += emptyFieldList+'\n';
         }
         if (text_replaced_flag === true) {
-            alert_string += '\nNon quantitative metrics have been automatically discarded.';
+            alert_string += '\nNon quantitative metrics have been automatically discarded.\n';
         }
         if (minmaxlist != "") {
-            alert_string += '\nThe following Metrics are not within their min/max values:';
-            alert_string += minmaxlist;
+            alert_string += '\nThe following Metrics are not within their min/max values:\n';
+            alert_string += minmaxlist+"\n";
         }
         helper.hideLoadingScreen();
         window.alert(alert_string);
@@ -728,22 +728,4 @@ function saveCallback(response) {
     } else {
         location.replace(location.href + '?uid=' + response['process']['uid']);
     }
-}
-
-/**
- * This function checks if the given target average is within the allowed min/max value
- *
- * @param {HTMLElement} element
- */
-
-function targetAvgIsWithinMinMax(element) {
-    var min = parseFloat(element.parentElement.parentElement.children[4].innerHTML); // Getting min value for metric
-    var max = parseFloat(element.parentElement.parentElement.children[5].innerHTML); // Getting max value for metric
-    var input = parseFloat(element.value); // Getting entered value for metric
-    if (input < min || input > max) {
-        return false;
-    } else {
-        return true;
-    }
-    return false; //default return false (e.g. if the value is non numerical)
 }
