@@ -326,7 +326,9 @@ function fillMetricRows(metricData, slug, processData) {
             innerHTML_fulfillment = `
                         <td>${processData['actual_target_metrics'][slug]['target']['total']}</td>
                         <td>${helper.renderSmallCircle(metric_fulfillment)}</td>
-                        <td><img src="images/info.png" loading="lazy" width="35" alt="" class="info-icon"></td>
+                        <td><img src="images/info.png" loading="lazy" width="35" alt="heyy"
+                         title="` + metricData['description_process'] + `\ni.e. ` + metricData['example_process'] + `"
+                         class="info-icon"></td>
                     </tr>`;
         }
     }
