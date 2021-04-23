@@ -17,6 +17,7 @@ function init(json_process = false) {
     helper.showLoadingScreen();
 
     getFeatures().then(data => {
+        // If page is reloaded (after saving) processes are updated else => page is loaded from databased and entries are prepared
         if (!json_process) {
             getProcess(data);
         } else {
@@ -399,7 +400,8 @@ function createEditProcess() {
             metrics[metric_elements[i].id] = parseFloat(metric_elements[i].value);
 
             // Check if enabled fields mainstain min/max value
-            if (!helper.targetAvgIsWithinMinMax(metric_elements[i])) {minmaxlist += '\n' + metric_elements[i].parentElement.parentElement.children[0].id; //Add metric name to the list of wrong target avg values
+            if (!targetAvgIsWithinMinMax(metric_elements[i])) {
+                minmaxlist += '\n' + metric_elements[i].parentElement.parentElement.children[0].id; //Add metric name to the list of wrong target avg values
                 metric_elements[i].style.setProperty("border-color","red",undefined);
                 continue;
             } else {
