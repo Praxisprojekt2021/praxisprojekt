@@ -187,14 +187,14 @@ function createEditComponent() {
 
     // Check if all field have been filled
     // Also, when changing between categories, discard inputs made for non-relevant metrics
-    let required_helper_flag = true; // Helper variable which gets set to false, if any required field is not filled
     const toggles = document.getElementsByClassName('feature-section');
-    let minmaxlist = "";// List for Metrics that are not in min or max
+    let minmaxlist = ""; // List for Metrics that are not within min or max
+    let emptyFieldList = ""; // List for Metric inputs that are empty
+    let component_category_helper_flag = true; // Helper flag for "not selected" category
     for (let i = 0; i < toggles.length; i++) {
         const feature_child = toggles[i].children[0].children[0];
         const metrics_child = toggles[i].children[0].children[1];
         const metrics_child_input_fields = metrics_child.getElementsByTagName('input');
-
         // Check if metric is mandatory or even not allowed
         if (feature_child.getAttribute("disabled") === "true") {
             // Discard data from disabled metrics inputs
@@ -204,45 +204,54 @@ function createEditComponent() {
         } else {
             // Check if enabled fields have been filled - all fields are required
             for (let i = 0; i < metrics_child_input_fields.length; i++) {
-                if (metrics_child.getElementsByTagName('input')[i].value === '') {
-                    console.log(metrics_child.getElementsByTagName('input')[i].id);
-                    required_helper_flag = false;
-                    metrics_child.getElementsByTagName('input')[i].style.borderColor="red";
+                let inputLabel = metrics_child.getElementsByTagName('label')[i];
+                let inputElement = metrics_child.getElementsByTagName('input')[i];
+                if (inputElement.value === '') {
+                    emptyFieldList += '\n' + feature_child.getElementsByClassName('features-label')[0].innerHTML+": "+inputLabel.innerHTML;
+                    console.log(inputElement);
+                    inputElement.style.setProperty("border-color","red",undefined);
+                    continue;
                 }
-            }
-            // Check if enabled fields mainstain min/max value
-            for (let i = 0; i < metrics_child_input_fields.length; i++) {
-                var min = parseInt(metrics_child.getElementsByTagName('input')[i].getAttribute("min"));
-                var max = parseInt(metrics_child.getElementsByTagName('input')[i].getAttribute("max"));
-                var input = parseInt(metrics_child.getElementsByTagName('input')[i].value);
-                if ( input < min ||  input > max ) {
-                    required_helper_flag = false;
-                    minmaxlist += '\n'+metrics_child.getElementsByTagName('input')[i].id;
-                    metrics_child.getElementsByTagName('input')[i].style.borderColor="red";
-                }
-            }
-        }
 
-        if (document.getElementById("component-category").value === "default") {
-            required_helper_flag = false;
+                // Check if enabled fields maintain min/max value
+                if(!helper.targetAvgIsWithinMinMax(inputElement)) {
+                    minmaxlist += '\n' + feature_child.getElementsByClassName('features-label')[0].innerHTML+": "+inputLabel.innerHTML;
+                    inputElement.style.setProperty("border-color","red",undefined);
+                } else {
+                    inputElement.style.removeProperty("border-color");
+                }
+            }
         }
     }
 
-    // If a input have been performend, post changes to backend
-    if (required_helper_flag) {
-        helper.showLoadingScreen()
+    if (document.getElementById("component-category").value == "default") {
+        component_category_helper_flag = false;
+    }
+
+    // If a input has been performed, post changes to backend
+    if (emptyFieldList == "" && minmaxlist == "" && component_category_helper_flag) {
+        helper.showLoadingScreen();
         helper.post_request('/component/create_edit', JSON.stringify(component), saveCallback);
     } else {
-        let alert_string = 'Changes could not be saved. Please fill all metrics fields.';
-        if (text_replaced_flag === true) {
-            alert_string += '\nNon quantitative metrics have been automatically discarded.';
+        let alert_string = 'Changes could not be saved. ';
+        // Prepare alert message strings depending on the error cause
+        if(!component_category_helper_flag) {
+            alert_string += 'Please select a category. \n';
         }
-        if(minmaxlist != ""){
-            alert_string +='\nThe following Metrics are not within their min/max values:'+minmaxlist;
+        if (emptyFieldList != "") {
+            alert_string += 'Please fill all metrics fields. \n';
+            alert_string += '\nThe following Metrics are empty:\n';
+            alert_string += emptyFieldList+'\n';
+        }
+        if (text_replaced_flag === true) {
+            alert_string += '\nNon quantitative metrics have been automatically discarded.\n';
+        }
+        if (minmaxlist != "") {
+            alert_string += '\nThe following Metrics are not within their min/max values:\n';
+            alert_string += minmaxlist+"\n";
         }
         helper.hideLoadingScreen();
         window.alert(alert_string);
-        
     }
 }
 
