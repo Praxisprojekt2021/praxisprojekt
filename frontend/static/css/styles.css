@@ -108,6 +108,63 @@ th {
     justify-content: center;
 }
 
+/* Below css for loading */
+.loader-wrapper {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: rgb(0, 0, 0); /* Fallback for older browsers without RGBA-support */
+    background: rgba(0, 0, 0, 0.6);
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+.loader-wrapper-hidden{
+    z-index: -1;
+    display: none;
+}
+.loader {
+display: inline-block;
+width: 75px;
+height: 75px;
+position: absolute;
+border: 4px solid #61d199;
+opacity: 1 !important;
+animation: loader 2s infinite ease;
+}
+.loader-inner {
+vertical-align: top;
+display: inline-block;
+width: 100%;
+background-color: #61d199;
+opacity: 1 !important;
+animation: loader-inner 2s infinite ease-in;
+}
+.loader-text {
+    color: #61d199;
+    font-weight: bolder;
+    font-size: large;
+    text-align: center;
+    position: relative;
+    top: 80px;
+}
+@keyframes loader {
+0% { transform: rotate(0deg);}
+25% { transform: rotate(180deg);}
+50% { transform: rotate(180deg);}
+75% { transform: rotate(360deg);}
+100% { transform: rotate(360deg);}
+}
+@keyframes loader-inner {
+0% { height: 0%;}
+25% { height: 0%;}
+50% { height: 100%;}
+75% { height: 100%;}
+100% { height: 0%;}
+}
 /* The Modal (background) */
 .modal {
     display: none; /* Hidden by default */
@@ -145,6 +202,7 @@ th {
     text-decoration: none;
     cursor: pointer;
   }
+
 .logo {
     display: block;
     margin-top: 25px;
@@ -156,3 +214,31 @@ th {
     display: block;
     margin-bottom: 30px;
 }
+
+  /*  Style for info icons*/
+  .info-icon {
+    position: relative;
+    display: inline-block;
+    overflow: visible;
+    margin-top: 2px;
+    margin-left: 10px;
+    float: left;
+    border-radius: 20px;
+    opacity: 0.65;
+    cursor: pointer;
+  }
+  .info-icon-header{
+    position: relative;
+    display: inline-block;
+    overflow: visible;
+    margin-top: 2px;
+    margin-left: 10px;
+    float: right;
+    border-radius: 20px;
+    opacity: 0.65;
+    cursor: pointer;
+    filter: invert();
+    height: 25;
+    width: 25;
+  }
+  

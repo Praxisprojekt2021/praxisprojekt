@@ -171,17 +171,6 @@
     min-width: 100%;
   }
   
-  .info-icon {
-    position: relative;
-    display: inline-block;
-    overflow: visible;
-    margin-top: 2px;
-    margin-left: 10px;
-    float: left;
-    border-radius: 20px;
-    opacity: 0.65;
-  }
-  
   .textfield, .category-dropdown {
     display: inline-block;
     width: auto;
@@ -303,7 +292,7 @@
 
 .div-wrapper {
   width: 1000px;
-  border: 1px solid black;
+  /*border: 1px solid black;*/
   overflow: hidden; /* will contain if #first is longer than #second */
 }
 .left-div {
@@ -320,10 +309,37 @@
   width: 200px;
   border-radius: 50%;
   display: table;
-  margin: 0 auto;
+  margin: 2% auto;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 28px;
   font-weight: bolder;
+}
+
+.square-border {
+  background: #FFF;
+  border: 10px solid #4AD28F;
+  height: 120px;
+  width: 180px;
+  text-align: center;
+}
+
+.arrow {
+  font-size: 120px;
+  /*height: 120px;*/
+  margin: 20px;
+  vertical-align: middle;
+}
+
+table .process-visualization {
+  column-width: 200px;
+  width: auto;
+  border: none;
+}
+
+#modelling-process{
+  vertical-align: middle;
+  overflow-x: scroll;
+  border: 1px solid black;
 }

@@ -1,4 +1,4 @@
-<html lang="de">
+<html lang="en">
 <head>
     <meta charset="utf-8"/>
     <title data-i18n="homepage"></title>
@@ -10,13 +10,14 @@
 
 <header id="header" class="header">
         <img src="{{ url_for('static', filename='images/logo.png') }}" loading="lazy" alt="" class ="logo">
-
     <div class="navigation">
         <a href="/about" class="navigation-links">What's Riskify?</a>
     </div>
 </header>
-
-
+<div class="loader-wrapper" id="loader-wrapper">
+    <span class="loader"><span class="loader-inner"></span></span>
+    <div class="loader-text">Loading...</div>
+</div>
 <div class="center">
     <h3 data-i18n="processes"></h3>
     <table id="processTable">
@@ -44,7 +45,9 @@
 </div>
 
 <div class="center">
-    <button class="button" type="button" onclick="addProcess()" data-i18n="add"></button>
+    <a href="process">
+        <button class="button" type="button" data-i18n="add"></button>
+    </a>
 </div>
 
 <div class="center">
@@ -70,7 +73,9 @@
 </div>
 
 <div class="center">
-    <button class="button" type="button" onclick="addComponent()" data-i18n="add"></button>
+    <a href="component">
+        <button class="button" type="button" data-i18n="add"></button>
+    </a>
 </div>
 
 <script src="{{ url_for('static', filename='js/helper.js') }}"></script>

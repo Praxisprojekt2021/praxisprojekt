@@ -18,6 +18,7 @@ function init() {
     // Check if view has received an uid as URL parameter to check whether to create a new component or edit an existing one
     if (uid && uid.length === 32) {
         // If so, load component data...
+        helper.showLoadingScreen();
         console.log('Editing existing component');
 
         // Trigger function which gathers component data and processes it
@@ -69,7 +70,7 @@ function getFeatures() {
             helper.createMetricsSection(features);
             let div = document.createElement('div');
             div.className = 'control-area';
-            div.innerHTML = '<a href="#" data-wait="Bitte warten..." id="save-button" class="create-button w-button" onclick="createEditComponent()">Speichern</a>';
+            div.innerHTML = '<a href="#" data-wait="Bitte warten..." id="save-button" class="create-button w-button" onclick="createEditComponent(); helper.showLoadingScreen()">Speichern</a>';
 
             // Append element to document
             document.getElementById('metrics-input').appendChild(div);
@@ -100,24 +101,25 @@ function processComponentData(json_data) {
     // Check if the request has succeeded
     if (json_data['success']) {
         // Component data has been received
+        component = json_data["component"]
 
         // Set uid and data fields
-        document.getElementById('component-uid').value = json_data['uid'];
-        document.getElementById('component-name').value = json_data['name'];
-        document.getElementById('component-description-textarea').value = json_data['description'];
+        document.getElementById('component-uid').value = component['uid'];
+        document.getElementById('component-name').value = component['name'];
+        document.getElementById('component-description-textarea').value = component['description'];
 
         // Set dropdown and disable it
-        document.getElementById('component-category').value = json_data['category'];
+        document.getElementById('component-category').value = component['category'];
         document.getElementById('component-category').setAttribute("disabled", "true");
 
         // Set all metrics
-        let metrics = json_data['metrics'];
+        let metrics = component['metrics'];
         Object.keys(metrics).forEach(function (key) {
             document.getElementById(key).value = metrics[key];
         });
 
         // Set sections according to the category
-        setSections(json_data['category']);
+        setSections(component['category']);
     } else {
         // Request was not successful
         window.alert('Component could not be loaded');
@@ -150,6 +152,7 @@ function setSections(selected_category) {
                 }
             });
         });
+    helper.hideLoadingScreen();
 }
 
 
@@ -207,8 +210,8 @@ function createEditComponent() {
                 }
             }
         }
-      
-        if(document.getElementById("component-category").value === "default") {
+
+        if (document.getElementById("component-category").value === "default") {
             required_helper_flag = false;
         }
     }
@@ -221,24 +224,18 @@ function createEditComponent() {
         if (text_replaced_flag === true) {
             alert_string += '\nNon quantitative metrics have been automatically discarded.';
         }
+        helper.hideLoadingScreen();
         window.alert(alert_string);
     }
 }
 
 /**
- * This function checks for success in communication
+ * This function gets called if saving was successful and reloads the page.
  *
- * @param {string} response: JSON Object response, whether the changes have been saved successfully
  */
 
 function saveCallback(response) {
-    // Check if component has been created/edited successfully
-    if (response['success']) {
-        // Component has been created/edited successfully
-        window.alert('Changes were saved.');
-        window.location = base_url;
-    } else {
-        // Component has not been created/edited successfully
-        window.alert('Changes could not be saved.');
-    }
+    helper.hideLoadingScreen();
+    // Component has been created/edited successfully
+    window.location.replace(base_url);
 }

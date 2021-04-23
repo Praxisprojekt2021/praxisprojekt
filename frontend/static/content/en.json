@@ -8,6 +8,9 @@
             "riskify": "Riskify",
             "processes": "Processes",
             "process": "Process",
+            "process-name": "Process name",
+            "process-description": "Process description",
+            "process-view": "Process view",
             "components": "Components",
             "component": "Component",
             "score": "Risk Score",
@@ -16,10 +19,11 @@
             "edited": "Edited",
             "add": "Add",
             "category": "Category",
-            "home": "home",
+            "home": "Home",
             "individual-component": "Individual component",
             "component-name": "Component name",
             "component-id": "Component ID",
+            "component-uid": "Component UID",
             "component-category": "Component category",
             "component-description": "Component description",
             "please-select": "Please select..",
@@ -72,6 +76,8 @@
             "Slide1": "This is your dashboard. It gives you an overview of both processes and software components. It furthermore allows you to add, edit or delete processes as well as components.",
             "Slide2": "When adding or editing a component, you will have the opportunity to name and describe it and to specify it's category such as databases or firewalls.",
             "Slide3": "After specifying the components' category, relevant quantifiable metrics for several attributes like integrity or code quality can be logged."
+            "description": "Description",
+            "responsible-person": "Responsible Person"
         }
     }
 }
