@@ -17,7 +17,6 @@ function init(json_process = false) {
     helper.showLoadingScreen();
 
     getFeatures().then(data => {
-        // If page is reloaded (after saving) processes are updated else => page is loaded from databased and entries are prepared
         if (!json_process) {
             getProcess(data);
         } else {
@@ -204,13 +203,48 @@ function createMetricsSection(features, processData) {
         <table id="process-feature-table">
             <tr>
                 <th name="metric">Metric</th>
-                <th name="average">Average</th>
-                <th name="standard-deviation">Std. Dev.</th>
-                <th name="sum">Sum</th>
-                <th name="min">Min</th>
-                <th name="max">Max</th>
-                <th name="target-avg">Target Average</th>
-                <th name="target-sum">Target Sum</th>
+                <th name="average">
+                    Average
+                    <img src="images/info.png" loading="lazy" width="35" 
+                        title="The average value for the respective metrics across all components in the process." 
+                        class="info-icon-header">
+                </th>
+                <th name="standard-deviation">
+                    Std. Dev.
+                    <img src="images/info.png" loading="lazy" width="35" 
+                        title="The standard deviation for each metric across all components in the process." 
+                        class="info-icon-header">
+                </th>
+                <th name="sum">
+                    Sum 
+                    <img src="images/info.png" loading="lazy" width="35" 
+                        title="The sum for each respective metric across all components in the process." 
+                        class="info-icon-header">
+                </th>
+                <th name="min">
+                    Min
+                    <img src="images/info.png" loading="lazy" width="35" 
+                        title="The minimum value specifies the smallest value for each respective metric across all components in the process."
+                        class="info-icon-header">
+                </th>
+                <th name="max">
+                    Max
+                    <img src="images/info.png" loading="lazy" width="35" 
+                        title="The maximum value indicates the largest value for each respective metric across all components of the process."
+                        class="info-icon-header">
+                </th>
+                <th name="target-avg">
+                    Target Average
+                    <img src="images/info.png" loading="lazy" width="35" 
+                        title="The average, user-entered, Target-value for each metric across all components in the process."
+                        class="info-icon-header">
+                </th>
+                <th name="target-sum">
+                    Target Sum
+                    <img src="images/info.png" loading="lazy" width="35" 
+                        title="The target sum for each metric across all components in the process."
+                        class="info-icon-header">
+                </th>
                 <th name="ampel">Check</th>
                 <th name="info">Info</th>
             </tr>`;
@@ -260,18 +294,20 @@ function fillMetricRows(metricData, slug, processData) {
     // default table row, when no metric data is provided
     let innerHTML_actual = `
                     <tr disabled="true">
-                        <td id="${metricData['name']}">${metricData['name']}</td>
+                        <td id="` + metricData['name'] + `">` + metricData['name'] + `</td>
                         <td></td>
                         <td></td>
                         <td></td>
                         <td></td>
                         <td></td>`;
     let innerHTML_target = `
-                        <td><input type="number" name="target-average" id="${slug}" value=""></td>`;
+                        <td><input type="number" name="target-average" id="` + slug + `" value=""></td>`;
     let innerHTML_fulfillment = `
                         <td></td>
                         <td></td>
-                        <td><img src="images/info.png" loading="lazy" width="35" alt="" class="info-icon"></td>
+                        <td><img src="images/info.png" loading="lazy" width="35"
+                        title="` + metricData['description_process'] + `\ni.e. ` + metricData['example_process'] + `"
+                        alt="" class="info-icon"></td>
                     </tr>`;
 
     if (uid != null && uid !== -1 && (slug in processData['actual_target_metrics'])) {
@@ -292,12 +328,14 @@ function fillMetricRows(metricData, slug, processData) {
                         <td>` + Math.round(processData['actual_target_metrics'][slug]['actual']['max'] * 100 + Number.EPSILON) / 100 + `</td>`;
         }
         // check if a target value is provided
-        if ('target' in processData['actual_target_metrics'][slug]) {
+
+        if ('target' in processData['actual_target_metrics'][slug] && 'actual' in processData['actual_target_metrics'][slug]) {
             innerHTML_target = `
                         <td><input type="number" name="target-average" id="${slug}" min="${processData['actual_target_metrics'][slug]['actual']['min']}" max="${processData['actual_target_metrics'][slug]['actual']['max']}" value="` + Math.round(processData['actual_target_metrics'][slug]['target']['average'] * 100 + Number.EPSILON) / 100 + `"></td>`
-        } else {
+
+        } else if ('target' in processData['actual_target_metrics'][slug]) {
             innerHTML_target = `
-                        <td><input type="number" name="target-average" id="${slug}" min="${processData['actual_target_metrics'][slug]['actual']['min']}" max="${processData['actual_target_metrics'][slug]['actual']['max']}"></td>`
+                        <td><input name="target-average" id="${slug}" value="${processData['actual_target_metrics'][slug]['target']['average']}"></td>`
         }
 
         // check if a fulfillment and consequentially a target sum is provided (if fulfillment was calculated, a target sum was also able to be calculated)
@@ -306,7 +344,9 @@ function fillMetricRows(metricData, slug, processData) {
             innerHTML_fulfillment = `
                         <td>` + Math.round(processData['actual_target_metrics'][slug]['target']['total'] * 100 + Number.EPSILON) / 100 + `</td>
                         <td>${helper.renderSmallCircle(metric_fulfillment)}</td>
-                        <td><img src="images/info.png" loading="lazy" width="35" alt="" class="info-icon"></td>
+                        <td><img src="images/info.png" loading="lazy" width="35" alt="heyy"
+                         title="` + metricData['description_process'] + `\ni.e. ` + metricData['example_process'] + `"
+                         class="info-icon"></td>
                     </tr>`;
         }
     }
