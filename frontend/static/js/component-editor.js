@@ -18,6 +18,7 @@ function init() {
     // Check if view has received an uid as URL parameter to check whether to create a new component or edit an existing one
     if (uid && uid.length === 32) {
         // If so, load component data...
+        helper.showLoadingScreen();
         console.log('Editing existing component');
 
         // Trigger function which gathers component data and processes it
@@ -69,7 +70,7 @@ function getFeatures() {
             helper.createMetricsSection(features);
             let div = document.createElement('div');
             div.className = 'control-area';
-            div.innerHTML = '<a href="#" data-wait="Bitte warten..." id="save-button" class="create-button" onclick="createEditComponent()">Speichern</a>';
+            div.innerHTML = '<a href="#" data-wait="Bitte warten..." id="save-button" class="create-button w-button" onclick="createEditComponent(); helper.showLoadingScreen()">Speichern</a>';
 
             // Append element to document
             document.getElementById('metrics-input').appendChild(div);
@@ -149,6 +150,7 @@ function setSections(selected_category) {
                 }
             });
         });
+    helper.hideLoadingScreen();
 }
 
 
@@ -188,7 +190,7 @@ function createEditComponent() {
     let required_helper_flag = true; // Helper variable which gets set to false, if any required field is not filled
     const toggles = document.getElementsByClassName('feature-section');
     // Check if name field is filled
-    if(document.getElementById('component-name').value=="")required_helper_flag = false;
+    if (document.getElementById('component-name').value == "") required_helper_flag = false;
     for (let i = 0; i < toggles.length; i++) {
         const feature_child = toggles[i].children[0].children[0];
         const metrics_child = toggles[i].children[0].children[1];
@@ -209,8 +211,8 @@ function createEditComponent() {
                 }
             }
         }
-      
-        if(document.getElementById("component-category").value === "default") {
+
+        if (document.getElementById("component-category").value === "default") {
             required_helper_flag = false;
         }
     }
@@ -223,24 +225,18 @@ function createEditComponent() {
         if (text_replaced_flag === true) {
             alert_string += '\nNon quantitative metrics have been automatically discarded.';
         }
+        helper.hideLoadingScreen();
         window.alert(alert_string);
     }
 }
 
 /**
- * This function checks for success in communication
+ * This function gets called if saving was successful and reloads the page.
  *
- * @param {string} response: JSON Object response, whether the changes have been saved successfully
  */
 
 function saveCallback(response) {
-    // Check if component has been created/edited successfully
-    if (response['success']) {
-        // Component has been created/edited successfully
-        window.alert('Changes were saved.');
-        window.location = base_url;
-    } else {
-        // Component has not been created/edited successfully
-        window.alert('Changes could not be saved.');
-    }
+    helper.hideLoadingScreen();
+    // Component has been created/edited successfully
+    window.location.replace(base_url);
 }
