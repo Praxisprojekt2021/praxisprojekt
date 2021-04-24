@@ -1,26 +1,16 @@
 from datetime import datetime
-from neomodel import config, StructuredNode, StringProperty, UniqueIdProperty, \
-    RelationshipTo, StructuredRel, FloatProperty, db
 
-from core.success_handler import success_handler
+from neomodel import config, StructuredNode, StringProperty, UniqueIdProperty, \
+    RelationshipTo, relationship, db
+
 import database.handler.metric_handler as metric_handler
-import database.handler.reformatter as reformatter
 import database.handler.queries as queries
+import database.handler.reformatter as reformatter
+from core.success_handler import success_handler
 from database.config import *
+from database.handler.relationships import RelationshipComponentMetric
 
 config.DATABASE_URL = 'bolt://{}:{}@{}:{}'.format(NEO4J_USER, NEO4J_PASSWORD, NEO4J_IP, NEO4J_PORT)
-
-
-class Relationship(StructuredRel):
-    """
-    A class to represent the relationship between a Component and a Metric.
-
-    Attributes
-    ----------
-    value : float
-        is value of the relationship
-    """
-    value = FloatProperty()
 
 
 class Component(StructuredNode):
@@ -44,48 +34,15 @@ class Component(StructuredNode):
     hasMetric : relationship
         relationship to metric
     """
+
     uid = UniqueIdProperty()
     name = StringProperty()
     category = StringProperty()
     description = StringProperty()
-    creation_timestamp = StringProperty()  # evtl. float
-    last_timestamp = StringProperty()  # evtl. float
+    creation_timestamp = StringProperty()
+    last_timestamp = StringProperty()
 
-    hasMetric = RelationshipTo(metric_handler.Metric, "has", model=Relationship)
-
-
-def get_component_list() -> dict:
-    """
-    Function to retrieve a list of all existing components
-
-    :return: List of components in a dict
-    """
-    data = success_handler()
-    components = Component.nodes.all()
-    components_list = []
-    for component in components:
-        component_dict = component.__dict__
-        del component_dict["hasMetric"]
-        components_list.append(component_dict)
-
-    data["components"] = components_list
-    return data
-
-
-def get_component(input_dict: dict) -> dict:
-    """
-    Function to retrieve a single component
-
-    :param input_dict: Component uid
-    :type input_dict: dict
-    :return: Component dict
-    """
-    output_dict = success_handler()
-
-    result, meta = db.cypher_query(queries.get_component(input_dict["uid"]))
-    output_dict.update(reformatter.reformat_component(result[0][0]))
-
-    return output_dict
+    hasMetric = RelationshipTo(metric_handler.Metric, "has", model=RelationshipComponentMetric)
 
 
 def add_component(input_dict: dict) -> dict:
@@ -104,9 +61,40 @@ def add_component(input_dict: dict) -> dict:
     output.save()
 
     for metric in input_dict["metrics"]:
-        output.hasMetric.connect(metric_handler.get_metric(metric), {"value": input_dict["metrics"][metric]})
+        output.hasMetric.connect(metric_handler.Metric.nodes.get(name=metric), {"value": input_dict["metrics"][metric]})
 
     return success_handler()
+
+
+def get_component_list() -> dict:
+    """
+    Function to retrieve a list of all existing components
+
+    :return: List of components in a dict
+    """
+    output_dict = success_handler()
+
+    query = queries.get_component_list()
+    result, meta = db.cypher_query(query)
+    output_dict["components"] = result[0][0]
+
+    return output_dict
+
+
+def get_component(input_dict: dict) -> dict:
+    """
+    Function to retrieve a single component
+
+    :param input_dict: Component uid
+    :type input_dict: dict
+    :return: Component dict
+    """
+    output_dict = success_handler()
+
+    result, meta = db.cypher_query(queries.get_component(input_dict["uid"]))
+    output_dict["component"] = reformatter.reformat_component(result[0][0])
+
+    return output_dict
 
 
 def update_component(input_dict: dict) -> dict:
@@ -117,39 +105,29 @@ def update_component(input_dict: dict) -> dict:
     :type input_dict: dict
     :return: Status dict
     """
-
     uid = input_dict["uid"]
-    component = Component.nodes.get(uid=uid)
-    component.name = input_dict["name"]
-    component.description = input_dict["description"]
-    component.category = input_dict["category"]
-    component.last_timestamp = str(datetime.now())
 
-    component.save()
+    query = queries.update_component(uid, input_dict["name"], input_dict["category"], input_dict["description"],
+                                     str(datetime.now()))
+    db.cypher_query(query)
 
-    component_dict = get_component({"uid": uid})
-
-    metrics_dict = component_dict["metrics"]
-    metrics = []
-    for key in metrics_dict:
-        metrics.append(key)
-    for metric in metrics:
-        new_metrics = input_dict["metrics"]
-        metric_object = metric_handler.get_metric(metric)
-        rel = component.hasMetric.relationship(metric_object)
-        rel.value = new_metrics[metric]
-        rel.save()
+    for metric in input_dict["metrics"]:
+        query = queries.update_component_metric(uid, metric, input_dict["metrics"][metric])
+        db.cypher_query(query)
 
     return success_handler()
 
 
-def delete_component(uid_dict: dict) -> dict:
+def delete_component(input_dict: dict) -> dict:
     """
     Function to delete a single component
 
-    :param uid_dict: Identifier
-    :type uid_dict: dict
+    :param input_dict: Identifier
+    :type input_dict: dict
     :return: Status dict
     """
-    Component.nodes.get(uid=uid_dict["uid"]).delete()
+
+    query = queries.delete_component(input_dict["uid"])
+    db.cypher_query(query)
+
     return success_handler()
