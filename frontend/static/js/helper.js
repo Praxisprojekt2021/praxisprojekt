@@ -1,6 +1,36 @@
 class Helper {
 
     /**
+     * Shows error message if request was not successful.
+     *
+     * @param {String} endpoint
+     */
+    static showError(endpoint) {
+        // Saving the data was not successful
+        if (endpoint.includes("delete")) {
+            window.alert("Object could not be deleted.")
+        } else {
+            window.alert('Changes could not be saved.');
+        }
+    }
+
+    /**
+     * Shows success message if request was successful.
+     *
+     * @param {String} endpoint
+     */
+    static showSuccess(endpoint) {
+        if (endpoint !== "/component/view") {
+            // Saving the data was successful
+            if (endpoint.includes("delete")) {
+                // window.alert('Object has been deleted.');
+            } else if (endpoint.includes("edit")) {
+                // window.alert('Changes were saved.');
+            }
+        }
+    }
+
+    /**
      * This function sends a post request to the backend
      *
      * @param {string} endpoint: The endpoint to be referred to
@@ -71,37 +101,7 @@ class Helper {
             }
         }
         xhttp.send();
-   
-    }
 
-    /**
-     * Shows error message if request was not successful.
-     *
-     * @param {String} endpoint
-     */
-    static showError(endpoint) {
-        // Saving the data was not successful
-        if (endpoint.includes("delete")) {
-            window.alert("Object could not be deleted.")
-        } else {
-            window.alert('Changes could not be saved.');
-        }
-    }
-
-    /**
-     * Shows success message if request was successful.
-     *
-     * @param {String} endpoint
-     */
-    static showSuccess(endpoint) {
-        if (endpoint !== "/component/view") {
-            // Saving the data was successful
-            if (endpoint.includes("delete")) {
-                // window.alert('Object has been deleted.');
-            } else if (endpoint.includes("edit")) {
-                // window.alert('Changes were saved.');
-            }
-        }
     }
 
     /**
@@ -134,7 +134,7 @@ class Helper {
             innerHTML += '<div class="accordion-icon"></div>';
             innerHTML += ('<div class="features-label">' + feature['name'] + '</div>');
             innerHTML += '</div>';
-            innerHTML += '<nav class="dropdown-list" style="display: none;">';
+            innerHTML += '<nav class="dropdown-list" style="height: 0;" data-collapsed="true">';
             innerHTML += '<div class="features-columns">';
 
             Object.keys(metrics).forEach(function (key) {
@@ -169,7 +169,7 @@ class Helper {
 
         if (score === null) {
             color = "grey";
-        } else if(score < 80) {
+        } else if (score < 80) {
             color = "red";
         } else if (score < 90) {
             color = "yellow"
@@ -190,9 +190,9 @@ class Helper {
      */
     renderSmallCircle(fulfillment, color = false) {
         if (!color) {
-            if(fulfillment === true) {
+            if (fulfillment === true) {
                 color = "green";
-            } else if(fulfillment === false) {
+            } else if (fulfillment === false) {
                 color = "red";
             } else {
                 color = "grey";
@@ -211,12 +211,53 @@ class Helper {
 
     toggleSection(element) {
         const metric_child = element.parentElement.children[1];
-        if (metric_child.style.display === "block" || element.getAttribute("disabled") === "true") {
-            metric_child.style.display = "none";
-        } else {
-            metric_child.style.display = "block";
-            metric_child.style.position = "static";
+        const isCollapsed = metric_child.getAttribute('data-collapsed') === 'true';
+        metric_child.style.display = '';
+        if (!(element.getAttribute("disabled") === "true")) {
+            if (isCollapsed) {
+                this.expandSection(metric_child);
+                metric_child.setAttribute('data-collapsed', 'false');
+            } else {
+                this.collapseSection(metric_child);
+            }
         }
+    }
+
+    /**
+     * This functions collapses the accordion
+     *
+     * @param {HTMLElement} element: HTML accordion to be collapsed
+     */
+
+    collapseSection(element) {
+        const sectionHeight = element.scrollHeight;
+
+        const elementTransition = element.style.transition;
+        element.style.transition = '';
+
+        requestAnimationFrame(function () {
+            element.style.height = sectionHeight + 'px';
+            element.style.transition = elementTransition;
+            element.style.margin = "0px 0px 0px 0px";
+            requestAnimationFrame(function () {
+                element.style.height = 0 + 'px';
+            });
+        });
+
+        element.setAttribute('data-collapsed', 'true');
+    }
+
+    /**
+     * This functions expands the accordion
+     *
+     * @param {HTMLElement} element: HTML accordion to be expanded
+     */
+
+    expandSection(element) {
+        const sectionHeight = element.scrollHeight;
+        element.style.height = sectionHeight + 'px';
+        element.style.margin = "0px 0px 10px 0px";
+        element.setAttribute('data-collapsed', 'false');
     }
 
     /**
@@ -225,7 +266,7 @@ class Helper {
 
     hideLoadingScreen() {
         let element = document.getElementById('loader-wrapper');
-        element.setAttribute("class","loader-wrapper-hidden");
+        element.setAttribute("class", "loader-wrapper-hidden");
     }
 
     /**
@@ -234,6 +275,6 @@ class Helper {
 
     showLoadingScreen() {
         let element = document.getElementById('loader-wrapper');
-        element.setAttribute("class","loader-wrapper");
+        element.setAttribute("class", "loader-wrapper");
     }
 }

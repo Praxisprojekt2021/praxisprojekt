@@ -27,7 +27,8 @@ function init() {
         // If not, prepare for new component input...
         console.log('Entering new component');
         setSections("default");
-
+        // Enable component-category which is disabled by default
+        document.getElementById('component-category').removeAttribute("disabled");
         // Set component uid to -1
         document.getElementById('component-uid').value = -1;
     }
@@ -70,7 +71,7 @@ function getFeatures() {
             helper.createMetricsSection(features);
             let div = document.createElement('div');
             div.className = 'control-area';
-            div.innerHTML = '<a href="#" data-wait="Bitte warten..." id="save-button" class="create-button w-button" onclick="createEditComponent(); helper.showLoadingScreen()">Speichern</a>';
+            div.innerHTML = '<a href="#" data-wait="Bitte warten..." id="save-button" class="create-button" onclick="createEditComponent(); helper.showLoadingScreen()">Speichern</a>';
 
             // Append element to document
             document.getElementById('metrics-input').appendChild(div);
@@ -107,9 +108,8 @@ function processComponentData(json_data) {
         document.getElementById('component-name').value = json_data['name'];
         document.getElementById('component-description-textarea').value = json_data['description'];
 
-        // Set dropdown and disable it
+        // Set dropdown
         document.getElementById('component-category').value = json_data['category'];
-        document.getElementById('component-category').setAttribute("disabled", "true");
 
         // Set all metrics
         let metrics = json_data['metrics'];
@@ -142,7 +142,6 @@ function setSections(selected_category) {
                 const feature_child = document.getElementById(key).children[0].children[0];
                 const metrics_child = document.getElementById(key).children[0].children[1];
                 if (category[key] === 'true') {
-                    feature_child.style.color = 'inherit';
                     feature_child.removeAttribute("disabled");
                 } else {
                     feature_child.setAttribute("disabled", "true");
