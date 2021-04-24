@@ -266,8 +266,6 @@ function createMetricsSection(features, processData) {
     // Live check for correct inputs
     const inputs = document.getElementsByName('target-average');
     for (let i = 0; i < inputs.length; i++) {
-        console.log(helper.targetAvgIsWithinMinMax(inputs[i]));
-        console.log(inputs[i]);
         inputs[i].addEventListener('blur', (event) => {
             if(!helper.targetAvgIsWithinMinMax(inputs[i]) || inputs[i].value == '') {
                 inputs[i].style.setProperty("border-color","red",undefined);
@@ -402,7 +400,7 @@ function createEditProcess() {
             metrics[metric_elements[i].id] = parseFloat(metric_elements[i].value);
 
             // Check if enabled fields mainstain min/max value
-            if (!targetAvgIsWithinMinMax(metric_elements[i])) {
+            if (!helper.targetAvgIsWithinMinMax(metric_elements[i])) {minmaxlist += '\n' + metric_elements[i].parentElement.parentElement.children[0].id; //Add metric name to the list of wrong target avg values
                 minmaxlist += '\n' + metric_elements[i].parentElement.parentElement.children[0].id; //Add metric name to the list of wrong target avg values
                 metric_elements[i].style.setProperty("border-color","red",undefined);
                 continue;
@@ -722,8 +720,6 @@ function visualizeProcess(processData, metricsDefinition) {
     // begin at index 1 because 0 contains table headers
     for (let i = 0; i < components.length; i++) {
         let currentComponent = components[i];
-        let tds = currentComponent.getElementsByTagName("td");
-        tds[0].innerHTML = i;
         let componentName = currentComponent['name'];
         let componentCategory = metricsDefinition['categories'][currentComponent['category']]['name'];
 
@@ -743,6 +739,15 @@ function visualizeProcess(processData, metricsDefinition) {
     document.getElementById('modelling-process').appendChild(div); // populate div
 
     horizontalScroll();
+
+    //Setting row positions
+    let componentRows = document.getElementById("ComponentOverviewTable").getElementsByTagName("tr");
+
+    for (let i = 1; i < componentRows.length; i++) {
+        let currentComponent = componentRows[i];
+        let tds = currentComponent.getElementsByTagName("td");
+        tds[0].innerHTML = i;
+    }
 }
 
 /**
