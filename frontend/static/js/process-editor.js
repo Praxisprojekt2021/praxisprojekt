@@ -255,7 +255,7 @@ function createMetricsSection(features, processData) {
     const inputs = document.getElementsByName('target-average');
     for (let i = 0; i < inputs.length; i++) {
         inputs[i].addEventListener('blur', (event) => {
-            if (!helper.targetAvgIsWithinMinMax(inputs[i]) || inputs[i].value == '') {
+            if (!helper.targetAvgIsWithinMinMax(inputs[i]) || inputs[i].value === '') {
                 inputs[i].style.setProperty("border-color", "red", undefined);
             } else {
                 inputs[i].style.removeProperty("border-color");
@@ -441,7 +441,7 @@ function saveProcess(data) {
 function loadComponentNames(processData) {
     const base_url = window.location.origin;
 
-    helper.http_request("GET","/content/mapping_metrics_definition.json", true, "",function (metricsDefinition) {
+    helper.http_request("GET", "/content/mapping_metrics_definition.json", true, "", function (metricsDefinition) {
         createComponentTable(processData, metricsDefinition);
         visualizeProcess(processData, metricsDefinition);
         helper.http_request("GET", "/component/overview", true, "", fillComponentDropdown);

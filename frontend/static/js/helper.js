@@ -45,8 +45,8 @@ class Helper {
         const base_url = window.location.origin;
         let xhttp = new XMLHttpRequest();
 
-        if(requestType === "GET") xhttp.open("GET", base_url + endpoint, async);
-        if(requestType === "POST") xhttp.open("POST", base_url + endpoint, async);
+        if (requestType === "GET") xhttp.open("GET", base_url + endpoint, async);
+        if (requestType === "POST") xhttp.open("POST", base_url + endpoint, async);
         xhttp.setRequestHeader("Content-Type", "application/json");
 
         // Handle response of HTTP-request
@@ -70,8 +70,8 @@ class Helper {
         }
 
         // Send HTTP-request
-        if(requestType === "GET") xhttp.send();
-        if(requestType === "POST") xhttp.send(post_json);
+        if (requestType === "GET") xhttp.send();
+        if (requestType === "POST") xhttp.send(post_json);
     }
 
     /**

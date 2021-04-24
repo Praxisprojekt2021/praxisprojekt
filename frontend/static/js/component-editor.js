@@ -209,16 +209,16 @@ function createEditComponent() {
                 let inputLabel = metrics_child.getElementsByTagName('label')[i];
                 let inputElement = metrics_child.getElementsByTagName('input')[i];
                 if (inputElement.value === '') {
-                    emptyFieldList += '\n' + feature_child.getElementsByClassName('features-label')[0].innerHTML+": "+inputLabel.innerHTML;
+                    emptyFieldList += '\n' + feature_child.getElementsByClassName('features-label')[0].innerHTML + ": " + inputLabel.innerHTML;
                     console.log(inputElement);
-                    inputElement.style.setProperty("border-color","red",undefined);
+                    inputElement.style.setProperty("border-color", "red", undefined);
                     continue;
                 }
 
                 // Check if enabled fields maintain min/max value
-                if(!helper.targetAvgIsWithinMinMax(inputElement)) {
-                    minmaxlist += '\n' + feature_child.getElementsByClassName('features-label')[0].innerHTML+": "+inputLabel.innerHTML;
-                    inputElement.style.setProperty("border-color","red",undefined);
+                if (!helper.targetAvgIsWithinMinMax(inputElement)) {
+                    minmaxlist += '\n' + feature_child.getElementsByClassName('features-label')[0].innerHTML + ": " + inputLabel.innerHTML;
+                    inputElement.style.setProperty("border-color", "red", undefined);
                 } else {
                     inputElement.style.removeProperty("border-color");
                 }
@@ -237,20 +237,20 @@ function createEditComponent() {
     } else {
         let alert_string = 'Changes could not be saved. ';
         // Prepare alert message strings depending on the error cause
-        if(!component_category_helper_flag) {
+        if (!component_category_helper_flag) {
             alert_string += 'Please select a category. \n';
         }
         if (emptyFieldList !== "") {
             alert_string += 'Please fill all metrics fields. \n';
             alert_string += '\nThe following Metrics are empty:\n';
-            alert_string += emptyFieldList+'\n';
+            alert_string += emptyFieldList + '\n';
         }
         if (text_replaced_flag === true) {
             alert_string += '\nNon quantitative metrics have been automatically discarded.\n';
         }
         if (minmaxlist !== "") {
             alert_string += '\nThe following Metrics are not within their min/max values:\n';
-            alert_string += minmaxlist+"\n";
+            alert_string += minmaxlist + "\n";
         }
         helper.hideLoadingScreen();
         window.alert(alert_string);

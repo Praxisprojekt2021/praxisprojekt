@@ -27,14 +27,14 @@ function init() {
  */
 function getProcessList() {
     helper.showLoadingScreen();
-    helper.http_request("GET","/process/overview",false,"", refreshProcessTable);
+    helper.http_request("GET", "/process/overview", false, "", refreshProcessTable);
 }
 
 /**
  * Get components data from Back-End and then populate the processes table in FE.
  */
 function getComponentList() {
-    helper.http_request("GET","/component/overview",true,"", loadMetricsDefinition);
+    helper.http_request("GET", "/component/overview", true, "", loadMetricsDefinition);
 }
 
 /**
@@ -161,7 +161,7 @@ function renderStatusColumn(wholeProcessScore) {
  * @param componentData
  */
 function loadMetricsDefinition(componentData) {
-    helper.http_request("GET","/content/mapping_metrics_definition.json",true,"",function (response_json) {
+    helper.http_request("GET", "/content/mapping_metrics_definition.json", true, "", function (response_json) {
         let metricsDefinition = response_json;
         refreshComponentTable(componentData, metricsDefinition);
     });
