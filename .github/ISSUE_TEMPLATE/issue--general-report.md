@@ -1,7 +1,7 @@
 ---
 name: 'Issue: General report'
 about: Alle Issues, die außerhalb des koordinierten Testens gefunden werden
-title: "[small description]"
+title: 'WIP: [small description]'
 labels: ''
 assignees: ''
 
