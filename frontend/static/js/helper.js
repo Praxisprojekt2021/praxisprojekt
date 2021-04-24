@@ -134,7 +134,7 @@ class Helper {
             innerHTML += '<div class="accordion-icon"></div>';
             innerHTML += ('<div class="features-label">' + feature['name'] + '</div>');
             innerHTML += '</div>';
-            innerHTML += '<nav class="dropdown-list" style="height: 0;" data-collapsed="true">';
+            innerHTML += '<nav class="dropdown-list" data-collapsed="true">';
             innerHTML += '<div class="features-columns">';
 
             Object.keys(metrics).forEach(function (key) {

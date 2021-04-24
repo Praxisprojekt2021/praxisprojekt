@@ -146,6 +146,7 @@ button, html input[type="button"], input[type="reset"] {
 }
 
 .dropdown-list {
+  height: 0px;
   position: static;
   display: block;
   overflow: visible;
@@ -154,7 +155,6 @@ button, html input[type="button"], input[type="reset"] {
   width: 100%;
   min-width: 100%;
   transition: height 0.3s ease-out;
-  height: auto;
 }
 
 .info-icon {
