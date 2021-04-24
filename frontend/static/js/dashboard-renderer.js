@@ -26,7 +26,7 @@ function init() {
  * Get processes data from Back-End and then populate the processes table in FE.
  */
 function getProcessList() {
-    helper.showLoadingScreen();
+    Helper.showLoadingScreen();
     helper.get_request("/process/overview", refreshProcessTable);
 }
 
@@ -56,7 +56,7 @@ function refreshProcessTable(json) {
             '<td>' + renderDeleteProcessButton(object.uid) + '</td>';
         table.appendChild(tr);
     });
-    helper.hideLoadingScreen();
+    Helper.hideLoadingScreen();
     modals.getProcessDate(json);
 }
 
