@@ -207,43 +207,43 @@ function createMetricsSection(features, processData) {
                 <th name="average">
                     Average
                     <img src="images/info.png" loading="lazy" width="35" 
-                        title="The average value for the respective metrics across all components in the process." 
+                         data-i18n="average"
                         class="info-icon-header">
                 </th>
                 <th name="standard-deviation">
                     Std. Dev.
                     <img src="images/info.png" loading="lazy" width="35" 
-                        title="The standard deviation for each metric across all components in the process." 
+                        data-i18n="standard-deviation"
                         class="info-icon-header">
                 </th>
                 <th name="sum">
                     Sum 
                     <img src="images/info.png" loading="lazy" width="35" 
-                        title="The sum for each respective metric across all components in the process." 
+                        data-i18n="sum" 
                         class="info-icon-header">
                 </th>
                 <th name="min">
                     Min
                     <img src="images/info.png" loading="lazy" width="35" 
-                        title="The minimum value specifies the smallest value for each respective metric across all components in the process."
+                        data-i18n="min"
                         class="info-icon-header">
                 </th>
                 <th name="max">
                     Max
                     <img src="images/info.png" loading="lazy" width="35" 
-                        title="The maximum value indicates the largest value for each respective metric across all components of the process."
+                        data-i18n="max"
                         class="info-icon-header">
                 </th>
                 <th name="target-avg">
                     Target Average
                     <img src="images/info.png" loading="lazy" width="35" 
-                        title="The average, user-entered, Target-value for each metric across all components in the process."
+                        data-i18n="target-avg"
                         class="info-icon-header">
                 </th>
                 <th name="target-sum">
                     Target Sum
                     <img src="images/info.png" loading="lazy" width="35" 
-                        title="The target sum for each metric across all components in the process."
+                        data-i18n="target-sum"
                         class="info-icon-header">
                 </th>
                 <th name="ampel">Check</th>
