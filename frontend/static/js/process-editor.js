@@ -25,6 +25,7 @@ function init(json_process = false) {
             loadComponentNames(json_process);
         }
     });
+
 }
 
 /**
@@ -328,6 +329,7 @@ function fillMetricRows(metricData, slug, processData) {
                         <td>` + Math.round(processData['actual_target_metrics'][slug]['actual']['min'] * 100 + Number.EPSILON) / 100 + `</td>
                         <td>` + Math.round(processData['actual_target_metrics'][slug]['actual']['max'] * 100 + Number.EPSILON) / 100 + `</td>`;
         }
+
         // check if a target value is provided
 
         if ('target' in processData['actual_target_metrics'][slug] && 'actual' in processData['actual_target_metrics'][slug]) {
@@ -473,6 +475,7 @@ function loadComponentNames(processData) {
 
     helper.get_request("/content/mapping_metrics_definition.json", function (metricsDefinition) {
         createComponentTable(processData, metricsDefinition);
+        visualizeProcess(processData, metricsDefinition);
         helper.get_request("/component/overview", fillComponentDropdown);
     });
 }
@@ -537,7 +540,6 @@ function createComponentTable(processData, metricsDefinition) {
             }
         }
     });
-    visualizeProcess();
 }
 
 /**
@@ -702,34 +704,38 @@ function exit(ev) {
 
 /**
  * This function visualizes the components of a process in a box above the components table
+ *
+ * @param {json} processData
+ * @param {json} metricsDefinition
  * */
-function visualizeProcess() {
+function visualizeProcess(processData, metricsDefinition) {
     let div = document.createElement("div");
+    div.className = "modelling-processes";
+    div.id = "visualizeprocess";
     let rectangle = "";
     let arrowRight = `<div class="arrow">&#8594;</div>`;
+    let innerHTML = "";
+    let components = processData['process']['components'];
+    components.sort((a, b) => (a.weight > b.weight) ? 1 : ((b.weight > a.weight) ? -1 : 0));
 
-    let componentRows = document.getElementById("ComponentOverviewTable").getElementsByTagName("tr");
-
-    let innerHTML = `<table id="process-visualization" class="process-visualization">
-                            <tr style="height: 150px;">`;
 
     // begin at index 1 because 0 contains table headers
-    for (let i = 1; i < componentRows.length; i++) {
-        let currentComponent = componentRows[i];
+    for (let i = 0; i < components.length; i++) {
+        let currentComponent = components[i];
         let tds = currentComponent.getElementsByTagName("td");
         tds[0].innerHTML = i;
-        let componentName = tds[1].innerHTML;
-        let category = tds[2].innerHTML;
+        let componentName = currentComponent['name'];
+        let componentCategory = metricsDefinition['categories'][currentComponent['category']]['name'];
 
-        rectangle = `<div class="square-border"><div style="font-weight:bold; text-decoration:underline;" >${componentName}</div><br><div style="font-style:italic;">${category}</div></div>`;
-        innerHTML += `<td style="width: 150px;height: 150px; border: 0px;">${rectangle}</td>`;
-        if (i < componentRows.length - 1) {
-            innerHTML += `<td style="width: 150px;height: 150px;  border: 0px;">${arrowRight}</td>`;
+        rectangle = renderRectangle(componentName, componentCategory);
+
+        innerHTML += `<div class="visualize">${rectangle}</div>`;
+        if (i < components.length - 1) {
+            innerHTML += `<div class="visualize" >${arrowRight}</div>`;
         }
 
     }
 
-    innerHTML += "</tr></table>";
 
     div.innerHTML = innerHTML;
 
@@ -740,19 +746,34 @@ function visualizeProcess() {
 }
 
 /**
+ * Returns rectangle HTML-Element to visualize one component in the process visualization.
+ *
+ * @param componentName
+ * @param componentCategory
+ * @returns {string} rectangle Element
+ */
+function renderRectangle(componentName, componentCategory) {
+    return `
+        <div class="square-border">
+            <div class="componentname">${componentName}</div>
+            <div class="componentcategory">${componentCategory}</div>
+        </div>`;
+}
+
+
+/**
  * Makes the components visualization box from visualizeProcess() horizontally scrollable with the mouse-wheel
- * */
+ */
 function horizontalScroll() {
-    document.getElementById("modelling-process").addEventListener('wheel', function (e) {
+    document.getElementById("visualizeprocess").addEventListener('wheel', function (e) {
         if (e.type != 'wheel') {
             return;
         }
         let delta = ((e.deltaY || -e.wheelDelta || e.detail) >> 10) || 1;
-        delta = delta * (-10);
-        document.documentElement.scrollLeft -= delta;
-        document.getElementById("modelling-process").scrollLeft -= delta;
-        // safari needs also this
-        // document.getElementById("modelling-process").scrollLeft -= delta;
+        delta = delta * (-50);
+
+        document.getElementById("visualizeprocess").scrollLeft -= delta;
+
         e.preventDefault();
     });
 }
