@@ -9,6 +9,9 @@ const base_url = window.location.href;
 //instantiate object of Helper class
 const helper = new Helper();
 
+//instantiate object of Modals class
+const modals = new Modals();
+
 document.addEventListener("DOMContentLoaded", init(), false);
 
 /**
@@ -42,16 +45,17 @@ function refreshProcessTable(json) {
     var table = document.getElementById('processTable');
     json.process.forEach(function (object) {
         var tr = document.createElement('tr');
-        tr.innerHTML = '<td>' + object.name + '</td>' +
-            '<td>' + object.components_count + '</td>' +
-            '<td>' + object.score + '</td>' +
+        tr.innerHTML = '<td class="col-1">' + object.name + '</td>' +
+            '<td class="col-2">' + object.components_count + '</td>' +
+            '<td class="col-3">' + object.score + '</td>' +
             renderStatusColumn(object.score) +
-            '<td>' + helper.formatDate(object.creation_timestamp) + '</td>' +
-            '<td>' + helper.formatDate(object.last_timestamp) + '</td>' +
-            '<td>' + renderEditProcessButton(object.uid) + '</td>' +
-            '<td>' + renderDeleteProcessButton(object.uid) + '</td>';
+            '<td class="col-5">' + helper.formatDate(object.creation_timestamp) + '</td>' +
+            '<td class="col-6">' + helper.formatDate(object.last_timestamp) + '</td>' +
+            '<td class="col-7">' + renderEditProcessButton(object.uid) + '</td>' +
+            '<td class="col-8">' + renderDeleteProcessButton(object.uid) + '</td>';
         table.appendChild(tr);
     });
+    modals.getProcessDate(json);
 }
 
 /**
@@ -64,14 +68,15 @@ function refreshComponentTable(json, metricsDefinition) {
     json.components.forEach(function (object) {
         let category = object.category;
         let tr = document.createElement('tr');
-        tr.innerHTML = '<td>' + object.name + '</td>' +
-            '<td>' + metricsDefinition.categories[category].name + '</td>' +
-            '<td>' + helper.formatDate(object.creation_timestamp) + '</td>' +
-            '<td>' + helper.formatDate(object.last_timestamp) + '</td>' +
-            '<td>' + renderEditComponentButton(object.uid) + '</td>' +
-            '<td>' + renderDeleteComponentButton(object.uid) + '</td>';
+        tr.innerHTML = '<td class="col-1">' + object.name + '</td>' +
+            '<td class="col-2">' + metricsDefinition.categories[category].name + '</td>' +
+            '<td class="col-3">' + helper.formatDate(object.creation_timestamp) + '</td>' +
+            '<td class="col-4">' + helper.formatDate(object.last_timestamp) + '</td>' +
+            '<td class="col-5">' + renderEditComponentButton(object.uid) + '</td>' +
+            '<td class="col-6">' + renderDeleteComponentButton(object.uid) + '</td>';
         table.appendChild(tr);
     });
+    modals.getComponentDate(json);
 }
 
 /**
@@ -180,7 +185,7 @@ function renderStatusColumn(wholeProcessScore) {
     // TODO: adapt to requirements (when it should be red or green)
     let color = helper.getCircleColor(wholeProcessScore);
 
-    return '<td>' + helper.renderSmallCircle(null, color) +'</td>';
+    return '<td class="col-4">' + helper.renderSmallCircle(null, color) +'</td>';
     return '<td><i id="' + color + '" class="fas fa-circle"></i></td>';
 }
 

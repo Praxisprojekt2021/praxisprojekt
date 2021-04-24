@@ -8,12 +8,12 @@
 </head>
 <body class="body" onload="init()">
 
-<header id="header" class="header"><img src="{{ url_for('static', filename='images/logo.png') }}"
-                                        loading="lazy" alt="" class="logo">
+<header id="header" class="header">
+    <a href="/"><img src="{{ url_for('static', filename='images/logo.png') }}"loading="lazy" alt="" class="logo"></a>
     <div class="navigation">
         <a href="/" class="navigation-links">Home</a>
         <div class="navigation-link-separator">&gt;</div>
-        <a href="#" class="navigation-links">Einzelkomponente</a>
+        <a href="#" class="navigation-links navigation-selected">Einzelkomponente</a>
     </div>
 
 </header>
@@ -35,7 +35,7 @@
                            data-name="component-uid" id="component-uid" disabled>
                     <label for="component-category" class="entry-label">Komponenten Kategorie</label>
                     <select id="component-category" name="component-category" data-name="component-category"
-                            class="category-dropdown" onchange="setSections(this.value)">
+                            class="category-dropdown" disabled="true" onchange="setSections(this.value)">
                         <option value="default">Bitte auswählen..</option>
                     </select>
                 </div>
