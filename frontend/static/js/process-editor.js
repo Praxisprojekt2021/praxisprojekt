@@ -14,7 +14,7 @@ let uid = url.searchParams.get('uid');
  */
 function init(json_process = false) {
 
-    helper.showLoadingScreen();
+    Helper.showLoadingScreen();
 
     getFeatures().then(data => {
         if (!json_process) {
@@ -51,7 +51,7 @@ async function getFeatures() {
             } else {
                 buttonType = "Create";
             }
-            div.innerHTML = `<button id="save-button" class="create-button" onclick="createEditProcess(); helper.showLoadingScreen()" type="button">${buttonType}</button>`
+            div.innerHTML = `<button id="save-button" class="create-button" onclick="createEditProcess(); Helper.showLoadingScreen()" type="button">${buttonType}</button>`
 
             // Append element to document
             document.getElementById('buttons').appendChild(div);
@@ -93,9 +93,14 @@ function getProcess(features) {
                 let processData = JSON.parse(this.responseText);
                 fillDataFields(features, processData);
                 loadComponentNames(processData);
+            }else{
+                Helper.hideLoadingScreen();
+                window.alert('Process could not be loaded.')
             }
         }
+
         xhttp.send(post_data);
+  
     } else {
         // If not, prepare for new component input...
         let processData = {};
@@ -261,7 +266,7 @@ function createMetricsSection(features, processData) {
         // Append element to document
         document.getElementById('metrics-input-processes').appendChild(div);
     });
-    helper.hideLoadingScreen();
+    Helper.hideLoadingScreen();
 }
 
 /**
@@ -490,7 +495,7 @@ function createComponentTable(processData, metricsDefinition) {
             <td></td>
             <td></td>
             <td></td>
-            <td><i id="TrashIcon" class="fas fa-trash-alt" onclick="deleteComponent(this.parentElement.parentElement.id); helper.showLoadingScreen()"></i></td>
+            <td><i id="TrashIcon" class="fas fa-trash-alt" onclick="deleteComponent(this.parentElement.parentElement.id); Helper.showLoadingScreen()"></i></td>
         `;
 
         const componentTable = document.getElementById('ComponentOverviewTable');
@@ -548,7 +553,7 @@ function addComponent() {
 
         helper.post_request("/process/edit/createstep", JSON.stringify(data), init);
     } else {
-        helper.hideLoadingScreen();
+        Helper.hideLoadingScreen();
         // Please select a component from the dropdown.
         // TODO: Fill with something?
     }
@@ -633,7 +638,7 @@ function drop(ev) {
     element.id = newWeight;
     element.children[0].innerHTML = newWeight;
 
-    helper.showLoadingScreen();
+    Helper.showLoadingScreen();
     editComponent(oldWeight, newWeight);
 }
 
@@ -748,7 +753,7 @@ function horizontalScroll() {
  */
 function saveCallback(response) {
     // Process has been created/edited successfully
-    helper.hideLoadingScreen();
+    Helper.hideLoadingScreen();
     if (uid.length === 32) {
         init(response);
     } else {

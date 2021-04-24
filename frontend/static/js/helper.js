@@ -22,6 +22,7 @@ class Helper {
                 let json = JSON.parse(this.responseText);
 
                 if (this.status === 500) {
+                    Helper.hideLoadingScreen();
                     Helper.showError(endpoint);
                 } else {
                     if (json['success']) {
@@ -31,6 +32,7 @@ class Helper {
                 // Process response
                 callback(json);
             } else if (this.readyState === XMLHttpRequest.DONE) {
+                Helper.hideLoadingScreen();
                 Helper.showError(endpoint);
             }
         }
@@ -46,6 +48,7 @@ class Helper {
      */
 
     get_request(endpoint, callback) {
+        Helper.showLoadingScreen();
         const base_url = window.location.origin;
         let xhttp = new XMLHttpRequest();
         xhttp.open("GET", base_url + endpoint, true);
@@ -224,7 +227,7 @@ class Helper {
      * This functions hides the loading animation
      */
 
-    hideLoadingScreen() {
+    static hideLoadingScreen() {
         let element = document.getElementById('loader-wrapper');
         element.setAttribute("class", "loader-wrapper-hidden");
     }
@@ -233,8 +236,9 @@ class Helper {
      * This functions shows the loading animation
      */
 
-    showLoadingScreen() {
+    static showLoadingScreen() {
         let element = document.getElementById('loader-wrapper');
         element.setAttribute("class", "loader-wrapper");
+        console.log('Showing Loading Screen');
     }
 }
