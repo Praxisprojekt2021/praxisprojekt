@@ -399,12 +399,15 @@ function createEditProcess() {
         const input = toggles[i].value;
     }
 
+    // Check if name field is filled
+    if(document.getElementById('process-name-textarea').value=="")required_helper_flag = false;
+
     // If a input has been performed, post changes to backend
     if (required_helper_flag) {
         console.log(process);
         saveProcess(process);
     } else {
-        let alert_string = 'Changes could not be saved. Please fill all metrics fields.';
+        let alert_string = 'Changes could not be saved. Please fill all metrics or name fields.';
         if (text_replaced_flag === true) {
             alert_string += '\nNon quantitative metrics have been automatically discarded.';
         }

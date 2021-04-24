@@ -122,6 +122,7 @@ button, html input[type="button"], input[type="reset"] {
 }
 
 .accordion-toggle[disabled] {
+  color: #999999;
   cursor: default;
 }
 

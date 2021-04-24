@@ -146,7 +146,6 @@ function setSections(selected_category) {
                     feature_child.style.color = 'inherit';
                     feature_child.removeAttribute("disabled");
                 } else {
-                    feature_child.style.color = '#999999';
                     feature_child.setAttribute("disabled", "true");
                     metrics_child.style.display = 'none';
                 }
@@ -165,10 +164,11 @@ function createEditComponent() {
     let metric_elements = document.getElementsByClassName('metric-input');
     let metrics = {};
     let text_replaced_flag = false; // Helper variable that indicates, whether or not a non quantitative metric input has been found and discarded
+
     for (let i = 0; i < metric_elements.length; i++) {
         // TODO also check if values are within min and max values
         // Replace non quantitative metric inputs with an emtpy string to have them discarded
-        if (metric_elements[i].value !== '' && !parseFloat(metric_elements[i].value)) {
+        if (metric_elements[i].value !== '' && isNaN(metric_elements[i].value)) {
             metric_elements[i].value = '';
             text_replaced_flag = true;
         }
@@ -190,6 +190,8 @@ function createEditComponent() {
     // Also, when changing between categories, discard inputs made for non-relevant metrics
     let required_helper_flag = true; // Helper variable which gets set to false, if any required field is not filled
     const toggles = document.getElementsByClassName('feature-section');
+    // Check if name field is filled
+    if (document.getElementById('component-name').value == "") required_helper_flag = false;
     for (let i = 0; i < toggles.length; i++) {
         const feature_child = toggles[i].children[0].children[0];
         const metrics_child = toggles[i].children[0].children[1];
@@ -220,7 +222,7 @@ function createEditComponent() {
     if (required_helper_flag) {
         helper.post_request('/component/create_edit', JSON.stringify(component), saveCallback);
     } else {
-        let alert_string = 'Changes could not be saved. Please fill all metrics fields.';
+        let alert_string = 'Changes could not be saved. Please fill all metrics or name fields.';
         if (text_replaced_flag === true) {
             alert_string += '\nNon quantitative metrics have been automatically discarded.';
         }
