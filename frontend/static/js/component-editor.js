@@ -166,9 +166,8 @@ function createEditComponent() {
     let metrics = {};
     let text_replaced_flag = false; // Helper variable that indicates, whether or not a non quantitative metric input has been found and discarded
     for (let i = 0; i < metric_elements.length; i++) {
-        // TODO also check if values are within min and max values
         // Replace non quantitative metric inputs with an emtpy string to have them discarded
-        if (metric_elements[i].value !== '' && !parseFloat(metric_elements[i].value)) {
+        if (metric_elements[i].value !== '' && isNaN(metric_elements[i].value)) {
             metric_elements[i].value = '';
             text_replaced_flag = true;
         }

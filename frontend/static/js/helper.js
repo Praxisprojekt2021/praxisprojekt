@@ -113,7 +113,7 @@ class Helper {
                 innerHTML += ('<label for="availability-metric" class="entry-label">' + metric['name'] + '</label>');
                 innerHTML += '<input type="text" maxLength="256" data-name="availability-metric-1" id="' + key + '"' +
                     ' name="availability-metric" class="metric-input textfield"'
-                if (metric['max_value'] === "-1") {
+                if (metric['max_value'] === -1) {
                     innerHTML += '" min="' + metric['min_value'] + '"'
                 } else {
                     innerHTML += ' max="' + metric['max_value'] + '" min="' + metric['min_value'] + '"'
