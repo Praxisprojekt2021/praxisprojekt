@@ -33,14 +33,8 @@ class RelationshipProcessMetric(StructuredRel):
 
     Attributes
     ----------
-    average : float
-        is target average value of the relationship
-    min : float
-        is target min value of the relationship
-    max : float
-        is target max value of the relationship
+    value : float
+        is value of the relationship
     """
 
-    average = FloatProperty()
-    min = FloatProperty()
-    max = FloatProperty()
+    value = FloatProperty()

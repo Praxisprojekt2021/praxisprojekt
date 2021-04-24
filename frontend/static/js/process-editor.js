@@ -205,6 +205,7 @@ function createMetricsSection(features, processData) {
         <table id="process-feature-table">
             <tr>
                 <th name="metric">Metric</th>
+<<<<<<< HEAD
                 <th name="average">Average</th>
                 <th name="standard-deviation">Std. Dev.</th>
                 <th name="sum">Sum</th>
@@ -214,6 +215,50 @@ function createMetricsSection(features, processData) {
                 <th name="target-min">Target Min</th>
                 <th name="target-max">Target Max</th>
                 <th name="target-sum">Target Sum</th>
+=======
+                <th name="average">
+                    Average
+                    <img src="images/info.png" loading="lazy" width="35" 
+                        title="The average value for the respective metrics across all components in the process." 
+                        class="info-icon-header">
+                </th>
+                <th name="standard-deviation">
+                    Std. Dev.
+                    <img src="images/info.png" loading="lazy" width="35" 
+                        title="The standard deviation for each metric across all components in the process." 
+                        class="info-icon-header">
+                </th>
+                <th name="sum">
+                    Sum 
+                    <img src="images/info.png" loading="lazy" width="35" 
+                        title="The sum for each respective metric across all components in the process." 
+                        class="info-icon-header">
+                </th>
+                <th name="min">
+                    Min
+                    <img src="images/info.png" loading="lazy" width="35" 
+                        title="The minimum value specifies the smallest value for each respective metric across all components in the process."
+                        class="info-icon-header">
+                </th>
+                <th name="max">
+                    Max
+                    <img src="images/info.png" loading="lazy" width="35" 
+                        title="The maximum value indicates the largest value for each respective metric across all components of the process."
+                        class="info-icon-header">
+                </th>
+                <th name="target-avg">
+                    Target Average
+                    <img src="images/info.png" loading="lazy" width="35" 
+                        title="The average, user-entered, Target-value for each metric across all components in the process."
+                        class="info-icon-header">
+                </th>
+                <th name="target-sum">
+                    Target Sum
+                    <img src="images/info.png" loading="lazy" width="35" 
+                        title="The target sum for each metric across all components in the process."
+                        class="info-icon-header">
+                </th>
+>>>>>>> master
                 <th name="ampel">Check</th>
                 <th name="info">Info</th>
             </tr>`;
@@ -248,20 +293,24 @@ function fillMetricRows(metricData, slug, processData) {
     // default table row, when no metric data is provided
     let innerHTML_actual = `
                     <tr>
-                        <td id="${metricData['name']}">${metricData['name']}</td>
+                        <td id="` + metricData['name'] + `">` + metricData['name'] + `</td>
                         <td></td>
                         <td></td>
                         <td></td>
                         <td></td>
                         <td></td>`;
     let innerHTML_target = `
+
                         <td><input name="target-average" id="${slug}" value=""></td>
                         <td><input name="target-minimum" id="${slug}" value=""></td>
                         <td><input name="target-maximum" id="${slug}" value=""></td>`;
+
     let innerHTML_fulfillment = `
                         <td></td>
                         <td></td>
-                        <td><img src="images/info.png" loading="lazy" width="35" alt="" class="info-icon"></td>
+                        <td><img src="images/info.png" loading="lazy" width="35"
+                        title="` + metricData['description_process'] + `\ni.e. ` + metricData['example_process'] + `"
+                        alt="" class="info-icon"></td>
                     </tr>`;
 
     if (uid != null && uid !== -1 && (slug in processData['actual_target_metrics'])) {
@@ -309,7 +358,9 @@ function fillMetricRows(metricData, slug, processData) {
             innerHTML_fulfillment = `
                         <td>${processData['actual_target_metrics'][slug]['target']['total']}</td>
                         <td>${helper.renderSmallCircle(metric_fulfillment)}</td>
-                        <td><img src="images/info.png" loading="lazy" width="35" alt="" class="info-icon"></td>
+                        <td><img src="images/info.png" loading="lazy" width="35" alt="heyy"
+                         title="` + metricData['description_process'] + `\ni.e. ` + metricData['example_process'] + `"
+                         class="info-icon"></td>
                     </tr>`;
         }
     }
@@ -457,6 +508,7 @@ function loadComponentNames(processData) {
             // Process response and show sum in output field
             let metricsDefinition = JSON.parse(this.responseText);
             createComponentTable(processData, metricsDefinition);
+            visualizeProcess(processData, metricsDefinition);
             helper.get_request("/component/overview", fillComponentDropdown);
         }
     }
@@ -520,7 +572,6 @@ function createComponentTable(processData, metricsDefinition) {
             }
         }
     });
-    visualizeProcess();
 }
 
 /**
@@ -685,34 +736,37 @@ function exit(ev) {
 
 /**
  * This function visualizes the components of a process in a box above the components table
+ *
+ * @param {json} processData
+ * @param {json} metricsDefinition
  * */
-function visualizeProcess() {
+function visualizeProcess(processData, metricsDefinition) {
     let div = document.createElement("div");
+    div.className = "modelling-processes";
+    div.id = "visualizeprocess";
     let rectangle = "";
     let arrowRight = `<div class="arrow">&#8594;</div>`;
+    let innerHTML = "";
+    let components = processData['process']['components'];
+    components.sort((a, b) => (a.weight > b.weight) ? 1 : ((b.weight > a.weight) ? -1 : 0));
 
-    let componentRows = document.getElementById("ComponentOverviewTable").getElementsByTagName("tr");
-
-    let innerHTML = `<table id="process-visualization" class="process-visualization">
-                            <tr style="height: 150px;">`;
 
     // begin at index 1 because 0 contains table headers
-    for (let i = 1; i < componentRows.length; i++) {
-        let currentComponent = componentRows[i];
-        let tds = currentComponent.getElementsByTagName("td");
-        let weight = tds[0].innerHTML;
-        let componentName = tds[1].innerHTML;
-        let category = tds[2].innerHTML;
+    for (let i = 0; i < components.length; i++) {
+        let currentComponent = components[i];
 
-        rectangle = `<div class="square-border"><div style="font-weight:bold; text-decoration:underline;" >${componentName}</div><br><div style="font-style:italic;">${category}</div></div>`;
-        innerHTML += `<td style="width: 150px;height: 150px; border: 0px;">${rectangle}</td>`;
-        if (i < componentRows.length - 1) {
-            innerHTML += `<td style="width: 150px;height: 150px;  border: 0px;">${arrowRight}</td>`;
+        let componentName = currentComponent['name'];
+        let componentCategory = metricsDefinition['categories'][currentComponent['category']]['name'];
+
+        rectangle = renderRectangle(componentName, componentCategory);
+
+        innerHTML += `<div class="visualize">${rectangle}</div>`;
+        if (i < components.length - 1) {
+            innerHTML += `<div class="visualize" >${arrowRight}</div>`;
         }
 
     }
 
-    innerHTML += "</tr></table>";
 
     div.innerHTML = innerHTML;
 
@@ -723,19 +777,34 @@ function visualizeProcess() {
 }
 
 /**
+ * Returns rectangle HTML-Element to visualize one component in the process visualization.
+ *
+ * @param componentName
+ * @param componentCategory
+ * @returns {string} rectangle Element
+ */
+function renderRectangle(componentName, componentCategory) {
+    return `
+        <div class="square-border">
+            <div class="componentname">${componentName}</div>
+            <div class="componentcategory">${componentCategory}</div>
+        </div>`;
+}
+
+
+/**
  * Makes the components visualization box from visualizeProcess() horizontally scrollable with the mouse-wheel
- * */
+ */
 function horizontalScroll() {
-    document.getElementById("modelling-process").addEventListener('wheel', function (e) {
+    document.getElementById("visualizeprocess").addEventListener('wheel', function (e) {
         if (e.type != 'wheel') {
             return;
         }
         let delta = ((e.deltaY || -e.wheelDelta || e.detail) >> 10) || 1;
-        delta = delta * (-10);
-        document.documentElement.scrollLeft -= delta;
-        document.getElementById("modelling-process").scrollLeft -= delta;
-        // safari needs also this
-        // document.getElementById("modelling-process").scrollLeft -= delta;
+        delta = delta * (-50);
+
+        document.getElementById("visualizeprocess").scrollLeft -= delta;
+
         e.preventDefault();
     });
 }

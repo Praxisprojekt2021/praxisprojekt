@@ -257,11 +257,11 @@ data = {
                 "max": 50,
                 "min": 20,
                 "standard_deviation": 5,
-                "total": 300,     # summe
+                "total": 300,  # summe
             },
             "target": {
                 "average": 30,
-                "total": 300,     # summe
+                "total": 300,  # summe
             },
             "component_count": 10,
             "fulfillment": True
@@ -272,11 +272,11 @@ data = {
                 "max": 0.8,
                 "min": 0.5,
                 "standard_deviation": 5,
-                "total": 0.4,     # summe
+                "total": 0.4,  # summe
             },
             "target": {
                 "average": 0.8,
-                "total": 0.64,     # summe
+                "total": 0.64,  # summe
             },
             "component_count": 2,
             "fulfillment": True
@@ -406,7 +406,7 @@ data = {
                 "description": "API für das Frontend",
                 "creation_timestamp": "20200219...",
                 "last_timestamp": "20200219...",
-                "metrics":  {
+                "metrics": {
                     "codelines": 20000,
                     "admins": 10,
                     "recovery_time": 5,
@@ -471,11 +471,11 @@ data = {
                 "max": 50,
                 "min": 20,
                 "standard_deviation": 5,
-                "total": 300,     # summe
+                "total": 300,  # summe
             },
             "target": {
                 "average": 30,
-                "total": 300,     # summe
+                "total": 300,  # summe
             },
             "component_count": 10,
             "fulfillment": True
@@ -486,11 +486,11 @@ data = {
                 "max": 0.8,
                 "min": 0.5,
                 "standard_deviation": 5,
-                "total": 0.4,     # summe
+                "total": 0.4,  # summe
             },
             "target": {
                 "average": 0.8,
-                "total": 0.64,     # summe
+                "total": 0.64,  # summe
             },
             "component_count": 2,
             "fulfillment": True
