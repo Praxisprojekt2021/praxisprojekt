@@ -80,23 +80,11 @@ function getProcess(features) {
             "uid": "${uid}"
         }`
 
-        const base_url = window.location.origin;
-        let xhttp = new XMLHttpRequest();
-        xhttp.open("POST", base_url + "/process/view", true);
-        xhttp.setRequestHeader("Content-Type", "application/json");
+        helper.http_request("POST", "/process/view", true, post_data, function (processData) {
+            fillDataFields(features, processData);
+            loadComponentNames(processData);
+        });
 
-        // TODO: auslagern in helper js
-
-        // Handle response of HTTP-request
-        xhttp.onreadystatechange = function () {
-            if (this.readyState === XMLHttpRequest.DONE && (this.status >= 200 && this.status < 300)) {
-                // Process response and show sum in output field
-                let processData = JSON.parse(this.responseText);
-                fillDataFields(features, processData);
-                loadComponentNames(processData);
-            }
-        }
-        xhttp.send(post_data);
     } else {
         // If not, prepare for new component input...
         let processData = {};
@@ -267,7 +255,7 @@ function createMetricsSection(features, processData) {
     const inputs = document.getElementsByName('target-average');
     for (let i = 0; i < inputs.length; i++) {
         inputs[i].addEventListener('blur', (event) => {
-            if (!helper.targetAvgIsWithinMinMax(inputs[i]) || inputs[i].value == '') {
+            if (!helper.targetAvgIsWithinMinMax(inputs[i]) || inputs[i].value === '') {
                 inputs[i].style.setProperty("border-color", "red", undefined);
             } else {
                 inputs[i].style.removeProperty("border-color");
@@ -329,17 +317,6 @@ function fillMetricRows(metricData, slug, processData) {
         }
 
         // check if a target value is provided
-
-        // Min, max is from somewhere else
-        // Todo Delete
-        /*
-        if ('target' in processData['actual_target_metrics'][slug] && 'actual' in processData['actual_target_metrics'][slug]) {
-            innerHTML_target = `
-                        <td><input type="text" name="target-average" id="${slug}" min="${processData['actual_target_metrics'][slug]['actual']['min']}" max="${processData['actual_target_metrics'][slug]['actual']['max']}" value="` + Math.round(processData['actual_target_metrics'][slug]['target']['average'] * 100 + Number.EPSILON) / 100 + `"></td>`
-
-        } else
-        */
-
         if ('target' in processData['actual_target_metrics'][slug]) {
             innerHTML_target = `<td><input type="text" name="target-average" id="${slug}" value="${processData['actual_target_metrics'][slug]['target']['average']}"`; // Rest of the string is added below
         }
@@ -395,7 +372,7 @@ function createEditProcess() {
     let minmaxlist = ""; // List for Metrics that are not within min or max
     for (let i = 0; i < metric_elements.length; i++) {
         // Replace non quantitative metric inputs with an emtpy string to have them discarded
-        if (metric_elements[i].value !== '' && !parseFloat(metric_elements[i].value)) {
+        if (metric_elements[i].value !== '' && isNaN(metric_elements[i].value)) {
             metric_elements[i].value = '';
             text_replaced_flag = true;
         }
@@ -452,23 +429,22 @@ function createEditProcess() {
  * @param data
  */
 function saveProcess(data) {
-    helper.post_request("/process/create_edit", data, saveCallback);
+    helper.http_request("POST", "/process/create_edit", true, data, saveCallback);
 }
 
 
 /**
  * This function loads component names from json file
  *
- * TODO use modular helper functionality instead
  * @param processData
  */
 function loadComponentNames(processData) {
     const base_url = window.location.origin;
 
-    helper.get_request("/content/mapping_metrics_definition.json", function (metricsDefinition) {
+    helper.http_request("GET", "/content/mapping_metrics_definition.json", true, "", function (metricsDefinition) {
         createComponentTable(processData, metricsDefinition);
         visualizeProcess(processData, metricsDefinition);
-        helper.get_request("/component/overview", fillComponentDropdown);
+        helper.http_request("GET", "/component/overview", true, "", fillComponentDropdown);
     });
 }
 
@@ -496,7 +472,7 @@ function createComponentTable(processData, metricsDefinition) {
     `;
     document.getElementById('ComponentOverviewTable').appendChild(header);
 
-    // Settng elements/components
+    // Setting elements/components
     Object.keys(components).forEach(function (key) {
         const componentData = components[key];
         let component = document.createElement('tr');
@@ -562,10 +538,10 @@ function addComponent() {
     let componentUID = document.getElementById('addposition').value;
     if (componentUID.length === 32) {
         let weight = document.getElementById('ComponentOverviewTable').lastChild.id;
-        // If there is no components in the table, the new component recieves the weight = 1
+        // If there is no components in the table, the new component receives the weight = 1
         if (weight === '') {
             weight = 1;
-        } else { // Else it recieves the weight of the last component in the table + 1
+        } else { // Else it receives the weight of the last component in the table + 1
             weight = parseFloat(weight) + 1;
         }
 
@@ -575,7 +551,7 @@ function addComponent() {
             "weight": weight
         };
 
-        helper.post_request("/process/edit/createstep", JSON.stringify(data), init);
+        helper.http_request("POST", "/process/edit/createstep", true, JSON.stringify(data), init);
     } else {
         helper.hideLoadingScreen();
         // Please select a component from the dropdown.
@@ -596,7 +572,7 @@ function editComponent(oldWeight, newWeight) {
         "new_weight": newWeight
     };
 
-    helper.post_request("/process/edit/editstep", JSON.stringify(data), init);
+    helper.http_request("POST", "/process/edit/editstep", true, JSON.stringify(data), init);
 }
 
 /**
@@ -610,7 +586,7 @@ function deleteComponent(weight) {
         "weight": parseFloat(weight)
     }
 
-    helper.post_request("/process/edit/deletestep", JSON.stringify(data), init);
+    helper.http_request("POST", "/process/edit/deletestep", true, JSON.stringify(data), init);
 }
 
 /**
@@ -647,14 +623,14 @@ function drop(ev) {
     try {
         previousID = parseFloat(element.previousSibling.id); // Trying to get the weight of the previous element
         if (isNaN(previousID)) {                             // If there is no previous weight then default weight = own weight
-            previousID = parseFloat(element.id);            // which should be 1 by default as there are no weights in the table
+            previousID = parseFloat(element.id);            // Which should be 1 by default as there are no weights in the table
         }
     } catch (e) {
         previousID = parseFloat(element.id);
     }
     let nextID;
     try {
-        nextID = parseFloat(element.nextSibling.id);    //Trying to get the ID of the below component where the drop takes place
+        nextID = parseFloat(element.nextSibling.id);    // Trying to get the ID of the below component where the drop takes place
     } catch (e) {
         nextID = parseFloat(element.previousSibling.id) + 1; // If there is no next component the next weight is the weight of the previous component + 1
     }
@@ -723,9 +699,7 @@ function visualizeProcess(processData, metricsDefinition) {
         if (i < components.length - 1) {
             innerHTML += `<div class="visualize" >${arrowRight}</div>`;
         }
-
     }
-
 
     div.innerHTML = innerHTML;
 
@@ -759,13 +733,12 @@ function renderRectangle(componentName, componentCategory) {
         </div>`;
 }
 
-
 /**
  * Makes the components visualization box from visualizeProcess() horizontally scrollable with the mouse-wheel
  */
 function horizontalScroll() {
     document.getElementById("visualizeprocess").addEventListener('wheel', function (e) {
-        if (e.type != 'wheel') {
+        if (e.type !== 'wheel') {
             return;
         }
         let delta = ((e.deltaY || -e.wheelDelta || e.detail) >> 10) || 1;

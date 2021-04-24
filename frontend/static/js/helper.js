@@ -33,16 +33,20 @@ class Helper {
     /**
      * This function sends a post request to the backend
      *
+     * @param {string} requestType: The type of request which is either GET or POST
      * @param {string} endpoint: The endpoint to be referred to
-     * @param {string} data_json: The JSON Object to be passed to the backend
-     * @param {function} callback: The function to be executed with the response
+     * @param {string} endpoint: The request to be either executed synchronously or asynchronously
+     * @param {string} post_json: The JSON Object to be passed to the backend
+     * @param {function} callbacks: The functions to be executed with the response
      */
 
-    post_request(endpoint, data_json, callback) {
+    http_request(requestType, endpoint, async, post_json, ...callbacks) {
 
         const base_url = window.location.origin;
         let xhttp = new XMLHttpRequest();
-        xhttp.open("POST", base_url + endpoint, true);
+
+        if (requestType === "GET") xhttp.open("GET", base_url + endpoint, async);
+        if (requestType === "POST") xhttp.open("POST", base_url + endpoint, async);
         xhttp.setRequestHeader("Content-Type", "application/json");
 
         // Handle response of HTTP-request
@@ -59,49 +63,15 @@ class Helper {
                     }
                 }
                 // Process response
-                callback(json);
+                callbacks.forEach(callback => callback(json));
             } else if (this.readyState === XMLHttpRequest.DONE) {
                 Helper.showError(endpoint);
             }
         }
+
         // Send HTTP-request
-        xhttp.send(data_json);
-    }
-
-    /**
-     * This function sends a post request to the backend
-     *
-     * @param {string} endpoint: The endpoint to be referred to
-     * @param {function} callback: The function to be executed with the response
-     */
-
-    get_request(endpoint, callback) {
-        const base_url = window.location.origin;
-        let xhttp = new XMLHttpRequest();
-        xhttp.open("GET", base_url + endpoint, true);
-        xhttp.setRequestHeader("Content-Type", "application/json");
-
-        // Handle response of HTTP-request
-        xhttp.onreadystatechange = function () {
-            if (this.readyState === XMLHttpRequest.DONE && (this.status >= 200 && this.status < 300 || this.status === 500)) {
-                // Process response and show sum in output field
-                let json = JSON.parse(this.responseText);
-
-                if (this.status === 500) {
-                    Helper.showError(endpoint);
-                } else {
-                    if (json['success']) {
-                        Helper.showSuccess(endpoint);
-                    }
-                }
-
-                callback(json);
-            } else if (this.readyState === XMLHttpRequest.DONE) {
-                Helper.showError(endpoint);
-            }
-        }
-        xhttp.send();
-
+        if (requestType === "GET") xhttp.send();
+        if (requestType === "POST") xhttp.send(post_json);
     }
 
     /**
@@ -143,7 +113,7 @@ class Helper {
                 innerHTML += ('<label for="availability-metric" class="entry-label">' + metric['name'] + '</label>');
                 innerHTML += '<input type="text" maxLength="256" data-name="availability-metric-1" id="' + key + '"' +
                     ' name="availability-metric" class="metric-input textfield"'
-                if (metric['max_value'] == "-1") {
+                if (metric['max_value'] === -1) {
                     innerHTML += '" min="' + metric['min_value'] + '"'
                 } else {
                     innerHTML += ' max="' + metric['max_value'] + '" min="' + metric['min_value'] + '"'
@@ -169,7 +139,7 @@ class Helper {
         console.log(inputs[0]);
         for (let i = 0; i < inputs.length; i++) {
             inputs[i].addEventListener('blur', (event) => {
-                if (!helper.targetAvgIsWithinMinMax(inputs[i]) || inputs[i].value == '') {
+                if (!helper.targetAvgIsWithinMinMax(inputs[i]) || inputs[i].value === '') {
                     inputs[i].style.setProperty("border-color", "red", undefined);
                 } else {
                     inputs[i].style.removeProperty("border-color");
@@ -273,6 +243,5 @@ class Helper {
         } else {
             return true;
         }
-        return false; //default return false (e.g. if the value is non numerical)
     }
 }
