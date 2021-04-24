@@ -1,57 +1,57 @@
 * {
     box-sizing: border-box;
-  }
-  
-  body {
+}
+
+body {
     font-size: 14px;
     line-height: 20px;
     margin: 0;
     min-height: 100%;
     background-color: #fff;
-  }
-  
-  label {
+}
+
+label {
     margin-bottom: 6px;
     max-width: 100%;
     vertical-align: middle;
-  }
-  
-  a {
+}
+
+a {
     background-color: transparent;
-  }
-  
-  html input[disabled] {
+}
+
+html input[disabled] {
     cursor: default;
     background: #dddddd;
-  }
-  
-  input, select, textarea, button {
+}
+
+input, select, textarea, button {
     font: inherit;
-  }
-  
-  button, html input[type="button"], input[type="reset"] {
+}
+
+button, html input[type="button"], input[type="reset"] {
     cursor: pointer;
-  }
-  
-  .header {
+}
+
+.header {
     display: block;
     margin-bottom: 30px;
-  }
-  
-  .process-form {
+}
+
+.process-form {
     margin-right: 15px;
     margin-left: 15px;
-  }
-  
-  .logo {
+}
+
+.logo {
     display: block;
     margin-top: 25px;
     margin-right: auto;
     margin-left: auto;
     text-align: left;
-  }
-  
-  .navigation {
+}
+
+.navigation {
     position: relative;
     left: auto;
     display: inline-block;
@@ -60,31 +60,31 @@
     height: 20px;
     margin-left: 100px;
     float: left;
-  }
-  
-  .view-description-label {
+}
+
+.view-description-label {
     font-size: 17px;
     font-weight: 700;
     margin-bottom: 10px;
-  }
-  
-  .description-label {
+}
+
+.description-label {
     display: block;
     margin-bottom: 15px;
     font-weight: 700;
-  }
-  
-  .message {
+}
+
+.message {
     overflow: visible;
-  }
-  
-  .process-form-block {
+}
+
+.process-form-block {
     position: relative;
     margin-top: 15px;
     margin-bottom: 15px;
-  }
-  
-  .entry-label {
+}
+
+.entry-label {
     position: relative;
     top: 3px;
     display: inline-block;
@@ -92,17 +92,17 @@
     float: left;
     clear: left;
     font-weight: 400;
-  }
-  
-  .save-button {
+}
+
+.save-button {
     position: static;
     display: block;
     border-radius: 5px;
     background-color: #1f299c;
     font-size: 15px;
-  }
-  
-  .textarea {
+}
+
+.textarea {
     position: relative;
     display: block;
     overflow: auto;
@@ -122,9 +122,9 @@
     color: #333333;
     vertical-align: middle;
     border: 1px solid #ccc;
-  }
-  
-  .accordion-toggle {
+}
+
+.accordion-toggle {
     display: block;
     overflow: visible;
     width: 100%;
@@ -138,13 +138,13 @@
     margin-left: auto;
     margin-right: auto;
     cursor: pointer;
-  }
-  
-  .accordion-toggle[disabled] {
+}
+
+.accordion-toggle[disabled] {
     cursor: default;
-  }
-  
-  .accordion-item {
+}
+
+.accordion-item {
     display: block;
     overflow: hidden;
     height: auto;
@@ -152,15 +152,15 @@
     position: relative;
     margin-left: auto;
     margin-right: auto;
-  }
-  
-  .accordion-icon {
+}
+
+.accordion-icon {
     position: absolute;
     margin: auto;
     margin-right: 20px;
-  }
-  
-  .dropdown-list {
+}
+
+.dropdown-list {
     position: static;
     display: none;
     overflow: visible;
@@ -169,17 +169,6 @@
     padding-bottom: 10px;
     width: 100%;
     min-width: 100%;
-  }
-  
-  .info-icon {
-    position: relative;
-    display: inline-block;
-    overflow: visible;
-    margin-top: 2px;
-    margin-left: 10px;
-    float: left;
-    border-radius: 20px;
-    opacity: 0.65;
   }
   
   .textfield, .category-dropdown {
@@ -197,17 +186,17 @@
     color: #333333;
     vertical-align: middle;
     border: 1px solid #ccc;
-  }
-  
-  .features-label {
+}
+
+.features-label {
     font-weight: 700;
-  }
-  
-  .process-entry-block {
+}
+
+.process-entry-block {
     overflow: visible;
-  }
-  
-  .process-overview {
+}
+
+.process-overview {
     margin-right: 50px;
     margin-left: 50px;
     padding-top: 40px;
@@ -217,19 +206,19 @@
     border-width: 1px;
     border-color: #fff;
     background-color: #ececec;
-  }
-  
-  .features-columns {
+}
+
+.features-columns {
     display: inline-block;
     width: 100%;
     margin-left: 10px;
-  }
-  
-  .description-columns {
+}
+
+.description-columns {
     display: inline-block;
-  }
-  
-  .navigation-links {
+}
+
+.navigation-links {
     display: block;
     padding-right: 5px;
     padding-left: 5px;
@@ -237,24 +226,24 @@
     color: #000;
     text-decoration: none;
     cursor: pointer;
-  }
-  
-  .navigation-link-separator {
+}
+
+.navigation-link-separator {
     float: left;
-  }
-  
-  .feature-section {
+}
+
+.feature-section {
     overflow: visible;
     border-bottom: 1px solid #c5c5c5;
-  }
-  
-  .control-area {
+}
+
+.control-area {
     padding-top: 30px;
     padding-bottom: 20px;
     padding-left: 10px;
-  }
-  
-  .create-button {
+}
+
+.create-button {
     position: static;
     font-size: 15px;
     display: inline-block;
@@ -263,94 +252,118 @@
     color: white;
     border: 0;
     cursor: pointer;
-  }
-  
-  #process-id {
+}
+
+#process-id {
     display: none;
     width: 48px;
     min-width: auto;
     margin-left: 10px;
     text-align: center;
-  }
-  
-  .metric-entry-element {
+}
+
+.metric-entry-element {
     width: 50%;
     display: inline-block;
-  }
-  
-  .success-message {
+}
+
+.success-message {
     display: none;
     padding: 20px;
     text-align: center;
     background-color: #ddd;
-  }
-  
-  .error-message {
+}
+
+.error-message {
     display: none;
     margin-top: 10px;
     padding: 10px;
     background-color: #ffdede;
-  }
-  
-  .default-column {
+}
+
+.default-column {
     position: relative;
     float: left;
     width: 50%;
     min-height: 1px;
     padding-left: 10px;
     padding-right: 10px;
-  }
+}
 
 .div-wrapper {
-  width: 1000px;
-  /*border: 1px solid black;*/
-  overflow: hidden; /* will contain if #first is longer than #second */
+    width: 1000px;
+    /*border: 1px solid black;*/
+    overflow: hidden; /* will contain if #first is longer than #second */
 }
+
 .left-div {
-  width: 50%;
-  float:left;
+    width: 50%;
+    float: left;
 }
+
 .right-div {
-  width: 50%;
-  overflow: hidden;
+    width: 50%;
+    overflow: hidden;
 }
 
 .circle {
-  height: 200px;
-  width: 200px;
-  border-radius: 50%;
-  display: table;
-  margin: 2% auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 28px;
-  font-weight: bolder;
+    height: 200px;
+    width: 200px;
+    border-radius: 50%;
+    display: table;
+    margin: 2% auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    font-weight: bolder;
 }
 
 .square-border {
-  background: #FFF;
-  border: 10px solid #4AD28F;
-  height: 120px;
-  width: 180px;
-  text-align: center;
+    background: #FFF;
+    border: 10px solid #4AD28F;
+    height: 120px;
+    min-width: 180px;
+    text-align: center;
+    padding: 24px;
 }
 
 .arrow {
-  font-size: 120px;
-  /*height: 120px;*/
-  margin: 20px;
-  vertical-align: middle;
+    font-size: 90px;
+    margin: 20px;
+    transform: translateY(17px);
 }
 
 table .process-visualization {
-  column-width: 200px;
-  width: auto;
-  border: none;
+    column-width: 200px;
+    width: auto;
+    border: none;
 }
 
-#modelling-process{
-  vertical-align: middle;
-  overflow-x: scroll;
-  border: 1px solid black;
+#modelling-process {
+    vertical-align: middle;
+    border: 1px solid black;
+    margin: 32px 0;
+}
+
+.visualize {
+    border: 0px;
+    display: inline-block;
+
+}
+
+.modelling-processes {
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
+}
+
+.componentcategory {
+    font-style: italic;
+}
+
+.componentname {
+    font-weight: bold;
+    text-decoration: underline;
+    margin-bottom: 8px;
 }

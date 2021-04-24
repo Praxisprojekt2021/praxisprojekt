@@ -44,7 +44,7 @@ function getComponentList() {
  */
 function refreshProcessTable(json) {
     var table = document.getElementById('processTable');
-    json.process.forEach(function (object) {
+    json.processes.forEach(function (object) {
         var tr = document.createElement('tr');
         tr.innerHTML = '<td>' + object.name + '</td>' +
             '<td>' + object.components_count + '</td>' +
