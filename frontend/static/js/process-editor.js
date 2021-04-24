@@ -267,8 +267,8 @@ function createMetricsSection(features, processData) {
     const inputs = document.getElementsByName('target-average');
     for (let i = 0; i < inputs.length; i++) {
         inputs[i].addEventListener('blur', (event) => {
-            if(!helper.targetAvgIsWithinMinMax(inputs[i]) || inputs[i].value == '') {
-                inputs[i].style.setProperty("border-color","red",undefined);
+            if (!helper.targetAvgIsWithinMinMax(inputs[i]) || inputs[i].value == '') {
+                inputs[i].style.setProperty("border-color", "red", undefined);
             } else {
                 inputs[i].style.removeProperty("border-color");
             }
@@ -293,7 +293,7 @@ function fillMetricRows(metricData, slug, processData) {
 
     // default table row, when no metric data is provided
     let innerHTML_actual = `
-                    <tr disabled="true">
+                    <tr>
                         <td id="` + metricData['name'] + `">` + metricData['name'] + `</td>
                         <td></td>
                         <td></td>
@@ -301,7 +301,7 @@ function fillMetricRows(metricData, slug, processData) {
                         <td></td>
                         <td></td>`;
     let innerHTML_target = `
-                        <td><input type="number" name="target-average" id="` + slug + `" value=""></td>`;
+                        <td><input type="text" name="target-average" id="` + slug + `"`; // Rest of the string is added below
     let innerHTML_fulfillment = `
                         <td></td>
                         <td></td>
@@ -319,7 +319,7 @@ function fillMetricRows(metricData, slug, processData) {
         // check if actual values are provided
         if ('actual' in processData['actual_target_metrics'][slug]) {
             innerHTML_actual = `
-                    <tr disabled="false">
+                    <tr>
                         <td id="${metricData['name']}">${metricData['name']}</td>
                         <td>` + Math.round(processData['actual_target_metrics'][slug]['actual']['average'] * 100 + Number.EPSILON) / 100 + `</td>
                         <td>` + Math.round(processData['actual_target_metrics'][slug]['actual']['standard_deviation'] * 100 + Number.EPSILON) / 100 + `</td>
@@ -330,13 +330,18 @@ function fillMetricRows(metricData, slug, processData) {
 
         // check if a target value is provided
 
+        // Min, max is from somewhere else
+        // Todo Delete
+        /*
         if ('target' in processData['actual_target_metrics'][slug] && 'actual' in processData['actual_target_metrics'][slug]) {
             innerHTML_target = `
-                        <td><input type="number" name="target-average" id="${slug}" min="${processData['actual_target_metrics'][slug]['actual']['min']}" max="${processData['actual_target_metrics'][slug]['actual']['max']}" value="` + Math.round(processData['actual_target_metrics'][slug]['target']['average'] * 100 + Number.EPSILON) / 100 + `"></td>`
+                        <td><input type="text" name="target-average" id="${slug}" min="${processData['actual_target_metrics'][slug]['actual']['min']}" max="${processData['actual_target_metrics'][slug]['actual']['max']}" value="` + Math.round(processData['actual_target_metrics'][slug]['target']['average'] * 100 + Number.EPSILON) / 100 + `"></td>`
 
-        } else if ('target' in processData['actual_target_metrics'][slug]) {
-            innerHTML_target = `
-                        <td><input name="target-average" id="${slug}" value="${processData['actual_target_metrics'][slug]['target']['average']}"></td>`
+        } else
+        */
+
+        if ('target' in processData['actual_target_metrics'][slug]) {
+            innerHTML_target = `<td><input type="text" name="target-average" id="${slug}" value="${processData['actual_target_metrics'][slug]['target']['average']}"`; // Rest of the string is added below
         }
 
         // check if a fulfillment and consequentially a target sum is provided (if fulfillment was calculated, a target sum was also able to be calculated)
@@ -351,6 +356,11 @@ function fillMetricRows(metricData, slug, processData) {
                     </tr>`;
         }
     }
+
+    // Rest of the innerHTML_target string
+    if (metricData['min_value'] >= 0) innerHTML_target += ' min="' + metricData['min_value'] + '"';
+    if (metricData['max_value'] >= 0) innerHTML_target += ' max="' + metricData['max_value'] + '"';
+    innerHTML_target += `></td>`;
 
     let innerHTML_metric_row = innerHTML_actual + innerHTML_target + innerHTML_fulfillment;
 
@@ -383,12 +393,7 @@ function createEditProcess() {
     let metrics = {};
     let text_replaced_flag = false; // Helper variable that indicates, whether or not a non quantitative metric input has been found and discarded
     let minmaxlist = ""; // List for Metrics that are not within min or max
-    let emptyFieldList = ""; // List for Metric inputs that are empty
     for (let i = 0; i < metric_elements.length; i++) {
-        let metric_disabled = metric_elements[i].parentElement.parentElement.getAttribute("disabled");
-
-        if (metric_disabled == "true") continue; //skip metric if metric is disabled
-
         // Replace non quantitative metric inputs with an emtpy string to have them discarded
         if (metric_elements[i].value !== '' && !parseFloat(metric_elements[i].value)) {
             metric_elements[i].value = '';
@@ -399,20 +404,14 @@ function createEditProcess() {
         if (metric_elements[i].value !== '') {
             metrics[metric_elements[i].id] = parseFloat(metric_elements[i].value);
 
-            // Check if enabled fields mainstain min/max value
-            if (!helper.targetAvgIsWithinMinMax(metric_elements[i])) {minmaxlist += '\n' + metric_elements[i].parentElement.parentElement.children[0].id; //Add metric name to the list of wrong target avg values
+            // Check if enabled fields maintain min/max value
+            if (!helper.targetAvgIsWithinMinMax(metric_elements[i])) {
                 minmaxlist += '\n' + metric_elements[i].parentElement.parentElement.children[0].id; //Add metric name to the list of wrong target avg values
-                metric_elements[i].style.setProperty("border-color","red",undefined);
-                continue;
+                minmaxlist += '\n' + metric_elements[i].parentElement.parentElement.children[0].id; // Add metric name to the list of wrong target avg values
+                metric_elements[i].style.setProperty("border-color", "red", undefined);
             } else {
                 metric_elements[i].style.removeProperty("border-color");
             }
-        }
-
-        // Check if all fields have been filled
-        if (metric_disabled == "false" && metric_elements[i].value == '') {
-            emptyFieldList += '\n' + metric_elements[i].parentElement.parentElement.children[0].id;
-            metric_elements[i].style.setProperty("border-color","red",undefined);
         }
     }
     if (typeof uid === undefined || uid === "" || uid == null) {
@@ -430,22 +429,17 @@ function createEditProcess() {
         }`;
 
     // If a input has been performed, post changes to backend
-    if (emptyFieldList == "" && minmaxlist == "") {
+    if (minmaxlist === "") {
         saveProcess(process);
     } else {
         let alert_string = 'Changes could not be saved. ';
         // Prepare alert message strings depending on the error cause
-        if (emptyFieldList != "") {
-            alert_string += 'Please fill all metrics fields. \n';
-            alert_string += '\nThe following Metrics are empty:\n';
-            alert_string += emptyFieldList+'\n';
-        }
         if (text_replaced_flag === true) {
             alert_string += '\nNon quantitative metrics have been automatically discarded.\n';
         }
-        if (minmaxlist != "") {
+        if (minmaxlist !== "") {
             alert_string += '\nThe following Metrics are not within their min/max values:\n';
-            alert_string += minmaxlist+"\n";
+            alert_string += minmaxlist + "\n";
         }
         helper.hideLoadingScreen();
         window.alert(alert_string);
@@ -678,7 +672,7 @@ function drop(ev) {
  * @param {HTMLElement} newNode: The element to be inserted
  */
 function insertAfter(referenceNode, newNode) {
-    referenceNode.style.setProperty("border","inherit",undefined);
+    referenceNode.style.setProperty("border", "inherit", undefined);
     referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
 }
 
@@ -688,7 +682,7 @@ function insertAfter(referenceNode, newNode) {
  * @param {event} ev: The event associated with dragging and dropping elements
  */
 function enter(ev) {
-    ev.target.parentElement.style.setProperty("border-bottom","15px solid black",undefined);
+    ev.target.parentElement.style.setProperty("border-bottom", "15px solid black", undefined);
 }
 
 /**
@@ -697,7 +691,7 @@ function enter(ev) {
  * @param {event} ev: The event associated with dragging and dropping elements
  */
 function exit(ev) {
-    ev.target.parentElement.style.setProperty("border","inherit",undefined);
+    ev.target.parentElement.style.setProperty("border", "inherit", undefined);
 }
 
 /**

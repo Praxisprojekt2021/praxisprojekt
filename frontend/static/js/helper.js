@@ -1,6 +1,36 @@
 class Helper {
 
     /**
+     * Shows error message if request was not successful.
+     *
+     * @param {String} endpoint
+     */
+    static showError(endpoint) {
+        // Saving the data was not successful
+        if (endpoint.includes("delete")) {
+            window.alert("Object could not be deleted.")
+        } else {
+            window.alert('Changes could not be saved.');
+        }
+    }
+
+    /**
+     * Shows success message if request was successful.
+     *
+     * @param {String} endpoint
+     */
+    static showSuccess(endpoint) {
+        if (endpoint !== "/component/view") {
+            // Saving the data was successful
+            if (endpoint.includes("delete")) {
+                // window.alert('Object has been deleted.');
+            } else if (endpoint.includes("edit")) {
+                // window.alert('Changes were saved.');
+            }
+        }
+    }
+
+    /**
      * This function sends a post request to the backend
      *
      * @param {string} endpoint: The endpoint to be referred to
@@ -75,36 +105,6 @@ class Helper {
     }
 
     /**
-     * Shows error message if request was not successful.
-     *
-     * @param {String} endpoint
-     */
-    static showError(endpoint) {
-        // Saving the data was not successful
-        if (endpoint.includes("delete")) {
-            window.alert("Object could not be deleted.")
-        } else {
-            window.alert('Changes could not be saved.');
-        }
-    }
-
-    /**
-     * Shows success message if request was successful.
-     *
-     * @param {String} endpoint
-     */
-    static showSuccess(endpoint) {
-        if (endpoint !== "/component/view") {
-            // Saving the data was successful
-            if (endpoint.includes("delete")) {
-                // window.alert('Object has been deleted.');
-            } else if (endpoint.includes("edit")) {
-                // window.alert('Changes were saved.');
-            }
-        }
-    }
-
-    /**
      * Formats date to a DD.MM.YYYY-String to show it in Front-End as German date format.
      * @param {String} date
      * @returns formatted Date
@@ -143,10 +143,10 @@ class Helper {
                 innerHTML += ('<label for="availability-metric" class="entry-label">' + metric['name'] + '</label>');
                 innerHTML += '<input type="text" maxLength="256" data-name="availability-metric-1" id="' + key + '"' +
                     ' name="availability-metric" class="metric-input textfield"'
-                if(metric['max_value']=="-1"){
-                    innerHTML += '" min="' + metric['min_value'] +'"'
-                }else{
-                    innerHTML += ' max="' + metric['max_value'] + '" min="' + metric['min_value'] +'"'
+                if (metric['max_value'] == "-1") {
+                    innerHTML += '" min="' + metric['min_value'] + '"'
+                } else {
+                    innerHTML += ' max="' + metric['max_value'] + '" min="' + metric['min_value'] + '"'
                 }
                 innerHTML += ' >';
                 innerHTML += '<img src="images/info.png" loading="lazy" width="35" alt="" title="' +
@@ -169,8 +169,8 @@ class Helper {
         console.log(inputs[0]);
         for (let i = 0; i < inputs.length; i++) {
             inputs[i].addEventListener('blur', (event) => {
-                if(!helper.targetAvgIsWithinMinMax(inputs[i]) || inputs[i].value == '') {
-                    inputs[i].style.setProperty("border-color","red",undefined);
+                if (!helper.targetAvgIsWithinMinMax(inputs[i]) || inputs[i].value == '') {
+                    inputs[i].style.setProperty("border-color", "red", undefined);
                 } else {
                     inputs[i].style.removeProperty("border-color");
                 }
@@ -265,9 +265,9 @@ class Helper {
      */
 
     targetAvgIsWithinMinMax(element) {
-        var min = parseFloat(element.getAttribute("min")); // Getting min value for metric
-        var max = parseFloat(element.getAttribute("max")); // Getting max value for metric
-        var input = parseFloat(element.value); // Getting entered value for metric
+        let min = parseFloat(element.getAttribute("min")); // Getting min value for metric
+        let max = parseFloat(element.getAttribute("max")); // Getting max value for metric
+        let input = parseFloat(element.value); // Getting entered value for metric
         if (input < min || input > max) {
             return false;
         } else {
