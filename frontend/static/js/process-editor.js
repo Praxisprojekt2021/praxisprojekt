@@ -401,7 +401,7 @@ function loadComponentNames(processData) {
             // Process response and show sum in output field
             let metricsDefinition = JSON.parse(this.responseText);
             createComponentTable(processData, metricsDefinition);
-            visualizeProcess(processData);
+            visualizeProcess(processData, metricsDefinition);
             helper.get_request("/component/overview", fillComponentDropdown);
         }
     }
@@ -631,16 +631,17 @@ function exit(ev) {
  * This function visualizes the components of a process in a box above the components table
  *
  * @param {json} processData
+ * @param {json} metricsDefinition
  * */
-function visualizeProcess(processData) {
+function visualizeProcess(processData, metricsDefinition) {
     let div = document.createElement("div");
-    div.className="modelling-processes";
-    div.id="visualizeprocess";
+    div.className = "modelling-processes";
+    div.id = "visualizeprocess";
     let rectangle = "";
     let arrowRight = `<div class="arrow">&#8594;</div>`;
     let innerHTML = "";
     let components = processData['process']['components'];
-    components.sort((a,b) => (a.weight > b.weight) ? 1 : ((b.weight > a.weight) ? -1 : 0));
+    components.sort((a, b) => (a.weight > b.weight) ? 1 : ((b.weight > a.weight) ? -1 : 0));
 
 
     // begin at index 1 because 0 contains table headers
@@ -648,7 +649,7 @@ function visualizeProcess(processData) {
         let currentComponent = components[i];
 
         let componentName = currentComponent['name'];
-        let componentCategory = currentComponent['category'];
+        let componentCategory = metricsDefinition['categories'][currentComponent['category']]['name'];
 
         rectangle = renderRectangle(componentName, componentCategory);
 
@@ -659,7 +660,6 @@ function visualizeProcess(processData) {
 
     }
 
-    
 
     div.innerHTML = innerHTML;
 
@@ -679,16 +679,15 @@ function visualizeProcess(processData) {
 function renderRectangle(componentName, componentCategory) {
     return `
         <div class="square-border">
-            <div class="componentname" >${componentName}</div>
-            <br>
-            <div class"componentcategory" >${componentCategory}</div>
+            <div class="componentname">${componentName}</div>
+            <div class="componentcategory">${componentCategory}</div>
         </div>`;
 }
 
 
 /**
  * Makes the components visualization box from visualizeProcess() horizontally scrollable with the mouse-wheel
- * */
+ */
 function horizontalScroll() {
     document.getElementById("visualizeprocess").addEventListener('wheel', function (e) {
         if (e.type != 'wheel') {
