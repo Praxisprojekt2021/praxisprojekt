@@ -1,36 +1,6 @@
 class Helper {
 
     /**
-     * Shows error message if request was not successful.
-     *
-     * @param {String} endpoint
-     */
-    static showError(endpoint) {
-        // Saving the data was not successful
-        if (endpoint.includes("delete")) {
-            window.alert("Object could not be deleted.")
-        } else {
-            window.alert('Changes could not be saved.');
-        }
-    }
-
-    /**
-     * Shows success message if request was successful.
-     *
-     * @param {String} endpoint
-     */
-    static showSuccess(endpoint) {
-        if (endpoint !== "/component/view") {
-            // Saving the data was successful
-            if (endpoint.includes("delete")) {
-                // window.alert('Object has been deleted.');
-            } else if (endpoint.includes("edit")) {
-                // window.alert('Changes were saved.');
-            }
-        }
-    }
-
-    /**
      * This function sends a post request to the backend
      *
      * @param {string} endpoint: The endpoint to be referred to
@@ -105,6 +75,36 @@ class Helper {
     }
 
     /**
+     * Shows error message if request was not successful.
+     *
+     * @param {String} endpoint
+     */
+    static showError(endpoint) {
+        // Saving the data was not successful
+        if (endpoint.includes("delete")) {
+            window.alert("Object could not be deleted.")
+        } else {
+            window.alert('Changes could not be saved.');
+        }
+    }
+
+    /**
+     * Shows success message if request was successful.
+     *
+     * @param {String} endpoint
+     */
+    static showSuccess(endpoint) {
+        if (endpoint !== "/component/view") {
+            // Saving the data was successful
+            if (endpoint.includes("delete")) {
+                // window.alert('Object has been deleted.');
+            } else if (endpoint.includes("edit")) {
+                // window.alert('Changes were saved.');
+            }
+        }
+    }
+
+    /**
      * Formats date to a DD.MM.YYYY-String to show it in Front-End as German date format.
      * @param {String} date
      * @returns formatted Date
@@ -143,7 +143,8 @@ class Helper {
                 innerHTML += ('<label for="availability-metric" class="entry-label">' + metric['name'] + '</label>');
                 innerHTML += '<input type="text" maxLength="256" data-name="availability-metric-1" id="' + key + '"' +
                     ' name="availability-metric" class="metric-input textfield">';
-                innerHTML += `<img src="images/info.png" loading="lazy" width="35" alt="" class="info-icon">`;
+                innerHTML += '<img src="images/info.png" loading="lazy" width="35" alt="" title="' +
+                    metric['description_component'] + '\ni.e. ' + metric['example_component'] + '" class="info-icon">';
                 innerHTML += '</div>';
             });
 

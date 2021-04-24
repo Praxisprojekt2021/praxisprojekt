@@ -102,23 +102,25 @@ function processComponentData(json_data) {
     // Check if the request has succeeded
     if (json_data['success']) {
         // Component data has been received
+        component = json_data["component"]
 
         // Set uid and data fields
-        document.getElementById('component-uid').value = json_data['uid'];
-        document.getElementById('component-name').value = json_data['name'];
-        document.getElementById('component-description-textarea').value = json_data['description'];
+        document.getElementById('component-uid').value = component['uid'];
+        document.getElementById('component-name').value = component['name'];
+        document.getElementById('component-description-textarea').value = component['description'];
 
-        // Set dropdown
-        document.getElementById('component-category').value = json_data['category'];
+        // Set dropdown and disable it
+        document.getElementById('component-category').value = component['category'];
+        document.getElementById('component-category').setAttribute("disabled", "true");
 
         // Set all metrics
-        let metrics = json_data['metrics'];
+        let metrics = component['metrics'];
         Object.keys(metrics).forEach(function (key) {
             document.getElementById(key).value = metrics[key];
         });
 
         // Set sections according to the category
-        setSections(json_data['category']);
+        setSections(component['category']);
     } else {
         // Request was not successful
         window.alert('Component could not be loaded');
@@ -166,7 +168,7 @@ function createEditComponent() {
     for (let i = 0; i < metric_elements.length; i++) {
         // TODO also check if values are within min and max values
         // Replace non quantitative metric inputs with an emtpy string to have them discarded
-        if (metric_elements[i].value !== '' && isNaN(metric_elements[i].value)) {
+        if (metric_elements[i].value !== '' && !parseFloat(metric_elements[i].value)) {
             metric_elements[i].value = '';
             text_replaced_flag = true;
         }
@@ -220,7 +222,7 @@ function createEditComponent() {
     if (required_helper_flag) {
         helper.post_request('/component/create_edit', JSON.stringify(component), saveCallback);
     } else {
-        let alert_string = 'Changes could not be saved. Please fill all metrics or name fields.';
+        let alert_string = 'Changes could not be saved. Please fill all metrics fields.';
         if (text_replaced_flag === true) {
             alert_string += '\nNon quantitative metrics have been automatically discarded.';
         }
