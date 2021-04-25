@@ -27,7 +27,8 @@ function init() {
         // If not, prepare for new component input...
         console.log('Entering new component');
         setSections("default");
-
+        // Enable component-category which is disabled by default
+        document.getElementById('component-category').removeAttribute("disabled");
         // Set component uid to -1
         document.getElementById('component-uid').value = -1;
     }
@@ -70,7 +71,7 @@ function getFeatures() {
             helper.createMetricsSection(features);
             let div = document.createElement('div');
             div.className = 'control-area';
-            div.innerHTML = '<a href="#" data-wait="Bitte warten..." id="save-button" class="create-button w-button" onclick="createEditComponent()">Speichern</a>';
+            div.innerHTML = '<a href="#" data-wait="Bitte warten..." id="save-button" class="create-button" onclick="createEditComponent()">Speichern</a>';
 
             // Append element to document
             document.getElementById('metrics-input').appendChild(div);
@@ -143,10 +144,8 @@ function setSections(selected_category) {
                 const feature_child = document.getElementById(key).children[0].children[0];
                 const metrics_child = document.getElementById(key).children[0].children[1];
                 if (category[key] === 'true') {
-                    feature_child.style.color = 'inherit';
                     feature_child.removeAttribute("disabled");
                 } else {
-                    feature_child.style.color = '#999999';
                     feature_child.setAttribute("disabled", "true");
                     metrics_child.style.display = 'none';
                 }
@@ -165,6 +164,8 @@ function createEditComponent() {
     let metric_elements = document.getElementsByClassName('metric-input');
     let metrics = {};
     let text_replaced_flag = false; // Helper variable that indicates, whether or not a non quantitative metric input has been found and discarded
+    let component_name_empty = false; // Helper variable that indicates, whether or not the component name is given
+
     for (let i = 0; i < metric_elements.length; i++) {
         // Replace non quantitative metric inputs with an emtpy string to have them discarded
         if (metric_elements[i].value !== '' && isNaN(metric_elements[i].value)) {
@@ -184,6 +185,8 @@ function createEditComponent() {
         "description": document.getElementById('component-description-textarea').value,
         "metrics": metrics
     }
+
+    if(document.getElementById('component-name').value=="") component_name_empty = true;
 
     // Check if all field have been filled
     // Also, when changing between categories, discard inputs made for non-relevant metrics
@@ -230,7 +233,7 @@ function createEditComponent() {
     }
 
     // If an input has been performed, post changes to backend
-    if (emptyFieldList === "" && minmaxlist === "" && component_category_helper_flag) {
+    if (emptyFieldList === "" && minmaxlist === "" && component_category_helper_flag && !component_name_empty) {
         helper.showLoadingScreen();
         helper.http_request("POST", '/component/create_edit', true, JSON.stringify(component), saveCallback);
     } else {
@@ -238,6 +241,9 @@ function createEditComponent() {
         // Prepare alert message strings depending on the error cause
         if (!component_category_helper_flag) {
             alert_string += 'Please select a category. \n';
+        }
+        if(component_name_empty) {
+            alert_string += 'Please enter a component name. \n';
         }
         if (emptyFieldList !== "") {
             alert_string += 'Please fill all metrics fields. \n';

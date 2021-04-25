@@ -100,11 +100,11 @@ class Helper {
 
             let innerHTML = '';
             innerHTML += '<div data-hover="" data-delay="0" class="accordion-item">';
-            innerHTML += '<div class="accordion-toggle" onclick="helper.toggleSection(this)">';
+            innerHTML += '<div class="accordion-toggle" disabled="true" onclick="helper.toggleSection(this)">';
             innerHTML += '<div class="accordion-icon"></div>';
             innerHTML += ('<div class="features-label">' + feature['name'] + '</div>');
             innerHTML += '</div>';
-            innerHTML += '<nav class="dropdown-list">';
+            innerHTML += '<nav class="dropdown-list" data-collapsed="true">';
             innerHTML += '<div class="features-columns">';
 
             Object.keys(metrics).forEach(function (key) {
@@ -202,12 +202,55 @@ class Helper {
 
     toggleSection(element) {
         const metric_child = element.parentElement.children[1];
-        if (metric_child.style.display === "block" || element.getAttribute("disabled") === "true") {
-            metric_child.style.display = "none";
+        const isCollapsed = metric_child.getAttribute('data-collapsed') === 'true';
+        metric_child.style.display = '';
+        if (!(element.getAttribute("disabled") == "true")) {
+            if (isCollapsed) {
+                this.expandSection(metric_child);
+                metric_child.setAttribute('data-collapsed', 'false');
+            } else {
+                this.collapseSection(metric_child);
+            }
         } else {
-            metric_child.style.display = "block";
-            metric_child.style.position = "static";
+            this.collapseSection(metric_child);
         }
+    }
+
+    /**
+     * This functions collapses the accordion
+     *
+     * @param {HTMLElement} element: HTML accordion to be collapsed
+     */
+
+    collapseSection(element) {
+        const sectionHeight = element.scrollHeight;
+
+        const elementTransition = element.style.transition;
+        element.style.transition = '';
+
+        requestAnimationFrame(function () {
+            element.style.height = sectionHeight + 'px';
+            element.style.transition = elementTransition;
+            element.style.margin = "0px 0px 0px 0px";
+            requestAnimationFrame(function () {
+                element.style.height = 0 + 'px';
+            });
+        });
+
+        element.setAttribute('data-collapsed', 'true');
+    }
+
+    /**
+     * This functions expands the accordion
+     *
+     * @param {HTMLElement} element: HTML accordion to be expanded
+     */
+
+    expandSection(element) {
+        const sectionHeight = element.scrollHeight;
+        element.style.height = sectionHeight + 'px';
+        element.style.margin = "0px 0px 10px 0px";
+        element.setAttribute('data-collapsed', 'false');
     }
 
     /**
