@@ -204,8 +204,8 @@ function createMetricsSection(features, processData) {
 
         // Table Headers
         innerHTML += `
-        <table id="process-feature-table">
-            <tr>
+        <table class="responsive-table" id="process-feature-table">
+            <tr class="table-header">
                 <th name="metric">Metric</th>
                 <th name="average">Average</th>
                 <th name="standard-deviation">Std. Dev.</th>
