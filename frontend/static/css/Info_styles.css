@@ -26,7 +26,30 @@
     margin-top: 40px;
     text-align: center;
 }
+.navigation {
+    position: relative;
+    left: auto;
+    display: inline-block;
+    overflow: visible;
+    width: 300px;
+    height: 20px;
+    margin-left: 100px;
+    float: left;
+}
 
+.navigation-links {
+    display: block;
+    padding-right: 5px;
+    padding-left: 5px;
+    float: left;
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.navigation-link-separator {
+    float: left;
+}
 
 * {box-sizing:border-box}
 
