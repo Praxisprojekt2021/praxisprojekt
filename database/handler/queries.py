@@ -20,7 +20,7 @@ def get_process(uid: str) -> str:
             "Call {" \
             "With p " \
             "Optional Match (p)-[t:targets]-(m:Metric) " \
-            "Return collect({value: t.value, metric: m.name}) As target_metrics" \
+            "Return collect({value: properties(t), metric: m.name}) As target_metrics" \
             "} " \
             "Call {" \
             "With p " \
@@ -60,7 +60,7 @@ def update_process(uid: str, name: str, responsible_person: str, description: st
             "Set p.last_timestamp = '" + last_timestamp + "' "
 
 
-def update_process_metric(uid: str, name: str, value: float) -> str:
+def update_process_metric(uid: str, name: str, sub_query: str) -> str:
     """
     Function to get the cypher query to update a process metric
 
@@ -68,12 +68,12 @@ def update_process_metric(uid: str, name: str, value: float) -> str:
     :type uid: str
     :param name: name as a String
     :type name: str
-    :param value: value of relation as a float
-    :type value: float
+    :param sub_query: string to create the properties
+    :type sub_query: str
     :return: Query as string
     """
     return "Match (p: Process {uid: '" + uid + "'}), (m: Metric {name: '" + name + "'}) " \
-            "Create (p)-[t: targets {value: " + str(value) + "}]->(m)"
+            "Create (p)-[t: targets {" + sub_query + "}]->(m) "
 
 
 def delete_process(uid: str) -> str:

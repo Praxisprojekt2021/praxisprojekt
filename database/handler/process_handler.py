@@ -12,7 +12,6 @@ from database.config import *
 
 from database.handler.relationships import RelationshipProcessComponent, RelationshipProcessMetric
 
-
 config.DATABASE_URL = 'bolt://{}:{}@{}:{}'.format(NEO4J_USER, NEO4J_PASSWORD, NEO4J_IP, NEO4J_PORT)
 
 
@@ -71,13 +70,14 @@ def add_process(input_dict: dict) -> dict:
 
     for metric in input_dict["target_metrics"]:
         output.hasMetric.connect(metric_handler.Metric.nodes.get(name=metric),
-                                 {"value": input_dict["target_metrics"][metric]})
+                                 {"average": input_dict["target_metrics"][metric]["average"],
+                                  "min": input_dict["target_metrics"][metric]["min"],
+                                  "max": input_dict["target_metrics"][metric]["max"]})
 
     output_dict = success_handler()
     output_dict["process_uid"] = output.uid
 
     return output_dict
-
 
 
 def get_process_list() -> dict:
@@ -126,7 +126,24 @@ def update_process(input_dict: dict) -> dict:
     db.cypher_query(query)
 
     for metric in input_dict["target_metrics"]:
-        query = queries.update_process_metric(uid, metric, input_dict["target_metrics"][metric])
+        metric_values = {}
+        if input_dict["target_metrics"][metric]["average"] is not None:
+            metric_values["average"] = input_dict["target_metrics"][metric]["average"]
+        if input_dict["target_metrics"][metric]["min"] is not None:
+            metric_values["min"] = input_dict["target_metrics"][metric]["min"]
+        if input_dict["target_metrics"][metric]["max"] is not None:
+            metric_values["max"] = input_dict["target_metrics"][metric]["max"]
+        print(metric_values)
+        commas_needed = len(metric_values) - 1
+        metric_string = ""
+        loop_count = 0
+        for key in metric_values:
+            metric_string += key + ": " + str(metric_values[key])
+            if loop_count < commas_needed:
+                metric_string += ", "
+            loop_count += 1
+
+        query = queries.update_process_metric(uid, metric, metric_string)
         db.cypher_query(query)
 
     return success_handler()

@@ -205,17 +205,6 @@ function createMetricsSection(features, processData) {
         <table id="process-feature-table">
             <tr>
                 <th name="metric">Metric</th>
-<<<<<<< HEAD
-                <th name="average">Average</th>
-                <th name="standard-deviation">Std. Dev.</th>
-                <th name="sum">Sum</th>
-                <th name="min">Min</th>
-                <th name="max">Max</th>
-                <th name="target-avg">Target Average</th>
-                <th name="target-min">Target Min</th>
-                <th name="target-max">Target Max</th>
-                <th name="target-sum">Target Sum</th>
-=======
                 <th name="average">
                     Average
                     <img src="images/info.png" loading="lazy" width="35" 
@@ -252,13 +241,24 @@ function createMetricsSection(features, processData) {
                         title="The average, user-entered, Target-value for each metric across all components in the process."
                         class="info-icon-header">
                 </th>
+                <th name="target-min">
+                    Target Min
+                    <img src="images/info.png" loading="lazy" width="35" 
+                        title="The average, user-entered, Target-value for each metric across all components in the process."
+                        class="info-icon-header">
+                </th>
+                <th name="target-max">
+                    Target Max
+                    <img src="images/info.png" loading="lazy" width="35" 
+                        title="The average, user-entered, Target-value for each metric across all components in the process."
+                        class="info-icon-header">
+                </th>
                 <th name="target-sum">
                     Target Sum
                     <img src="images/info.png" loading="lazy" width="35" 
                         title="The target sum for each metric across all components in the process."
                         class="info-icon-header">
                 </th>
->>>>>>> master
                 <th name="ampel">Check</th>
                 <th name="info">Info</th>
             </tr>`;
