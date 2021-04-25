@@ -235,8 +235,21 @@ th {
     cursor: pointer;
 }
 
-/*  Style for info icons*/
-.info-icon {
+.logo {
+    display: block;
+    margin-top: 25px;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: left;
+}
+.header {
+    display: block;
+    margin-bottom: 30px;
+}
+
+  /*  Style for info icons*/
+  .info-icon {
+
     position: relative;
     display: inline-block;
     overflow: visible;
@@ -262,3 +275,4 @@ th {
     height: 25px;
     width: 25px;
 }
+
