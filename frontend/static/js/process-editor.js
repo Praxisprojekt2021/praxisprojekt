@@ -17,6 +17,7 @@ function init(json_process = false) {
     helper.showLoadingScreen();
 
     getFeatures().then(data => {
+        // If page is reloaded (after saving) processes are updated else => page is loaded from databased and entries are prepared
         if (!json_process) {
             getProcess(data);
         } else {
@@ -51,7 +52,7 @@ async function getFeatures() {
             } else {
                 buttonType = "Create";
             }
-            div.innerHTML = `<button id="save-button" class="create-button" onclick="createEditProcess(); helper.showLoadingScreen()" type="button">${buttonType}</button>`
+            div.innerHTML = `<button id="save-button" class="create-button" onclick="createEditProcess()" type="button">${buttonType}</button>`
 
             // Append element to document
             document.getElementById('buttons').appendChild(div);
@@ -79,23 +80,11 @@ function getProcess(features) {
             "uid": "${uid}"
         }`
 
-        const base_url = window.location.origin;
-        let xhttp = new XMLHttpRequest();
-        xhttp.open("POST", base_url + "/process/view", true);
-        xhttp.setRequestHeader("Content-Type", "application/json");
+        helper.http_request("POST", "/process/view", true, post_data, function (processData) {
+            fillDataFields(features, processData);
+            loadComponentNames(processData);
+        });
 
-        // TODO: auslagern in helper js
-
-        // Handle response of HTTP-request
-        xhttp.onreadystatechange = function () {
-            if (this.readyState === XMLHttpRequest.DONE && (this.status >= 200 && this.status < 300)) {
-                // Process response and show sum in output field
-                let processData = JSON.parse(this.responseText);
-                fillDataFields(features, processData);
-                loadComponentNames(processData);
-            }
-        }
-        xhttp.send(post_data);
     } else {
         // If not, prepare for new component input...
         let processData = {};
@@ -274,6 +263,19 @@ function createMetricsSection(features, processData) {
         // Append element to document
         document.getElementById('metrics-input-processes').appendChild(div);
     });
+
+    // Live check for correct inputs
+    const inputs = document.getElementsByName('target-average');
+    for (let i = 0; i < inputs.length; i++) {
+        inputs[i].addEventListener('blur', (event) => {
+            if (!helper.targetAvgIsWithinMinMax(inputs[i]) || inputs[i].value === '') {
+                inputs[i].style.setProperty("border-color", "red", undefined);
+            } else {
+                inputs[i].style.removeProperty("border-color");
+            }
+        });
+    }
+
     helper.hideLoadingScreen();
 }
 
@@ -300,11 +302,9 @@ function fillMetricRows(metricData, slug, processData) {
                         <td></td>
                         <td></td>`;
     let innerHTML_target = `
-
-                        <td><input name="target-average" id="${slug}" value=""></td>
-                        <td><input name="target-minimum" id="${slug}" value=""></td>
-                        <td><input name="target-maximum" id="${slug}" value=""></td>`;
-
+                        <td><input type="text" name="target-average" id="` + slug + `" // Rest of the string is added below
+                        <td><input type="text" name="target-minimum" id="` + slug + `" // Rest of the string is added below
+                        <td><input type="text" name="target-maximum" id="` + slug + `"`; // Rest of the string is added below
     let innerHTML_fulfillment = `
                         <td></td>
                         <td></td>
@@ -324,11 +324,11 @@ function fillMetricRows(metricData, slug, processData) {
             innerHTML_actual = `
                     <tr>
                         <td id="${metricData['name']}">${metricData['name']}</td>
-                        <td>${processData['actual_target_metrics'][slug]['actual']['average']}</td>
-                        <td>${processData['actual_target_metrics'][slug]['actual']['standard_deviation']}</td>
-                        <td>${processData['actual_target_metrics'][slug]['actual']['total']}</td>
-                        <td>${processData['actual_target_metrics'][slug]['actual']['min']}</td>
-                        <td>${processData['actual_target_metrics'][slug]['actual']['max']}</td>`;
+                        <td>` + Math.round(processData['actual_target_metrics'][slug]['actual']['average'] * 100 + Number.EPSILON) / 100 + `</td>
+                        <td>` + Math.round(processData['actual_target_metrics'][slug]['actual']['standard_deviation'] * 100 + Number.EPSILON) / 100 + `</td>
+                        <td>` + Math.round(processData['actual_target_metrics'][slug]['actual']['total'] * 100 + Number.EPSILON) / 100 + `</td>
+                        <td>` + Math.round(processData['actual_target_metrics'][slug]['actual']['min'] * 100 + Number.EPSILON) / 100 + `</td>
+                        <td>` + Math.round(processData['actual_target_metrics'][slug]['actual']['max'] * 100 + Number.EPSILON) / 100 + `</td>`;
         }
 
         // check if target values are provided
@@ -346,9 +346,9 @@ function fillMetricRows(metricData, slug, processData) {
             }
 
             innerHTML_target = `
-                        <td><input name="target-average" id="${slug}" value="${processData['actual_target_metrics'][slug]['target']['average']}"></td>
-                        <td><input name="target-minimum" id="${slug}" value="${processData['actual_target_metrics'][slug]['target']['min']}"></td>
-                        <td><input name="target-maximum" id="${slug}" value="${processData['actual_target_metrics'][slug]['target']['max']}"></td>`
+                        <td><input type="text" name="target-average" id="${slug}" value="${processData['actual_target_metrics'][slug]['target']['average']}"></td>
+                        <td><input type="text" name="target-minimum" id="${slug}" value="${processData['actual_target_metrics'][slug]['target']['min']}"></td>
+                        <td><input type="text" name="target-maximum" id="${slug}" value="${processData['actual_target_metrics'][slug]['target']['max']}"></td>`
 
         }
 
@@ -356,7 +356,7 @@ function fillMetricRows(metricData, slug, processData) {
         if ('fulfillment' in processData['actual_target_metrics'][slug]) {
             metric_fulfillment = processData['actual_target_metrics'][slug]['fulfillment'];
             innerHTML_fulfillment = `
-                        <td>${processData['actual_target_metrics'][slug]['target']['total']}</td>
+                        <td>` + Math.round(processData['actual_target_metrics'][slug]['target']['total'] * 100 + Number.EPSILON) / 100 + `</td>
                         <td>${helper.renderSmallCircle(metric_fulfillment)}</td>
                         <td><img src="images/info.png" loading="lazy" width="35" alt="heyy"
                          title="` + metricData['description_process'] + `\ni.e. ` + metricData['example_process'] + `"
@@ -364,6 +364,11 @@ function fillMetricRows(metricData, slug, processData) {
                     </tr>`;
         }
     }
+
+    // Rest of the innerHTML_target string
+    if (metricData['min_value'] >= 0) innerHTML_target += ' min="' + metricData['min_value'] + '"';
+    if (metricData['max_value'] >= 0) innerHTML_target += ' max="' + metricData['max_value'] + '"';
+    innerHTML_target += `></td>`;
 
     let innerHTML_metric_row = innerHTML_actual + innerHTML_target + innerHTML_fulfillment;
 
@@ -392,7 +397,7 @@ function renderWholeProcessScoreCircle(wholeProcessScore) {
  */
 
 function createEditProcess() {
-
+    helper.showLoadingScreen();
     let metric_elements_average = document.getElementsByName('target-average');
     let metric_elements_min = document.getElementsByName('target-minimum');
     let metric_elements_max = document.getElementsByName('target-maximum');
@@ -400,18 +405,19 @@ function createEditProcess() {
     let metrics = {};
 
     let text_replaced_flag = false; // Helper variable that indicates, whether or not a non quantitative metric input has been found and discarded
-    for (let i = 0; i < metric_elements_average.length; i++) {
+    let minmaxlist = ""; // List for Metrics that are not within min or max
+   for (let i = 0; i < metric_elements_average.length; i++) {
 
         // Replace non quantitative metric inputs with an emtpy string to have them discarded
-        if (metric_elements_average[i].value !== '' && !parseFloat(metric_elements_average[i].value)) {
+        if (metric_elements_average[i].value !== '' && isNaN(metric_elements_average[i].value)) {
             metric_elements_average[i].value = '';
             text_replaced_flag = true;
         }
-        if (metric_elements_min[i].value !== '' && !parseFloat(metric_elements_min[i].value)) {
+        if (metric_elements_min[i].value !== '' && isNaN(metric_elements_min[i].value)) {
             metric_elements_min[i].value = '';
             text_replaced_flag = true;
         }
-        if (metric_elements_max[i].value !== '' && !parseFloat(metric_elements_max[i].value)) {
+        if (metric_elements_max[i].value !== '' && isNaN(metric_elements_max[i].value)) {
             metric_elements_max[i].value = '';
             text_replaced_flag = true;
         }
@@ -427,6 +433,12 @@ function createEditProcess() {
 
         if (metric_elements_average[i].value !== '') {
             metrics[id]["average"] = parseInt(metric_elements_average[i].value);
+            if (!helper.targetAvgIsWithinMinMax(metric_elements_average[i])) {
+                minmaxlist += '\n' + metric_elements_average[i].parentElement.parentElement.children[0].id; //Add metric name to the list of wrong target avg values
+                metric_elements_average[i].style.setProperty("border-color", "red", undefined);
+            } else {
+                metric_elements_average[i].style.removeProperty("border-color");
+            }
         }
         if (metric_elements_min[i].value !== '') {
             metrics[id]["min"] = parseInt(metric_elements_min[i].value);
@@ -446,7 +458,7 @@ function createEditProcess() {
     if (typeof uid === undefined || uid === "" || uid == null) {
         uid = -1;
     }
-
+    // Prepare json string
     const process = `{
         "process": {
             "uid": "${uid}",
@@ -457,25 +469,20 @@ function createEditProcess() {
             "target_metrics": ${JSON.stringify(metrics)}
         }`;
 
-    // Check if all field have been filled
-    // Also, when changing between categories, discard inputs made for non-relevant metrics
-    let required_helper_flag = true; // Helper variable which gets set to false, if any required field is not filled
-    const toggles = document.getElementsByName("target-average");
-    console.log(toggles);
-    for (let i = 0; i < toggles.length; i++) {
-        console.log(toggles[i].value);
-        const input = toggles[i].value;
-    }
-
     // If a input has been performed, post changes to backend
-    if (required_helper_flag) {
-        console.log(process);
+    if (minmaxlist === "") {
         saveProcess(process);
     } else {
-        let alert_string = 'Changes could not be saved. Please fill all metrics fields.';
+        let alert_string = 'Changes could not be saved. ';
+        // Prepare alert message strings depending on the error cause
         if (text_replaced_flag === true) {
-            alert_string += '\nNon quantitative metrics have been automatically discarded.';
+            alert_string += '\nNon quantitative metrics have been automatically discarded.\n';
         }
+        if (minmaxlist !== "") {
+            alert_string += '\nThe following Metrics are not within their min/max values:\n';
+            alert_string += minmaxlist + "\n";
+        }
+        helper.hideLoadingScreen();
         window.alert(alert_string);
     }
 }
@@ -486,33 +493,23 @@ function createEditProcess() {
  * @param data
  */
 function saveProcess(data) {
-    helper.post_request("/process/create_edit", data, saveCallback);
+    helper.http_request("POST", "/process/create_edit", true, data, saveCallback);
 }
 
 
 /**
  * This function loads component names from json file
  *
- * TODO use modular helper functionality instead
  * @param processData
  */
 function loadComponentNames(processData) {
     const base_url = window.location.origin;
-    let xhttp = new XMLHttpRequest();
-    xhttp.open("GET", base_url + "/content/mapping_metrics_definition.json", true);
-    xhttp.setRequestHeader("Content-Type", "application/json");
 
-    // Handle response of HTTP-request
-    xhttp.onreadystatechange = function () {
-        if (this.readyState === XMLHttpRequest.DONE && (this.status >= 200 && this.status < 300)) {
-            // Process response and show sum in output field
-            let metricsDefinition = JSON.parse(this.responseText);
-            createComponentTable(processData, metricsDefinition);
-            visualizeProcess(processData, metricsDefinition);
-            helper.get_request("/component/overview", fillComponentDropdown);
-        }
-    }
-    xhttp.send();
+    helper.http_request("GET", "/content/mapping_metrics_definition.json", true, "", function (metricsDefinition) {
+        createComponentTable(processData, metricsDefinition);
+        visualizeProcess(processData, metricsDefinition);
+        helper.http_request("GET", "/component/overview", true, "", fillComponentDropdown);
+    });
 }
 
 /**
@@ -525,6 +522,7 @@ function createComponentTable(processData, metricsDefinition) {
     const components = processData['process']['components'];
     document.getElementById('ComponentOverviewTable').innerHTML = '';
 
+    // Table header
     let header = document.createElement('tr');
     header.innerHTML = `
         <th name="Position"> Position</th>
@@ -538,9 +536,9 @@ function createComponentTable(processData, metricsDefinition) {
     `;
     document.getElementById('ComponentOverviewTable').appendChild(header);
 
+    // Setting elements/components
     Object.keys(components).forEach(function (key) {
         const componentData = components[key];
-
         let component = document.createElement('tr');
         component.id = componentData['weight'];
         component.draggable = true;
@@ -550,8 +548,9 @@ function createComponentTable(processData, metricsDefinition) {
         component.setAttribute('ondragenter', 'enter(event)');
         component.setAttribute('ondragleave', 'exit(event)');
 
+        // Filling values
         component.innerHTML = `
-            <td>${componentData['weight']}</td>
+            <td></td>
             <td>${componentData['name']}</td>
             <td>${metricsDefinition['categories'][componentData['category']]['name']}</td>
             <td></td>
@@ -561,6 +560,7 @@ function createComponentTable(processData, metricsDefinition) {
             <td><i id="TrashIcon" class="fas fa-trash-alt" onclick="deleteComponent(this.parentElement.parentElement.id); helper.showLoadingScreen()"></i></td>
         `;
 
+        // Sorting the components according to their weights
         const componentTable = document.getElementById('ComponentOverviewTable');
         for (let i = componentTable.childElementCount - 1; i >= 0; i--) {
             const previousComponent = componentTable.children[i];
@@ -602,9 +602,10 @@ function addComponent() {
     let componentUID = document.getElementById('addposition').value;
     if (componentUID.length === 32) {
         let weight = document.getElementById('ComponentOverviewTable').lastChild.id;
+        // If there is no components in the table, the new component receives the weight = 1
         if (weight === '') {
             weight = 1;
-        } else {
+        } else { // Else it receives the weight of the last component in the table + 1
             weight = parseFloat(weight) + 1;
         }
 
@@ -614,7 +615,7 @@ function addComponent() {
             "weight": weight
         };
 
-        helper.post_request("/process/edit/createstep", JSON.stringify(data), init);
+        helper.http_request("POST", "/process/edit/createstep", true, JSON.stringify(data), init);
     } else {
         helper.hideLoadingScreen();
         // Please select a component from the dropdown.
@@ -635,7 +636,7 @@ function editComponent(oldWeight, newWeight) {
         "new_weight": newWeight
     };
 
-    helper.post_request("/process/edit/editstep", JSON.stringify(data), init);
+    helper.http_request("POST", "/process/edit/editstep", true, JSON.stringify(data), init);
 }
 
 /**
@@ -649,7 +650,7 @@ function deleteComponent(weight) {
         "weight": parseFloat(weight)
     }
 
-    helper.post_request("/process/edit/deletestep", JSON.stringify(data), init);
+    helper.http_request("POST", "/process/edit/deletestep", true, JSON.stringify(data), init);
 }
 
 /**
@@ -680,29 +681,28 @@ function drop(ev) {
     let data = ev.dataTransfer.getData("text");
     let element = document.getElementById(data);
     let oldWeight = parseFloat(element.id);
-    insertAfter(ev.target.parentElement, element);
+    insertAfter(ev.target.parentElement, element); // Component is inserted after the above component where the drop takes place
 
     let previousID;
     try {
-        previousID = parseFloat(element.previousSibling.id);
-        if (isNaN(previousID)) {
-            previousID = parseFloat(element.id);
+        previousID = parseFloat(element.previousSibling.id); // Trying to get the weight of the previous element
+        if (isNaN(previousID)) {                             // If there is no previous weight then default weight = own weight
+            previousID = parseFloat(element.id);            // Which should be 1 by default as there are no weights in the table
         }
     } catch (e) {
         previousID = parseFloat(element.id);
     }
     let nextID;
     try {
-        nextID = parseFloat(element.nextSibling.id);
+        nextID = parseFloat(element.nextSibling.id);    // Trying to get the ID of the below component where the drop takes place
     } catch (e) {
-        nextID = parseFloat(element.previousSibling.id) + 1;
+        nextID = parseFloat(element.previousSibling.id) + 1; // If there is no next component the next weight is the weight of the previous component + 1
     }
     let newWeight = parseFloat(previousID + (nextID - previousID) / 2);
     element.id = newWeight;
-    element.children[0].innerHTML = newWeight;
 
     helper.showLoadingScreen();
-    editComponent(oldWeight, newWeight);
+    editComponent(oldWeight, newWeight); // Updating component table
 }
 
 /**
@@ -712,7 +712,7 @@ function drop(ev) {
  * @param {HTMLElement} newNode: The element to be inserted
  */
 function insertAfter(referenceNode, newNode) {
-    referenceNode.style.border = "inherit";
+    referenceNode.style.setProperty("border", "inherit", undefined);
     referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
 }
 
@@ -722,7 +722,7 @@ function insertAfter(referenceNode, newNode) {
  * @param {event} ev: The event associated with dragging and dropping elements
  */
 function enter(ev) {
-    ev.target.parentElement.style.borderBottom = "15px solid black";
+    ev.target.parentElement.style.setProperty("border-bottom", "15px solid black", undefined);
 }
 
 /**
@@ -731,7 +731,7 @@ function enter(ev) {
  * @param {event} ev: The event associated with dragging and dropping elements
  */
 function exit(ev) {
-    ev.target.parentElement.style.border = "inherit";
+    ev.target.parentElement.style.setProperty("border", "inherit", undefined);
 }
 
 /**
@@ -754,7 +754,6 @@ function visualizeProcess(processData, metricsDefinition) {
     // begin at index 1 because 0 contains table headers
     for (let i = 0; i < components.length; i++) {
         let currentComponent = components[i];
-
         let componentName = currentComponent['name'];
         let componentCategory = metricsDefinition['categories'][currentComponent['category']]['name'];
 
@@ -764,9 +763,7 @@ function visualizeProcess(processData, metricsDefinition) {
         if (i < components.length - 1) {
             innerHTML += `<div class="visualize" >${arrowRight}</div>`;
         }
-
     }
-
 
     div.innerHTML = innerHTML;
 
@@ -774,6 +771,15 @@ function visualizeProcess(processData, metricsDefinition) {
     document.getElementById('modelling-process').appendChild(div); // populate div
 
     horizontalScroll();
+
+    //Setting row positions
+    let componentRows = document.getElementById("ComponentOverviewTable").getElementsByTagName("tr");
+
+    for (let i = 1; i < componentRows.length; i++) {
+        let currentComponent = componentRows[i];
+        let tds = currentComponent.getElementsByTagName("td");
+        tds[0].innerHTML = i;
+    }
 }
 
 /**
@@ -791,13 +797,12 @@ function renderRectangle(componentName, componentCategory) {
         </div>`;
 }
 
-
 /**
  * Makes the components visualization box from visualizeProcess() horizontally scrollable with the mouse-wheel
  */
 function horizontalScroll() {
     document.getElementById("visualizeprocess").addEventListener('wheel', function (e) {
-        if (e.type != 'wheel') {
+        if (e.type !== 'wheel') {
             return;
         }
         let delta = ((e.deltaY || -e.wheelDelta || e.detail) >> 10) || 1;
