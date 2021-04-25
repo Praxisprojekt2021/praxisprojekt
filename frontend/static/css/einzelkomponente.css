@@ -3,11 +3,14 @@
 }
 
 body {
+  margin: auto;
+  width: 70%;
+  padding-top: 40px;
   font-size: 14px;
   line-height: 20px;
-  margin: 0;
   min-height: 100%;
   background-color: #fff;
+  overflow-y: scroll;
 }
 
 label {
@@ -44,8 +47,8 @@ button, html input[type="button"], input[type="reset"] {
 }
 
 .logo {
+  position: inherit;
   display: block;
-  margin-top: 25px;
   margin-right: auto;
   margin-left: auto;
   text-align: left;
@@ -58,7 +61,6 @@ button, html input[type="button"], input[type="reset"] {
   overflow: visible;
   width: 300px;
   height: 20px;
-  margin-left: 100px;
   float: left;
 }
 
@@ -119,9 +121,11 @@ button, html input[type="button"], input[type="reset"] {
   margin-left: auto;
   margin-right: auto;
   cursor: pointer;
+  transition: 0.35s ease-out;
 }
 
 .accordion-toggle[disabled] {
+  color: #999999;
   cursor: default;
 }
 
@@ -142,14 +146,32 @@ button, html input[type="button"], input[type="reset"] {
 }
 
 .dropdown-list {
+  height: 0px;
   position: static;
   display: block;
   overflow: visible;
   padding-right: 0px;
   padding-left: 0px;
-  padding-bottom: 10px;
   width: 100%;
   min-width: 100%;
+  transition: height 0.3s ease-out;
+}
+
+.info-icon {
+  position: relative;
+  display: inline-block;
+  overflow: visible;
+  margin-top: 2px;
+  margin-left: 10px;
+  float: left;
+  border-radius: 20px;
+  transition: 0.21s ease-out;
+  opacity: 0.65;
+}
+
+.info-icon:hover {
+  transition: 0.21s ease-out;
+  opacity: 1;
 }
 
 .textfield, .category-dropdown {
@@ -169,13 +191,21 @@ button, html input[type="button"], input[type="reset"] {
   border: 1px solid #ccc;
 }
 
+.category-dropdown {
+  cursor: pointer;
+}
+
 .features-label {
+  transition: 0.17s ease-out;
   font-weight: 700;
 }
 
+.accordion-toggle:hover:not([disabled]) .features-label {
+  transition: 0.15s ease-out;
+  color: #414dde
+}
+
 .component-overview {
-  margin-right: 50px;
-  margin-left: 50px;
   padding-top: 40px;
   padding-left: 50px;
   padding-right: 50px;
@@ -199,14 +229,34 @@ button, html input[type="button"], input[type="reset"] {
   display: block;
   padding-right: 5px;
   padding-left: 5px;
+  font-size: 18px;
   float: left;
   color: #000;
   text-decoration: none;
   cursor: pointer;
+  transition: 0.21s ease-out;
 }
 
 .navigation-link-separator {
+  transition: 0.21s ease-out;
   float: left;
+}
+
+.navigation-selected {
+  color: #44d08b;
+}
+
+.navigation-links:hover ~ .navigation-selected {
+  color: #000000;
+}
+
+.navigation-links:hover ~ .navigation-link-separator {
+  transition: 0.21s ease-out;
+  -webkit-transform: rotateY(180deg);
+}
+
+.navigation-links:hover {
+  color: #44d08b;
 }
 
 .feature-section {
@@ -225,10 +275,32 @@ button, html input[type="button"], input[type="reset"] {
   font-size: 15px;
   display: inline-block;
   padding: 9px 15px;
+  margin-bottom: 3px;
+  margin-right: 3px;
   background-color: #1f299c;
   color: white;
   border: 0;
   cursor: pointer;
+  text-decoration: none;
+  transition: 0.3s ease-out;
+}
+
+.create-button:hover {
+  transition: 0.3s ease-out;
+  background-color: #a3a9f5ff;
+  color: black;
+  font-weight: 900;
+  box-shadow: 3px 3px;
+}
+
+.create-button:active {
+  transition: 0.3s ease-out;
+  background-color: #1f299c;
+  margin-top: 3px;
+  margin-left: 3px;
+  margin-bottom: 0px;
+  margin-right: 0px;
+  box-shadow: 0px 0px;
 }
 
 .metric-entry-element {
