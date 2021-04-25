@@ -355,8 +355,13 @@ function renderWholeProcessScoreCircle(wholeProcessScore) {
 
     color = helper.getCircleColor(wholeProcessScore);
 
-    document.getElementById("whole-process-score").setAttribute("style", `background-color:  ${color}`);
-    document.getElementById("whole-process-score").innerHTML = `${wholeProcessScore}%`;
+    if(!isNaN(wholeProcessScore)) {
+        document.getElementById("whole-process-score").style.setProperty("background-color", color);
+        document.getElementById("whole-process-score").style.setProperty("display", "flex");
+        document.getElementById("whole-process-score").innerHTML = `${wholeProcessScore}%`;
+    } else {
+        document.getElementById("whole-process-score").style.setProperty("display", "none");
+    }
 }
 
 
@@ -370,6 +375,7 @@ function createEditProcess() {
     let metrics = {};
     let text_replaced_flag = false; // Helper variable that indicates, whether or not a non quantitative metric input has been found and discarded
     let minmaxlist = ""; // List for Metrics that are not within min or max
+    let process_name_empty = false; // Helper variable that indicates, whether or not the process name is given
     for (let i = 0; i < metric_elements.length; i++) {
         // Replace non quantitative metric inputs with an emtpy string to have them discarded
         if (metric_elements[i].value !== '' && isNaN(metric_elements[i].value)) {
@@ -405,11 +411,16 @@ function createEditProcess() {
             "target_metrics": ${JSON.stringify(metrics)}
         }`;
 
+    if(document.getElementById('process-name-textarea').value=="") process_name_empty = true;
+
     // If a input has been performed, post changes to backend
-    if (minmaxlist === "") {
+    if (minmaxlist === "" && !process_name_empty) {
         saveProcess(process);
     } else {
         let alert_string = 'Changes could not be saved. ';
+        if(process_name_empty) {
+            alert_string += 'Please enter a process name';
+        }
         // Prepare alert message strings depending on the error cause
         if (text_replaced_flag === true) {
             alert_string += '\nNon quantitative metrics have been automatically discarded.\n';
