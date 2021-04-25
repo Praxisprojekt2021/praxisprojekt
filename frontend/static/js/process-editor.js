@@ -224,12 +224,6 @@ function createMetricsSection(features, processData) {
                         title="The maximum value indicates the largest value for each respective metric across all components of the process."
                         class="info-icon-header">
                 </th>
-                <th name="target-avg">
-                    Target Average
-                    <img src="images/info.png" loading="lazy" width="35" 
-                        title="The average, user-entered, Target-value for each metric across all components in the process."
-                        class="info-icon-header">
-                </th>
                 <th name="target-min">
                     Target Min
                     <img src="images/info.png" loading="lazy" width="35" 
@@ -238,6 +232,12 @@ function createMetricsSection(features, processData) {
                 </th>
                 <th name="target-max">
                     Target Max
+                    <img src="images/info.png" loading="lazy" width="35" 
+                        title="The average, user-entered, Target-value for each metric across all components in the process."
+                        class="info-icon-header">
+                </th>
+                <th name="target-avg">
+                    Target Average
                     <img src="images/info.png" loading="lazy" width="35" 
                         title="The average, user-entered, Target-value for each metric across all components in the process."
                         class="info-icon-header">
@@ -300,11 +300,11 @@ function fillMetricRows(metricData, slug, processData) {
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td></td>`;
+                        <td></td>
+                        <td><input type="text" name="target-minimum" id="` + slug + `"></td>
+                        <td><input type="text" name="target-maximum" id="` + slug + `"></td>`;
     let innerHTML_target = `
-                        <td><input type="text" name="target-average" id="` + slug + `" // Rest of the string is added below
-                        <td><input type="text" name="target-minimum" id="` + slug + `" // Rest of the string is added below
-                        <td><input type="text" name="target-maximum" id="` + slug + `"`; // Rest of the string is added below
+                        <td><input type="text" name="target-average" id="` + slug + `"`; // Rest of the string is added below
     let innerHTML_fulfillment = `
                         <td></td>
                         <td></td>
@@ -328,7 +328,9 @@ function fillMetricRows(metricData, slug, processData) {
                         <td>` + Math.round(processData['actual_target_metrics'][slug]['actual']['standard_deviation'] * 100 + Number.EPSILON) / 100 + `</td>
                         <td>` + Math.round(processData['actual_target_metrics'][slug]['actual']['total'] * 100 + Number.EPSILON) / 100 + `</td>
                         <td>` + Math.round(processData['actual_target_metrics'][slug]['actual']['min'] * 100 + Number.EPSILON) / 100 + `</td>
-                        <td>` + Math.round(processData['actual_target_metrics'][slug]['actual']['max'] * 100 + Number.EPSILON) / 100 + `</td>`;
+                        <td>` + Math.round(processData['actual_target_metrics'][slug]['actual']['max'] * 100 + Number.EPSILON) / 100 + `</td>
+                        <td><input type="text" name="target-minimum" id="` + slug + `" value="`+ Math.round(processData['actual_target_metrics'][slug]['actual']['min'] * 100 + Number.EPSILON) / 100 + ` "></td>
+                        <td><input type="text" name="target-maximum" id="` + slug + `" value="`+ Math.round(processData['actual_target_metrics'][slug]['actual']['max'] * 100 + Number.EPSILON) / 100 + ` "></td>`;
         }
 
         // check if target values are provided
@@ -346,9 +348,11 @@ function fillMetricRows(metricData, slug, processData) {
             }
 
             innerHTML_target = `
-                        <td><input type="text" name="target-average" id="${slug}" value="${processData['actual_target_metrics'][slug]['target']['average']}"></td>
-                        <td><input type="text" name="target-minimum" id="${slug}" value="${processData['actual_target_metrics'][slug]['target']['min']}"></td>
-                        <td><input type="text" name="target-maximum" id="${slug}" value="${processData['actual_target_metrics'][slug]['target']['max']}"></td>`
+                        <td><input type="text" name="target-average" id="${slug}" value="${processData['actual_target_metrics'][slug]['target']['average']}"></td>`;
+            /*
+                         <td><input type="text" name="target-minimum" id="${slug}" value="${processData['actual_target_metrics'][slug]['target']['min']}"></td>
+                        <td><input type="text" name="target-maximum" id="${slug}" value="${processData['actual_target_metrics'][slug]['target']['max']}"></td>
+             */
 
         }
 
