@@ -2,37 +2,38 @@
 File containing definitions of JSON objects for exchange between database, backend and frontend
 """
 
-# error
+# Error
 # Database -> Backend -> Frontend
 data = {
     "success": False,
 }
+
 # -----------------------
-# view component list
+# get_component_list
 # Database -> Backend -> Frontend
 data = {
     "success": True,
     "components": [
         {
             "uid": "b141f94973a43cf8ee972e9dffc1b004",
-         "name": "SQL Datenbank",
-         "category": "Datenbank",
-         "creation_timestamp": "20200219...",
-         "last_timestamp": "20200219...",
-         },
+            "name": "SQL Datenbank",
+            "category": "Datenbank",
+            "creation_timestamp": "20200219...",
+            "last_timestamp": "20200219...",
+        },
         {
             "uid": "b141f94973a43cf8ee972e9dffc1b004",
-         "name": "Oracle Datenbank",
-         "category": "Datenbank",
-         "creation_timestamp": "20200219...",
-         "last_timestamp": "20200219...",
-         }
+            "name": "Oracle Datenbank",
+            "category": "Datenbank",
+            "creation_timestamp": "20200219...",
+            "last_timestamp": "20200219...",
+        }
         # ...
     ]
 }
 
 # -----------------------
-# get single component
+# get_component
 # Frontend -> Backend -> Database
 data = {
     "uid": "b141f94973a43cf8ee972e9dffc1b004",
@@ -41,28 +42,30 @@ data = {
 # Database -> Backend -> Frontend
 data = {
     "success": True,
+    "component": {
+        "uid": "b141f94973a43cf8ee972e9dffc1b004",
+        "name": "SQL Datenbank",
+        "category": "Datenbank",
+        "description": "Datenbank zu xy mit ...",
+        "creation_timestamp": "20200219...",
+        "last_timestamp": "20200219...",
+        "metrics": {
+            "codelines": 20000,
+            "admins": 10,
+            "recovery_time": 5,
+            # ...
+        }
+    }
+}
+
+# -----------------------
+# update_component
+# Frontend -> Backend -> Database
+data = {
     "uid": "b141f94973a43cf8ee972e9dffc1b004",
     "name": "SQL Datenbank",
     "category": "Datenbank",
     "description": "Datenbank zu xy mit ...",
-    "creation_timestamp": "20200219...",
-    "last_timestamp": "20200219...",
-    "metrics": {
-        "codelines": 20000,
-        "admins": 10,
-        "recovery_time": 5,
-        # ...
-    },
-}
-
-# -----------------------
-# edit single component
-# Frontend -> Backend -> Database
-data = {
-    "uid": "b141f94973a43cf8ee972e9dffc1b004",
-    "name": "SQL Datenbank",
-    "category": "Datenbank",
-    "description": "Datenbank zu xy mit ...",
     "metrics": {
         "codelines": 20000,
         "admins": 10,
@@ -76,7 +79,7 @@ data = {
 }
 
 # -----------------------
-# delete single component
+# delete_component
 # Frontend -> Backend -> Database
 data = {
     "uid": "b141f94973a43cf8ee972e9dffc1b004",
@@ -88,10 +91,10 @@ data = {
 }
 
 # -----------------------
-# add a single component
+# add_component
 # Frontend -> Backend -> Database
 data = {
-    "uid": -1,  # wichtig -> als Indikator, dass neu angelegt und daher kein update sondern create
+    "uid": "-1",  # wichtig -> als Indikator, dass neu angelegt und daher kein update sondern create
     "name": "SQL Datenbank",
     "category": "Datenbank",
     "description": "Datenbank zu xy mit ...",
@@ -108,14 +111,15 @@ data = {
 }
 
 # ----------------------------------------------------------------------------------------------------------------------
-# view process list
+# get_process_list
 # Database -> Backend -> Frontend
 data = {
     "success": True,
-    "process": [
+    "processes": [
         {
             "uid": "b141f94973a43cf8ee972e9dffc1b004",
             "name": "Kunde anlegen",
+            "responsible_person": "Peter Rossbach",
             "creation_timestamp": "20210210...",
             "last_timestamp": "20200211...",
             # erst ab Backend nach Risk calc
@@ -125,6 +129,7 @@ data = {
         {
             "uid": "b141f94973a43cf8ee972e9dffc1b004",
             "name": "Kunde löschen",
+            "responsible_person": "Peter Rossbach",
             "creation_timestamp": "20210209...",
             "last_timestamp": "20210210...",
             # erst ab Backend nach Risk calc
@@ -136,7 +141,7 @@ data = {
 }
 
 # -----------------------
-# delete process
+# delete_process
 # Frontend -> Backend -> Database
 data = {
     "uid": "b141f94973a43cf8ee972e9dffc1b004",
@@ -148,7 +153,7 @@ data = {
 }
 
 # -----------------------
-# view process
+# get_process
 # Frontend -> Backend -> Database
 data = {
     "uid": "b141f94973a43cf8ee972e9dffc1b004",
@@ -160,6 +165,7 @@ data = {
     "process": {
         "uid": "b141f94973a43cf8ee972e9dffc1b004",
         "name": "Kunde anlegen",
+        "responsible_person": "Peter Rossbach",
         "description": "Prozess zum anlegen von einem neuen Kunden in allen Systemen",
         "creation_timestamp": "20210210...",
         "last_timestamp": "20200211...",
@@ -214,15 +220,23 @@ data = {
     },
     # nach risk calc dann nicht mehr drin
     "target_metrics": {
-        "codelines": 25000,
-        "admins": 12,
-        "recovery_time": 3,
+        "codelines": {
+            "average": 50,
+            "min": 30.5,
+            "max": 20,
+        },
+        "admins": {
+            "average": 50,
+            "min": 30.5,
+            "max": 20,
+        },
         # ...
     },
+    # TODO: anpassen durch das Processing/Backend Team nötig
     # ab jetzt erst ab Backend durch Risk calc
     "score": 80,  # percent as integer
     "actual_target_metrics": {
-        "number_of_lines_of_source_code_loc": {
+        "codelines": {
             "actual": {
                 "average": 30,
                 "max": 50,
@@ -237,17 +251,17 @@ data = {
             "component_count": 10,
             "fulfillment": True
         },  # true means that the metric is fulfilled --> no problem.
-        "number_of_administrators": {
+        "admins": {
             "actual": {
                 "average": 30,
                 "max": 50,
                 "min": 20,
                 "standard_deviation": 5,
-                "total": 300,     # summe
+                "total": 300,  # summe
             },
             "target": {
                 "average": 30,
-                "total": 300,     # summe
+                "total": 300,  # summe
             },
             "component_count": 10,
             "fulfillment": True
@@ -258,11 +272,11 @@ data = {
                 "max": 0.8,
                 "min": 0.5,
                 "standard_deviation": 5,
-                "total": 0.4,     # summe
+                "total": 0.4,  # summe
             },
             "target": {
                 "average": 0.8,
-                "total": 0.64,     # summe
+                "total": 0.64,  # summe
             },
             "component_count": 2,
             "fulfillment": True
@@ -271,37 +285,44 @@ data = {
 }
 
 # -----------------------------------------------------------
-
 # Bei jeder Änderung wird an das Frontend das Prozess anzeigen JSON geschickt (über den entsprechenden Edit-Endpoint)
 
-# create process or edit process data
+# create_process or update_process
 # Frontend -> Backend -> Database
 data = {
     "process": {
-        "uid": -1,  # when -1 it indicates that it is a new process, anything else indicates its an update
+        "uid": "-1",  # when -1 it indicates that it is a new process, anything else indicates its an update
         "name": "Kunde anlegen",
+        "responsible_person": "Peter Rossbach",
         "description": "Prozess zum anlegen von einem neuen Kunden in allen Systemen",
     },
     "target_metrics": {
-        "codelines": 25000,
-        "admins": 12,
-        "recovery_time": 3,
+        "codelines": {
+            "average": 50,
+            "min": 30.5,
+            "max": 20,
+        },
+        "admins": {
+            "average": 50,
+            "min": 30.5,
+            "max": 20,
+        },
         # ...
-    }
+    },
 }
 
-# Database -> Backend 
+# Database -> Backend
 # process uid only create: uid is needed to directly return the process view JSON
 data = {
     "success": True,
-    "process_uid": "b141f94973a43cf8ee972e9dffc1b004"  
+    "process_uid": "b141f94973a43cf8ee972e9dffc1b004"
 }
 
 # Backend -> Frontend
 """ Prozess anzeigen JSON"""
 
 # -----------------------
-# delete process reference
+# delete_process_reference
 # Frontend -> Backend -> Database
 data = {
     "uid": "b141f94973a43cf8ee972e9dffc1b004",  # process uid not component uid
@@ -317,7 +338,7 @@ data = {
 """ Prozess anzeigen JSON"""
 
 # -----------------------
-# edit process reference
+# update_process_reference
 # Frontend -> Backend -> Database
 data = {
     "uid": "b141f94973a43cf8ee972e9dffc1b004",  # process uid not component uid
@@ -334,7 +355,7 @@ data = {
 """ Prozess anzeigen JSON"""
 
 # -----------------------
-# add process reference
+# add_process_reference
 # Frontend -> Backend -> Database
 data = {
     "process_uid": "b141f94973a43cf8ee972e9dffc1b004",
@@ -385,7 +406,7 @@ data = {
                 "description": "API für das Frontend",
                 "creation_timestamp": "20200219...",
                 "last_timestamp": "20200219...",
-                "metrics":  {
+                "metrics": {
                     "codelines": 20000,
                     "admins": 10,
                     "recovery_time": 5,
@@ -411,13 +432,20 @@ data = {
         ]
     },
     "target_metrics": {
-        "codelines": 25000,
-        "admins": 12,
-        "recovery_time": 3,
+        "codelines": {
+            "average": 50,
+            "min": 30.5,
+            "max": 20,
+        },
+        "admins": {
+            "average": 50,
+            "min": 30.5,
+            "max": 20,
+        },
         # ...
-    }
+    },
 }
-
+# TODO: Anzupassen durch das Processing/Backend Team
 # Backend Processing -> Backend Core
 data = {
     "score": 80,  # percent as integer
@@ -443,11 +471,11 @@ data = {
                 "max": 50,
                 "min": 20,
                 "standard_deviation": 5,
-                "total": 300,     # summe
+                "total": 300,  # summe
             },
             "target": {
                 "average": 30,
-                "total": 300,     # summe
+                "total": 300,  # summe
             },
             "component_count": 10,
             "fulfillment": True
@@ -458,11 +486,11 @@ data = {
                 "max": 0.8,
                 "min": 0.5,
                 "standard_deviation": 5,
-                "total": 0.4,     # summe
+                "total": 0.4,  # summe
             },
             "target": {
                 "average": 0.8,
-                "total": 0.64,     # summe
+                "total": 0.64,  # summe
             },
             "component_count": 2,
             "fulfillment": True

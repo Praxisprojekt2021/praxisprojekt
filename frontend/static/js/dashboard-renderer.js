@@ -26,14 +26,15 @@ function init() {
  * Get processes data from Back-End and then populate the processes table in FE.
  */
 function getProcessList() {
-    helper.get_request("/process/overview", refreshProcessTable);
+    helper.showLoadingScreen();
+    helper.http_request("GET", "/process/overview", false, "", refreshProcessTable);
 }
 
 /**
  * Get components data from Back-End and then populate the processes table in FE.
  */
 function getComponentList() {
-    helper.get_request("/component/overview", loadMetricsDefinition);
+    helper.http_request("GET", "/component/overview", true, "", loadMetricsDefinition);
 }
 
 /**
@@ -43,7 +44,7 @@ function getComponentList() {
  */
 function refreshProcessTable(json) {
     var table = document.getElementById('processTable');
-    json.process.forEach(function (object) {
+    json.processes.forEach(function (object) {
         var tr = document.createElement('tr');
         tr.innerHTML = '<td class="col-1">' + object.name + '</td>' +
             '<td class="col-2">' + object.components_count + '</td>' +
@@ -55,6 +56,7 @@ function refreshProcessTable(json) {
             '<td class="col-8">' + renderDeleteProcessButton(object.uid) + '</td>';
         table.appendChild(tr);
     });
+    helper.hideLoadingScreen();
     modals.getProcessDate(json);
 }
 
@@ -85,7 +87,7 @@ function refreshComponentTable(json, metricsDefinition) {
  * @returns {String} Edit-Process-Button HTML-Element
  */
 function renderEditProcessButton(uid) {
-    return `<div onclick="editProcess('${uid}')"><i id="PenIcon" class="fas fa-pencil-alt"></i></div>`;
+    return `<a href="process?uid=${uid}"><i id="PenIcon" class="fas fa-pencil-alt"></i></a>`;
 }
 
 /**
@@ -94,7 +96,7 @@ function renderEditProcessButton(uid) {
  * @returns {String} Edit-Component-Button HTML-Element
  */
 function renderEditComponentButton(uid) {
-    return `<div onclick="editComponent('${uid}')"><i id="PenIcon" class="fas fa-pencil-alt"></i></div>`;
+    return `<a href="component?uid=${uid}"><i id="PenIcon" class="fas fa-pencil-alt"></i></a>`;
 }
 
 /**
@@ -116,43 +118,6 @@ function renderDeleteComponentButton(uid) {
 }
 
 /**
- * Routes to the URL where user can add a new process
- */
-function addProcess() {
-    // open edit process URL without param
-    window.location.replace(base_url + "process");
-}
-
-/**
- * Routes to the URL where user can add a new process.
- */
-function addComponent() {
-    // open edit component URL without param
-    window.location.replace(base_url + "component");
-
-}
-
-/**
- * Routes to the URL where the user can edit the process with the given uid.
- *
- * @param {String} uid
- */
-function editProcess(uid) {
-    // open edit process URL with param uid
-    window.location.replace(base_url + "process?uid=" + uid);
-}
-
-/**
- * Routes to the URL where the user can edit the component with the given uid.
- *
- * @param {String} uid
- */
-function editComponent(uid) {
-    // open edit component URL with param uid
-    window.location.replace(base_url + "component?uid=" + uid);
-}
-
-/**
  * Routes to the URL where the user can delete the process with the given uid.
  *
  * @param {String} uid
@@ -160,7 +125,7 @@ function editComponent(uid) {
 function deleteProcess(uid) {
     // call delete-process endpoint
     let params = JSON.stringify({uid: uid});
-    helper.post_request("/process/delete", params, deleteCallback);
+    helper.http_request("POST", "/process/delete", true, params, deleteCallback);
 }
 
 /**
@@ -170,7 +135,7 @@ function deleteProcess(uid) {
  */
 function deleteComponent(uid) {
     let params = JSON.stringify({uid: uid});
-    helper.post_request("/component/delete", params, deleteCallback);
+    helper.http_request("POST", "/component/delete", true, params, deleteCallback);
 }
 
 
@@ -185,7 +150,7 @@ function renderStatusColumn(wholeProcessScore) {
     // TODO: adapt to requirements (when it should be red or green)
     let color = helper.getCircleColor(wholeProcessScore);
 
-    return '<td class="col-4">' + helper.renderSmallCircle(null, color) +'</td>';
+    return '<td class="col-4">' + helper.renderSmallCircle(null, color) + '</td>';
     return '<td><i id="' + color + '" class="fas fa-circle"></i></td>';
 }
 
@@ -196,33 +161,15 @@ function renderStatusColumn(wholeProcessScore) {
  * @param componentData
  */
 function loadMetricsDefinition(componentData) {
-    const base_url = window.location.origin;
-    let xhttp = new XMLHttpRequest();
-    xhttp.open("GET", base_url + "/content/mapping_metrics_definition.json", true);
-    xhttp.setRequestHeader("Content-Type", "application/json");
-
-    // Handle response of HTTP-request
-    xhttp.onreadystatechange = function () {
-        if (this.readyState === XMLHttpRequest.DONE && (this.status >= 200 && this.status < 300)) {
-            // Process response and show sum in output field
-            let metricsDefinition = JSON.parse(this.responseText);
-            refreshComponentTable(componentData, metricsDefinition);
-        }
-    }
-    xhttp.send();
+    helper.http_request("GET", "/content/mapping_metrics_definition.json", true, "", function (response_json) {
+        let metricsDefinition = response_json;
+        refreshComponentTable(componentData, metricsDefinition);
+    });
 }
 
 /**
- * Shows success/error message and reloads dashboard.
+ * Reloads page if deletion was successful.
  */
 function deleteCallback(response) {
-// Check if component has been deleted successfully
-    if (response['success']) {
-        // Component has been deleted successfully
-        window.alert('Object has been deleted.');
-        window.location.reload();
-    } else {
-        // Component has not been deleted successfully
-        window.alert('Object could not be deleted.');
-    }
+    window.location.reload();
 }

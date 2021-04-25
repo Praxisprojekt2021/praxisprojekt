@@ -1,7 +1,7 @@
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Component</title>
+    <title data-i18n="component"></title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/einzelkomponente.css') }}" type="text/css">
     <link href="{{ url_for('static', filename='images/favicon.png') }}" rel="icon" type="image/x-icon">
@@ -11,44 +11,49 @@
 <header id="header" class="header">
     <a href="/"><img src="{{ url_for('static', filename='images/logo.png') }}"loading="lazy" alt="" class="logo"></a>
     <div class="navigation">
-        <a href="/" class="navigation-links">Home</a>
+        <a href="/" class="navigation-links" data-i18n="home"></a>
         <div class="navigation-link-separator">&gt;</div>
-        <a href="#" class="navigation-links navigation-selected">Einzelkomponente</a>
+        <a href="#" class="navigation-links navigation-selected" data-i18n="individual-component"></a>
     </div>
 
 </header>
 
 <div class="component-overview" id="component-overview">
 
-    <div class="view-description-label">Einzelkomponente</div>
+
+    <div class="loader-wrapper-hidden" id="loader-wrapper">
+        <span class="loader"><span class="loader-inner"></span></span>
+        <div class="loader-text">Loading...</div>
+    </div>
+
+    <div class="view-description-label" data-i18n="individual-component"></div>
 
     <div class="component-form-block">
         <form class="component-form">
 
             <div class="description-columns">
                 <div class="default-column">
-                    <label for="component-name" class="entry-label">Name der Komponente</label>
+                    <label for="component-name" class="entry-label" data-i18n="component-name"></label>
                     <input type="text" class="textfield" maxlength="256" name="component-name"
                            data-name="component-name" id="component-name">
-                    <label for="component-uid" class="entry-label">UID der Komponente</label>
+                    <label for="component-uid" class="entry-label" data-i18n="component-uid"></label>
                     <input type="text" class="textfield" maxlength="32" name="component-uid"
                            data-name="component-uid" id="component-uid" disabled>
-                    <label for="component-category" class="entry-label">Komponenten Kategorie</label>
+                    <label for="component-category" class="entry-label" data-i18n="component-category"></label>
                     <select id="component-category" name="component-category" data-name="component-category"
                             class="category-dropdown" disabled="true" onchange="setSections(this.value)">
-                        <option value="default">Bitte auswählen..</option>
+                        <option value="default" data-i18n="please-select"></option>
                     </select>
                 </div>
                 <div class="default-column">
                     <label for="component-description-textarea"
-                           class="entry-label">Beschreibung der Komponente
+                           class="entry-label" data-i18n="component-description">
                     </label>
                     <textarea name="component-description-textarea"
                               maxlength="5000"
                               id="component-description-textarea"
                               data-name="component-description-textarea"
-                              class="textarea">
-                    </textarea>
+                              class="textarea"></textarea>
                 </div>
             </div>
 
@@ -59,5 +64,6 @@
 </div>
 <script src="{{ url_for('static', filename='js/helper.js') }}"></script>
 <script src="{{ url_for('static', filename='js/component-editor.js') }}"></script>
+<script type="module" src="{{ url_for('static', filename='js/translator.js') }}"></script>
 </body>
 </html>

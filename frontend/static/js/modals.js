@@ -23,11 +23,11 @@ class Modals {
      */
     getProcessDate(json) {
         this.oldprocesses = '';
-        Object.keys(json['process']).forEach(function (key) {
-            let process = json['process'][key];
+        Object.keys(json['processes']).forEach(function (key) {
+            let process = json['processes'][key];
             let editedDate = new Date(process['last_timestamp']);
             if (editedDate < this.outdatedThreshold) {
-                this.oldprocesses += process['name'] + '<br>';
+                this.oldprocesses += '<a href="process?uid=' + process['uid'] + '">' + process['name'] + '</a><br>';
             }
         }, this);
         this.isFilled();
@@ -44,7 +44,7 @@ class Modals {
             let component = json['components'][key];
             let editedDate = new Date(component['last_timestamp']);
             if (editedDate < this.outdatedThreshold) {
-                this.oldcomponents += component['name'] + '<br>';
+                this.oldcomponents += '<a href="component?uid=' + component['uid'] + '">' + component['name'] + '</a><br>';
             }
         }, this);
         this.isFilled();

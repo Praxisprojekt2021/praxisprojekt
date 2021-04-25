@@ -1,54 +1,77 @@
 class Helper {
+
     /**
-     * This function sends a post request to the backend
+     * Shows error message if request was not successful.
      *
-     * @param {string} endpoint: The endpoint to be referred to
-     * @param {string} data_json: The JSON Object to be passed to the backend
-     * @param {function} callback: The function to be executed with the response
+     * @param {String} endpoint
      */
+    static showError(endpoint) {
+        // Saving the data was not successful
+        if (endpoint.includes("delete")) {
+            window.alert("Object could not be deleted.")
+        } else {
+            window.alert('Changes could not be saved.');
+        }
+    }
 
-    post_request(endpoint, data_json, callback) {
-        const base_url = window.location.origin;
-        let xhttp = new XMLHttpRequest();
-        xhttp.open("POST", base_url + endpoint, true);
-        xhttp.setRequestHeader("Content-Type", "application/json");
-
-        // Handle response of HTTP-request
-        xhttp.onreadystatechange = function () {
-            if (this.readyState === XMLHttpRequest.DONE && (this.status >= 200 && this.status < 300 || this.status === 500)) {
-                // Process response and show sum in output field
-                let json = JSON.parse(this.responseText);
-                callback(json);
+    /**
+     * Shows success message if request was successful.
+     *
+     * @param {String} endpoint
+     */
+    static showSuccess(endpoint) {
+        if (endpoint !== "/component/view") {
+            // Saving the data was successful
+            if (endpoint.includes("delete")) {
+                // window.alert('Object has been deleted.');
+            } else if (endpoint.includes("edit")) {
+                // window.alert('Changes were saved.');
             }
         }
-
-        // Send HTTP-request
-        xhttp.send(data_json);
     }
 
     /**
      * This function sends a post request to the backend
      *
+     * @param {string} requestType: The type of request which is either GET or POST
      * @param {string} endpoint: The endpoint to be referred to
-     * @param {function} callback: The function to be executed with the response
+     * @param {string} endpoint: The request to be either executed synchronously or asynchronously
+     * @param {string} post_json: The JSON Object to be passed to the backend
+     * @param {function} callbacks: The functions to be executed with the response
      */
 
-    get_request(endpoint, callback) {
+    http_request(requestType, endpoint, async, post_json, ...callbacks) {
+
         const base_url = window.location.origin;
         let xhttp = new XMLHttpRequest();
-        xhttp.open("GET", base_url + endpoint, true);
+
+        if (requestType === "GET") xhttp.open("GET", base_url + endpoint, async);
+        if (requestType === "POST") xhttp.open("POST", base_url + endpoint, async);
         xhttp.setRequestHeader("Content-Type", "application/json");
 
         // Handle response of HTTP-request
         xhttp.onreadystatechange = function () {
-            if (this.readyState === XMLHttpRequest.DONE && (this.status >= 200 && this.status < 300)) {
-                // Process response and show sum in output field
+            if (this.readyState === XMLHttpRequest.DONE && (this.status >= 200 && this.status < 300 || this.status === 500)) {
+                // If status code is 500, an error message should be shown but the callback should be executed anyway.
                 let json = JSON.parse(this.responseText);
-                callback(json);
+
+                if (this.status === 500) {
+                    Helper.showError(endpoint);
+                } else {
+                    if (json['success']) {
+                        Helper.showSuccess(endpoint);
+                    }
+                }
+                // Process response
+                callbacks.forEach(callback => callback(json));
+            } else if (this.readyState === XMLHttpRequest.DONE) {
+                Helper.showError(endpoint);
             }
         }
-        xhttp.send();
-   
+
+        // Send HTTP-request
+        if (requestType === "GET") xhttp.send();
+        if (requestType === "POST") xhttp.send(post_json);
     }
 
     /**
@@ -81,7 +104,7 @@ class Helper {
             innerHTML += '<div class="accordion-icon"></div>';
             innerHTML += ('<div class="features-label">' + feature['name'] + '</div>');
             innerHTML += '</div>';
-            innerHTML += '<nav class="dropdown-list" style="height: 0px;" data-collapsed="true">';
+            innerHTML += '<nav class="dropdown-list" data-collapsed="true">';
             innerHTML += '<div class="features-columns">';
 
             Object.keys(metrics).forEach(function (key) {
@@ -89,8 +112,15 @@ class Helper {
                 innerHTML += '<div class="metric-entry-element">';
                 innerHTML += ('<label for="availability-metric" class="entry-label">' + metric['name'] + '</label>');
                 innerHTML += '<input type="text" maxLength="256" data-name="availability-metric-1" id="' + key + '"' +
-                    ' name="availability-metric" class="metric-input textfield">';
-                innerHTML += `<img src="images/info.png" loading="lazy" width="35" alt="" class="info-icon">`;
+                    ' name="availability-metric" class="metric-input textfield"'
+                if (metric['max_value'] === -1) {
+                    innerHTML += '" min="' + metric['min_value'] + '"'
+                } else {
+                    innerHTML += ' max="' + metric['max_value'] + '" min="' + metric['min_value'] + '"'
+                }
+                innerHTML += ' >';
+                innerHTML += '<img src="images/info.png" loading="lazy" width="35" alt="" title="' +
+                    metric['description_component'] + '\ni.e. ' + metric['example_component'] + '" class="info-icon">';
                 innerHTML += '</div>';
             });
 
@@ -102,6 +132,20 @@ class Helper {
             // Append element to document
             document.getElementById('metrics-input').appendChild(div);
         });
+
+        // Live check for correct inputs
+        const inputs = document.getElementsByClassName('metric-input textfield');
+        console.log(inputs);
+        console.log(inputs[0]);
+        for (let i = 0; i < inputs.length; i++) {
+            inputs[i].addEventListener('blur', (event) => {
+                if (!helper.targetAvgIsWithinMinMax(inputs[i]) || inputs[i].value === '') {
+                    inputs[i].style.setProperty("border-color", "red", undefined);
+                } else {
+                    inputs[i].style.removeProperty("border-color");
+                }
+            });
+        }
     }
 
     /**
@@ -116,7 +160,7 @@ class Helper {
 
         if (score === null) {
             color = "grey";
-        } else if(score < 80) {
+        } else if (score < 80) {
             color = "red";
         } else if (score < 90) {
             color = "yellow"
@@ -137,9 +181,9 @@ class Helper {
      */
     renderSmallCircle(fulfillment, color = false) {
         if (!color) {
-            if(fulfillment === true) {
+            if (fulfillment === true) {
                 color = "green";
-            } else if(fulfillment === false) {
+            } else if (fulfillment === false) {
                 color = "red";
             } else {
                 color = "grey";
@@ -160,13 +204,15 @@ class Helper {
         const metric_child = element.parentElement.children[1];
         const isCollapsed = metric_child.getAttribute('data-collapsed') === 'true';
         metric_child.style.display = '';
-        if(!(element.getAttribute("disabled") === "true")) {
-            if(isCollapsed) {
+        if (!(element.getAttribute("disabled") == "true")) {
+            if (isCollapsed) {
                 this.expandSection(metric_child);
                 metric_child.setAttribute('data-collapsed', 'false');
             } else {
                 this.collapseSection(metric_child);
             }
+        } else {
+            this.collapseSection(metric_child);
         }
     }
 
@@ -182,11 +228,11 @@ class Helper {
         const elementTransition = element.style.transition;
         element.style.transition = '';
 
-        requestAnimationFrame(function() {
+        requestAnimationFrame(function () {
             element.style.height = sectionHeight + 'px';
             element.style.transition = elementTransition;
             element.style.margin = "0px 0px 0px 0px";
-            requestAnimationFrame(function() {
+            requestAnimationFrame(function () {
                 element.style.height = 0 + 'px';
             });
         });
@@ -205,5 +251,40 @@ class Helper {
         element.style.height = sectionHeight + 'px';
         element.style.margin = "0px 0px 10px 0px";
         element.setAttribute('data-collapsed', 'false');
+    }
+
+    /**
+     * This functions hides the loading animation
+     */
+
+    hideLoadingScreen() {
+        let element = document.getElementById('loader-wrapper');
+        element.setAttribute("class", "loader-wrapper-hidden");
+    }
+
+    /**
+     * This functions shows the loading animation
+     */
+
+    showLoadingScreen() {
+        let element = document.getElementById('loader-wrapper');
+        element.setAttribute("class", "loader-wrapper");
+    }
+
+    /**
+     * This function checks if the given target average is within the allowed min/max value
+     *
+     * @param {HTMLElement} element
+     */
+
+    targetAvgIsWithinMinMax(element) {
+        let min = parseFloat(element.getAttribute("min")); // Getting min value for metric
+        let max = parseFloat(element.getAttribute("max")); // Getting max value for metric
+        let input = parseFloat(element.value); // Getting entered value for metric
+        if (input < min || input > max) {
+            return false;
+        } else {
+            return true;
+        }
     }
 }

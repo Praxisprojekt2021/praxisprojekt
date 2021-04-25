@@ -407,3 +407,53 @@ button, html input[type="button"], input[type="reset"] {
 .postion-dropdown {
   cursor: pointer;
 }
+
+
+.square-border {
+  background: #FFF;
+  border: 10px solid #4AD28F;
+  height: 120px;
+  min-width: 180px;
+  text-align: center;
+  padding: 24px;
+}
+
+.arrow {
+  font-size: 90px;
+  margin: 20px;
+  transform: translateY(17px);
+}
+
+table .process-visualization {
+  column-width: 200px;
+  width: auto;
+  border: none;
+}
+
+#modelling-process {
+  vertical-align: middle;
+  border: 1px solid black;
+  margin: 32px 0;
+}
+
+.visualize {
+  border: 0px;
+  display: inline-block;
+
+}
+
+.modelling-processes {
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
+}
+
+.componentcategory {
+  font-style: italic;
+}
+
+.componentname {
+  font-weight: bold;
+  text-decoration: underline;
+  margin-bottom: 8px;
+}
