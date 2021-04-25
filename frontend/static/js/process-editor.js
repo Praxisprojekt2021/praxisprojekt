@@ -185,7 +185,7 @@ function createMetricsSection(features, processData) {
         innerHTML += '<div class="features-label">' + feature_header + '</div>';
         innerHTML += helper.renderSmallCircle(feature_fulfillment);
         innerHTML += '</div>';
-        innerHTML += '<nav class="dropdown-list">';
+        innerHTML += '<nav class="dropdown-list" data-collapsed="true">';
         innerHTML += '<div class="features-columns">';
 
         // Table Headers
