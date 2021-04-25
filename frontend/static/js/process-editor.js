@@ -498,8 +498,6 @@ function createEditProcess() {
 
     // If a input has been performed, post changes to backend
     if (minmaxlist === "" && !process_name_empty) {
-        console.log(metrics);
-        console.log(process);
         saveProcess(process);
     } else {
         let alert_string = 'Changes could not be saved. ';

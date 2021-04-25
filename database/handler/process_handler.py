@@ -133,7 +133,6 @@ def update_process(input_dict: dict) -> dict:
             metric_values["min"] = input_dict["target_metrics"][metric]["min"]
         if input_dict["target_metrics"][metric]["max"] is not None:
             metric_values["max"] = input_dict["target_metrics"][metric]["max"]
-        print(metric_values)
         commas_needed = len(metric_values) - 1
         metric_string = ""
         loop_count = 0
