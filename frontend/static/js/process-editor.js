@@ -300,8 +300,9 @@ function fillMetricRows(metricData, slug, processData) {
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td></td>
-                        <td><input type="text" name="target-minimum" id="` + slug + `"></td>
+                        <td></td>`;
+    let innerHTML_targetMinMax =
+                        `<td><input type="text" name="target-minimum" id="` + slug + `"></td>
                         <td><input type="text" name="target-maximum" id="` + slug + `"></td>`;
     let innerHTML_target = `
                         <td><input type="text" name="target-average" id="` + slug + `"`; // Rest of the string is added below
@@ -357,7 +358,7 @@ function fillMetricRows(metricData, slug, processData) {
                 targetMaxValue = Math.round(processData['actual_target_metrics'][slug]['target']['max'] * 100 + Number.EPSILON) / 100;
             }
 
-            innerHTML_actual += `
+            innerHTML_targetMinMax = `
                         <td><input type="text" name="target-minimum" id="` + slug + `" value="`+ targetMinValue + `"></td>
                         <td><input type="text" name="target-maximum" id="` + slug + `" value="`+ targetMaxValue + `"></td>`;
 
@@ -365,7 +366,7 @@ function fillMetricRows(metricData, slug, processData) {
             innerHTML_target = `
                         <td><input type="text" name="target-average" id="${slug}" value="${processData['actual_target_metrics'][slug]['target']['average']}"`;
         } else {
-            innerHTML_actual += `
+            innerHTML_targetMinMax = `
                         <td><input type="text" name="target-minimum" id="` + slug + `" value=""></td>
                         <td><input type="text" name="target-maximum" id="` + slug + `" value=""></td>`;
         }
@@ -389,7 +390,7 @@ function fillMetricRows(metricData, slug, processData) {
     */
     innerHTML_target += `></td>`;
 
-    let innerHTML_metric_row = innerHTML_actual + innerHTML_target + innerHTML_fulfillment;
+    let innerHTML_metric_row = innerHTML_actual + innerHTML_targetMinMax + innerHTML_target + innerHTML_fulfillment;
 
     return [metric_fulfillment, count_component, innerHTML_metric_row];
 }
