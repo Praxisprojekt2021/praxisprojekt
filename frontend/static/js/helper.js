@@ -204,13 +204,15 @@ class Helper {
         const metric_child = element.parentElement.children[1];
         const isCollapsed = metric_child.getAttribute('data-collapsed') === 'true';
         metric_child.style.display = '';
-        if (!(element.getAttribute("disabled") === "true")) {
+        if (!(element.getAttribute("disabled") == "true")) {
             if (isCollapsed) {
                 this.expandSection(metric_child);
                 metric_child.setAttribute('data-collapsed', 'false');
             } else {
                 this.collapseSection(metric_child);
             }
+        } else {
+            this.collapseSection(metric_child);
         }
     }
 
