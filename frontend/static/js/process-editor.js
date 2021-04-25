@@ -328,39 +328,53 @@ function fillMetricRows(metricData, slug, processData) {
                         <td>` + Math.round(processData['actual_target_metrics'][slug]['actual']['standard_deviation'] * 100 + Number.EPSILON) / 100 + `</td>
                         <td>` + Math.round(processData['actual_target_metrics'][slug]['actual']['total'] * 100 + Number.EPSILON) / 100 + `</td>
                         <td>` + Math.round(processData['actual_target_metrics'][slug]['actual']['min'] * 100 + Number.EPSILON) / 100 + `</td>
-                        <td>` + Math.round(processData['actual_target_metrics'][slug]['actual']['max'] * 100 + Number.EPSILON) / 100 + `</td>
-                        <td><input type="text" name="target-minimum" id="` + slug + `" value="`+ Math.round(processData['actual_target_metrics'][slug]['actual']['min'] * 100 + Number.EPSILON) / 100 + ` "></td>
-                        <td><input type="text" name="target-maximum" id="` + slug + `" value="`+ Math.round(processData['actual_target_metrics'][slug]['actual']['max'] * 100 + Number.EPSILON) / 100 + ` "></td>`;
+                        <td>` + Math.round(processData['actual_target_metrics'][slug]['actual']['max'] * 100 + Number.EPSILON) / 100 + `</td>`;
         }
+
+        let targetMinValue = "";
+        let targetMaxValue = "";
+        let targetTotalValue = "";
 
         // check if target values are provided
         if ('target' in processData['actual_target_metrics'][slug]) {
-
             // replace null with empty strings, so that "null" is not entered in the table
             if (processData['actual_target_metrics'][slug]['target']['average'] == null) {
                 processData['actual_target_metrics'][slug]['target']['average'] = '';
             }
+            if(processData['actual_target_metrics'][slug]['target']['total'] == null) {
+                processData['actual_target_metrics'][slug]['target']['total'] = '';
+            } else {
+                targetTotalValue = Math.round(processData['actual_target_metrics'][slug]['target']['total'] * 100 + Number.EPSILON) / 100;
+            }
             if (processData['actual_target_metrics'][slug]['target']['min'] == null) {
                 processData['actual_target_metrics'][slug]['target']['min'] = '';
+            } else {
+                targetMinValue = Math.round(processData['actual_target_metrics'][slug]['target']['min'] * 100 + Number.EPSILON) / 100;
             }
             if (processData['actual_target_metrics'][slug]['target']['max'] == null) {
                 processData['actual_target_metrics'][slug]['target']['max'] = '';
+            } else {
+                targetMaxValue = Math.round(processData['actual_target_metrics'][slug]['target']['max'] * 100 + Number.EPSILON) / 100;
             }
 
-            innerHTML_target = `
-                        <td><input type="text" name="target-average" id="${slug}" value="${processData['actual_target_metrics'][slug]['target']['average']}"></td>`;
-            /*
-                         <td><input type="text" name="target-minimum" id="${slug}" value="${processData['actual_target_metrics'][slug]['target']['min']}"></td>
-                        <td><input type="text" name="target-maximum" id="${slug}" value="${processData['actual_target_metrics'][slug]['target']['max']}"></td>
-             */
+            innerHTML_actual += `
+                        <td><input type="text" name="target-minimum" id="` + slug + `" value="`+ targetMinValue + `"></td>
+                        <td><input type="text" name="target-maximum" id="` + slug + `" value="`+ targetMaxValue + `"></td>`;
 
+
+            innerHTML_target = `
+                        <td><input type="text" name="target-average" id="${slug}" value="${processData['actual_target_metrics'][slug]['target']['average']}"`;
+        } else {
+            innerHTML_actual += `
+                        <td><input type="text" name="target-minimum" id="` + slug + `" value=""></td>
+                        <td><input type="text" name="target-maximum" id="` + slug + `" value=""></td>`;
         }
 
         // check if a fulfillment and consequentially a target sum is provided (if fulfillment was calculated, a target sum was also able to be calculated)
         if ('fulfillment' in processData['actual_target_metrics'][slug]) {
             metric_fulfillment = processData['actual_target_metrics'][slug]['fulfillment'];
             innerHTML_fulfillment = `
-                        <td>` + Math.round(processData['actual_target_metrics'][slug]['target']['total'] * 100 + Number.EPSILON) / 100 + `</td>
+                        <td>` + targetTotalValue + `</td>
                         <td>${helper.renderSmallCircle(metric_fulfillment)}</td>
                         <td><img src="images/info.png" loading="lazy" width="35" alt="heyy"
                          title="` + metricData['description_process'] + `\ni.e. ` + metricData['example_process'] + `"
@@ -368,10 +382,11 @@ function fillMetricRows(metricData, slug, processData) {
                     </tr>`;
         }
     }
-
+    /*
     // Rest of the innerHTML_target string
     if (metricData['min_value'] >= 0) innerHTML_target += ' min="' + metricData['min_value'] + '"';
     if (metricData['max_value'] >= 0) innerHTML_target += ' max="' + metricData['max_value'] + '"';
+    */
     innerHTML_target += `></td>`;
 
     let innerHTML_metric_row = innerHTML_actual + innerHTML_target + innerHTML_fulfillment;
@@ -475,6 +490,8 @@ function createEditProcess() {
 
     // If a input has been performed, post changes to backend
     if (minmaxlist === "") {
+        console.log(metrics);
+        console.log(process);
         saveProcess(process);
     } else {
         let alert_string = 'Changes could not be saved. ';
