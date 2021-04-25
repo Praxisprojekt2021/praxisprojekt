@@ -355,8 +355,13 @@ function renderWholeProcessScoreCircle(wholeProcessScore) {
 
     color = helper.getCircleColor(wholeProcessScore);
 
-    document.getElementById("whole-process-score").setAttribute("style", `background-color:  ${color}`);
-    document.getElementById("whole-process-score").innerHTML = `${wholeProcessScore}%`;
+    if(!isNaN(wholeProcessScore)) {
+        document.getElementById("whole-process-score").style.setProperty("background-color", color);
+        document.getElementById("whole-process-score").style.setProperty("display", "flex");
+        document.getElementById("whole-process-score").innerHTML = `${wholeProcessScore}%`;
+    } else {
+        document.getElementById("whole-process-score").style.setProperty("display", "none");
+    }
 }
 
 
