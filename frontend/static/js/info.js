@@ -1,19 +1,32 @@
 var slideIndex = 1;
 showSlides(slideIndex);
 
-// Next/previous functionality
+/**
+ * Iterates the slide number using showSlides
+ *
+ *@param {number} slideindex number of the current slide after iteration
+ *
+ * **/
 function plusSlides(n) {
     showSlides(slideIndex += n);
 }
+/**
+ * States the current slide number using showSlides
+ *
+ *@param {number} slideindex number of the current slide
+ *
+ * **/
 
-// Thumbnail image functionality
 function currentSlide(n) {
     showSlides(slideIndex = n);
 }
 /**
- * i        - used for increments
- * slides   - individual slides/images and texts
- * dots     - dots used for orientation
+ *Displays the current slides and Dots for orientation
+ *
+ *@param {number} i used for incrementation
+ *@param {number} n received from the above functions to get the current slide
+ *@param {array} slides individual slides/images and texts
+ *@param {array} dots dots used for orientation
  *
  * **/
 function showSlides(n) {

@@ -12,8 +12,17 @@
 <header id="header" class="header">
     <a href="/" ><img src="{{ url_for('static', filename='images/logo.png') }}" loading="lazy" alt="" class ="logo">
     </a>
+    <div class="navigation">
+        <a href="/" class="navigation-links" data-i18n="home"></a>
+        <div class="navigation-link-separator">&gt;</div>
+        <a href="#" class="navigation-links" data-i18n="process-view"></a>
+    </div>
 </header>
-
+<div class="process-overview" id="process-overview">
+    <div class="loader-wrapper-hidden" id="loader-wrapper">
+        <span class="loader"><span class="loader-inner"></span></span>
+        <div class="loader-text">Loading...</div>
+    </div>
 <!-- General Description of Riskify -->
 
 <div class="generalstyle" id="component-overview">
@@ -37,7 +46,7 @@
         <!-- Full-width images with number and caption text -->
         <div class="mySlides fade">
             <div class="numbertext">1 / 3</div>
-            <img src="{{ url_for('static', filename='images/tutorial_dashboard.png') }}" style="width:100%" class="tutorial_image">
+            <img src="{{ url_for('static', filename='images/tutorial_dashboard.png') }}" class="tutorial_image">
             <div class="textbackground">
                 <div class="text"><p data-i18n="Slide1"> </p></div>
             </div>
@@ -45,7 +54,7 @@
 
         <div class="mySlides fade">
             <div class="numbertext">2 / 3</div>
-            <img src="{{ url_for('static', filename='images/Component1.png') }}" style="width:100%" class="tutorial_image">
+            <img src="{{ url_for('static', filename='images/Component1.png') }}" class="tutorial_image">
             <div class="textbackground">
                 <div class="text"><p data-i18n="Slide2"> </p></div>
             </div>
@@ -53,7 +62,7 @@
 
         <div class="mySlides fade">
             <div class="numbertext">3 / 3</div>
-            <img src="{{ url_for('static', filename='images/Component2.png') }}" style="width:100%" class="tutorial_image">
+            <img src="{{ url_for('static', filename='images/Component2.png') }}" class="tutorial_image">
             <div class="textbackground">
                 <div class="text"><p data-i18n="Slide3"></p></div>
             </div>
