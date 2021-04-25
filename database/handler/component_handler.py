@@ -8,6 +8,7 @@ import database.handler.queries as queries
 import database.handler.reformatter as reformatter
 from core.success_handler import success_handler
 from database.config import *
+
 from database.handler.relationships import RelationshipComponentMetric
 
 config.DATABASE_URL = 'bolt://{}:{}@{}:{}'.format(NEO4J_USER, NEO4J_PASSWORD, NEO4J_IP, NEO4J_PORT)

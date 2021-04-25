@@ -100,6 +100,7 @@ function getProcess(features) {
  * @param {json} processData
  */
 function fillDataFields(features, processData) {
+
     if (processData['success']) {
         // fill description column
         fillDescriptionColumn(processData);
@@ -223,6 +224,18 @@ function createMetricsSection(features, processData) {
                         title="The maximum value indicates the largest value for each respective metric across all components of the process."
                         class="info-icon-header">
                 </th>
+                <th name="target-min">
+                    Target Min
+                    <img src="images/info.png" loading="lazy" width="35" 
+                        title="The average, user-entered, Target-value for each metric across all components in the process."
+                        class="info-icon-header">
+                </th>
+                <th name="target-max">
+                    Target Max
+                    <img src="images/info.png" loading="lazy" width="35" 
+                        title="The average, user-entered, Target-value for each metric across all components in the process."
+                        class="info-icon-header">
+                </th>
                 <th name="target-avg">
                     Target Average
                     <img src="images/info.png" loading="lazy" width="35" 
@@ -288,6 +301,9 @@ function fillMetricRows(metricData, slug, processData) {
                         <td></td>
                         <td></td>
                         <td></td>`;
+    let innerHTML_targetMinMax =
+                        `<td><input type="text" name="target-minimum" id="` + slug + `"></td>
+                        <td><input type="text" name="target-maximum" id="` + slug + `"></td>`;
     let innerHTML_target = `
                         <td><input type="text" name="target-average" id="` + slug + `"`; // Rest of the string is added below
     let innerHTML_fulfillment = `
@@ -316,16 +332,50 @@ function fillMetricRows(metricData, slug, processData) {
                         <td>` + Math.round(processData['actual_target_metrics'][slug]['actual']['max'] * 100 + Number.EPSILON) / 100 + `</td>`;
         }
 
-        // check if a target value is provided
+        let targetMinValue = "";
+        let targetMaxValue = "";
+        let targetTotalValue = "";
+
+        // check if target values are provided
         if ('target' in processData['actual_target_metrics'][slug]) {
-            innerHTML_target = `<td><input type="text" name="target-average" id="${slug}" value="${processData['actual_target_metrics'][slug]['target']['average']}"`; // Rest of the string is added below
+            // replace null with empty strings, so that "null" is not entered in the table
+            if (processData['actual_target_metrics'][slug]['target']['average'] == null) {
+                processData['actual_target_metrics'][slug]['target']['average'] = '';
+            }
+            if(processData['actual_target_metrics'][slug]['target']['total'] == null) {
+                processData['actual_target_metrics'][slug]['target']['total'] = '';
+            } else {
+                targetTotalValue = Math.round(processData['actual_target_metrics'][slug]['target']['total'] * 100 + Number.EPSILON) / 100;
+            }
+            if (processData['actual_target_metrics'][slug]['target']['min'] == null) {
+                processData['actual_target_metrics'][slug]['target']['min'] = '';
+            } else {
+                targetMinValue = Math.round(processData['actual_target_metrics'][slug]['target']['min'] * 100 + Number.EPSILON) / 100;
+            }
+            if (processData['actual_target_metrics'][slug]['target']['max'] == null) {
+                processData['actual_target_metrics'][slug]['target']['max'] = '';
+            } else {
+                targetMaxValue = Math.round(processData['actual_target_metrics'][slug]['target']['max'] * 100 + Number.EPSILON) / 100;
+            }
+
+            innerHTML_targetMinMax = `
+                        <td><input type="text" name="target-minimum" id="` + slug + `" value="`+ targetMinValue + `"></td>
+                        <td><input type="text" name="target-maximum" id="` + slug + `" value="`+ targetMaxValue + `"></td>`;
+
+
+            innerHTML_target = `
+                        <td><input type="text" name="target-average" id="${slug}" value="${processData['actual_target_metrics'][slug]['target']['average']}"`;
+        } else {
+            innerHTML_targetMinMax = `
+                        <td><input type="text" name="target-minimum" id="` + slug + `" value=""></td>
+                        <td><input type="text" name="target-maximum" id="` + slug + `" value=""></td>`;
         }
 
         // check if a fulfillment and consequentially a target sum is provided (if fulfillment was calculated, a target sum was also able to be calculated)
         if ('fulfillment' in processData['actual_target_metrics'][slug]) {
             metric_fulfillment = processData['actual_target_metrics'][slug]['fulfillment'];
             innerHTML_fulfillment = `
-                        <td>` + Math.round(processData['actual_target_metrics'][slug]['target']['total'] * 100 + Number.EPSILON) / 100 + `</td>
+                        <td>` + targetTotalValue + `</td>
                         <td>${helper.renderSmallCircle(metric_fulfillment)}</td>
                         <td><img src="images/info.png" loading="lazy" width="35" alt="heyy"
                          title="` + metricData['description_process'] + `\ni.e. ` + metricData['example_process'] + `"
@@ -333,16 +383,18 @@ function fillMetricRows(metricData, slug, processData) {
                     </tr>`;
         }
     }
-
+    /*
     // Rest of the innerHTML_target string
     if (metricData['min_value'] >= 0) innerHTML_target += ' min="' + metricData['min_value'] + '"';
     if (metricData['max_value'] >= 0) innerHTML_target += ' max="' + metricData['max_value'] + '"';
+    */
     innerHTML_target += `></td>`;
 
-    let innerHTML_metric_row = innerHTML_actual + innerHTML_target + innerHTML_fulfillment;
+    let innerHTML_metric_row = innerHTML_actual + innerHTML_targetMinMax + innerHTML_target + innerHTML_fulfillment;
 
     return [metric_fulfillment, count_component, innerHTML_metric_row];
 }
+
 
 /**
  * Render process ball for whole process.
@@ -371,39 +423,70 @@ function renderWholeProcessScoreCircle(wholeProcessScore) {
 
 function createEditProcess() {
     helper.showLoadingScreen();
-    let metric_elements = document.getElementsByName('target-average');
+    let metric_elements_average = document.getElementsByName('target-average');
+    let metric_elements_min = document.getElementsByName('target-minimum');
+    let metric_elements_max = document.getElementsByName('target-maximum');
+
     let metrics = {};
+
     let text_replaced_flag = false; // Helper variable that indicates, whether or not a non quantitative metric input has been found and discarded
     let minmaxlist = ""; // List for Metrics that are not within min or max
     let process_name_empty = false; // Helper variable that indicates, whether or not the process name is given
-    for (let i = 0; i < metric_elements.length; i++) {
+    for (let i = 0; i < metric_elements_average.length; i++) {
         // Replace non quantitative metric inputs with an emtpy string to have them discarded
-        if (metric_elements[i].value !== '' && isNaN(metric_elements[i].value)) {
-            metric_elements[i].value = '';
+        if (metric_elements_average[i].value !== '' && isNaN(metric_elements_average[i].value)) {
+            metric_elements_average[i].value = '';
+            text_replaced_flag = true;
+        }
+        if (metric_elements_min[i].value !== '' && isNaN(metric_elements_min[i].value)) {
+            metric_elements_min[i].value = '';
+            text_replaced_flag = true;
+        }
+        if (metric_elements_max[i].value !== '' && isNaN(metric_elements_max[i].value)) {
+            metric_elements_max[i].value = '';
             text_replaced_flag = true;
         }
 
         // Process quantitative metrics to push them into the JSON Object to be passed to the backend
-        if (metric_elements[i].value !== '') {
-            metrics[metric_elements[i].id] = parseFloat(metric_elements[i].value);
+        let id = metric_elements_average[i].id;
 
-            // Check if enabled fields maintain min/max value
-            if (!helper.targetAvgIsWithinMinMax(metric_elements[i])) {
-                minmaxlist += '\n' + metric_elements[i].parentElement.parentElement.children[0].id; //Add metric name to the list of wrong target avg values
-                minmaxlist += '\n' + metric_elements[i].parentElement.parentElement.children[0].id; // Add metric name to the list of wrong target avg values
-                metric_elements[i].style.setProperty("border-color", "red", undefined);
+        metrics[id] = {
+            "average": null,
+            "min": null,
+            "max": null
+        };
+
+        if (metric_elements_average[i].value !== '') {
+            metrics[id]["average"] = parseInt(metric_elements_average[i].value);
+            if (!helper.targetAvgIsWithinMinMax(metric_elements_average[i])) {
+                minmaxlist += '\n' + metric_elements_average[i].parentElement.parentElement.children[0].id; //Add metric name to the list of wrong target avg values
+                metric_elements_average[i].style.setProperty("border-color", "red", undefined);
             } else {
-                metric_elements[i].style.removeProperty("border-color");
+                metric_elements_average[i].style.removeProperty("border-color");
             }
         }
+        if (metric_elements_min[i].value !== '') {
+            metrics[id]["min"] = parseInt(metric_elements_min[i].value);
+        }
+        if (metric_elements_max[i].value !== '') {
+            metrics[id]["max"] = parseInt(metric_elements_max[i].value);
+        }
     }
+
+    // delete metric from json if no target metric (min, max, average) is entered
+    for (var key in metrics) {
+        if (metrics[key]["min"] == null && metrics[key]["max"] == null && metrics[key]["average"] == null) {
+            delete metrics[key];
+        }
+    }
+
     if (typeof uid === undefined || uid === "" || uid == null) {
         uid = -1;
     }
     // Prepare json string
     const process = `{
         "process": {
-            "uid": "${uid}",  
+            "uid": "${uid}",
             "name": "${document.getElementById('process-name-textarea').value}",
             "responsible_person": "${document.getElementById('process-responsible-person-textarea').value}",
             "description": "${document.getElementById('process-beschreibung-textarea').value}"
@@ -766,6 +849,7 @@ function horizontalScroll() {
  *
  * @param {JSON} response
  */
+
 function saveCallback(response) {
     // Process has been created/edited successfully
     helper.hideLoadingScreen();

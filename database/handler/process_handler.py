@@ -9,6 +9,7 @@ import database.handler.queries as queries
 import database.handler.reformatter as reformatter
 from core.success_handler import success_handler
 from database.config import *
+
 from database.handler.relationships import RelationshipProcessComponent, RelationshipProcessMetric
 
 config.DATABASE_URL = 'bolt://{}:{}@{}:{}'.format(NEO4J_USER, NEO4J_PASSWORD, NEO4J_IP, NEO4J_PORT)
@@ -32,9 +33,9 @@ class Process(StructuredNode):
         timestamp of creation time
     last_timestamp : str
         timestamp of last update
-    includesComponent : relationship
+    hasComponent : relationship
         relationship to component
-    hasMetric : relationship
+    hasTargetMetric : relationship
         relationship to metric
     """
 
@@ -69,7 +70,9 @@ def add_process(input_dict: dict) -> dict:
 
     for metric in input_dict["target_metrics"]:
         output.hasMetric.connect(metric_handler.Metric.nodes.get(name=metric),
-                                 {"value": input_dict["target_metrics"][metric]})
+                                 {"average": input_dict["target_metrics"][metric]["average"],
+                                  "min": input_dict["target_metrics"][metric]["min"],
+                                  "max": input_dict["target_metrics"][metric]["max"]})
 
     output_dict = success_handler()
     output_dict["process_uid"] = output.uid
@@ -105,7 +108,6 @@ def get_process(input_dict: dict) -> dict:
     query = queries.get_process(input_dict["uid"])
     result, meta = db.cypher_query(query)
     output_dict["process"], output_dict["target_metrics"] = reformatter.reformat_process(result[0])
-
     return output_dict
 
 
@@ -124,7 +126,23 @@ def update_process(input_dict: dict) -> dict:
     db.cypher_query(query)
 
     for metric in input_dict["target_metrics"]:
-        query = queries.update_process_metric(uid, metric, input_dict["target_metrics"][metric])
+        metric_values = {}
+        if input_dict["target_metrics"][metric]["average"] is not None:
+            metric_values["average"] = input_dict["target_metrics"][metric]["average"]
+        if input_dict["target_metrics"][metric]["min"] is not None:
+            metric_values["min"] = input_dict["target_metrics"][metric]["min"]
+        if input_dict["target_metrics"][metric]["max"] is not None:
+            metric_values["max"] = input_dict["target_metrics"][metric]["max"]
+        commas_needed = len(metric_values) - 1
+        metric_string = ""
+        loop_count = 0
+        for key in metric_values:
+            metric_string += key + ": " + str(metric_values[key])
+            if loop_count < commas_needed:
+                metric_string += ", "
+            loop_count += 1
+
+        query = queries.update_process_metric(uid, metric, metric_string)
         db.cypher_query(query)
 
     return success_handler()

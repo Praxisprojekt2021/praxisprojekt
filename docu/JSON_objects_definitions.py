@@ -94,7 +94,7 @@ data = {
 # add_component
 # Frontend -> Backend -> Database
 data = {
-    "uid": -1,  # wichtig -> als Indikator, dass neu angelegt und daher kein update sondern create
+    "uid": "-1",  # wichtig -> als Indikator, dass neu angelegt und daher kein update sondern create
     "name": "SQL Datenbank",
     "category": "Datenbank",
     "description": "Datenbank zu xy mit ...",
@@ -220,15 +220,23 @@ data = {
     },
     # nach risk calc dann nicht mehr drin
     "target_metrics": {
-        "codelines": 25000,
-        "admins": 12,
-        "recovery_time": 3,
+        "codelines": {
+            "average": 50,
+            "min": 30.5,
+            "max": 20,
+        },
+        "admins": {
+            "average": 50,
+            "min": 30.5,
+            "max": 20,
+        },
         # ...
     },
+    # TODO: anpassen durch das Processing/Backend Team nötig
     # ab jetzt erst ab Backend durch Risk calc
     "score": 80,  # percent as integer
     "actual_target_metrics": {
-        "number_of_lines_of_source_code_loc": {
+        "codelines": {
             "actual": {
                 "average": 30,
                 "max": 50,
@@ -243,7 +251,7 @@ data = {
             "component_count": 10,
             "fulfillment": True
         },  # true means that the metric is fulfilled --> no problem.
-        "number_of_administrators": {
+        "admins": {
             "actual": {
                 "average": 30,
                 "max": 50,
@@ -283,20 +291,27 @@ data = {
 # Frontend -> Backend -> Database
 data = {
     "process": {
-        "uid": -1,  # when -1 it indicates that it is a new process, anything else indicates its an update
+        "uid": "-1",  # when -1 it indicates that it is a new process, anything else indicates its an update
         "name": "Kunde anlegen",
         "responsible_person": "Peter Rossbach",
         "description": "Prozess zum anlegen von einem neuen Kunden in allen Systemen",
     },
     "target_metrics": {
-        "codelines": 25000,
-        "admins": 12,
-        "recovery_time": 3,
+        "codelines": {
+            "average": 50,
+            "min": 30.5,
+            "max": 20,
+        },
+        "admins": {
+            "average": 50,
+            "min": 30.5,
+            "max": 20,
+        },
         # ...
-    }
+    },
 }
 
-# Database -> Backend 
+# Database -> Backend
 # process uid only create: uid is needed to directly return the process view JSON
 data = {
     "success": True,
@@ -417,13 +432,20 @@ data = {
         ]
     },
     "target_metrics": {
-        "codelines": 25000,
-        "admins": 12,
-        "recovery_time": 3,
+        "codelines": {
+            "average": 50,
+            "min": 30.5,
+            "max": 20,
+        },
+        "admins": {
+            "average": 50,
+            "min": 30.5,
+            "max": 20,
+        },
         # ...
-    }
+    },
 }
-
+# TODO: Anzupassen durch das Processing/Backend Team
 # Backend Processing -> Backend Core
 data = {
     "score": 80,  # percent as integer

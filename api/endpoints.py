@@ -219,7 +219,6 @@ def process_view_route():
 def error_occurred(error):
     """
     API error handler
-
     :receives: None
     :return: an error JSON
     """
