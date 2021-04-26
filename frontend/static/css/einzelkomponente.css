@@ -139,10 +139,17 @@ button, html input[type="button"], input[type="reset"] {
   margin-right: auto;
 }
 
-.accordion-icon {
+.accordion-icon-dropdown-toggle {
   position: absolute;
+  font-size: 20px;
+  top: 20;
+  right: 0;
+  bottom: 0;
   margin: auto;
   margin-right: 20px;
+  width: 1em;
+  height: 1em;
+  transition: 0.35s ease-out;
 }
 
 .dropdown-list {

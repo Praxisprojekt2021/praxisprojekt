@@ -347,6 +347,18 @@ button, html input[type="button"], input[type="reset"] {
   width: 99%;
 }
 
+#process-feature-table input {
+  position: relative;
+  max-height: 80%;
+  max-width: 90%;
+  border-radius: 7px;
+  padding: 8px 12px;
+  font-size: inherit;
+  color: #333333;
+  vertical-align: middle;
+  border: 1px solid #ccc;
+}
+
 #process-feature-table .col-1 {
   width: 25%;
 }
@@ -372,19 +384,33 @@ button, html input[type="button"], input[type="reset"] {
 }
 
 #process-feature-table .col-7 {
-  width: 17%;
+  width: 8%;
 }
 
 #process-feature-table .col-8 {
-  width: 10%;
+  width: 8%;
 }
 
 #process-feature-table .col-9 {
-  width: 9%;
+  width: 11%;
 }
 
 #process-feature-table .col-10 {
   width: 9%;
+}
+
+#process-feature-table .col-11 {
+  width: 5%;
+}
+
+#process-feature-table .col-12 {
+  width: 4%;
+}
+
+#process-feature-table .col-2, .col-3, .col-4
+,.col-5, .col-6, th.col-7, .col-8, .col-9
+,.col-10 , .col-11 ,.col-12 {
+  text-align: center;
 }
 
 .postion-dropdown {
@@ -456,4 +482,29 @@ table .process-visualization {
   font-weight: bold;
   text-decoration: underline;
   margin-bottom: 8px;
+}
+
+.info-text-header { position: relative; }
+
+.info-text-header::before {
+  content: attr(title);/* print em-space with class text */
+  font-size: 10.5px;
+  display: block;
+  position: absolute;
+  bottom: 100%;
+  background: #000;
+  color: #FFF;
+  padding: 5px;
+  border-radius: 5px;
+  white-space: pre;
+  max-width:none;
+  opacity:0;
+  transition:0.35s ease-out;
+  overflow:hidden;
+  pointer-events: none; /* prevents tooltip from firing on pseudo hover */
+}
+
+.info-text-header:hover::before {
+  opacity:1;
+  bottom: 100%;
 }
