@@ -182,7 +182,7 @@ function createMetricsSection(features, processData) {
         let innerHTML = '';
         innerHTML += '<div data-hover="" data-delay="0" class="accordion-item">';
         innerHTML += '<div class="accordion-toggle" onclick="helper.toggleSection(this)">';
-        innerHTML += '<div class="accordion-icon"></div>';
+        innerHTML += '<div class="accordion-icon-dropdown-toggle">&#709</div>';
         innerHTML += '<div class="features-label">' + feature_header + '</div>';
         innerHTML += helper.renderSmallCircle(feature_fulfillment);
         innerHTML += '</div>';
@@ -726,7 +726,7 @@ function insertAfter(referenceNode, newNode) {
  * @param {event} ev: The event associated with dragging and dropping elements
  */
 function enter(ev) {
-    ev.target.parentElement.style.setProperty("border-bottom", "15px solid black", undefined);
+    ev.target.style.setProperty("border-bottom", "15px solid black", undefined);
 }
 
 /**
@@ -735,7 +735,7 @@ function enter(ev) {
  * @param {event} ev: The event associated with dragging and dropping elements
  */
 function exit(ev) {
-    ev.target.parentElement.style.setProperty("border", "inherit", undefined);
+    ev.target.style.setProperty("border", "inherit", undefined);
 }
 
 /**

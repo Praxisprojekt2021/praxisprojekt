@@ -146,6 +146,7 @@ button, html input[type="button"], input[type="reset"] {
 }
 
 .dropdown-list {
+  height: 0px;
   position: static;
   display: block;
   overflow: visible;
@@ -154,7 +155,6 @@ button, html input[type="button"], input[type="reset"] {
   width: 100%;
   min-width: 100%;
   transition: height 0.3s ease-out;
-  height: auto;
 }
 
 .info-icon {
@@ -507,4 +507,21 @@ table .process-visualization {
 .info-text-header:hover::before {
   opacity:1;
   bottom: 100%;
+}
+
+.accordion-icon-dropdown-toggle {
+  position: absolute;
+  font-size: 20px;
+  top: 20;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  margin-right: 20px;
+  width: 1em;
+  height: 1em;
+  transition: 0.35s ease-out;
+}
+
+#ComponentOverviewTable td {
+  pointer-events: none;
 }
