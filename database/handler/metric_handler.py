@@ -23,7 +23,7 @@ class Metric(StructuredNode):
    """
 
     uid = UniqueIdProperty()
-    name = StringProperty(unique_index= True)
+    name = StringProperty()
     fulfilled_if = StringProperty()
 
 
