@@ -536,7 +536,7 @@ function createComponentTable(processData, metricsDefinition) {
         <th class="col-5"></th>
         <th class="col-6"></th>
         <th class="col-7"></th>
-        <th class="col-8"><i id="TrashIcon" class="fas fa-trash-alt"></i></th>
+        <th class="col-8"></th>
     `;
     document.getElementById('ComponentOverviewTable').appendChild(header);
 
