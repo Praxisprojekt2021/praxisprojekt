@@ -38,10 +38,6 @@ async function getFeatures() {
         .then(data => {
             let features = data['features'];
 
-            //TODO: auskommentieren
-
-            // createMetricsSection(features);
-
             document.getElementById('buttons').innerHTML = '';
             let div = document.createElement('div');
             div.className = 'control-area';
@@ -648,8 +644,6 @@ function addComponent() {
         helper.http_request("POST", "/process/edit/createstep", true, JSON.stringify(data), init);
     } else {
         helper.hideLoadingScreen();
-        // Please select a component from the dropdown.
-        // TODO: Fill with something?
     }
 }
 
