@@ -486,7 +486,7 @@ function createEditProcess() {
             }
 
             if (metric_elements[key][i].value !== '') {
-                metrics[id][key] = parseInt(metric_elements[key][i].value);
+                metrics[id][key] = parseFloat(metric_elements[key][i].value);
                 if (!helper.targetAvgIsWithinMinMax(metric_elements[key][i])) {
                     minmaxlist += '\n' + metric_elements[key][i].parentElement.parentElement.children[0].id; //TODO: Add metric name to the list of wrong target avg values (von Roman?)
                     metric_elements[key][i].style.setProperty("border-color", "red", undefined); //TODO: noch nötig oder nicht durch EventListener schon abgedeckt? (von Jasmin)
