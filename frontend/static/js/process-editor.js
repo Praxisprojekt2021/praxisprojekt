@@ -194,31 +194,31 @@ function createMetricsSection(features, processData) {
         <table class="responsive-table" id="process-feature-table">
             <tr class="table-header">
                 <th class="col-1" name="metric">Metric</th>
-                <th class="col-2 info-text-header" name="average" title="The average value for the respective metrics&#xa; across all components in the process.">
+                <th class="col-2 info-text-header" name="average" tooltip-data="The average value for the respective metrics&#xa; across all components in the process.">
                     Average
                 </th>
-                <th class="col-3 info-text-header" name="standard-deviation" title="The standard deviation for each metric&#xa; across all components in the process." >
+                <th class="col-3 info-text-header" name="standard-deviation" tooltip-data="The standard deviation for each metric&#xa; across all components in the process." >
                     Std. Dev.
                 </th>
-                <th class="col-4 info-text-header" name="sum" title="The sum for each respective metric&#xa; across all components in the process.">
+                <th class="col-4 info-text-header" name="sum" tooltip-data="The sum for each respective metric&#xa; across all components in the process.">
                     Sum
                 </th>
-                <th class="col-5 info-text-header" name="min" title="The minimum value specifies the smallest value for each&#xa; respective metric across all components in the process.">
+                <th class="col-5 info-text-header" name="min" tooltip-data="The minimum value specifies the smallest value for each&#xa; respective metric across all components in the process.">
                     Min
                 </th>
-                <th class="col-6 info-text-header" name="max" title="The maximum value indicates the largest value for each&#xa; respective metric across all components of the process.">
+                <th class="col-6 info-text-header" name="max" tooltip-data="The maximum value indicates the largest value for each&#xa; respective metric across all components of the process.">
                     Max
                 </th>
-                <th class="col-7 info-text-header" name="target-min" title="The minimum target average, user-entered, Target-value&#xa; for each metric across all components in the process.">
+                <th class="col-7 info-text-header" name="target-min" tooltip-data="The minimum target average, user-entered, Target-value&#xa; for each metric across all components in the process.">
                     Target Min
                 </th>
-                <th class="col-8 info-text-header" name="target-max" title="The maximum target average, user-entered, Target-value&#xa; for each metric across all components in the process.">
+                <th class="col-8 info-text-header" name="target-max" tooltip-data="The maximum target average, user-entered, Target-value&#xa; for each metric across all components in the process.">
                     Target Max
                 </th>
-                <th class="col-9 info-text-header" name="target-avg" title="The average, user-entered, Target-value&#xa; for each metric across all components in the process.">
+                <th class="col-9 info-text-header" name="target-avg" tooltip-data="The average, user-entered, Target-value&#xa; for each metric across all components in the process.">
                     Target Average
                 </th>
-                <th class="col-10 info-text-header" name="target-sum" title="The target sum for each metric across&#xa; all components in the process.">
+                <th class="col-10 info-text-header" name="target-sum" tooltip-data="The target sum for each metric across&#xa; all components in the process.">
                     Target Sum
                 </th>
                 <th class="col-11" name="ampel">Check</th>
@@ -529,14 +529,14 @@ function createComponentTable(processData, metricsDefinition) {
     let header = document.createElement('tr');
     header.className = "table-header";
     header.innerHTML = `
-        <th name="Position"> Position</th>
-        <th name="Component">Component</th>
-        <th name="Category">Category</th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th><i id="TrashIcon" class="fas fa-trash-alt"></i></th>
+        <th class="col-1" name="Position"> Position</th>
+        <th class="col-2" name="Component">Component</th>
+        <th class="col-3" name="Category">Category</th>
+        <th class="col-4"></th>
+        <th class="col-5"></th>
+        <th class="col-6"></th>
+        <th class="col-7"></th>
+        <th class="col-8"><i id="TrashIcon" class="fas fa-trash-alt"></i></th>
     `;
     document.getElementById('ComponentOverviewTable').appendChild(header);
 
@@ -685,7 +685,7 @@ function drop(ev) {
     let data = ev.dataTransfer.getData("text");
     let element = document.getElementById(data);
     let oldWeight = parseFloat(element.id);
-    insertAfter(ev.target.parentElement, element); // Component is inserted after the above component where the drop takes place
+    insertAfter(ev.target, element); // Component is inserted after the above component where the drop takes place
 
     let previousID;
     try {
@@ -726,7 +726,7 @@ function insertAfter(referenceNode, newNode) {
  * @param {event} ev: The event associated with dragging and dropping elements
  */
 function enter(ev) {
-    ev.target.style.setProperty("border-bottom", "15px solid black", undefined);
+    ev.target.style.setProperty("border-bottom", "4px solid black", undefined);
 }
 
 /**

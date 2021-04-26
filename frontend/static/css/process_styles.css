@@ -428,12 +428,9 @@ button, html input[type="button"], input[type="reset"] {
   color: #333333;
   vertical-align: middle;
   border: 1px solid #ccc;
-}
-
-.postion-dropdown {
   cursor: pointer;
+  margin-right: 15px;
 }
-
 
 .square-border {
   background: #FFF;
@@ -487,7 +484,7 @@ table .process-visualization {
 .info-text-header { position: relative; }
 
 .info-text-header::before {
-  content: attr(title);/* print em-space with class text */
+  content: attr(tooltip-data);/* print em-space with class text */
   font-size: 10.5px;
   display: block;
   position: absolute;
@@ -522,6 +519,49 @@ table .process-visualization {
   transition: 0.35s ease-out;
 }
 
+#ComponentOverviewTable {
+  display: block;
+  margin-left: 10%;
+  margin-right: 10%;
+  padding-bottom: 20px;
+}
+
 #ComponentOverviewTable td {
   pointer-events: none;
+}
+
+#ComponentOverviewTable .col-1 {
+  width: 15%;
+}
+
+#ComponentOverviewTable .col-2 {
+  width: 35%;
+}
+
+#ComponentOverviewTable .col-3 {
+  width: 15%;
+}
+
+#ComponentOverviewTable .col-4 {
+  width: 0%;
+}
+
+#ComponentOverviewTable .col-5 {
+  width: 0%;
+}
+
+#ComponentOverviewTable .col-6 {
+  width: 0%;
+}
+
+#ComponentOverviewTable .col-7 {
+  width: 30%;
+}
+
+#ComponentOverviewTable .col-8 {
+  width: 1%;
+}
+
+#ComponentOverviewTable tr {
+  transition:0.2s ease-out;
 }
