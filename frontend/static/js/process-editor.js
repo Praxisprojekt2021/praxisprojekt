@@ -411,7 +411,7 @@ function getMetricRowTotal(actual_target_metrics) {
     let targetTotalValue = "";
 
     if ('total' in actual_target_metrics['target']) {
-        targetTotalValue = (actual_target_metrics['target']['total'] * 100 + Number.EPSILON) / 100;
+        targetTotalValue = Math.round(actual_target_metrics['target']['total'] * 100 + Number.EPSILON) / 100;
     }
 
     return `<td>` + targetTotalValue + `</td>`;
