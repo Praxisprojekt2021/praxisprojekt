@@ -324,8 +324,8 @@ td {
     width: auto;
 }
 
-#componentTable th {
-    width: 4%;
+#componentTable {
+    width: 100%;
 }
 
 #componentTable .col-1 {
@@ -352,8 +352,8 @@ td {
     width: 4%;
 }
 
-#processTable th {
-    width: 4%;
+#processTable {
+    width: 100%;
 }
 
 #processTable .col-1 {
