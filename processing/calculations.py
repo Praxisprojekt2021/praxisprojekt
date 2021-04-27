@@ -13,24 +13,24 @@ def start_calculate_risk(process_dict: dict, metrics_dict: dict) -> dict:
     :return: Dict[str: Any]
     """
 
-    current_values = calculate_current_values(process_dict, metrics_dict)
-    compared_values = compare_actual_target_metrics(
-        current_values, metrics_dict)
-    full_process_dict = calculate_risk_score(compared_values)
+    # prepare output dict
+    output_dict = {'success': process_dict["success"],
+                   'process': process_dict["process"],
+                   'actual_target_metrics': {}}
 
-    return full_process_dict
+    component_metrics = get_all_component_metrics(process_dict)
+    target_metrics = get_all_target_metrics(process_dict)
+
+    actual_target_values = calculate_current_values(metrics_dict, component_metrics, target_metrics)
+    output_dict['actual_target_metrics'] = actual_target_values
+
+    output_dict = compare_actual_target_metrics(output_dict, metrics_dict)
+    output_dict = calculate_risk_score(output_dict)
+
+    return output_dict
 
 
-def calculate_current_values(process_dict: dict, metrics_dict: dict) -> dict:
-    """
-    Function that extracts the current metrics values from a process dict
-
-    :param process_dict: A dict containing all relevant data of a process to calculate the risk score
-    :type process_dict: Dict[str: Any]
-    :param metrics_dict: output from get_metrics_data()
-    :type metrics_dict: dict
-    :return: Dict[str: Any]
-    """
+def get_all_component_metrics(process_dict):
     # get all metric values of components
     component_metrics = {}
     for components in (process_dict["process"]["components"]):
@@ -40,10 +40,40 @@ def calculate_current_values(process_dict: dict, metrics_dict: dict) -> dict:
             else:
                 component_metrics[key].append(values)
 
-    # prepare output dict
-    output_dict = {'success': process_dict["success"],
-                   'process': process_dict["process"],
-                   'actual_target_metrics': {}}
+    return component_metrics
+
+
+def get_all_target_metrics(process_dict):
+
+    target_metrics = {}
+    for metric, values in process_dict['target_metrics'].items():
+
+        target_metrics[metric] = {}
+        # calculate and get target metrics
+        if "average" not in values:
+            values["average"] = None
+        if "min" not in values:
+            values["min"] = None
+        if "max" not in values:
+            values["max"] = None
+        target_metrics[metric]['target'] = {
+            'average': values["average"], 'min': values["min"], 'max': values["max"]}
+
+    return target_metrics
+
+
+def calculate_current_values(metrics_dict: dict, component_metrics, target_metrics) -> dict:
+    """
+    Function that extracts the current metrics values from a process dict
+
+    :param process_dict: A dict containing all relevant data of a process to calculate the risk score
+    :type process_dict: Dict[str: Any]
+    :param metrics_dict: output from get_metrics_data()
+    :type metrics_dict: dict
+    :return: Dict[str: Any]
+    """
+
+    actual_target_values = {}
 
     # loop through all metrics
     for metric in metrics_dict['metrics']:
@@ -54,41 +84,14 @@ def calculate_current_values(process_dict: dict, metrics_dict: dict) -> dict:
 
         # if any component has this specific metric
         if metric in component_metrics.keys():
-            values = component_metrics[metric]
 
-            # calculate actual metrics
-            calculations[metric]['actual'] = {"total": sum(values), "min": min(values), "max": max(values),
-                                              "average": mean(values)}
-
-            # more than one component has this metric, thus a standard deviation can be calculated
-            if len(values) > 1:
-                calculations[metric]['actual'].update(
-                    {"standard_deviation": stdev(values)})
-
-            # only one component has this metric, thus no standard deviation can be calculated
-            else:
-                calculations[metric]['actual'].update(
-                    {"standard_deviation": None})
-
-            # get amount of components
-            calculations[metric]["count_component"] = len(values)
-
+            calculations[metric] = calculate_actual_values(component_metrics[metric])
             component_metric_flag = True
 
         # if process has a target value for this metric
-        if metric in process_dict['target_metrics'].keys():
-            value = process_dict['target_metrics'][metric]
+        if metric in target_metrics.keys():
 
-            # calculate and get target metrics
-            if "average" not in value:
-                value["average"] = None
-            if "min" not in value:
-                value["min"] = None
-            if "max" not in value:
-                value["max"] = None
-            calculations[metric]['target'] = {
-                'average': value["average"], 'min': value["min"], 'max': value["max"]}
-
+            calculations[metric]['target'] = target_metrics[metric]['target']
             process_target_flag = True
 
         # if target values were given and the metric is filled in a component
@@ -99,9 +102,36 @@ def calculate_current_values(process_dict: dict, metrics_dict: dict) -> dict:
                                                           calculations[metric]['count_component']
         # save calculated values in output_dict
         if process_target_flag or component_metric_flag:
-            output_dict['actual_target_metrics'][metric] = calculations[metric]
+            actual_target_values[metric] = calculations[metric]
 
-    return output_dict
+    return actual_target_values
+
+
+def calculate_actual_values(actual_component_metric_data):
+    """
+    Calculates the actual values for one metric
+    """
+
+    actual_process_metric_data = {}
+
+    # calculate actual metrics
+    actual_process_metric_data['actual'] = {"total": sum(actual_component_metric_data), "min": min(actual_component_metric_data),
+                                            "max": max(actual_component_metric_data), "average": mean(actual_component_metric_data)}
+
+    # more than one component has this metric, thus a standard deviation can be calculated
+    if len(actual_component_metric_data) > 1:
+        actual_process_metric_data['actual'].update(
+            {"standard_deviation": stdev(actual_component_metric_data)})
+
+    # only one component has this metric, thus no standard deviation can be calculated
+    else:
+        actual_process_metric_data['actual'].update(
+            {"standard_deviation": None})
+
+    # get amount of components
+    actual_process_metric_data["count_component"] = len(actual_component_metric_data)
+
+    return actual_process_metric_data
 
 
 def compare_actual_target_metrics(process_dict: dict, metrics_dict: dict) -> dict:
