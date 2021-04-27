@@ -182,7 +182,7 @@ function createMetricsSection(features, processData) {
         let innerHTML = '';
         innerHTML += '<div data-hover="" data-delay="0" class="accordion-item">';
         innerHTML += '<div class="accordion-toggle" onclick="helper.toggleSection(this)">';
-        innerHTML += '<div class="accordion-icon"></div>';
+        innerHTML += '<div class="accordion-icon-dropdown-toggle">&#709</div>';
         innerHTML += '<div class="features-label">' + feature_header + '</div>';
         innerHTML += helper.renderSmallCircle(feature_fulfillment);
         innerHTML += '</div>';
@@ -191,65 +191,38 @@ function createMetricsSection(features, processData) {
 
         // Table Headers
         innerHTML += `
-        <table id="process-feature-table">
-            <tr>
-                <th name="metric">Metric</th>
-                <th name="average">
+        <table class="responsive-table" id="process-feature-table">
+            <tr class="table-header">
+                <th class="col-1" name="metric">Metric</th>
+                <th class="col-2 info-text-header" name="average" tooltip-data="The average value for the respective metrics&#xa; across all components in the process.">
                     Average
-                    <img src="images/info.png" loading="lazy" width="35" 
-                        title="The average value for the respective metrics across all components in the process." 
-                        class="info-icon-header">
                 </th>
-                <th name="standard-deviation">
+                <th class="col-3 info-text-header" name="standard-deviation" tooltip-data="The standard deviation for each metric&#xa; across all components in the process." >
                     Std. Dev.
-                    <img src="images/info.png" loading="lazy" width="35" 
-                        title="The standard deviation for each metric across all components in the process." 
-                        class="info-icon-header">
                 </th>
-                <th name="sum">
-                    Sum 
-                    <img src="images/info.png" loading="lazy" width="35" 
-                        title="The sum for each respective metric across all components in the process." 
-                        class="info-icon-header">
+                <th class="col-4 info-text-header" name="sum" tooltip-data="The sum for each respective metric&#xa; across all components in the process.">
+                    Sum
                 </th>
-                <th name="min">
+                <th class="col-5 info-text-header" name="min" tooltip-data="The minimum value specifies the smallest value for each&#xa; respective metric across all components in the process.">
                     Min
-                    <img src="images/info.png" loading="lazy" width="35" 
-                        title="The minimum value specifies the smallest value for each respective metric across all components in the process."
-                        class="info-icon-header">
                 </th>
-                <th name="max">
+                <th class="col-6 info-text-header" name="max" tooltip-data="The maximum value indicates the largest value for each&#xa; respective metric across all components of the process.">
                     Max
-                    <img src="images/info.png" loading="lazy" width="35" 
-                        title="The maximum value indicates the largest value for each respective metric across all components of the process."
-                        class="info-icon-header">
                 </th>
-                <th name="target-min">
+                <th class="col-7 info-text-header" name="target-min" tooltip-data="The minimum target average, user-entered, Target-value&#xa; for each metric across all components in the process.">
                     Target Min
-                    <img src="images/info.png" loading="lazy" width="35" 
-                        title="The average, user-entered, Target-value for each metric across all components in the process."
-                        class="info-icon-header">
                 </th>
-                <th name="target-max">
+                <th class="col-8 info-text-header" name="target-max" tooltip-data="The maximum target average, user-entered, Target-value&#xa; for each metric across all components in the process.">
                     Target Max
-                    <img src="images/info.png" loading="lazy" width="35" 
-                        title="The average, user-entered, Target-value for each metric across all components in the process."
-                        class="info-icon-header">
                 </th>
-                <th name="target-avg">
+                <th class="col-9 info-text-header" name="target-avg" tooltip-data="The average, user-entered, Target-value&#xa; for each metric across all components in the process.">
                     Target Average
-                    <img src="images/info.png" loading="lazy" width="35" 
-                        title="The average, user-entered, Target-value for each metric across all components in the process."
-                        class="info-icon-header">
                 </th>
-                <th name="target-sum">
+                <th class="col-10 info-text-header" name="target-sum" tooltip-data="The target sum for each metric across&#xa; all components in the process.">
                     Target Sum
-                    <img src="images/info.png" loading="lazy" width="35" 
-                        title="The target sum for each metric across all components in the process."
-                        class="info-icon-header">
                 </th>
-                <th name="ampel">Check</th>
-                <th name="info">Info</th>
+                <th class="col-11" name="ampel">Check</th>
+                <th class="col-12" name="info">Info</th>
             </tr>`;
 
         innerHTML += innerHTML_metric_block;
@@ -304,25 +277,25 @@ function fillMetricRows(metricData, slug, processData) {
     // default table row, when no metric data is provided
     let innerHTML_actual = `
                     <tr>
-                        <td id="` + metricData['name'] + `">` + metricData['name'] + `</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>`;
+                        <td class="col-1" id="` + metricData['name'] + `">` + metricData['name'] + `</td>
+                        <td class="col-2" ></td>
+                        <td class="col-3" ></td>
+                        <td class="col-4" ></td>
+                        <td class="col-5" ></td>
+                        <td class="col-6" ></td>`;
 
     let innerHTML_target = [];
     innerHTML_target['min'] =
-                        `<td><input type="text" name="target-minimum" id="` + slug + `"`; // Rest of the string is added below
+                        `<td class="col-7" ><input type="text" name="target-minimum" id="` + slug + `"`; // Rest of the string is added below
     innerHTML_target['max'] =
-                        `<td><input type="text" name="target-maximum" id="` + slug + `"`; // Rest of the string is added below
+                        `<td class="col-8" ><input type="text" name="target-maximum" id="` + slug + `"`; // Rest of the string is added below
     innerHTML_target['average'] = `
-                        <td><input type="text" name="target-average" id="` + slug + `"`; // Rest of the string is added below
+                        <td class="col-9" ><input type="text" name="target-average" id="` + slug + `"`; // Rest of the string is added below
     let innerHTML_total = `
-                        <td></td>`;
+                        <td class="col-10" ></td>`;
     let innerHTML_fulfillment = `
-                        <td></td>
-                        <td><img src="images/info.png" loading="lazy" width="35"
+                        <td class="col-11" ></td>
+                        <td class="col-12" ><img src="images/info.png" loading="lazy" width="35"
                         title="` + metricData['description_process'] + `\ni.e. ` + metricData['example_process'] + `"
                         alt="" class="info-icon"></td>
                     </tr>`;
@@ -351,8 +324,8 @@ function fillMetricRows(metricData, slug, processData) {
         if ('fulfillment' in processData['actual_target_metrics'][slug]) {
             metric_fulfillment = processData['actual_target_metrics'][slug]['fulfillment'];
             innerHTML_fulfillment = `
-                        <td>${helper.renderSmallCircle(metric_fulfillment)}</td>
-                        <td><img src="images/info.png" loading="lazy" width="35" alt="heyy"
+                        <td class="col-11" >${helper.renderSmallCircle(metric_fulfillment)}</td>
+                        <td class="col-12" ><img src="images/info.png" loading="lazy" width="35" alt="heyy"
                          title="` + metricData['description_process'] + `\ni.e. ` + metricData['example_process'] + `"
                          class="info-icon"></td>
                     </tr>`;
@@ -373,12 +346,12 @@ function getMetricRowActual(actual_target_metrics, metricData) {
 
     return `
                 <tr>
-                    <td id="${metricData['name']}">${metricData['name']}</td>
-                    <td>` + Math.round(actual_target_metrics['actual']['average'] * 100 + Number.EPSILON) / 100 + `</td>
-                    <td>` + Math.round(actual_target_metrics['actual']['standard_deviation'] * 100 + Number.EPSILON) / 100 + `</td>
-                    <td>` + Math.round(actual_target_metrics['actual']['total'] * 100 + Number.EPSILON) / 100 + `</td>
-                    <td>` + Math.round(actual_target_metrics['actual']['min'] * 100 + Number.EPSILON) / 100 + `</td>
-                    <td>` + Math.round(actual_target_metrics['actual']['max'] * 100 + Number.EPSILON) / 100 + `</td>`;
+                    <td class="col-1"  id="${metricData['name']}">${metricData['name']}</td>
+                    <td class="col-2" >` + Math.round(actual_target_metrics['actual']['average'] * 100 + Number.EPSILON) / 100 + `</td>
+                    <td class="col-3" >` + Math.round(actual_target_metrics['actual']['standard_deviation'] * 100 + Number.EPSILON) / 100 + `</td>
+                    <td class="col-4" >` + Math.round(actual_target_metrics['actual']['total'] * 100 + Number.EPSILON) / 100 + `</td>
+                    <td class="col-5" >` + Math.round(actual_target_metrics['actual']['min'] * 100 + Number.EPSILON) / 100 + `</td>
+                    <td class="col-6" >` + Math.round(actual_target_metrics['actual']['max'] * 100 + Number.EPSILON) / 100 + `</td>`;
 }
 
 function getMetricRowTarget(innerHTML_target, actual_target_metrics, slug) {
@@ -397,11 +370,11 @@ function getMetricRowTarget(innerHTML_target, actual_target_metrics, slug) {
     // replace null with empty strings, so that "null" is not entered in the table
 
     innerHTML_target['min'] = `
-                        <td><input type="text" name="target-minimum" id = "`+ slug + `" value="`+ targetValues['min'] + `"`;
+                        <td class="col-7" ><input type="text" name="target-minimum" id = "`+ slug + `" value="`+ targetValues['min'] + `"`;
     innerHTML_target['max'] = `
-                        <td><input type="text" name="target-maximum" id = "`+ slug + `" value="`+ targetValues['max'] + `"`;
+                        <td class="col-8" ><input type="text" name="target-maximum" id = "`+ slug + `" value="`+ targetValues['max'] + `"`;
     innerHTML_target['average'] = `
-                        <td><input type="text" name="target-average" id = "`+ slug + `" value="`+ targetValues['average'] + `"`;
+                        <td class="col-9" ><input type="text" name="target-average" id = "`+ slug + `" value="`+ targetValues['average'] + `"`;
 
     return innerHTML_target;
 }
@@ -414,7 +387,7 @@ function getMetricRowTotal(actual_target_metrics) {
         targetTotalValue = Math.round(actual_target_metrics['target']['total'] * 100 + Number.EPSILON) / 100;
     }
 
-    return `<td>` + targetTotalValue + `</td>`;
+    return `<td class="col-10" >` + targetTotalValue + `</td>`;
 }
 
 
@@ -522,7 +495,7 @@ function createEditProcess() {
     if(document.getElementById('process-name-textarea').value === "") process_name_empty = true;
 
     // If a input has been performed, post changes to backend
-    if (minmaxlist === "" && !process_name_empty) {
+    if (minmaxlist === "" && !process_name_empty && !text_replaced_flag) {
         saveProcess(process);
     } else {
         let alert_string = 'Changes could not be saved. ';
@@ -579,15 +552,16 @@ function createComponentTable(processData, metricsDefinition) {
 
     // Table header
     let header = document.createElement('tr');
+    header.className = "table-header";
     header.innerHTML = `
-        <th name="Position"> Position</th>
-        <th name="Component">Component</th>
-        <th name="Category">Category</th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th><i id="TrashIcon" class="fas fa-trash-alt"></i></th>
+        <th class="col-1" name="Position"> Position</th>
+        <th class="col-2" name="Component">Component</th>
+        <th class="col-3" name="Category">Category</th>
+        <th class="col-4"></th>
+        <th class="col-5"></th>
+        <th class="col-6"></th>
+        <th class="col-7"></th>
+        <th class="col-8"></th>
     `;
     document.getElementById('ComponentOverviewTable').appendChild(header);
 
@@ -605,14 +579,14 @@ function createComponentTable(processData, metricsDefinition) {
 
         // Filling values
         component.innerHTML = `
-            <td></td>
-            <td>${componentData['name']}</td>
-            <td>${metricsDefinition['categories'][componentData['category']]['name']}</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td><i id="TrashIcon" class="fas fa-trash-alt" onclick="deleteComponent(this.parentElement.parentElement.id); helper.showLoadingScreen()"></i></td>
+            <td class="col-1" ></td>
+            <td class="col-2" >${componentData['name']}</td>
+            <td class="col-3" >${metricsDefinition['categories'][componentData['category']]['name']}</td>
+            <td class="col-4" ></td>
+            <td class="col-5" ></td>
+            <td class="col-6" ></td>
+            <td class="col-7" ></td>
+            <td class="col-8" ><i id="TrashIcon" class="fas fa-trash-alt" onclick="deleteComponent(this.parentElement.parentElement.id); helper.showLoadingScreen()"></i></td>
         `;
 
         // Sorting the components according to their weights
@@ -736,7 +710,7 @@ function drop(ev) {
     let data = ev.dataTransfer.getData("text");
     let element = document.getElementById(data);
     let oldWeight = parseFloat(element.id);
-    insertAfter(ev.target.parentElement, element); // Component is inserted after the above component where the drop takes place
+    insertAfter(ev.target, element); // Component is inserted after the above component where the drop takes place
 
     let previousID;
     try {
@@ -777,7 +751,7 @@ function insertAfter(referenceNode, newNode) {
  * @param {event} ev: The event associated with dragging and dropping elements
  */
 function enter(ev) {
-    ev.target.parentElement.style.setProperty("border-bottom", "15px solid black", undefined);
+    ev.target.style.setProperty("border-bottom", "4px solid black", undefined);
 }
 
 /**
@@ -786,7 +760,7 @@ function enter(ev) {
  * @param {event} ev: The event associated with dragging and dropping elements
  */
 function exit(ev) {
-    ev.target.parentElement.style.setProperty("border", "inherit", undefined);
+    ev.target.style.setProperty("border", "inherit", undefined);
 }
 
 /**

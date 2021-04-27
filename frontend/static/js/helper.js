@@ -101,7 +101,7 @@ class Helper {
             let innerHTML = '';
             innerHTML += '<div data-hover="" data-delay="0" class="accordion-item">';
             innerHTML += '<div class="accordion-toggle" disabled="true" onclick="helper.toggleSection(this)">';
-            innerHTML += '<div class="accordion-icon"></div>';
+            innerHTML += '<div class="accordion-icon-dropdown-toggle">&#709</div>'
             innerHTML += ('<div class="features-label">' + feature['name'] + '</div>');
             innerHTML += '</div>';
             innerHTML += '<nav class="dropdown-list" data-collapsed="true">';
@@ -202,14 +202,17 @@ class Helper {
 
     toggleSection(element) {
         const metric_child = element.parentElement.children[1];
+        const metric_child_icon = element.parentElement.children[0].children[0];
         const isCollapsed = metric_child.getAttribute('data-collapsed') === 'true';
         metric_child.style.display = '';
         if (!(element.getAttribute("disabled") == "true")) {
             if (isCollapsed) {
                 this.expandSection(metric_child);
+                metric_child_icon.style.setProperty('transform', 'rotateX(180deg)');
                 metric_child.setAttribute('data-collapsed', 'false');
             } else {
                 this.collapseSection(metric_child);
+                metric_child_icon.style.setProperty('transform', 'rotateX(0deg)');
             }
         } else {
             this.collapseSection(metric_child);
