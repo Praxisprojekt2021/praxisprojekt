@@ -495,7 +495,7 @@ function createEditProcess() {
     if(document.getElementById('process-name-textarea').value === "") process_name_empty = true;
 
     // If a input has been performed, post changes to backend
-    if (minmaxlist === "" && !process_name_empty) {
+    if (minmaxlist === "" && !process_name_empty && !text_replaced_flag) {
         saveProcess(process);
     } else {
         let alert_string = 'Changes could not be saved. ';
