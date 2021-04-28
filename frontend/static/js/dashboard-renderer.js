@@ -1,8 +1,3 @@
-/*TODO:
-*       Call in loadProcesses an Backend-Endpoint senden statt an Mock-Datei --> Abhängigkeit Back-End
-*       In add/edit/delete-functions entsprechende URL aufrufen --> Abhängigkeit Tom/Roman
-*/
-
 //Base url to distinguish between localhost and production environment
 const base_url = window.location.href;
 
@@ -147,7 +142,6 @@ function deleteComponent(uid) {
  */
 function renderStatusColumn(wholeProcessScore) {
     // if score > 90, status is green, elseif score > 80, status is yellow, else status is red;
-    // TODO: adapt to requirements (when it should be red or green)
     let color = helper.getCircleColor(wholeProcessScore);
 
     return '<td class="col-4">' + helper.renderSmallCircle(null, color) + '</td>';
@@ -157,7 +151,6 @@ function renderStatusColumn(wholeProcessScore) {
 /**
  * Load Metrics Definition data from json file.
  *
- * TODO: Could not be realized be helper.get_request because callback function needs to be called with two params. To be checked later if needed.
  * @param componentData
  */
 function loadMetricsDefinition(componentData) {

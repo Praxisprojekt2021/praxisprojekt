@@ -190,7 +190,6 @@ class Helper {
             }
         }
 
-
         return `<div class="small-circle" style="background-color: ${color}"></div>`;
     }
 

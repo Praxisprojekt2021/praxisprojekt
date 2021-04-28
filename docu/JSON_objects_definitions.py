@@ -232,7 +232,6 @@ data = {
         },
         # ...
     },
-    # TODO: anpassen durch das Processing/Backend Team nötig
     # ab jetzt erst ab Backend durch Risk calc
     "score": 80,  # percent as integer
     "actual_target_metrics": {
@@ -445,7 +444,6 @@ data = {
         # ...
     },
 }
-# TODO: Anzupassen durch das Processing/Backend Team
 # Backend Processing -> Backend Core
 data = {
     "score": 80,  # percent as integer
