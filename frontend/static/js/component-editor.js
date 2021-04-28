@@ -272,3 +272,67 @@ function saveCallback(response) {
     // Component has been created/edited successfully
     window.location.replace(base_url);
 }
+
+/**
+ * Render metrics section.
+ *
+ * @param {json} features
+ */
+createMetricsSection(features) {
+    Object.keys(features).forEach(function (key) {
+        let feature = features[key];
+        let metrics = feature['metrics'];
+
+        let div = document.createElement('div');
+        div.id = key;
+        div.className = 'feature-section';
+
+        let innerHTML = '';
+        innerHTML += '<div data-hover="" data-delay="0" class="accordion-item">';
+        innerHTML += '<div class="accordion-toggle" disabled="true" onclick="helper.toggleSection(this)">';
+        innerHTML += '<div class="accordion-icon-dropdown-toggle">&#709</div>'
+        innerHTML += ('<div class="features-label">' + feature['name'] + '</div>');
+        innerHTML += '</div>';
+        innerHTML += '<nav class="dropdown-list" data-collapsed="true">';
+        innerHTML += '<div class="features-columns">';
+
+        Object.keys(metrics).forEach(function (key) {
+            let metric = metrics[key];
+            innerHTML += '<div class="metric-entry-element">';
+            innerHTML += ('<label for="availability-metric" class="entry-label">' + metric['name'] + '</label>');
+            innerHTML += '<input type="text" maxLength="256" data-name="availability-metric-1" id="' + key + '"' +
+                ' name="availability-metric" class="metric-input textfield"'
+            if (metric['max_value'] === -1) {
+                innerHTML += '" min="' + metric['min_value'] + '"'
+            } else {
+                innerHTML += ' max="' + metric['max_value'] + '" min="' + metric['min_value'] + '"'
+            }
+            innerHTML += ' >';
+            innerHTML += '<img src="images/info.png" loading="lazy" width="35" alt="" title="' +
+                metric['description_component'] + '\ni.e. ' + metric['example_component'] + '" class="info-icon">';
+            innerHTML += '</div>';
+        });
+
+        innerHTML += '</div>';
+        innerHTML += '</nav>';
+        innerHTML += '</div>';
+        div.innerHTML = innerHTML;
+
+        // Append element to document
+        document.getElementById('metrics-input').appendChild(div);
+    });
+
+    // Live check for correct inputs
+    const inputs = document.getElementsByClassName('metric-input textfield');
+    console.log(inputs);
+    console.log(inputs[0]);
+    for (let i = 0; i < inputs.length; i++) {
+        inputs[i].addEventListener('blur', (event) => {
+            if (!helper.targetAvgIsWithinMinMax(inputs[i]) || inputs[i].value === '') {
+                inputs[i].style.setProperty("border-color", "red", undefined);
+            } else {
+                inputs[i].style.removeProperty("border-color");
+            }
+        });
+    }
+}
