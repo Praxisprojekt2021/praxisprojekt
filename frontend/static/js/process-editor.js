@@ -342,7 +342,7 @@ function getMetricRowActual(actual_target_metrics, metricData) {
 
     return `
                 <tr>
-                    <td class="col-1"  id="` + metricData['name'] +`">  ` + metricData['name']+` </td>
+                    <td class="col-1"  id="` + metricData['name'] +`">` + metricData['name']+` </td>
                     <td class="col-2" >` + Math.round(actual_target_metrics['actual']['average'] * 100 + Number.EPSILON) / 100 + `</td>
                     <td class="col-3" >` + Math.round(actual_target_metrics['actual']['standard_deviation'] * 100 + Number.EPSILON) / 100 + `</td>
                     <td class="col-4" >` + Math.round(actual_target_metrics['actual']['total'] * 100 + Number.EPSILON) / 100 + `</td>
