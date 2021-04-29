@@ -41,7 +41,7 @@ class Helper {
      */
 
     http_request(requestType, endpoint, async, post_json, ...callbacks) {
-
+        Helper.showLoadingScreen();
         const base_url = window.location.origin;
         let xhttp = new XMLHttpRequest();
 
@@ -72,6 +72,7 @@ class Helper {
         // Send HTTP-request
         if (requestType === "GET") xhttp.send();
         if (requestType === "POST") xhttp.send(post_json);
+        Helper.hideLoadingScreen();
     }
 
     /**
@@ -259,7 +260,7 @@ class Helper {
      * This functions hides the loading animation
      */
 
-    hideLoadingScreen() {
+    static hideLoadingScreen() {
         let element = document.getElementById('loader-wrapper');
         element.setAttribute("class", "loader-wrapper-hidden");
     }
@@ -268,7 +269,7 @@ class Helper {
      * This functions shows the loading animation
      */
 
-    showLoadingScreen() {
+    static showLoadingScreen() {
         let element = document.getElementById('loader-wrapper');
         element.setAttribute("class", "loader-wrapper");
     }

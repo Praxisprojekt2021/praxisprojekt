@@ -14,7 +14,7 @@ let uid = url.searchParams.get('uid');
  */
 function init(json_process = false) {
 
-    helper.showLoadingScreen();
+    Helper.showLoadingScreen();
 
     getFeatures().then(data => {
         // If page is reloaded (after saving) processes are updated else => page is loaded from databased and entries are prepared
@@ -235,7 +235,7 @@ function createMetricsSection(features, processData) {
 
     checkCorrectInputs();
 
-    helper.hideLoadingScreen();
+    Helper.hideLoadingScreen();
 }
 
 function checkCorrectInputs() {
@@ -425,7 +425,7 @@ function renderWholeProcessScoreCircle(wholeProcessScore) {
  */
 
 function createEditProcess() {
-    helper.showLoadingScreen();
+    Helper.showLoadingScreen();
     let metric_elements = {};
     metric_elements['average'] = document.getElementsByName('target-average');
     metric_elements['min'] = document.getElementsByName('target-minimum');
@@ -506,7 +506,7 @@ function createEditProcess() {
             alert_string += '\nThe following Metrics are not within their min/max values:\n';
             alert_string += minmaxlist + "\n";
         }
-        helper.hideLoadingScreen();
+        Helper.hideLoadingScreen();
         window.alert(alert_string);
     }
 }
@@ -582,7 +582,7 @@ function createComponentTable(processData, metricsDefinition) {
             <td class="col-5" ></td>
             <td class="col-6" ></td>
             <td class="col-7" ></td>
-            <td class="col-8" ><i id="TrashIcon" class="fas fa-trash-alt" onclick="deleteComponent(this.parentElement.parentElement.id); helper.showLoadingScreen()"></i></td>
+            <td class="col-8" ><i id="TrashIcon" class="fas fa-trash-alt" onclick="deleteComponent(this.parentElement.parentElement.id); Helper.showLoadingScreen()"></i></td>
         `;
 
         // Sorting the components according to their weights
@@ -642,7 +642,7 @@ function addComponent() {
 
         helper.http_request("POST", "/process/edit/createstep", true, JSON.stringify(data), init);
     } else {
-        helper.hideLoadingScreen();
+        Helper.hideLoadingScreen();
     }
 }
 
@@ -724,7 +724,7 @@ function drop(ev) {
     let newWeight = parseFloat(previousID + (nextID - previousID) / 2);
     element.id = newWeight;
 
-    helper.showLoadingScreen();
+    Helper.showLoadingScreen();
     editComponent(oldWeight, newWeight); // Updating component table
 }
 
@@ -845,7 +845,7 @@ function horizontalScroll() {
 
 function saveCallback(response) {
     // Process has been created/edited successfully
-    helper.hideLoadingScreen();
+    Helper.hideLoadingScreen();
     if (uid.length === 32) {
         init(response);
     } else {
