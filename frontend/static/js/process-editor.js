@@ -48,7 +48,7 @@ async function getFeatures() {
             } else {
                 buttonType = "Create";
             }
-            div.innerHTML = `<button id="save-button" class="create-button" onclick="createEditProcess()" type="button">${buttonType}</button>`
+            div.innerHTML = `<button id="save-button" class="create-button" onclick="createEditProcess()" type="button"> `+ buttonType+` </button>`
 
             // Append element to document
             document.getElementById('buttons').appendChild(div);
@@ -73,7 +73,7 @@ function getProcess(features) {
 
         // Trigger function which gathers process data and processes it
         const post_data = `{
-            "uid": "${uid}"
+            "uid": "`+uid+`"
         }`
 
         helper.http_request("POST", "/process/view", true, post_data, function (processData) {
@@ -320,7 +320,7 @@ function fillMetricRows(metricData, slug, processData) {
         if ('fulfillment' in processData['actual_target_metrics'][slug]) {
             metric_fulfillment = processData['actual_target_metrics'][slug]['fulfillment'];
             innerHTML_fulfillment = `
-                        <td class="col-11" >${helper.renderSmallCircle(metric_fulfillment)}</td>
+                        <td class="col-11" >`+ helper.renderSmallCircle(metric_fulfillment)+` </td>
                         <td class="col-12" ><img src="images/info.png" loading="lazy" width="35" alt="heyy"
                          title="` + metricData['description_process'] + `\ni.e. ` + metricData['example_process'] + `"
                          class="info-icon"></td>
@@ -342,7 +342,7 @@ function getMetricRowActual(actual_target_metrics, metricData) {
 
     return `
                 <tr>
-                    <td class="col-1"  id="${metricData['name']}">${metricData['name']}</td>
+                    <td class="col-1"  id="` + metricData['name'] +`">  ` + metricData['name']+` </td>
                     <td class="col-2" >` + Math.round(actual_target_metrics['actual']['average'] * 100 + Number.EPSILON) / 100 + `</td>
                     <td class="col-3" >` + Math.round(actual_target_metrics['actual']['standard_deviation'] * 100 + Number.EPSILON) / 100 + `</td>
                     <td class="col-4" >` + Math.round(actual_target_metrics['actual']['total'] * 100 + Number.EPSILON) / 100 + `</td>
@@ -413,7 +413,7 @@ function renderWholeProcessScoreCircle(wholeProcessScore) {
     if(!isNaN(wholeProcessScore)) {
         document.getElementById("whole-process-score").style.setProperty("background-color", color);
         document.getElementById("whole-process-score").style.setProperty("display", "flex");
-        document.getElementById("whole-process-score").innerHTML = `${wholeProcessScore}%`;
+        document.getElementById("whole-process-score").innerHTML = ``+ wholeProcessScore %`+`;
     } else {
         document.getElementById("whole-process-score").style.setProperty("display", "none");
     }
@@ -480,12 +480,12 @@ function createEditProcess() {
     // Prepare json string
     const process = `{
         "process": {
-            "uid": "${uid}",
-            "name": "${document.getElementById('process-name-textarea').value}",
-            "responsible_person": "${document.getElementById('process-responsible-person-textarea').value}",
-            "description": "${document.getElementById('process-beschreibung-textarea').value}"
+            "uid": "`+ uid+`",
+            "name": "`+ document.getElementById('process-name-textarea').value+` ",
+            "responsible_person": "`+ document.getElementById('process-responsible-person-textarea').value+`",
+            "description": "` + document.getElementById('process-beschreibung-textarea').value+` "
         },
-            "target_metrics": ${JSON.stringify(metrics)}
+            "target_metrics": `+ JSON.stringify(metrics)+` 
         }`;
 
     if(document.getElementById('process-name-textarea').value === "") process_name_empty = true;
@@ -576,8 +576,8 @@ function createComponentTable(processData, metricsDefinition) {
         // Filling values
         component.innerHTML = `
             <td class="col-1" ></td>
-            <td class="col-2" >${componentData['name']}</td>
-            <td class="col-3" >${metricsDefinition['categories'][componentData['category']]['name']}</td>
+            <td class="col-2" >`+ componentData['name']+`</td>
+            <td class="col-3" >`+ metricsDefinition['categories'][componentData['category']]['name']+` </td>
             <td class="col-4" ></td>
             <td class="col-5" ></td>
             <td class="col-6" ></td>
@@ -782,9 +782,9 @@ function visualizeProcess(processData, metricsDefinition) {
 
         rectangle = renderRectangle(componentName, componentCategory);
 
-        innerHTML += `<div class="visualize">${rectangle}</div>`;
+        innerHTML += `<div class="visualize">`+ rectangle +`</div>`;
         if (i < components.length - 1) {
-            innerHTML += `<div class="visualize" >${arrowRight}</div>`;
+            innerHTML += `<div class="visualize" >`+ arrowRight+`</div>`;
         }
     }
 
@@ -815,8 +815,8 @@ function visualizeProcess(processData, metricsDefinition) {
 function renderRectangle(componentName, componentCategory) {
     return `
         <div class="square-border">
-            <div class="componentname">${componentName}</div>
-            <div class="componentcategory">${componentCategory}</div>
+            <div class="componentname">`+ componentName+`</div>
+            <div class="componentcategory">`+ componentCategory+`</div>
         </div>`;
 }
 
