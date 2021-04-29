@@ -413,7 +413,7 @@ function renderWholeProcessScoreCircle(wholeProcessScore) {
     if(!isNaN(wholeProcessScore)) {
         document.getElementById("whole-process-score").style.setProperty("background-color", color);
         document.getElementById("whole-process-score").style.setProperty("display", "flex");
-        document.getElementById("whole-process-score").innerHTML = ``+ wholeProcessScore %`+`;
+        document.getElementById("whole-process-score").innerHTML = wholeProcessScore + `%`;
     } else {
         document.getElementById("whole-process-score").style.setProperty("display", "none");
     }
