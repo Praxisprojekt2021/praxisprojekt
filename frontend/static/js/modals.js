@@ -11,7 +11,6 @@ class Modals {
         this.outdatedThreshold = new Date();
 
         // Outdated threshold is currently set to 48 hours
-        // TODO update outdated threshold
         this.outdatedThreshold.setHours(this.outdatedThreshold.getHours() - 48);
         // this.outdatedThreshold.setMonth(this.outdatedThreshold.getMonth() - 3);
     }

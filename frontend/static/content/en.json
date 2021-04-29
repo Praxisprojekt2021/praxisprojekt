@@ -26,7 +26,7 @@
             "component-uid": "Component UID",
             "component-category": "Component category",
             "component-description": "Component description",
-            "please-select": "Plaese select..",
+            "please-select": "Please select..",
             "save": "Save",
             "individual-component-created": "Individual component was created.",
             "individual-component-saved": "Individual component was saved.",
@@ -69,8 +69,18 @@
             "number-of-administrators": "Number of administrators",
             "encryption": "Encryption",
             "homepage": "Praxisprojekt 2021 - Homepage",
+            "definition-two": "It allows institutions to replicate internal processes, by adding all relevant software components, providing values for specific KPIs (metrics) and defining their relationships. Based on the inputs made for metrics, Riskify then calculates a score, aggregated in various categories such as availability, code quality and more. The process is now benchmarked against target scores and can hence be monitored.",
+            "about": "What we're about",
+            "definition-one": "Riskify is a system that captures and assesses enterprise software risks.",
+            "tutorial": "How to use Riskify",
+            "Slide1": "This is your dashboard. It gives you an overview of both processes and software components. It furthermore allows you to add, edit or delete processes as well as components.",
+            "Slide2": "When adding or editing a component, you will have the opportunity to name and describe it and to specify it's category such as databases or firewalls.",
+            "Slide3": "After specifying the components' category, relevant quantifiable metrics for several attributes like integrity or code quality can be logged.",
             "description": "Description",
-            "responsible-person": "Responsible Person"
+            "responsible-person": "Responsible Person",
+            "Whats-Riskify": "What's Riskify?",
+            "Loading": "Loading..."
+
         }
     }
 }

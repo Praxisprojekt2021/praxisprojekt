@@ -37,4 +37,6 @@ class RelationshipProcessMetric(StructuredRel):
         is value of the relationship
     """
 
-    value = FloatProperty()
+    average = FloatProperty()
+    min = FloatProperty()
+    max = FloatProperty()

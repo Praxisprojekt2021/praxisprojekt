@@ -18,7 +18,7 @@ function init() {
     // Check if view has received an uid as URL parameter to check whether to create a new component or edit an existing one
     if (uid && uid.length === 32) {
         // If so, load component data...
-        Helper.showLoadingScreen();
+        helper.showLoadingScreen();
         console.log('Editing existing component');
 
         // Trigger function which gathers component data and processes it
@@ -27,7 +27,8 @@ function init() {
         // If not, prepare for new component input...
         console.log('Entering new component');
         setSections("default");
-
+        // Enable component-category which is disabled by default
+        document.getElementById('component-category').removeAttribute("disabled");
         // Set component uid to -1
         document.getElementById('component-uid').value = -1;
     }
@@ -70,7 +71,7 @@ function getFeatures() {
             helper.createMetricsSection(features);
             let div = document.createElement('div');
             div.className = 'control-area';
-            div.innerHTML = '<a href="#" data-wait="Bitte warten..." id="save-button" class="create-button w-button" onclick="createEditComponent(); Helper.showLoadingScreen()">Speichern</a>';
+            div.innerHTML = '<a href="#" data-wait="Bitte warten..." id="save-button" class="create-button" onclick="createEditComponent()">Speichern</a>';
 
             // Append element to document
             document.getElementById('metrics-input').appendChild(div);
@@ -87,7 +88,7 @@ function getComponent(uid) {
     const post_data = {
         "uid": uid
     }
-    helper.post_request('/component/view', JSON.stringify(post_data), processComponentData);
+    helper.http_request("POST", '/component/view', true, JSON.stringify(post_data), processComponentData);
 }
 
 /**
@@ -143,16 +144,14 @@ function setSections(selected_category) {
                 const feature_child = document.getElementById(key).children[0].children[0];
                 const metrics_child = document.getElementById(key).children[0].children[1];
                 if (category[key] === 'true') {
-                    feature_child.style.color = 'inherit';
                     feature_child.removeAttribute("disabled");
                 } else {
-                    feature_child.style.color = '#999999';
                     feature_child.setAttribute("disabled", "true");
                     metrics_child.style.display = 'none';
                 }
             });
         });
-    Helper.hideLoadingScreen();
+    helper.hideLoadingScreen();
 }
 
 
@@ -165,10 +164,11 @@ function createEditComponent() {
     let metric_elements = document.getElementsByClassName('metric-input');
     let metrics = {};
     let text_replaced_flag = false; // Helper variable that indicates, whether or not a non quantitative metric input has been found and discarded
+    let component_name_empty = false; // Helper variable that indicates, whether or not the component name is given
+
     for (let i = 0; i < metric_elements.length; i++) {
-        // TODO also check if values are within min and max values
         // Replace non quantitative metric inputs with an emtpy string to have them discarded
-        if (metric_elements[i].value !== '' && !parseFloat(metric_elements[i].value)) {
+        if (metric_elements[i].value !== '' && isNaN(metric_elements[i].value)) {
             metric_elements[i].value = '';
             text_replaced_flag = true;
         }
@@ -186,10 +186,14 @@ function createEditComponent() {
         "metrics": metrics
     }
 
+    if(document.getElementById('component-name').value === "") component_name_empty = true;
+
     // Check if all field have been filled
     // Also, when changing between categories, discard inputs made for non-relevant metrics
-    let required_helper_flag = true; // Helper variable which gets set to false, if any required field is not filled
     const toggles = document.getElementsByClassName('feature-section');
+    let minmaxlist = ""; // List for Metrics that are not within min or max
+    let emptyFieldList = ""; // List for Metric inputs that are empty
+    let component_category_helper_flag = true; // Helper flag for "not selected" category
     for (let i = 0; i < toggles.length; i++) {
         const feature_child = toggles[i].children[0].children[0];
         const metrics_child = toggles[i].children[0].children[1];
@@ -204,27 +208,56 @@ function createEditComponent() {
         } else {
             // Check if enabled fields have been filled - all fields are required
             for (let i = 0; i < metrics_child_input_fields.length; i++) {
-                if (metrics_child.getElementsByTagName('input')[i].value === '') {
-                    console.log(metrics_child.getElementsByTagName('input')[i].id);
-                    required_helper_flag = false;
+                let inputLabel = metrics_child.getElementsByTagName('label')[i];
+                let inputElement = metrics_child.getElementsByTagName('input')[i];
+                if (inputElement.value === '') {
+                    emptyFieldList += '\n' + feature_child.getElementsByClassName('features-label')[0].innerHTML + ": " + inputLabel.innerHTML;
+                    console.log(inputElement);
+                    inputElement.style.setProperty("border-color", "red", undefined);
+                    continue;
+                }
+
+                // Check if enabled fields maintain min/max value
+                if (!helper.targetAvgIsWithinMinMax(inputElement)) {
+                    minmaxlist += '\n' + feature_child.getElementsByClassName('features-label')[0].innerHTML + ": " + inputLabel.innerHTML;
+                    inputElement.style.setProperty("border-color", "red", undefined);
+                } else {
+                    inputElement.style.removeProperty("border-color");
                 }
             }
         }
-
-        if (document.getElementById("component-category").value === "default") {
-            required_helper_flag = false;
-        }
     }
 
-    // If a input have been performend, post changes to backend
-    if (required_helper_flag) {
-        helper.post_request('/component/create_edit', JSON.stringify(component), saveCallback);
+    if (document.getElementById("component-category").value === "default") {
+        component_category_helper_flag = false;
+    }
+
+    // If an input has been performed, post changes to backend
+    if (emptyFieldList === "" && minmaxlist === "" && component_category_helper_flag && !component_name_empty) {
+        helper.showLoadingScreen();
+        helper.http_request("POST", '/component/create_edit', true, JSON.stringify(component), saveCallback);
     } else {
-        let alert_string = 'Changes could not be saved. Please fill all metrics fields.';
-        if (text_replaced_flag === true) {
-            alert_string += '\nNon quantitative metrics have been automatically discarded.';
+        let alert_string = 'Changes could not be saved. ';
+        // Prepare alert message strings depending on the error cause
+        if (!component_category_helper_flag) {
+            alert_string += 'Please select a category. \n';
         }
-        Helper.hideLoadingScreen();
+        if(component_name_empty) {
+            alert_string += 'Please enter a component name. \n';
+        }
+        if (emptyFieldList !== "") {
+            alert_string += 'Please fill all metrics fields. \n';
+            alert_string += '\nThe following Metrics are empty:\n';
+            alert_string += emptyFieldList + '\n';
+        }
+        if (text_replaced_flag === true) {
+            alert_string += '\nNon quantitative metrics have been automatically discarded.\n';
+        }
+        if (minmaxlist !== "") {
+            alert_string += '\nThe following Metrics are not within their min/max values:\n';
+            alert_string += minmaxlist + "\n";
+        }
+        helper.hideLoadingScreen();
         window.alert(alert_string);
     }
 }
@@ -235,7 +268,7 @@ function createEditComponent() {
  */
 
 function saveCallback(response) {
-    Helper.hideLoadingScreen();
+    helper.hideLoadingScreen();
     // Component has been created/edited successfully
     window.location.replace(base_url);
 }

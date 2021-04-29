@@ -6,20 +6,20 @@ import Fetch from 'https://cdn.jsdelivr.net/gh/dotcore64/i18next-fetch-backend/s
  * Fetches en.json from backend and then translates all HTML-elements which have a data-i18n attribute
  */
 i18next
-.use(BackendAdapter)
-.init({
-backend: {
-    backend: Fetch,
-    backendOption:{
-      loadPath: 'content/en.json',
-      allowMultiLoading:  true,
-      multiSeparator: '+',
-    }
-  },
-lng: 'en',
-fallbackLng: 'en',
-preload: ['en'],
-}).then(function(t) {
+    .use(BackendAdapter)
+    .init({
+        backend: {
+            backend: Fetch,
+            backendOption: {
+                loadPath: 'content/en.json',
+                allowMultiLoading: true,
+                multiSeparator: '+',
+            }
+        },
+        lng: 'en',
+        fallbackLng: 'en',
+        preload: ['en'],
+    }).then(function (t) {
     // after initialization is done, translate all HTML-Elements which have a data-i18n attribute
     // data-i18n attribute must have the same value as the corresponding key in the de.json-file
     for (let i = 0; i < document.querySelectorAll('[data-i18n]').length; i++) {
