@@ -125,6 +125,7 @@ function processComponentData(json_data) {
         // Request was not successful
         //window.alert('Component could not be loaded');
         // Error will be shown in showError
+        window.location.href = '/';
     }
 }
 
