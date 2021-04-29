@@ -190,31 +190,31 @@ function createMetricsSection(features, processData) {
         <table class="responsive-table" id="process-feature-table">
             <tr class="table-header">
                 <th class="col-1" name="metric">Metric</th>
-                <th class="col-2 info-text-header" name="average" tooltip-data="The average value for the respective metrics&#xa; across all components in the process.">
+                <th class="col-2 info-text-popup" name="average" tooltip-data="The average value for the respective metrics&#xa; across all components in the process.">
                     Average
                 </th>
-                <th class="col-3 info-text-header" name="standard-deviation" tooltip-data="The standard deviation for each metric&#xa; across all components in the process." >
+                <th class="col-3 info-text-popup" name="standard-deviation" tooltip-data="The standard deviation for each metric&#xa; across all components in the process." >
                     Std. Dev.
                 </th>
-                <th class="col-4 info-text-header" name="sum" tooltip-data="The sum for each respective metric&#xa; across all components in the process.">
+                <th class="col-4 info-text-popup" name="sum" tooltip-data="The sum for each respective metric&#xa; across all components in the process.">
                     Sum
                 </th>
-                <th class="col-5 info-text-header" name="min" tooltip-data="The minimum value specifies the smallest value for each&#xa; respective metric across all components in the process.">
+                <th class="col-5 info-text-popup" name="min" tooltip-data="The minimum value specifies the smallest value for each&#xa; respective metric across all components in the process.">
                     Min
                 </th>
-                <th class="col-6 info-text-header" name="max" tooltip-data="The maximum value indicates the largest value for each&#xa; respective metric across all components of the process.">
+                <th class="col-6 info-text-popup" name="max" tooltip-data="The maximum value indicates the largest value for each&#xa; respective metric across all components of the process.">
                     Max
                 </th>
-                <th class="col-7 info-text-header" name="target-min" tooltip-data="The minimum target average, user-entered, Target-value&#xa; for each metric across all components in the process.">
+                <th class="col-7 info-text-popup" name="target-min" tooltip-data="The minimum target average, user-entered, Target-value&#xa; for each metric across all components in the process.">
                     Target Min
                 </th>
-                <th class="col-8 info-text-header" name="target-max" tooltip-data="The maximum target average, user-entered, Target-value&#xa; for each metric across all components in the process.">
+                <th class="col-8 info-text-popup" name="target-max" tooltip-data="The maximum target average, user-entered, Target-value&#xa; for each metric across all components in the process.">
                     Target Max
                 </th>
-                <th class="col-9 info-text-header" name="target-avg" tooltip-data="The average, user-entered, Target-value&#xa; for each metric across all components in the process.">
+                <th class="col-9 info-text-popup" name="target-avg" tooltip-data="The average, user-entered, Target-value&#xa; for each metric across all components in the process.">
                     Target Average
                 </th>
-                <th class="col-10 info-text-header" name="target-sum" tooltip-data="The target sum for each metric across&#xa; all components in the process.">
+                <th class="col-10 info-text-popup" name="target-sum" tooltip-data="The target sum for each metric across&#xa; all components in the process.">
                     Target Sum
                 </th>
                 <th class="col-11" name="ampel">Check</th>
@@ -245,6 +245,11 @@ function checkCorrectInputs() {
     names.forEach(element => {
         const inputs = document.getElementsByName(element);
         for (let i = 0; i < inputs.length; i++) {
+            // Adding popup for target avg input -> with min max values if they exist
+            if(element == 'target-average') {
+                helper.addMinMaxPopup(inputs[i]);
+            }
+            // Adding event listener for input check
             inputs[i].addEventListener('blur', (event) => {
                 if (!helper.targetAvgIsWithinMinMax(inputs[i])) {
                     inputs[i].style.setProperty("border-color", "red", undefined);
@@ -291,9 +296,9 @@ function fillMetricRows(metricData, slug, processData) {
                         <td class="col-10" ></td>`;
     let innerHTML_fulfillment = `
                         <td class="col-11" ></td>
-                        <td class="col-12" ><img src="images/info.png" loading="lazy" width="35"
-                        title="` + metricData['description_process'] + `\ni.e. ` + metricData['example_process'] + `"
-                        alt="" class="info-icon"></td>
+                        <td class="col-12" ><div tooltip-data="` + metricData['description_process'] + `\ni.e. ` + metricData['example_process'] + `"
+                         class="info-text-popup"><img class="info-icon" src="images/info.png" loading="lazy" width="35"
+                         ></div></td>
                     </tr>`;
 
     if (uid != null && uid !== -1 && (slug in processData['actual_target_metrics'])) {
@@ -321,9 +326,9 @@ function fillMetricRows(metricData, slug, processData) {
             metric_fulfillment = processData['actual_target_metrics'][slug]['fulfillment'];
             innerHTML_fulfillment = `
                         <td class="col-11" >${helper.renderSmallCircle(metric_fulfillment)}</td>
-                        <td class="col-12" ><img src="images/info.png" loading="lazy" width="35" alt="heyy"
-                         title="` + metricData['description_process'] + `\ni.e. ` + metricData['example_process'] + `"
-                         class="info-icon"></td>
+                        <td class="col-12" ><div tooltip-data="` + metricData['description_process'] + `\ni.e. ` + metricData['example_process'] + `"
+                         class="info-text-popup"><img class="info-icon" src="images/info.png" loading="lazy" width="35"
+                         ></div></td>
                     </tr>`;
         }
     }
@@ -371,7 +376,6 @@ function getMetricRowTarget(innerHTML_target, actual_target_metrics, slug) {
                         <td class="col-8" ><input type="text" name="target-maximum" id = "`+ slug + `" value="`+ targetValues['max'] + `"`;
     innerHTML_target['average'] = `
                         <td class="col-9" ><input type="text" name="target-average" id = "`+ slug + `" value="`+ targetValues['average'] + `"`;
-
     return innerHTML_target;
 }
 
@@ -390,8 +394,12 @@ function getMetricRowTotal(actual_target_metrics) {
 function addMinMaxToInputFields(innerHTML_target, metricData) {
 
     // Rest of the innerHTML_target string
-    if (metricData['min_value'] >= 0) innerHTML_target += ' min="' + metricData['min_value'] + '"';
-    if (metricData['max_value'] >= 0) innerHTML_target += ' max="' + metricData['max_value'] + '"';
+    if (metricData['min_value'] >= 0) {
+        innerHTML_target += ' min="' + metricData['min_value'] + '"';
+    }
+    if (metricData['max_value'] >= 0) {
+        innerHTML_target += ' max="' + metricData['max_value'] + '"';
+    }
 
     innerHTML_target += `></td>`;
 

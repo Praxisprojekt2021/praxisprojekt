@@ -111,16 +111,17 @@ class Helper {
                 let metric = metrics[key];
                 innerHTML += '<div class="metric-entry-element">';
                 innerHTML += ('<label for="availability-metric" class="entry-label">' + metric['name'] + '</label>');
-                innerHTML += '<input type="text" maxLength="256" data-name="availability-metric-1" id="' + key + '"' +
+                innerHTML += '<div><input type="text" maxLength="256" data-name="availability-metric-1" id="' + key + '"' +
                     ' name="availability-metric" class="metric-input textfield"'
                 if (metric['max_value'] === -1) {
                     innerHTML += '" min="' + metric['min_value'] + '"'
                 } else {
                     innerHTML += ' max="' + metric['max_value'] + '" min="' + metric['min_value'] + '"'
                 }
-                innerHTML += ' >';
-                innerHTML += '<img src="images/info.png" loading="lazy" width="35" alt="" title="' +
-                    metric['description_component'] + '\ni.e. ' + metric['example_component'] + '" class="info-icon">';
+                innerHTML += ' ></div>';
+                innerHTML += '<div class="icon-popup-fix info-text-popup" tooltip-data="' +
+                    metric['description_component'] + '\ni.e. ' + metric['example_component'] + '">' +
+                    '<img src="images/info.png" loading="lazy" width="35" alt="" class="info-icon"></div>';
                 innerHTML += '</div>';
             });
 
@@ -138,6 +139,7 @@ class Helper {
         console.log(inputs);
         console.log(inputs[0]);
         for (let i = 0; i < inputs.length; i++) {
+            this.addMinMaxPopup(inputs[i]);
             inputs[i].addEventListener('blur', (event) => {
                 if (!helper.targetAvgIsWithinMinMax(inputs[i]) || inputs[i].value === '') {
                     inputs[i].style.setProperty("border-color", "red", undefined);
@@ -146,6 +148,24 @@ class Helper {
                 }
             });
         }
+    }
+
+    /**
+     * Adds a min max popup to the parent HTMLelement of the given HTMLelement
+     *
+     * @param {HTMLElement} element
+     */
+
+    addMinMaxPopup(element) {
+        let tooltipData;
+        if(element.hasAttribute("min") && element.hasAttribute("max")) {
+            tooltipData = "Min: "+element.getAttribute("min")+" Max: "+element.getAttribute("max");
+        } else {
+            if(element.hasAttribute("min")) tooltipData = "Min: "+element.getAttribute("min");
+            if(element.hasAttribute("max")) tooltipData = "Max: "+element.getAttribute("max")
+        }
+        element.parentElement.classList.add("info-text-popup");
+        element.parentElement.setAttribute("tooltip-data", tooltipData);
     }
 
     /**
