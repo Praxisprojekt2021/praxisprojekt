@@ -186,7 +186,7 @@ function createEditComponent() {
         "metrics": metrics
     }
 
-    if(document.getElementById('component-name').value=="") component_name_empty = true;
+    if(document.getElementById('component-name').value === "") component_name_empty = true;
 
     // Check if all field have been filled
     // Also, when changing between categories, discard inputs made for non-relevant metrics
