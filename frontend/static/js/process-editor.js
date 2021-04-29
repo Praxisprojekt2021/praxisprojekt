@@ -105,7 +105,8 @@ function fillDataFields(features, processData) {
         //
     } else {
         // Component has not been created/edited successfully
-        window.alert('Process could not be loaded.');
+        //window.alert('Process could not be loaded.');
+        // Error will be shown in showError
     }
 }
 

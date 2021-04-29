@@ -123,7 +123,8 @@ function processComponentData(json_data) {
         setSections(component['category']);
     } else {
         // Request was not successful
-        window.alert('Component could not be loaded');
+        //window.alert('Component could not be loaded');
+        // Error will be shown in showError
     }
 }
 

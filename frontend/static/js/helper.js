@@ -9,6 +9,10 @@ class Helper {
         // Saving the data was not successful
         if (endpoint.includes("delete")) {
             window.alert("Object could not be deleted.")
+        } else if(endpoint.includes("/component/view")) {
+            window.alert('Component could not be loaded.');
+        } else if(endpoint.includes("/process/view")) {
+            window.alert('Process could not be loaded.');
         } else {
             window.alert('Changes could not be saved.');
         }
