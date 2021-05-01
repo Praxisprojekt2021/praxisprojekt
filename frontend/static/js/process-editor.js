@@ -17,6 +17,7 @@ function init(json_process = false) {
     helper.showLoadingScreen();
 
     getFeatures().then(data => {
+        // If page is reloaded (after saving) processes are updated else => page is loaded from databased and entries are prepared
         if (!json_process) {
             getProcess(data);
         } else {
@@ -37,10 +38,6 @@ async function getFeatures() {
         .then(data => {
             let features = data['features'];
 
-            //TODO: auskommentieren
-
-            // createMetricsSection(features);
-
             document.getElementById('buttons').innerHTML = '';
             let div = document.createElement('div');
             div.className = 'control-area';
@@ -51,7 +48,7 @@ async function getFeatures() {
             } else {
                 buttonType = "Create";
             }
-            div.innerHTML = `<button id="save-button" class="create-button" onclick="createEditProcess(); helper.showLoadingScreen()" type="button">${buttonType}</button>`
+            div.innerHTML = `<button id="save-button" class="create-button" onclick="createEditProcess()" type="button">${buttonType}</button>`
 
             // Append element to document
             document.getElementById('buttons').appendChild(div);
@@ -79,23 +76,11 @@ function getProcess(features) {
             "uid": "${uid}"
         }`
 
-        const base_url = window.location.origin;
-        let xhttp = new XMLHttpRequest();
-        xhttp.open("POST", base_url + "/process/view", true);
-        xhttp.setRequestHeader("Content-Type", "application/json");
+        helper.http_request("POST", "/process/view", true, post_data, function (processData) {
+            fillDataFields(features, processData);
+            loadComponentNames(processData);
+        });
 
-        // TODO: auslagern in helper js
-
-        // Handle response of HTTP-request
-        xhttp.onreadystatechange = function () {
-            if (this.readyState === XMLHttpRequest.DONE && (this.status >= 200 && this.status < 300)) {
-                // Process response and show sum in output field
-                let processData = JSON.parse(this.responseText);
-                fillDataFields(features, processData);
-                loadComponentNames(processData);
-            }
-        }
-        xhttp.send(post_data);
     } else {
         // If not, prepare for new component input...
         let processData = {};
@@ -111,6 +96,7 @@ function getProcess(features) {
  * @param {json} processData
  */
 function fillDataFields(features, processData) {
+
     if (processData['success']) {
         // fill description column
         fillDescriptionColumn(processData);
@@ -192,27 +178,47 @@ function createMetricsSection(features, processData) {
         let innerHTML = '';
         innerHTML += '<div data-hover="" data-delay="0" class="accordion-item">';
         innerHTML += '<div class="accordion-toggle" onclick="helper.toggleSection(this)">';
-        innerHTML += '<div class="accordion-icon"></div>';
+        innerHTML += '<div class="accordion-icon-dropdown-toggle">&#709</div>';
         innerHTML += '<div class="features-label">' + feature_header + '</div>';
         innerHTML += helper.renderSmallCircle(feature_fulfillment);
         innerHTML += '</div>';
-        innerHTML += '<nav class="dropdown-list">';
+        innerHTML += '<nav class="dropdown-list" data-collapsed="true">';
         innerHTML += '<div class="features-columns">';
 
         // Table Headers
         innerHTML += `
-        <table id="process-feature-table">
-            <tr>
-                <th name="metric">Metric</th>
-                <th name="average">Average</th>
-                <th name="standard-deviation">Std. Dev.</th>
-                <th name="sum">Sum</th>
-                <th name="min">Min</th>
-                <th name="max">Max</th>
-                <th name="target-avg">Target Average</th>
-                <th name="target-sum">Target Sum</th>
-                <th name="ampel">Check</th>
-                <th name="info">Info</th>
+        <table class="responsive-table" id="process-feature-table">
+            <tr class="table-header">
+                <th class="col-1" name="metric">Metric</th>
+                <th class="col-2 info-text-header" name="average" tooltip-data="The average value for the respective metrics&#xa; across all components in the process.">
+                    Average
+                </th>
+                <th class="col-3 info-text-header" name="standard-deviation" tooltip-data="The standard deviation for each metric&#xa; across all components in the process." >
+                    Std. Dev.
+                </th>
+                <th class="col-4 info-text-header" name="sum" tooltip-data="The sum for each respective metric&#xa; across all components in the process.">
+                    Sum
+                </th>
+                <th class="col-5 info-text-header" name="min" tooltip-data="The minimum value specifies the smallest value for each&#xa; respective metric across all components in the process.">
+                    Min
+                </th>
+                <th class="col-6 info-text-header" name="max" tooltip-data="The maximum value indicates the largest value for each&#xa; respective metric across all components of the process.">
+                    Max
+                </th>
+                <th class="col-7 info-text-header" name="target-min" tooltip-data="The minimum target average, user-entered, Target-value&#xa; for each metric across all components in the process.">
+                    Target Min
+                </th>
+                <th class="col-8 info-text-header" name="target-max" tooltip-data="The maximum target average, user-entered, Target-value&#xa; for each metric across all components in the process.">
+                    Target Max
+                </th>
+                <th class="col-9 info-text-header" name="target-avg" tooltip-data="The average, user-entered, Target-value&#xa; for each metric across all components in the process.">
+                    Target Average
+                </th>
+                <th class="col-10 info-text-header" name="target-sum" tooltip-data="The target sum for each metric across&#xa; all components in the process.">
+                    Target Sum
+                </th>
+                <th class="col-11" name="ampel">Check</th>
+                <th class="col-12" name="info">Info</th>
             </tr>`;
 
         innerHTML += innerHTML_metric_block;
@@ -226,7 +232,29 @@ function createMetricsSection(features, processData) {
         // Append element to document
         document.getElementById('metrics-input-processes').appendChild(div);
     });
+
+    checkCorrectInputs();
+
     helper.hideLoadingScreen();
+}
+
+function checkCorrectInputs() {
+
+    // Live check for correct inputs
+    let names = ['target-average', 'target-minimum', 'target-maximum'];
+    names.forEach(element => {
+        const inputs = document.getElementsByName(element);
+        for (let i = 0; i < inputs.length; i++) {
+            inputs[i].addEventListener('blur', (event) => {
+                if (!helper.targetAvgIsWithinMinMax(inputs[i])) {
+                    inputs[i].style.setProperty("border-color", "red", undefined);
+                } else {
+                    inputs[i].style.removeProperty("border-color");
+                }
+            });
+        }
+    });
+
 }
 
 /**
@@ -245,58 +273,130 @@ function fillMetricRows(metricData, slug, processData) {
     // default table row, when no metric data is provided
     let innerHTML_actual = `
                     <tr>
-                        <td id="${metricData['name']}">${metricData['name']}</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>`;
-    let innerHTML_target = `
-                        <td><input name="target-average" id="${slug}" value=""></td>`;
+                        <td class="col-1" id="` + metricData['name'] + `">` + metricData['name'] + `</td>
+                        <td class="col-2" ></td>
+                        <td class="col-3" ></td>
+                        <td class="col-4" ></td>
+                        <td class="col-5" ></td>
+                        <td class="col-6" ></td>`;
+
+    let innerHTML_target = [];
+    innerHTML_target['min'] =
+                        `<td class="col-7" ><input type="text" name="target-minimum" id="` + slug + `"`; // Rest of the string is added below
+    innerHTML_target['max'] =
+                        `<td class="col-8" ><input type="text" name="target-maximum" id="` + slug + `"`; // Rest of the string is added below
+    innerHTML_target['average'] = `
+                        <td class="col-9" ><input type="text" name="target-average" id="` + slug + `"`; // Rest of the string is added below
+    let innerHTML_total = `
+                        <td class="col-10" ></td>`;
     let innerHTML_fulfillment = `
-                        <td></td>
-                        <td></td>
-                        <td><img src="images/info.png" loading="lazy" width="35" alt="" class="info-icon"></td>
+                        <td class="col-11" ></td>
+                        <td class="col-12" ><img src="images/info.png" loading="lazy" width="35"
+                        title="` + metricData['description_process'] + `\ni.e. ` + metricData['example_process'] + `"
+                        alt="" class="info-icon"></td>
                     </tr>`;
 
     if (uid != null && uid !== -1 && (slug in processData['actual_target_metrics'])) {
 
-        if ('count_component' in processData['actual_target_metrics'][slug]) {
-            count_component = processData['actual_target_metrics'][slug]['count_component'];
+        let actual_target_metrics = processData['actual_target_metrics'][slug];
+
+        if ('count_component' in actual_target_metrics) {
+            count_component = actual_target_metrics['count_component'];
         }
 
         // check if actual values are provided
-        if ('actual' in processData['actual_target_metrics'][slug]) {
-            innerHTML_actual = `
-                    <tr>
-                        <td id="${metricData['name']}">${metricData['name']}</td>
-                        <td>${processData['actual_target_metrics'][slug]['actual']['average']}</td>
-                        <td>${processData['actual_target_metrics'][slug]['actual']['standard_deviation']}</td>
-                        <td>${processData['actual_target_metrics'][slug]['actual']['total']}</td>
-                        <td>${processData['actual_target_metrics'][slug]['actual']['min']}</td>
-                        <td>${processData['actual_target_metrics'][slug]['actual']['max']}</td>`;
+        if ('actual' in actual_target_metrics) {
+            innerHTML_actual = getMetricRowActual(actual_target_metrics, metricData);
         }
 
-        // check if a target value is provided
-        if ('target' in processData['actual_target_metrics'][slug]) {
-            innerHTML_target = `
-                        <td><input name="target-average" id="${slug}" value="${processData['actual_target_metrics'][slug]['target']['average']}"></td>`
+        // check if target values are provided
+        if ('target' in actual_target_metrics) {
+            innerHTML_target = getMetricRowTarget(innerHTML_target, actual_target_metrics, slug);
+
+            innerHTML_total = getMetricRowTotal(actual_target_metrics);
         }
 
         // check if a fulfillment and consequentially a target sum is provided (if fulfillment was calculated, a target sum was also able to be calculated)
         if ('fulfillment' in processData['actual_target_metrics'][slug]) {
             metric_fulfillment = processData['actual_target_metrics'][slug]['fulfillment'];
             innerHTML_fulfillment = `
-                        <td>${processData['actual_target_metrics'][slug]['target']['total']}</td>
-                        <td>${helper.renderSmallCircle(metric_fulfillment)}</td>
-                        <td><img src="images/info.png" loading="lazy" width="35" alt="" class="info-icon"></td>
+                        <td class="col-11" >${helper.renderSmallCircle(metric_fulfillment)}</td>
+                        <td class="col-12" ><img src="images/info.png" loading="lazy" width="35" alt="heyy"
+                         title="` + metricData['description_process'] + `\ni.e. ` + metricData['example_process'] + `"
+                         class="info-icon"></td>
                     </tr>`;
         }
     }
 
-    let innerHTML_metric_row = innerHTML_actual + innerHTML_target + innerHTML_fulfillment;
+    Object.keys(innerHTML_target).forEach(function (key) {
+        innerHTML_target[key] = addMinMaxToInputFields(innerHTML_target[key], metricData);
+    });
+
+    let innerHTML_metric_row = innerHTML_actual + innerHTML_target['min'] + innerHTML_target['max'] + innerHTML_target['average'] + innerHTML_total + innerHTML_fulfillment;
 
     return [metric_fulfillment, count_component, innerHTML_metric_row];
+}
+
+
+function getMetricRowActual(actual_target_metrics, metricData) {
+
+    return `
+                <tr>
+                    <td class="col-1"  id="${metricData['name']}">${metricData['name']}</td>
+                    <td class="col-2" >` + Math.round(actual_target_metrics['actual']['average'] * 100 + Number.EPSILON) / 100 + `</td>
+                    <td class="col-3" >` + Math.round(actual_target_metrics['actual']['standard_deviation'] * 100 + Number.EPSILON) / 100 + `</td>
+                    <td class="col-4" >` + Math.round(actual_target_metrics['actual']['total'] * 100 + Number.EPSILON) / 100 + `</td>
+                    <td class="col-5" >` + Math.round(actual_target_metrics['actual']['min'] * 100 + Number.EPSILON) / 100 + `</td>
+                    <td class="col-6" >` + Math.round(actual_target_metrics['actual']['max'] * 100 + Number.EPSILON) / 100 + `</td>`;
+}
+
+function getMetricRowTarget(innerHTML_target, actual_target_metrics, slug) {
+
+    let targetValues = {};
+
+    Object.keys(innerHTML_target).forEach(function (key) {
+        if (actual_target_metrics['target'][key] !== null) {
+            targetValues[key] = Math.round(actual_target_metrics['target'][key] * 100 + Number.EPSILON) / 100;
+        }
+        else {
+            targetValues[key] = '';
+        }
+    });
+
+    // replace null with empty strings, so that "null" is not entered in the table
+
+    innerHTML_target['min'] = `
+                        <td class="col-7" ><input type="text" name="target-minimum" id = "`+ slug + `" value="`+ targetValues['min'] + `"`;
+    innerHTML_target['max'] = `
+                        <td class="col-8" ><input type="text" name="target-maximum" id = "`+ slug + `" value="`+ targetValues['max'] + `"`;
+    innerHTML_target['average'] = `
+                        <td class="col-9" ><input type="text" name="target-average" id = "`+ slug + `" value="`+ targetValues['average'] + `"`;
+
+    return innerHTML_target;
+}
+
+function getMetricRowTotal(actual_target_metrics) {
+
+    let targetTotalValue = "";
+
+    if ('total' in actual_target_metrics['target']) {
+        targetTotalValue = Math.round(actual_target_metrics['target']['total'] * 100 + Number.EPSILON) / 100;
+    }
+
+    return `<td class="col-10" >` + targetTotalValue + `</td>`;
+}
+
+
+function addMinMaxToInputFields(innerHTML_target, metricData) {
+
+    // Rest of the innerHTML_target string
+    if (metricData['min_value'] >= 0) innerHTML_target += ' min="' + metricData['min_value'] + '"';
+    if (metricData['max_value'] >= 0) innerHTML_target += ' max="' + metricData['max_value'] + '"';
+
+    innerHTML_target += `></td>`;
+
+    return innerHTML_target;
+
 }
 
 /**
@@ -310,8 +410,13 @@ function renderWholeProcessScoreCircle(wholeProcessScore) {
 
     color = helper.getCircleColor(wholeProcessScore);
 
-    document.getElementById("whole-process-score").setAttribute("style", `background-color:  ${color}`);
-    document.getElementById("whole-process-score").innerHTML = `${wholeProcessScore}%`;
+    if(!isNaN(wholeProcessScore)) {
+        document.getElementById("whole-process-score").style.setProperty("background-color", color);
+        document.getElementById("whole-process-score").style.setProperty("display", "flex");
+        document.getElementById("whole-process-score").innerHTML = `${wholeProcessScore}%`;
+    } else {
+        document.getElementById("whole-process-score").style.setProperty("display", "none");
+    }
 }
 
 
@@ -320,29 +425,62 @@ function renderWholeProcessScoreCircle(wholeProcessScore) {
  */
 
 function createEditProcess() {
+    helper.showLoadingScreen();
+    let metric_elements = {};
+    metric_elements['average'] = document.getElementsByName('target-average');
+    metric_elements['min'] = document.getElementsByName('target-minimum');
+    metric_elements['max'] = document.getElementsByName('target-maximum');
 
-
-    let metric_elements = document.getElementsByName('target-average');
     let metrics = {};
+
     let text_replaced_flag = false; // Helper variable that indicates, whether or not a non quantitative metric input has been found and discarded
-    for (let i = 0; i < metric_elements.length; i++) {
-        // TODO also check if values are within min and max values
-        // Replace non quantitative metric inputs with an emtpy string to have them discarded
-        if (metric_elements[i].value !== '' && !parseFloat(metric_elements[i].value)) {
-            metric_elements[i].value = '';
-            text_replaced_flag = true;
-        }
+    let minmaxlist = ""; // List for Metrics that are not within min or max
+    let process_name_empty = false; // Helper variable that indicates, whether or not the process name is given
+    for (let i = 0; i < metric_elements['average'].length; i++) {
+
         // Process quantitative metrics to push them into the JSON Object to be passed to the backend
-        if (metric_elements[i].value !== '') {
-            metrics[metric_elements[i].id] = parseInt(metric_elements[i].value);
+        let id = metric_elements['average'][i].id;
+
+        metrics[id] = {
+            "average": null,
+            "min": null,
+            "max": null
+        };
+
+        // Replace non quantitative metric inputs with an emtpy string to have them discarded
+        Object.keys(metric_elements).forEach(function (key) {
+            if (metric_elements[key][i].value !== '' && isNaN(metric_elements[key][i].value)) {
+                metric_elements[key][i].value = '';
+                text_replaced_flag = true;
+            }
+
+            if (metric_elements[key][i].value !== '') {
+                metrics[id][key] = parseFloat(metric_elements[key][i].value);
+                if (!helper.targetAvgIsWithinMinMax(metric_elements[key][i])) {
+                    minmaxlist += '\n' + metric_elements[key][i].parentElement.parentElement.children[0].id; //TODO: Add metric name to the list of wrong target avg values (von Roman?)
+                    metric_elements[key][i].style.setProperty("border-color", "red", undefined); //TODO: noch nötig oder nicht durch EventListener schon abgedeckt? (von Jasmin)
+                } else {
+                    metric_elements[key][i].style.removeProperty("border-color"); //TODO: noch nötig oder nicht durch EventListener schon abgedeckt? (von Jasmin)
+                }
+            }
+
+        });
+    }
+
+    // delete metric from json if no target metric (min, max, average) is entered
+    for (const key in metrics) {
+        if (metrics[key]["min"] == null && metrics[key]["max"] == null && metrics[key]["average"] == null) {
+            delete metrics[key];
         }
     }
+
     if (typeof uid === undefined || uid === "" || uid == null) {
         uid = -1;
     }
+    // Prepare json string
     const process = `{
         "process": {
-            "uid": "${uid}",  
+            "uid": "${uid}",
             "name": "${document.getElementById('process-name-textarea').value}",
             "responsible_person": "${document.getElementById('process-responsible-person-textarea').value}",
             "description": "${document.getElementById('process-beschreibung-textarea').value}"
@@ -350,25 +488,25 @@ function createEditProcess() {
             "target_metrics": ${JSON.stringify(metrics)}
         }`;
 
-    // Check if all field have been filled
-    // Also, when changing between categories, discard inputs made for non-relevant metrics
-    let required_helper_flag = true; // Helper variable which gets set to false, if any required field is not filled
-    const toggles = document.getElementsByName("target-average");
-    console.log(toggles);
-    for (let i = 0; i < toggles.length; i++) {
-        console.log(toggles[i].value);
-        const input = toggles[i].value;
-    }
+    if(document.getElementById('process-name-textarea').value === "") process_name_empty = true;
 
     // If a input has been performed, post changes to backend
-    if (required_helper_flag) {
-        console.log(process);
+    if (minmaxlist === "" && !process_name_empty && !text_replaced_flag) {
         saveProcess(process);
     } else {
-        let alert_string = 'Changes could not be saved. Please fill all metrics fields.';
-        if (text_replaced_flag === true) {
-            alert_string += '\nNon quantitative metrics have been automatically discarded.';
+        let alert_string = 'Changes could not be saved. ';
+        if(process_name_empty) {
+            alert_string += 'Please enter a process name';
         }
+        // Prepare alert message strings depending on the error cause
+        if (text_replaced_flag === true) {
+            alert_string += '\nNon quantitative metrics have been automatically discarded.\n';
+        }
+        if (minmaxlist !== "") {
+            alert_string += '\nThe following Metrics are not within their min/max values:\n';
+            alert_string += minmaxlist + "\n";
+        }
+        helper.hideLoadingScreen();
         window.alert(alert_string);
     }
 }
@@ -379,32 +517,23 @@ function createEditProcess() {
  * @param data
  */
 function saveProcess(data) {
-    helper.post_request("/process/create_edit", data, saveCallback);
+    helper.http_request("POST", "/process/create_edit", true, data, saveCallback);
 }
 
 
 /**
  * This function loads component names from json file
  *
- * TODO use modular helper functionality instead
  * @param processData
  */
 function loadComponentNames(processData) {
     const base_url = window.location.origin;
-    let xhttp = new XMLHttpRequest();
-    xhttp.open("GET", base_url + "/content/mapping_metrics_definition.json", true);
-    xhttp.setRequestHeader("Content-Type", "application/json");
 
-    // Handle response of HTTP-request
-    xhttp.onreadystatechange = function () {
-        if (this.readyState === XMLHttpRequest.DONE && (this.status >= 200 && this.status < 300)) {
-            // Process response and show sum in output field
-            let metricsDefinition = JSON.parse(this.responseText);
-            createComponentTable(processData, metricsDefinition);
-            helper.get_request("/component/overview", fillComponentDropdown);
-        }
-    }
-    xhttp.send();
+    helper.http_request("GET", "/content/mapping_metrics_definition.json", true, "", function (metricsDefinition) {
+        createComponentTable(processData, metricsDefinition);
+        visualizeProcess(processData, metricsDefinition);
+        helper.http_request("GET", "/component/overview", true, "", fillComponentDropdown);
+    });
 }
 
 /**
@@ -417,22 +546,24 @@ function createComponentTable(processData, metricsDefinition) {
     const components = processData['process']['components'];
     document.getElementById('ComponentOverviewTable').innerHTML = '';
 
+    // Table header
     let header = document.createElement('tr');
+    header.className = "table-header";
     header.innerHTML = `
-        <th name="Position"> Position</th>
-        <th name="Component">Component</th>
-        <th name="Category">Category</th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th><i id="TrashIcon" class="fas fa-trash-alt"></i></th>
+        <th class="col-1" name="Position"> Position</th>
+        <th class="col-2" name="Component">Component</th>
+        <th class="col-3" name="Category">Category</th>
+        <th class="col-4"></th>
+        <th class="col-5"></th>
+        <th class="col-6"></th>
+        <th class="col-7"></th>
+        <th class="col-8"></th>
     `;
     document.getElementById('ComponentOverviewTable').appendChild(header);
 
+    // Setting elements/components
     Object.keys(components).forEach(function (key) {
         const componentData = components[key];
-
         let component = document.createElement('tr');
         component.id = componentData['weight'];
         component.draggable = true;
@@ -442,17 +573,19 @@ function createComponentTable(processData, metricsDefinition) {
         component.setAttribute('ondragenter', 'enter(event)');
         component.setAttribute('ondragleave', 'exit(event)');
 
+        // Filling values
         component.innerHTML = `
-            <td>${componentData['weight']}</td>
-            <td>${componentData['name']}</td>
-            <td>${metricsDefinition['categories'][componentData['category']]['name']}</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td><i id="TrashIcon" class="fas fa-trash-alt" onclick="deleteComponent(this.parentElement.parentElement.id); helper.showLoadingScreen()"></i></td>
+            <td class="col-1" ></td>
+            <td class="col-2" >${componentData['name']}</td>
+            <td class="col-3" >${metricsDefinition['categories'][componentData['category']]['name']}</td>
+            <td class="col-4" ></td>
+            <td class="col-5" ></td>
+            <td class="col-6" ></td>
+            <td class="col-7" ></td>
+            <td class="col-8" ><i id="TrashIcon" class="fas fa-trash-alt" onclick="deleteComponent(this.parentElement.parentElement.id); helper.showLoadingScreen()"></i></td>
         `;
 
+        // Sorting the components according to their weights
         const componentTable = document.getElementById('ComponentOverviewTable');
         for (let i = componentTable.childElementCount - 1; i >= 0; i--) {
             const previousComponent = componentTable.children[i];
@@ -464,7 +597,6 @@ function createComponentTable(processData, metricsDefinition) {
             }
         }
     });
-    visualizeProcess();
 }
 
 /**
@@ -495,9 +627,10 @@ function addComponent() {
     let componentUID = document.getElementById('addposition').value;
     if (componentUID.length === 32) {
         let weight = document.getElementById('ComponentOverviewTable').lastChild.id;
+        // If there is no components in the table, the new component receives the weight = 1
         if (weight === '') {
             weight = 1;
-        } else {
+        } else { // Else it receives the weight of the last component in the table + 1
             weight = parseFloat(weight) + 1;
         }
 
@@ -507,11 +640,9 @@ function addComponent() {
             "weight": weight
         };
 
-        helper.post_request("/process/edit/createstep", JSON.stringify(data), init);
+        helper.http_request("POST", "/process/edit/createstep", true, JSON.stringify(data), init);
     } else {
         helper.hideLoadingScreen();
-        // Please select a component from the dropdown.
-        // TODO: Fill with something?
     }
 }
 
@@ -528,7 +659,7 @@ function editComponent(oldWeight, newWeight) {
         "new_weight": newWeight
     };
 
-    helper.post_request("/process/edit/editstep", JSON.stringify(data), init);
+    helper.http_request("POST", "/process/edit/editstep", true, JSON.stringify(data), init);
 }
 
 /**
@@ -542,7 +673,7 @@ function deleteComponent(weight) {
         "weight": parseFloat(weight)
     }
 
-    helper.post_request("/process/edit/deletestep", JSON.stringify(data), init);
+    helper.http_request("POST", "/process/edit/deletestep", true, JSON.stringify(data), init);
 }
 
 /**
@@ -573,29 +704,28 @@ function drop(ev) {
     let data = ev.dataTransfer.getData("text");
     let element = document.getElementById(data);
     let oldWeight = parseFloat(element.id);
-    insertAfter(ev.target.parentElement, element);
+    insertAfter(ev.target, element); // Component is inserted after the above component where the drop takes place
 
     let previousID;
     try {
-        previousID = parseFloat(element.previousSibling.id);
-        if (isNaN(previousID)) {
-            previousID = parseFloat(element.id);
+        previousID = parseFloat(element.previousSibling.id); // Trying to get the weight of the previous element
+        if (isNaN(previousID)) {                             // If there is no previous weight then default weight = own weight
+            previousID = parseFloat(element.id);            // Which should be 1 by default as there are no weights in the table
         }
     } catch (e) {
         previousID = parseFloat(element.id);
     }
     let nextID;
     try {
-        nextID = parseFloat(element.nextSibling.id);
+        nextID = parseFloat(element.nextSibling.id);    // Trying to get the ID of the below component where the drop takes place
     } catch (e) {
-        nextID = parseFloat(element.previousSibling.id) + 1;
+        nextID = parseFloat(element.previousSibling.id) + 1; // If there is no next component the next weight is the weight of the previous component + 1
     }
     let newWeight = parseFloat(previousID + (nextID - previousID) / 2);
     element.id = newWeight;
-    element.children[0].innerHTML = newWeight;
 
     helper.showLoadingScreen();
-    editComponent(oldWeight, newWeight);
+    editComponent(oldWeight, newWeight); // Updating component table
 }
 
 /**
@@ -605,7 +735,7 @@ function drop(ev) {
  * @param {HTMLElement} newNode: The element to be inserted
  */
 function insertAfter(referenceNode, newNode) {
-    referenceNode.style.border = "inherit";
+    referenceNode.style.setProperty("border", "inherit", undefined);
     referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
 }
 
@@ -615,7 +745,7 @@ function insertAfter(referenceNode, newNode) {
  * @param {event} ev: The event associated with dragging and dropping elements
  */
 function enter(ev) {
-    ev.target.parentElement.style.borderBottom = "15px solid black";
+    ev.target.style.setProperty("border-bottom", "4px solid black", undefined);
 }
 
 /**
@@ -624,39 +754,39 @@ function enter(ev) {
  * @param {event} ev: The event associated with dragging and dropping elements
  */
 function exit(ev) {
-    ev.target.parentElement.style.border = "inherit";
+    ev.target.style.setProperty("border", "inherit", undefined);
 }
 
 /**
  * This function visualizes the components of a process in a box above the components table
+ *
+ * @param {json} processData
+ * @param {json} metricsDefinition
  * */
-function visualizeProcess() {
+function visualizeProcess(processData, metricsDefinition) {
     let div = document.createElement("div");
+    div.className = "modelling-processes";
+    div.id = "visualizeprocess";
     let rectangle = "";
     let arrowRight = `<div class="arrow">&#8594;</div>`;
+    let innerHTML = "";
+    let components = processData['process']['components'];
+    components.sort((a, b) => (a.weight > b.weight) ? 1 : ((b.weight > a.weight) ? -1 : 0));
 
-    let componentRows = document.getElementById("ComponentOverviewTable").getElementsByTagName("tr");
-
-    let innerHTML = `<table id="process-visualization" class="process-visualization">
-                            <tr style="height: 150px;">`;
 
     // begin at index 1 because 0 contains table headers
-    for (let i = 1; i < componentRows.length; i++) {
-        let currentComponent = componentRows[i];
-        let tds = currentComponent.getElementsByTagName("td");
-        let weight = tds[0].innerHTML;
-        let componentName = tds[1].innerHTML;
-        let category = tds[2].innerHTML;
+    for (let i = 0; i < components.length; i++) {
+        let currentComponent = components[i];
+        let componentName = currentComponent['name'];
+        let componentCategory = metricsDefinition['categories'][currentComponent['category']]['name'];
 
-        rectangle = `<div class="square-border"><div style="font-weight:bold; text-decoration:underline;" >${componentName}</div><br><div style="font-style:italic;">${category}</div></div>`;
-        innerHTML += `<td style="width: 150px;height: 150px; border: 0px;">${rectangle}</td>`;
-        if (i < componentRows.length - 1) {
-            innerHTML += `<td style="width: 150px;height: 150px;  border: 0px;">${arrowRight}</td>`;
+        rectangle = renderRectangle(componentName, componentCategory);
+
+        innerHTML += `<div class="visualize">${rectangle}</div>`;
+        if (i < components.length - 1) {
+            innerHTML += `<div class="visualize" >${arrowRight}</div>`;
         }
-
     }
-
-    innerHTML += "</tr></table>";
 
     div.innerHTML = innerHTML;
 
@@ -664,22 +794,45 @@ function visualizeProcess() {
     document.getElementById('modelling-process').appendChild(div); // populate div
 
     horizontalScroll();
+
+    //Setting row positions
+    let componentRows = document.getElementById("ComponentOverviewTable").getElementsByTagName("tr");
+
+    for (let i = 1; i < componentRows.length; i++) {
+        let currentComponent = componentRows[i];
+        let tds = currentComponent.getElementsByTagName("td");
+        tds[0].innerHTML = i;
+    }
+}
+
+/**
+ * Returns rectangle HTML-Element to visualize one component in the process visualization.
+ *
+ * @param componentName
+ * @param componentCategory
+ * @returns {string} rectangle Element
+ */
+function renderRectangle(componentName, componentCategory) {
+    return `
+        <div class="square-border">
+            <div class="componentname">${componentName}</div>
+            <div class="componentcategory">${componentCategory}</div>
+        </div>`;
 }
 
 /**
  * Makes the components visualization box from visualizeProcess() horizontally scrollable with the mouse-wheel
- * */
+ */
 function horizontalScroll() {
-    document.getElementById("modelling-process").addEventListener('wheel', function (e) {
-        if (e.type != 'wheel') {
+    document.getElementById("visualizeprocess").addEventListener('wheel', function (e) {
+        if (e.type !== 'wheel') {
             return;
         }
         let delta = ((e.deltaY || -e.wheelDelta || e.detail) >> 10) || 1;
-        delta = delta * (-10);
-        document.documentElement.scrollLeft -= delta;
-        document.getElementById("modelling-process").scrollLeft -= delta;
-        // safari needs also this
-        // document.getElementById("modelling-process").scrollLeft -= delta;
+        delta = delta * (-50);
+
+        document.getElementById("visualizeprocess").scrollLeft -= delta;
+
         e.preventDefault();
     });
 }
@@ -689,6 +842,7 @@ function horizontalScroll() {
  *
  * @param {JSON} response
  */
+
 function saveCallback(response) {
     // Process has been created/edited successfully
     helper.hideLoadingScreen();

@@ -82,7 +82,7 @@ def get_process_list() -> str:
     process_list_dict = process_handler.get_process_list()
 
     # get the score and amount of components for each process
-    for process_sub_dict in process_list_dict["process"]:
+    for process_sub_dict in process_list_dict["processes"]:
         process = get_process({'uid': process_sub_dict['uid']})
         process_sub_dict["score"] = processing.type_conversion.json_to_dict(process)['score']
         process_sub_dict["components_count"] = len(processing.type_conversion.json_to_dict(process)['process']['components'])
@@ -106,7 +106,6 @@ def get_process(input_dict: dict) -> str:
 
     process_dict = process_handler.get_process(input_dict)
     metrics_dict = metric_handler.get_metrics_data()
-
     output_dict = processing.calculations.start_calculate_risk(process_dict, metrics_dict)
 
     output_json = processing.dict_to_json(output_dict)

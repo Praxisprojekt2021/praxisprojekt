@@ -11,7 +11,6 @@ class Modals {
         this.outdatedThreshold = new Date();
 
         // Outdated threshold is currently set to 48 hours
-        // TODO update outdated threshold
         this.outdatedThreshold.setHours(this.outdatedThreshold.getHours() - 48);
         // this.outdatedThreshold.setMonth(this.outdatedThreshold.getMonth() - 3);
     }
@@ -23,8 +22,8 @@ class Modals {
      */
     getProcessDate(json) {
         this.oldprocesses = '';
-        Object.keys(json['process']).forEach(function (key) {
-            let process = json['process'][key];
+        Object.keys(json['processes']).forEach(function (key) {
+            let process = json['processes'][key];
             let editedDate = new Date(process['last_timestamp']);
             if (editedDate < this.outdatedThreshold) {
                 this.oldprocesses += '<a href="process?uid=' + process['uid'] + '">' + process['name'] + '</a><br>';

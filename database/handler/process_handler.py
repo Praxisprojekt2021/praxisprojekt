@@ -1,42 +1,18 @@
 from datetime import datetime
+
 from neomodel import config, StructuredNode, StringProperty, UniqueIdProperty, \
-    RelationshipTo, StructuredRel, FloatProperty, relationship, db
+    RelationshipTo, relationship, db
 
-from core.success_handler import success_handler
-
-import database.handler.metric_handler as metric_handler
 import database.handler.component_handler as component_handler
-import database.handler.reformatter as reformatter
+import database.handler.metric_handler as metric_handler
 import database.handler.queries as queries
+import database.handler.reformatter as reformatter
+from core.success_handler import success_handler
 from database.config import *
 
+from database.handler.relationships import RelationshipProcessComponent, RelationshipProcessMetric
+
 config.DATABASE_URL = 'bolt://{}:{}@{}:{}'.format(NEO4J_USER, NEO4J_PASSWORD, NEO4J_IP, NEO4J_PORT)
-
-
-class RelationshipComponent(StructuredRel):
-    """
-    A class to represent the relationship between a Process and a Component.
-
-    Attributes
-    ----------
-    weight : float
-        is the weight of the relationship
-    """
-
-    weight = FloatProperty()
-
-
-class RelationshipMetric(StructuredRel):
-    """
-    A class to represent the relationship between a Process and a Metric.
-
-    Attributes
-    ----------
-    value : float
-        is value of the relationship
-    """
-
-    value = FloatProperty()
 
 
 class Process(StructuredNode):
@@ -57,9 +33,9 @@ class Process(StructuredNode):
         timestamp of creation time
     last_timestamp : str
         timestamp of last update
-    includesComponent : relationship
+    hasComponent : relationship
         relationship to component
-    hasMetric : relationship
+    hasTargetMetric : relationship
         relationship to metric
     """
 
@@ -67,46 +43,11 @@ class Process(StructuredNode):
     name = StringProperty()
     responsible_person = StringProperty()
     description = StringProperty()
-    creation_timestamp = StringProperty()  # evtl. float
-    last_timestamp = StringProperty()  # evtl. float
+    creation_timestamp = StringProperty()
+    last_timestamp = StringProperty()
 
-    hasComponent = RelationshipTo(component_handler.Component, "includes", model=RelationshipComponent)
-    hasMetric = RelationshipTo(metric_handler.Metric, "has", model=RelationshipMetric)
-
-
-def get_process_list() -> dict:
-    """
-    Function to retrieve a list of all processes
-
-    :return: List of processes in a dict
-    """
-
-    data = success_handler()
-    processes = Process.nodes.all()
-    processes_list = []
-    wanted_keys = ['uid', 'name', 'responsible_person', 'creation_timestamp', 'last_timestamp']
-    for process in processes:
-        process_dict = process.__dict__
-        processes_list.append(dict((k, process_dict[k]) for k in wanted_keys if k in process_dict))
-
-    data["process"] = processes_list
-    return data
-
-
-def get_process(input_dict: dict) -> dict:
-    """
-    Function to retrieve a single process
-
-    :param input_dict: process uid
-    :type input_dict: dict
-    :return: process dict
-    """
-    output_dict = success_handler()
-
-    result, meta = db.cypher_query(queries.get_process(input_dict["uid"]))
-    output_dict["process"], output_dict["target_metrics"] = reformatter.reformat_process(result[0])
-
-    return output_dict
+    hasComponent = RelationshipTo(component_handler.Component, "includes", model=RelationshipProcessComponent)
+    hasMetric = RelationshipTo(metric_handler.Metric, "targets", model=RelationshipProcessMetric)
 
 
 def add_process(input_dict: dict) -> dict:
@@ -120,7 +61,7 @@ def add_process(input_dict: dict) -> dict:
 
     output = Process(
         name=input_dict["process"]["name"],
-        responsible_person = input_dict["process"]["responsible_person"],
+        responsible_person=input_dict["process"]["responsible_person"],
         creation_timestamp=str(datetime.now()),
         last_timestamp=str(datetime.now()),
         description=input_dict["process"]["description"])
@@ -128,12 +69,46 @@ def add_process(input_dict: dict) -> dict:
     output.save()
 
     for metric in input_dict["target_metrics"]:
-        output.hasMetric.connect(metric_handler.get_metric(metric), {"value": input_dict["target_metrics"][metric]})
+        output.hasMetric.connect(metric_handler.Metric.nodes.get(name=metric),
+                                 {"average": input_dict["target_metrics"][metric]["average"],
+                                  "min": input_dict["target_metrics"][metric]["min"],
+                                  "max": input_dict["target_metrics"][metric]["max"]})
 
-    data = success_handler()
-    data["process_uid"] = output.uid
+    output_dict = success_handler()
+    output_dict["process_uid"] = output.uid
 
-    return data
+    return output_dict
+
+
+def get_process_list() -> dict:
+    """
+    Function to retrieve a list of all processes
+
+    :return: List of processes in a dict
+    """
+    output_dict = success_handler()
+
+    query = queries.get_process_list()
+    result, meta = db.cypher_query(query)
+    output_dict["processes"] = result[0][0]
+
+    return output_dict
+
+
+def get_process(input_dict: dict) -> dict:
+    """
+    Function to retrieve a single process
+
+    :param input_dict: process uid
+    :type input_dict: dict
+    :return: process dict
+    """
+    output_dict = success_handler()
+
+    query = queries.get_process(input_dict["uid"])
+    result, meta = db.cypher_query(query)
+    output_dict["process"], output_dict["target_metrics"] = reformatter.reformat_process(result[0])
+    return output_dict
 
 
 def update_process(input_dict: dict) -> dict:
@@ -144,47 +119,46 @@ def update_process(input_dict: dict) -> dict:
     :type input_dict: dict
     :return: Status dict
     """
-
     uid = input_dict["process"]["uid"]
-    process = Process.nodes.get(uid=uid)
-    process.name = input_dict["process"]["name"]
-    process.responsible_person = input_dict["process"]["responsible_person"]
-    process.description = input_dict["process"]["description"]
-    process.last_timestamp = str(datetime.now())
-    process.save()
 
-    old_metrics = get_process({"uid": uid})["target_metrics"]
-    new_metrics = input_dict["target_metrics"]
+    query = queries.update_process(uid, input_dict["process"]["name"], input_dict["process"]["responsible_person"],
+                                   input_dict["process"]["description"], str(datetime.now()))
+    db.cypher_query(query)
 
-    for metric in old_metrics:
-        metric_object = metric_handler.Metric.nodes.get(name=metric)
-        if metric in new_metrics:
-            rel = process.hasMetric.relationship(metric_object)
-            rel.value = new_metrics[metric]
-            rel.save()
+    for metric in input_dict["target_metrics"]:
+        metric_values = {}
+        if input_dict["target_metrics"][metric]["average"] is not None:
+            metric_values["average"] = input_dict["target_metrics"][metric]["average"]
+        if input_dict["target_metrics"][metric]["min"] is not None:
+            metric_values["min"] = input_dict["target_metrics"][metric]["min"]
+        if input_dict["target_metrics"][metric]["max"] is not None:
+            metric_values["max"] = input_dict["target_metrics"][metric]["max"]
+        commas_needed = len(metric_values) - 1
+        metric_string = ""
+        loop_count = 0
+        for key in metric_values:
+            metric_string += key + ": " + str(metric_values[key])
+            if loop_count < commas_needed:
+                metric_string += ", "
+            loop_count += 1
 
-            new_metrics.pop(metric)
-        else:
-            db.cypher_query('Match (m: Process {uid: "' + uid + '"})-[r: has]-(n: Metric {uid: "' +
-                            metric_object.uid + '"}) Delete r')
-
-    for metric in new_metrics:
-        metric_object = metric_handler.Metric.nodes.get(name=metric)
-        process.hasMetric.connect(metric_object, {"value": new_metrics[metric]})
+        query = queries.update_process_metric(uid, metric, metric_string)
+        db.cypher_query(query)
 
     return success_handler()
 
 
-def delete_process(uid_dict: dict) -> dict:
+def delete_process(input_dict: dict) -> dict:
     """
     Function to delete a single process
 
-    :param uid_dict: Identifier
-    :type uid_dict: dict
+    :param input_dict: Identifier
+    :type input_dict: dict
     :return: Status dict
     """
 
-    Process.nodes.get(uid=uid_dict["uid"]).delete()
+    query = queries.delete_process(input_dict["uid"])
+    db.cypher_query(query)
 
     return success_handler()
 
@@ -198,10 +172,8 @@ def add_process_reference(input_dict: dict) -> dict:
     :return: Status dict
     """
 
-    process = Process.nodes.get(uid=input_dict['process_uid'])
-    component = component_handler.Component.nodes.get(uid=input_dict['component_uid'])
-
-    process.hasComponent.connect(component, {"weight": input_dict["weight"]})
+    query = queries.add_process_reference(input_dict['process_uid'], input_dict['component_uid'], input_dict["weight"])
+    db.cypher_query(query)
 
     return success_handler()
 
@@ -215,15 +187,8 @@ def update_process_reference(input_dict: dict) -> dict:
     :return: Status dict
     """
 
-    process = Process.nodes.get(uid=input_dict['uid'])
-
-    component_list = process.hasComponent.all()
-
-    for component in component_list:
-        rel = process.hasComponent.relationship(component)
-        if rel.weight == input_dict['old_weight']:
-            rel.weight = input_dict['new_weight']
-            rel.save()
+    query = queries.update_process_reference(input_dict["uid"], input_dict["old_weight"], input_dict["new_weight"])
+    db.cypher_query(query)
 
     return success_handler()
 
@@ -237,7 +202,7 @@ def delete_process_reference(input_dict: dict) -> dict:
     :return: Status dict
     """
 
-    db.cypher_query('Match (n: Process {uid: "' + input_dict['uid'] +
-                    '"})-[r: includes {weight: ' + str(input_dict['weight']) + '}] -() Delete r')
+    query = queries.delete_process_reference(input_dict['uid'], input_dict['weight'])
+    db.cypher_query(query)
 
     return success_handler()

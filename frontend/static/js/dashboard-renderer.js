@@ -1,8 +1,3 @@
-/*TODO:
-*       Call in loadProcesses an Backend-Endpoint senden statt an Mock-Datei --> Abhängigkeit Back-End
-*       In add/edit/delete-functions entsprechende URL aufrufen --> Abhängigkeit Tom/Roman
-*/
-
 //Base url to distinguish between localhost and production environment
 const base_url = window.location.href;
 
@@ -27,14 +22,14 @@ function init() {
  */
 function getProcessList() {
     helper.showLoadingScreen();
-    helper.get_request("/process/overview", refreshProcessTable);
+    helper.http_request("GET", "/process/overview", false, "", refreshProcessTable);
 }
 
 /**
  * Get components data from Back-End and then populate the processes table in FE.
  */
 function getComponentList() {
-    helper.get_request("/component/overview", loadMetricsDefinition);
+    helper.http_request("GET", "/component/overview", true, "", loadMetricsDefinition);
 }
 
 /**
@@ -44,16 +39,16 @@ function getComponentList() {
  */
 function refreshProcessTable(json) {
     var table = document.getElementById('processTable');
-    json.process.forEach(function (object) {
+    json.processes.forEach(function (object) {
         var tr = document.createElement('tr');
-        tr.innerHTML = '<td>' + object.name + '</td>' +
-            '<td>' + object.components_count + '</td>' +
-            '<td>' + object.score + '</td>' +
+        tr.innerHTML = '<td class="col-1">' + object.name + '</td>' +
+            '<td class="col-2">' + object.components_count + '</td>' +
+            '<td class="col-3">' + object.score + '</td>' +
             renderStatusColumn(object.score) +
-            '<td>' + helper.formatDate(object.creation_timestamp) + '</td>' +
-            '<td>' + helper.formatDate(object.last_timestamp) + '</td>' +
-            '<td>' + renderEditProcessButton(object.uid) + '</td>' +
-            '<td>' + renderDeleteProcessButton(object.uid) + '</td>';
+            '<td class="col-5">' + helper.formatDate(object.creation_timestamp) + '</td>' +
+            '<td class="col-6">' + helper.formatDate(object.last_timestamp) + '</td>' +
+            '<td class="col-7">' + renderEditProcessButton(object.uid) + '</td>' +
+            '<td class="col-8">' + renderDeleteProcessButton(object.uid) + '</td>';
         table.appendChild(tr);
     });
     helper.hideLoadingScreen();
@@ -70,12 +65,12 @@ function refreshComponentTable(json, metricsDefinition) {
     json.components.forEach(function (object) {
         let category = object.category;
         let tr = document.createElement('tr');
-        tr.innerHTML = '<td>' + object.name + '</td>' +
-            '<td>' + metricsDefinition.categories[category].name + '</td>' +
-            '<td>' + helper.formatDate(object.creation_timestamp) + '</td>' +
-            '<td>' + helper.formatDate(object.last_timestamp) + '</td>' +
-            '<td>' + renderEditComponentButton(object.uid) + '</td>' +
-            '<td>' + renderDeleteComponentButton(object.uid) + '</td>';
+        tr.innerHTML = '<td class="col-1">' + object.name + '</td>' +
+            '<td class="col-2">' + metricsDefinition.categories[category].name + '</td>' +
+            '<td class="col-3">' + helper.formatDate(object.creation_timestamp) + '</td>' +
+            '<td class="col-4">' + helper.formatDate(object.last_timestamp) + '</td>' +
+            '<td class="col-5">' + renderEditComponentButton(object.uid) + '</td>' +
+            '<td class="col-6">' + renderDeleteComponentButton(object.uid) + '</td>';
         table.appendChild(tr);
     });
     modals.getComponentDate(json);
@@ -125,7 +120,7 @@ function renderDeleteComponentButton(uid) {
 function deleteProcess(uid) {
     // call delete-process endpoint
     let params = JSON.stringify({uid: uid});
-    helper.post_request("/process/delete", params, deleteCallback);
+    helper.http_request("POST", "/process/delete", true, params, deleteCallback);
 }
 
 /**
@@ -135,7 +130,7 @@ function deleteProcess(uid) {
  */
 function deleteComponent(uid) {
     let params = JSON.stringify({uid: uid});
-    helper.post_request("/component/delete", params, deleteCallback);
+    helper.http_request("POST", "/component/delete", true, params, deleteCallback);
 }
 
 
@@ -147,34 +142,22 @@ function deleteComponent(uid) {
  */
 function renderStatusColumn(wholeProcessScore) {
     // if score > 90, status is green, elseif score > 80, status is yellow, else status is red;
-    // TODO: adapt to requirements (when it should be red or green)
     let color = helper.getCircleColor(wholeProcessScore);
 
-    return '<td>' + helper.renderSmallCircle(null, color) + '</td>';
+    return '<td class="col-4">' + helper.renderSmallCircle(null, color) + '</td>';
     return '<td><i id="' + color + '" class="fas fa-circle"></i></td>';
 }
 
 /**
  * Load Metrics Definition data from json file.
  *
- * TODO: Could not be realized be helper.get_request because callback function needs to be called with two params. To be checked later if needed.
  * @param componentData
  */
 function loadMetricsDefinition(componentData) {
-    const base_url = window.location.origin;
-    let xhttp = new XMLHttpRequest();
-    xhttp.open("GET", base_url + "/content/mapping_metrics_definition.json", true);
-    xhttp.setRequestHeader("Content-Type", "application/json");
-
-    // Handle response of HTTP-request
-    xhttp.onreadystatechange = function () {
-        if (this.readyState === XMLHttpRequest.DONE && (this.status >= 200 && this.status < 300)) {
-            // Process response and show sum in output field
-            let metricsDefinition = JSON.parse(this.responseText);
-            refreshComponentTable(componentData, metricsDefinition);
-        }
-    }
-    xhttp.send();
+    helper.http_request("GET", "/content/mapping_metrics_definition.json", true, "", function (response_json) {
+        let metricsDefinition = response_json;
+        refreshComponentTable(componentData, metricsDefinition);
+    });
 }
 
 /**

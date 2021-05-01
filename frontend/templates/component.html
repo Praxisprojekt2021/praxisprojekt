@@ -8,12 +8,14 @@
 </head>
 <body class="body" onload="init()">
 
-<header id="header" class="header"><img src="{{ url_for('static', filename='images/logo.png') }}"
-                                        loading="lazy" alt="" class="logo">
+<header id="header" class="header">
+
+    <a href="/"><img src="{{ url_for('static', filename='images/logo.png') }}"loading="lazy" alt="" class="logo"></a>
+
     <div class="navigation">
         <a href="/" class="navigation-links" data-i18n="home"></a>
         <div class="navigation-link-separator">&gt;</div>
-        <a href="#" class="navigation-links" data-i18n="individual-component"></a>
+        <a href="#" class="navigation-links navigation-selected" data-i18n="individual-component"></a>
     </div>
 
 </header>
@@ -41,7 +43,7 @@
                            data-name="component-uid" id="component-uid" disabled>
                     <label for="component-category" class="entry-label" data-i18n="component-category"></label>
                     <select id="component-category" name="component-category" data-name="component-category"
-                            class="category-dropdown" onchange="setSections(this.value)">
+                            class="category-dropdown" disabled="true" onchange="setSections(this.value)">
                         <option value="default" data-i18n="please-select"></option>
                     </select>
                 </div>
@@ -53,8 +55,7 @@
                               maxlength="5000"
                               id="component-description-textarea"
                               data-name="component-description-textarea"
-                              class="textarea">
-                    </textarea>
+                              class="textarea"></textarea>
                 </div>
             </div>
 
@@ -65,5 +66,6 @@
 </div>
 <script src="{{ url_for('static', filename='js/helper.js') }}"></script>
 <script src="{{ url_for('static', filename='js/component-editor.js') }}"></script>
+<script type="module" src="{{ url_for('static', filename='js/translator.js') }}"></script>
 </body>
 </html>

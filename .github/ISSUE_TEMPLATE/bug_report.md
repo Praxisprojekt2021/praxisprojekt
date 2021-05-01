@@ -1,7 +1,7 @@
 ---
 name: Bug report
 about: Zum Beheben fehlgeschlagener Testcases
-title: "[Test Case Id]: [Small description]"
+title: 'WIP: [Test Case Id]: [Small description]'
 labels: bug
 assignees: ''
 

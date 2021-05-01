@@ -10,8 +10,9 @@
 </head>
 <body class="body" onload="init()">
 
-<header id="header" class="header"><img src="{{ url_for('static', filename='images/logo.png') }}"
-                                        loading="lazy" alt="" class="logo">
+<header id="header" class="header">
+    <a href="/" ><img src="{{ url_for('static', filename='images/logo.png') }}" loading="lazy" alt="" class ="logo">
+    </a>
     <div class="navigation">
         <a href="/" class="navigation-links" data-i18n="home"></a>
         <div class="navigation-link-separator">&gt;</div>
@@ -65,7 +66,7 @@
             </div>
             <div id="components-admin-process">
                 <div class="center">
-                    <table id="ComponentOverviewTable"></table>
+                    <table class="responsive-table" id="ComponentOverviewTable"></table>
                 </div>
                 <div class="select-line">
                     <select id="addposition" class="postion-dropdown"></select>
