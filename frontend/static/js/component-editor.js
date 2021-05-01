@@ -100,6 +100,7 @@ function getComponent(uid) {
 function processComponentData(json_data) {
 
     // Check if the request has succeeded
+    let component;
     if (json_data['success']) {
         // Component data has been received
         component = json_data["component"]
@@ -186,7 +187,7 @@ function createEditComponent() {
         "metrics": metrics
     }
 
-    if(document.getElementById('component-name').value === "") component_name_empty = true;
+    if (document.getElementById('component-name').value === "") component_name_empty = true;
 
     // Check if all field have been filled
     // Also, when changing between categories, discard inputs made for non-relevant metrics
@@ -242,7 +243,7 @@ function createEditComponent() {
         if (!component_category_helper_flag) {
             alert_string += 'Please select a category. \n';
         }
-        if(component_name_empty) {
+        if (component_name_empty) {
             alert_string += 'Please enter a component name. \n';
         }
         if (emptyFieldList !== "") {
