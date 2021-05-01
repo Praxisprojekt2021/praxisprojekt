@@ -79,8 +79,18 @@
             "description": "Description",
             "responsible-person": "Responsible Person",
             "Whats-Riskify": "What's Riskify?",
-            "Loading": "Loading..."
-
+            "Loading": "Loading...",
+            "average": "Average",
+            "standard-deviation": "Std. Dev.",
+            "sum": "Sum",
+            "min": "Min",
+            "max": "Max",
+            "target-min": "Target Min",
+            "target-max": "Target Max",
+            "target-avg": "Target Average",
+            "target-sum": "Target Sum",
+            "check": "Check",
+            "info": "Info"
         }
     }
 }

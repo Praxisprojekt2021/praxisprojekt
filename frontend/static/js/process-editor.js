@@ -18,12 +18,16 @@ function init(json_process = false) {
 
     getFeatures().then(data => {
         // If page is reloaded (after saving) processes are updated else => page is loaded from databased and entries are prepared
+        getProcessFeatures().then(processFeatures => {
         if (!json_process) {
-            getProcess(data);
+                getProcess(data, processFeatures);
+
         } else {
-            fillDataFields(data, json_process);
+            fillDataFields(data, json_process, processFeatures);
             loadComponentNames(json_process);
+            }
         }
+        );
     });
 
 }
@@ -57,11 +61,25 @@ async function getFeatures() {
 }
 
 /**
+ * Get list of process features.
+ */
+async function getProcessFeatures() {
+    // Read JSON file
+    return await fetch(base_url + '/content/process-feature-definition.json')
+        .then(response => response.json())
+        .then(data => {
+            let features = data['process-feature-table'];
+            return features;
+        });
+}
+
+
+/**
  * Fetches process data from BE.
  * @param features
  */
 
-function getProcess(features) {
+function getProcess(features, processFeatures) {
     const url_string = window.location.href;
     const url = new URL(url_string);
     let uid = url.searchParams.get('uid');
@@ -94,14 +112,15 @@ function getProcess(features) {
  *
  * @param {json} features
  * @param {json} processData
+ * @param {json} processFeatures
  */
-function fillDataFields(features, processData) {
+function fillDataFields(features, processData, processFeatures) {
 
     if (processData['success']) {
         // fill description column
         fillDescriptionColumn(processData);
         // create metric/feature toggle area
-        createMetricsSection(features, processData);
+        createMetricsSection(features, processData, processFeatures);
         //
     } else {
         // Component has not been created/edited successfully
@@ -130,8 +149,9 @@ function fillDescriptionColumn(processData) {
  *
  * @param {json} features
  * @param {json} processData
+ * @param {json} processFeatures
  */
-function createMetricsSection(features, processData) {
+function createMetricsSection(features, processData, processFeatures) {
     document.getElementById('metrics-input-processes').innerHTML = '';
     let featureCount = 0;
     Object.keys(features).forEach(function (key) {
@@ -189,36 +209,27 @@ function createMetricsSection(features, processData) {
         innerHTML += `
         <table class="responsive-table" id="process-feature-table">
             <tr class="table-header">
-                <th class="col-1" name="metric">Metric</th>
-                <th class="col-2 info-text-header" name="average" tooltip-data="The average value for the respective metrics&#xa; across all components in the process.">
-                    Average
+                <th class="col-1" name="metric" data-i18n="metric"></th>
+                <th class="col-2 info-text-header" name="average" tooltip-data="${processData['average']}" data-i18n="average">
                 </th>
-                <th class="col-3 info-text-header" name="standard-deviation" tooltip-data="The standard deviation for each metric&#xa; across all components in the process." >
-                    Std. Dev.
+                <th class="col-3 info-text-header" name="standard-deviation" tooltip-data="The standard deviation for each metric&#xa; across all components in the process." data-i18n="standard-deviation">
                 </th>
-                <th class="col-4 info-text-header" name="sum" tooltip-data="The sum for each respective metric&#xa; across all components in the process.">
-                    Sum
+                <th class="col-4 info-text-header" name="sum" tooltip-data="The sum for each respective metric&#xa; across all components in the process." data-i18n="sum">
                 </th>
-                <th class="col-5 info-text-header" name="min" tooltip-data="The minimum value specifies the smallest value for each&#xa; respective metric across all components in the process.">
-                    Min
+                <th class="col-5 info-text-header" name="min" tooltip-data="The minimum value specifies the smallest value for each&#xa; respective metric across all components in the process." data-i18n="min">
                 </th>
-                <th class="col-6 info-text-header" name="max" tooltip-data="The maximum value indicates the largest value for each&#xa; respective metric across all components of the process.">
-                    Max
+                <th class="col-6 info-text-header" name="max" tooltip-data="The maximum value indicates the largest value for each&#xa; respective metric across all components of the process." data-i18n="max">
                 </th>
-                <th class="col-7 info-text-header" name="target-min" tooltip-data="The minimum target average, user-entered, Target-value&#xa; for each metric across all components in the process.">
-                    Target Min
+                <th class="col-7 info-text-header" name="target-min" tooltip-data="The minimum target average, user-entered, Target-value&#xa; for each metric across all components in the process." data-i18n="target-min">
                 </th>
-                <th class="col-8 info-text-header" name="target-max" tooltip-data="The maximum target average, user-entered, Target-value&#xa; for each metric across all components in the process.">
-                    Target Max
+                <th class="col-8 info-text-header" name="target-max" tooltip-data="The maximum target average, user-entered, Target-value&#xa; for each metric across all components in the process." data-i18n="target-max">
                 </th>
-                <th class="col-9 info-text-header" name="target-avg" tooltip-data="The average, user-entered, Target-value&#xa; for each metric across all components in the process.">
-                    Target Average
+                <th class="col-9 info-text-header" name="target-avg" tooltip-data="The average, user-entered, Target-value&#xa; for each metric across all components in the process." data-i18n="target-avg">
                 </th>
-                <th class="col-10 info-text-header" name="target-sum" tooltip-data="The target sum for each metric across&#xa; all components in the process.">
-                    Target Sum
+                <th class="col-10 info-text-header" name="target-sum" tooltip-data="The target sum for each metric across&#xa; all components in the process." data-i18n="target-sum">
                 </th>
-                <th class="col-11" name="ampel">Check</th>
-                <th class="col-12" name="info">Info</th>
+                <th class="col-11" name="ampel" data-i18n="check"></th>
+                <th class="col-12" name="info" data-i18n="info"></th>
             </tr>`;
 
         innerHTML += innerHTML_metric_block;
