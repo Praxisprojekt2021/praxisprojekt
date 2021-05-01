@@ -95,14 +95,14 @@ function getProcess(features, processFeatures) {
         }`
 
         helper.http_request("POST", "/process/view", true, post_data, function (processData) {
-            fillDataFields(features, processData);
+            fillDataFields(features, processData, processFeatures);
             loadComponentNames(processData);
         });
 
     } else {
         // If not, prepare for new component input...
         let processData = {};
-        createMetricsSection(features, processData);
+        createMetricsSection(features, processData, processFeatures);
         console.log('Entering new process');
     }
 }
@@ -205,31 +205,41 @@ function createMetricsSection(features, processData, processFeatures) {
         innerHTML += '<nav class="dropdown-list" data-collapsed="true">';
         innerHTML += '<div class="features-columns">';
 
+        console.log(processFeatures);
         // Table Headers
         innerHTML += `
         <table class="responsive-table" id="process-feature-table">
             <tr class="table-header">
                 <th class="col-1" name="metric" data-i18n="metric"></th>
-                <th class="col-2 info-text-header" name="average" tooltip-data="${processData['average']}" data-i18n="average">
+                <th class="col-2 info-text-header" name="average" tooltip-data="${processFeatures['average']}">
+                Average
                 </th>
-                <th class="col-3 info-text-header" name="standard-deviation" tooltip-data="${processData['standard-deviation']}" data-i18n="standard-deviation">
+                <th class="col-3 info-text-header" name="standard-deviation" tooltip-data="${processFeatures['standard-deviation']}">
+                Std. Dev.
                 </th>
-                <th class="col-4 info-text-header" name="sum" tooltip-data="${processData['sum']}" data-i18n="sum">
+                <th class="col-4 info-text-header" name="sum" tooltip-data="${processFeatures['sum']}">
+                Sum
                 </th>
-                <th class="col-5 info-text-header" name="min" tooltip-data="${processData['min']}" data-i18n="min">
+                <th class="col-5 info-text-header" name="min" tooltip-data="${processFeatures['min']}">
+                Min
                 </th>
-                <th class="col-6 info-text-header" name="max" tooltip-data="${processData['max']}" data-i18n="max">
+                <th class="col-6 info-text-header" name="max" tooltip-data="${processFeatures['max']}">
+                Max
                 </th>
-                <th class="col-7 info-text-header" name="target-min" tooltip-data="${processData['target-min']}" data-i18n="target-min">
+                <th class="col-7 info-text-header" name="target-min" tooltip-data="${processFeatures['target-min']}">
+                Target Min
                 </th>
-                <th class="col-8 info-text-header" name="target-max" tooltip-data="The maximum target average, user-entered, Target-value&#xa; for each metric across all components in the process." data-i18n="target-max">
+                <th class="col-8 info-text-header" name="target-max" tooltip-data="${processFeatures['target-max']}">
+                Target Max
                 </th>
-                <th class="col-9 info-text-header" name="target-avg" tooltip-data="The average, user-entered, Target-value&#xa; for each metric across all components in the process." data-i18n="target-avg">
+                <th class="col-9 info-text-header" name="target-avg" tooltip-data="${processFeatures['target-avg']}">
+                Target Avg
                 </th>
-                <th class="col-10 info-text-header" name="target-sum" tooltip-data="The target sum for each metric across&#xa; all components in the process." data-i18n="target-sum">
+                <th class="col-10 info-text-header" name="target-sum" tooltip-data="${processFeatures['target-sum']}">
+                Target Sum
                 </th>
-                <th class="col-11" name="ampel" data-i18n="check"></th>
-                <th class="col-12" name="info" data-i18n="info"></th>
+                <th class="col-11" name="ampel">Check</th>
+                <th class="col-12" name="info">Info</th>
             </tr>`;
 
         innerHTML += innerHTML_metric_block;
