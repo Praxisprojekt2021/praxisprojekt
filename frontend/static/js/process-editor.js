@@ -536,6 +536,16 @@ function loadComponentNames(processData) {
     });
 }
 
+
+/**
+ * This function shows The Select-Line class on creation of process
+ *
+ *
+ */
+function showAddComponentDropdown() {
+    document.getElementsByClassName('select-line')[0].style.display = 'block';
+}
+
 /**
  * This function renders the component drag and drop table
  *
@@ -597,6 +607,7 @@ function createComponentTable(processData, metricsDefinition) {
             }
         }
     });
+    showAddComponentDropdown();
 }
 
 /**
@@ -643,6 +654,7 @@ function addComponent() {
         helper.http_request("POST", "/process/edit/createstep", true, JSON.stringify(data), init);
     } else {
         helper.hideLoadingScreen();
+
     }
 }
 
