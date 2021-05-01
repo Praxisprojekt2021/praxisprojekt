@@ -77,6 +77,7 @@ async function getProcessFeatures() {
 /**
  * Fetches process data from BE.
  * @param features
+ * @param processFeatures
  */
 
 function getProcess(features, processFeatures) {
@@ -205,7 +206,6 @@ function createMetricsSection(features, processData, processFeatures) {
         innerHTML += '<nav class="dropdown-list" data-collapsed="true">';
         innerHTML += '<div class="features-columns">';
 
-        console.log(processFeatures);
         // Table Headers
         innerHTML += `
         <table class="responsive-table" id="process-feature-table">
