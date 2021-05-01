@@ -158,12 +158,10 @@ button, html input[type="button"], input[type="reset"] {
 }
 
 .info-icon {
+  width: 45%;
   position: relative;
   display: inline-block;
   overflow: visible;
-  margin-top: 2px;
-  margin-left: 10px;
-  float: left;
   border-radius: 20px;
   transition: 0.21s ease-out;
   opacity: 0.65;
@@ -332,8 +330,8 @@ button, html input[type="button"], input[type="reset"] {
 }
 
 .circle {
-  height: 200px;
-  width: 200px;
+  height: 19%;
+  width: 75%;
   border-radius: 50%;
   display: table;
   margin: 0 auto;
@@ -353,7 +351,7 @@ button, html input[type="button"], input[type="reset"] {
   max-height: 80%;
   max-width: 90%;
   border-radius: 7px;
-  padding: 8px 12px;
+  padding: 4% 6%;
   font-size: inherit;
   color: #333333;
   vertical-align: middle;
@@ -361,7 +359,7 @@ button, html input[type="button"], input[type="reset"] {
 }
 
 #process-feature-table .col-1 {
-  width: 25%;
+  width: 23%;
 }
 
 #process-feature-table .col-2 {
@@ -405,7 +403,7 @@ button, html input[type="button"], input[type="reset"] {
 }
 
 #process-feature-table .col-12 {
-  width: 4%;
+  width: 6%;
 }
 
 #process-feature-table .col-2, .col-3, .col-4
@@ -436,10 +434,10 @@ button, html input[type="button"], input[type="reset"] {
 .square-border {
   background: #FFF;
   border: 10px solid #4AD28F;
-  height: 120px;
-  min-width: 180px;
+  height: 15%;
+  min-width: 300%;
   text-align: center;
-  padding: 24px;
+  padding: 40%;
 }
 
 .arrow {
@@ -457,7 +455,7 @@ table .process-visualization {
 #modelling-process {
   vertical-align: middle;
   border: 1px solid black;
-  margin: 32px 0;
+  margin: 3% 0;
 }
 
 .visualize {
