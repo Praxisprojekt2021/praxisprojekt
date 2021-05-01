@@ -237,28 +237,7 @@ function createEditComponent() {
         helper.showLoadingScreen();
         helper.http_request("POST", '/component/create_edit', true, JSON.stringify(component), saveCallback);
     } else {
-        let alert_string = 'Changes could not be saved. ';
-        // Prepare alert message strings depending on the error cause
-        if (!component_category_helper_flag) {
-            alert_string += 'Please select a category. \n';
-        }
-        if(component_name_empty) {
-            alert_string += 'Please enter a component name. \n';
-        }
-        if (emptyFieldList !== "") {
-            alert_string += 'Please fill all metrics fields. \n';
-            alert_string += '\nThe following Metrics are empty:\n';
-            alert_string += emptyFieldList + '\n';
-        }
-        if (text_replaced_flag === true) {
-            alert_string += '\nNon quantitative metrics have been automatically discarded.\n';
-        }
-        if (minmaxlist !== "") {
-            alert_string += '\nThe following Metrics are not within their min/max values:\n';
-            alert_string += minmaxlist + "\n";
-        }
-        helper.hideLoadingScreen();
-        window.alert(alert_string);
+        helper.raise_alert('component', component_name_empty, text_replaced_flag, minmaxlist, component_category_helper_flag, emptyFieldList);
     }
 }
 

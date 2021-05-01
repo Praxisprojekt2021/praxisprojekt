@@ -289,4 +289,45 @@ class Helper {
             return true;
         }
     }
+
+    raise_alert(type, name_empty = false, text_replaced = false, minmaxlist = '', component_category_missing = true, emptyFieldList = ''){
+        let alert_string = 'Changes could not be saved. ';
+        if(type=='process'){
+
+            if(name_empty) {
+                alert_string += 'Please enter a process name';
+            }
+            // Prepare alert message strings depending on the error cause
+            if (text_replaced) {
+                alert_string += '\nNon quantitative metrics have been automatically discarded.\n';
+            }
+            if (minmaxlist !== "") {
+                alert_string += '\nThe following Metrics are not within their min/max values:\n';
+                alert_string += minmaxlist + "\n";
+            }
+        }   else if(type=='component'){
+                if (!component_category_missing) {
+                    alert_string += 'Please select a category. \n';
+                }
+                if(name_empty) {
+                    alert_string += 'Please enter a component name. \n';
+                }
+                if (emptyFieldList !== "") {
+                    alert_string += 'Please fill all metrics fields. \n';
+                    alert_string += '\nThe following Metrics are empty:\n';
+                    alert_string += emptyFieldList + '\n';
+                }
+                if (text_replaced) {
+                    alert_string += '\nNon quantitative metrics have been automatically discarded.\n';
+                }
+                if (minmaxlist !== "") {
+                    alert_string += '\nThe following Metrics are not within their min/max values:\n';
+                    alert_string += minmaxlist + "\n";
+                }
+            }
+
+        this.hideLoadingScreen();
+        window.alert(alert_string);
+
+    }
 }

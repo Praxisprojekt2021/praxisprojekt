@@ -494,20 +494,7 @@ function createEditProcess() {
     if (minmaxlist === "" && !process_name_empty && !text_replaced_flag) {
         saveProcess(process);
     } else {
-        let alert_string = 'Changes could not be saved. ';
-        if(process_name_empty) {
-            alert_string += 'Please enter a process name';
-        }
-        // Prepare alert message strings depending on the error cause
-        if (text_replaced_flag === true) {
-            alert_string += '\nNon quantitative metrics have been automatically discarded.\n';
-        }
-        if (minmaxlist !== "") {
-            alert_string += '\nThe following Metrics are not within their min/max values:\n';
-            alert_string += minmaxlist + "\n";
-        }
-        helper.hideLoadingScreen();
-        window.alert(alert_string);
+        helper.raise_alert('process', process_name_empty, text_replaced_flag, minmaxlist);
     }
 }
 
