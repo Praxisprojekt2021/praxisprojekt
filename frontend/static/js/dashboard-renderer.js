@@ -160,8 +160,8 @@ function renderStatusColumn(wholeProcessScore) {
  * @returns {String} wholeProcessScore
  */
 function renderScoreColumn(wholeProcessScore) {
-    if (wholeProcessScore == 'None') {return '<td> </td>';}
-    else {return '<td>${wholeProcessScore}</td>';}
+    if (wholeProcessScore == null) {return '<td> </td>';}
+    else {return `<td>${wholeProcessScore}</td>`;}
 }
 
 /**
