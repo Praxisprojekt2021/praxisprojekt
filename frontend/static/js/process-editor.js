@@ -66,15 +66,15 @@ function getProcess(features) {
     const url = new URL(url_string);
     let uid = url.searchParams.get('uid');
 
-    // Check if view has received an uid as URL parameter to check whether to create a new component or edit an existing one
-    if (uid && uid.length === 32) {
-        // If so, load component data...
+    // Check if view has received an uid as URL parameter to check whether to create a new process or edit an existing one
+    if (uid) {
+        // If so, load process data...
         console.log('Editing existing process');
 
         // Trigger function which gathers process data and processes it
         const post_data = `{
             "uid": "` + uid + `"
-        }`
+        }`;
 
         helper.http_request("POST", "/process/view", true, post_data, function (processData) {
             fillDataFields(features, processData);
@@ -82,7 +82,7 @@ function getProcess(features) {
         });
 
     } else {
-        // If not, prepare for new component input...
+        // If not, prepare for new process input...
         let processData = {};
         createMetricsSection(features, processData);
         console.log('Entering new process');
@@ -236,7 +236,6 @@ function createMetricsSection(features, processData) {
     });
 
     checkCorrectInputs();
-
     Helper.hideLoadingScreen();
 }
 

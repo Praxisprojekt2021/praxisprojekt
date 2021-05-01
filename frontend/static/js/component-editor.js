@@ -16,7 +16,7 @@ function init() {
     getFeatures();
 
     // Check if view has received an uid as URL parameter to check whether to create a new component or edit an existing one
-    if (uid && uid.length === 32) {
+    if (uid) {
         // If so, load component data...
         Helper.showLoadingScreen();
         console.log('Editing existing component');
