@@ -26,4 +26,3 @@ i18next
         document.querySelectorAll('[data-i18n]')[i].innerHTML = i18next.t(document.querySelectorAll('[data-i18n]')[i].getAttribute("data-i18n"));
     }
 });
-

@@ -1,6 +1,6 @@
-//Base url to distinguish between localhost and production environment
+// Base url to distinguish between localhost and production environment
 const base_url = window.location.origin;
-// instantiate object of helper class
+// Instantiate object of helper class
 const helper = new Helper();
 
 const url_string = window.location.href;
@@ -48,7 +48,7 @@ async function getFeatures() {
             } else {
                 buttonType = "Create";
             }
-            div.innerHTML = `<button id="save-button" class="create-button" onclick="createEditProcess()" type="button">${buttonType}</button>`
+            div.innerHTML = `<button id="save-button" class="create-button" onclick="createEditProcess()" type="button"> ` + buttonType + ` </button>`
 
             // Append element to document
             document.getElementById('buttons').appendChild(div);
@@ -73,7 +73,7 @@ function getProcess(features) {
 
         // Trigger function which gathers process data and processes it
         const post_data = `{
-            "uid": "${uid}"
+            "uid": "` + uid + `"
         }`
 
         helper.http_request("POST", "/process/view", true, post_data, function (processData) {
@@ -287,9 +287,9 @@ function fillMetricRows(metricData, slug, processData) {
 
     let innerHTML_target = [];
     innerHTML_target['min'] =
-                        `<td class="col-7" ><input type="text" name="target-minimum" id="` + slug + `"`; // Rest of the string is added below
+        `<td class="col-7" ><input type="text" name="target-minimum" id="` + slug + `"`; // Rest of the string is added below
     innerHTML_target['max'] =
-                        `<td class="col-8" ><input type="text" name="target-maximum" id="` + slug + `"`; // Rest of the string is added below
+        `<td class="col-8" ><input type="text" name="target-maximum" id="` + slug + `"`; // Rest of the string is added below
     innerHTML_target['average'] = `
                         <td class="col-9" ><input type="text" name="target-average" id="` + slug + `"`; // Rest of the string is added below
     let innerHTML_total = `
@@ -325,7 +325,7 @@ function fillMetricRows(metricData, slug, processData) {
         if ('fulfillment' in processData['actual_target_metrics'][slug]) {
             metric_fulfillment = processData['actual_target_metrics'][slug]['fulfillment'];
             innerHTML_fulfillment = `
-                        <td class="col-11" >${helper.renderSmallCircle(metric_fulfillment)}</td>
+                        <td class="col-11" >` + helper.renderSmallCircle(metric_fulfillment) + ` </td>
                         <td class="col-12" ><div tooltip-data="` + metricData['description_process'] + `\ni.e. ` + metricData['example_process'] + `"
                          class="info-text-popup"><img class="info-icon" src="images/info.png" loading="lazy" width="35"
                          ></div></td>
@@ -347,7 +347,7 @@ function getMetricRowActual(actual_target_metrics, metricData) {
 
     return `
                 <tr>
-                    <td class="col-1"  id="${metricData['name']}">${metricData['name']}</td>
+                    <td class="col-1"  id="` + metricData['name'] + `">` + metricData['name'] + ` </td>
                     <td class="col-2" >` + Math.round(actual_target_metrics['actual']['average'] * 100 + Number.EPSILON) / 100 + `</td>
                     <td class="col-3" >` + Math.round(actual_target_metrics['actual']['standard_deviation'] * 100 + Number.EPSILON) / 100 + `</td>
                     <td class="col-4" >` + Math.round(actual_target_metrics['actual']['total'] * 100 + Number.EPSILON) / 100 + `</td>
@@ -362,8 +362,7 @@ function getMetricRowTarget(innerHTML_target, actual_target_metrics, slug) {
     Object.keys(innerHTML_target).forEach(function (key) {
         if (actual_target_metrics['target'][key] !== null) {
             targetValues[key] = Math.round(actual_target_metrics['target'][key] * 100 + Number.EPSILON) / 100;
-        }
-        else {
+        } else {
             targetValues[key] = '';
         }
     });
@@ -371,11 +370,11 @@ function getMetricRowTarget(innerHTML_target, actual_target_metrics, slug) {
     // replace null with empty strings, so that "null" is not entered in the table
 
     innerHTML_target['min'] = `
-                        <td class="col-7" ><input type="text" name="target-minimum" id = "`+ slug + `" value="`+ targetValues['min'] + `"`;
+                        <td class="col-7" ><input type="text" name="target-minimum" id = "` + slug + `" value="` + targetValues['min'] + `"`;
     innerHTML_target['max'] = `
-                        <td class="col-8" ><input type="text" name="target-maximum" id = "`+ slug + `" value="`+ targetValues['max'] + `"`;
+                        <td class="col-8" ><input type="text" name="target-maximum" id = "` + slug + `" value="` + targetValues['max'] + `"`;
     innerHTML_target['average'] = `
-                        <td class="col-9" ><input type="text" name="target-average" id = "`+ slug + `" value="`+ targetValues['average'] + `"`;
+                        <td class="col-9" ><input type="text" name="target-average" id = "` + slug + `" value="` + targetValues['average'] + `"`;
     return innerHTML_target;
 }
 
@@ -394,12 +393,8 @@ function getMetricRowTotal(actual_target_metrics) {
 function addMinMaxToInputFields(innerHTML_target, metricData) {
 
     // Rest of the innerHTML_target string
-    if (metricData['min_value'] >= 0) {
-        innerHTML_target += ' min="' + metricData['min_value'] + '"';
-    }
-    if (metricData['max_value'] >= 0) {
-        innerHTML_target += ' max="' + metricData['max_value'] + '"';
-    }
+    if (metricData['min_value'] >= 0) innerHTML_target += ' min="' + metricData['min_value'] + '"';
+    if (metricData['max_value'] >= 0) innerHTML_target += ' max="' + metricData['max_value'] + '"';
 
     innerHTML_target += `></td>`;
 
@@ -418,10 +413,10 @@ function renderWholeProcessScoreCircle(wholeProcessScore) {
 
     color = helper.getCircleColor(wholeProcessScore);
 
-    if(!isNaN(wholeProcessScore)) {
+    if (!isNaN(wholeProcessScore)) {
         document.getElementById("whole-process-score").style.setProperty("background-color", color);
         document.getElementById("whole-process-score").style.setProperty("display", "flex");
-        document.getElementById("whole-process-score").innerHTML = `${wholeProcessScore}%`;
+        document.getElementById("whole-process-score").innerHTML = wholeProcessScore + `%`;
     } else {
         document.getElementById("whole-process-score").style.setProperty("display", "none");
     }
@@ -488,22 +483,22 @@ function createEditProcess() {
     // Prepare json string
     const process = `{
         "process": {
-            "uid": "${uid}",
-            "name": "${document.getElementById('process-name-textarea').value}",
-            "responsible_person": "${document.getElementById('process-responsible-person-textarea').value}",
-            "description": "${document.getElementById('process-beschreibung-textarea').value}"
+            "uid": "` + uid + `",
+            "name": "` + document.getElementById('process-name-textarea').value + ` ",
+            "responsible_person": "` + document.getElementById('process-responsible-person-textarea').value + `",
+            "description": "` + document.getElementById('process-beschreibung-textarea').value + ` "
         },
-            "target_metrics": ${JSON.stringify(metrics)}
+            "target_metrics": ` + JSON.stringify(metrics) + ` 
         }`;
 
-    if(document.getElementById('process-name-textarea').value === "") process_name_empty = true;
+    if (document.getElementById('process-name-textarea').value === "") process_name_empty = true;
 
     // If a input has been performed, post changes to backend
     if (minmaxlist === "" && !process_name_empty && !text_replaced_flag) {
         saveProcess(process);
     } else {
         let alert_string = 'Changes could not be saved. ';
-        if(process_name_empty) {
+        if (process_name_empty) {
             alert_string += 'Please enter a process name';
         }
         // Prepare alert message strings depending on the error cause
@@ -535,8 +530,6 @@ function saveProcess(data) {
  * @param processData
  */
 function loadComponentNames(processData) {
-    const base_url = window.location.origin;
-
     helper.http_request("GET", "/content/mapping_metrics_definition.json", true, "", function (metricsDefinition) {
         createComponentTable(processData, metricsDefinition);
         visualizeProcess(processData, metricsDefinition);
@@ -584,8 +577,8 @@ function createComponentTable(processData, metricsDefinition) {
         // Filling values
         component.innerHTML = `
             <td class="col-1" ></td>
-            <td class="col-2" >${componentData['name']}</td>
-            <td class="col-3" >${metricsDefinition['categories'][componentData['category']]['name']}</td>
+            <td class="col-2" >` + componentData['name'] + `</td>
+            <td class="col-3" >` + metricsDefinition['categories'][componentData['category']]['name'] + ` </td>
             <td class="col-4" ></td>
             <td class="col-5" ></td>
             <td class="col-6" ></td>
@@ -718,14 +711,14 @@ function drop(ev) {
     try {
         previousID = parseFloat(element.previousSibling.id); // Trying to get the weight of the previous element
         if (isNaN(previousID)) {                             // If there is no previous weight then default weight = own weight
-            previousID = parseFloat(element.id);            // Which should be 1 by default as there are no weights in the table
+            previousID = parseFloat(element.id);             // Which should be 1 by default as there are no weights in the table
         }
     } catch (e) {
         previousID = parseFloat(element.id);
     }
     let nextID;
     try {
-        nextID = parseFloat(element.nextSibling.id);    // Trying to get the ID of the below component where the drop takes place
+        nextID = parseFloat(element.nextSibling.id); // Trying to get the ID of the below component where the drop takes place
     } catch (e) {
         nextID = parseFloat(element.previousSibling.id) + 1; // If there is no next component the next weight is the weight of the previous component + 1
     }
@@ -782,7 +775,7 @@ function visualizeProcess(processData, metricsDefinition) {
     components.sort((a, b) => (a.weight > b.weight) ? 1 : ((b.weight > a.weight) ? -1 : 0));
 
 
-    // begin at index 1 because 0 contains table headers
+    // Begin at index 1 because 0 contains table headers
     for (let i = 0; i < components.length; i++) {
         let currentComponent = components[i];
         let componentName = currentComponent['name'];
@@ -790,16 +783,16 @@ function visualizeProcess(processData, metricsDefinition) {
 
         rectangle = renderRectangle(componentName, componentCategory);
 
-        innerHTML += `<div class="visualize">${rectangle}</div>`;
+        innerHTML += `<div class="visualize">` + rectangle + `</div>`;
         if (i < components.length - 1) {
-            innerHTML += `<div class="visualize" >${arrowRight}</div>`;
+            innerHTML += `<div class="visualize" >` + arrowRight + `</div>`;
         }
     }
 
     div.innerHTML = innerHTML;
 
-    document.getElementById('modelling-process').innerHTML = ""; // reset div
-    document.getElementById('modelling-process').appendChild(div); // populate div
+    document.getElementById('modelling-process').innerHTML = ""; // Reset div
+    document.getElementById('modelling-process').appendChild(div); // Populate div
 
     horizontalScroll();
 
@@ -823,8 +816,8 @@ function visualizeProcess(processData, metricsDefinition) {
 function renderRectangle(componentName, componentCategory) {
     return `
         <div class="square-border">
-            <div class="componentname">${componentName}</div>
-            <div class="componentcategory">${componentCategory}</div>
+            <div class="componentname">` + componentName + `</div>
+            <div class="componentcategory">` + componentCategory + `</div>
         </div>`;
 }
 
