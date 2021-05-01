@@ -137,7 +137,6 @@ function processComponentData(json_data) {
  */
 
 function setSections(selected_category) {
-
     // Read JSON file
     fetch(base_url + '/content/mapping_metrics_definition.json')
         .then(response => response.json())

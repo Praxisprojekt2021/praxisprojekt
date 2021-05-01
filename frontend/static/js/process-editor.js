@@ -248,7 +248,7 @@ function checkCorrectInputs() {
         const inputs = document.getElementsByName(element);
         for (let i = 0; i < inputs.length; i++) {
             // Adding popup for target avg input -> with min max values if they exist
-            if(element == 'target-average') {
+            if (element == 'target-average') {
                 helper.addMinMaxPopup(inputs[i]);
             }
             // Adding event listener for input check
@@ -585,7 +585,7 @@ function createComponentTable(processData, metricsDefinition) {
             <td class="col-5" ></td>
             <td class="col-6" ></td>
             <td class="col-7" ></td>
-            <td class="col-8" ><i id="TrashIcon" class="fas fa-trash-alt" onclick="deleteComponent(this.parentElement.parentElement.id); Helper.showLoadingScreen()"></i></td>
+            <td class="col-8" ><i id="TrashIcon" class="fas fa-trash-alt" onclick="deleteComponent(this.parentElement.parentElement.id);"></i></td>
         `;
 
         // Sorting the components according to their weights
@@ -627,6 +627,7 @@ function fillComponentDropdown(componentData) {
  * This function adds the selected component to the process
  */
 function addComponent() {
+    Helper.showLoadingScreen();
     let componentUID = document.getElementById('addposition').value;
     if (componentUID.length === 32) {
         let weight = document.getElementById('ComponentOverviewTable').lastChild.id;
@@ -671,11 +672,11 @@ function editComponent(oldWeight, newWeight) {
  * @param {string} weight: The weight if the component to be deleted
  */
 function deleteComponent(weight) {
+    Helper.showLoadingScreen();
     let data = {
         "uid": uid,
         "weight": parseFloat(weight)
     }
-
     helper.http_request("POST", "/process/edit/deletestep", true, JSON.stringify(data), init);
 }
 

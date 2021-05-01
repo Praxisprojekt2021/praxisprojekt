@@ -13,6 +13,7 @@ document.addEventListener("DOMContentLoaded", init(), false);
  * Get component and process Data from Back-End and then populate the tables.
  */
 function init() {
+    Helper.showLoadingScreen();
     getComponentList();
     getProcessList();
 }
@@ -21,7 +22,6 @@ function init() {
  * Get processes data from Back-End and then populate the processes table in FE.
  */
 function getProcessList() {
-    Helper.showLoadingScreen();
     helper.http_request("GET", "/process/overview", false, "", refreshProcessTable);
 }
 
