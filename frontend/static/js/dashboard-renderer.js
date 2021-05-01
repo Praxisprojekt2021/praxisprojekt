@@ -48,7 +48,7 @@ function refreshProcessTable(json) {
         var tr = document.createElement('tr');
         tr.innerHTML = '<td>' + object.name + '</td>' +
             '<td>' + object.components_count + '</td>' +
-            '<td>' + object.score + '</td>' +
+            renderScoreColumn(object.score)+
             renderStatusColumn(object.score) +
             '<td>' + helper.formatDate(object.creation_timestamp) + '</td>' +
             '<td>' + helper.formatDate(object.last_timestamp) + '</td>' +
@@ -152,6 +152,16 @@ function renderStatusColumn(wholeProcessScore) {
 
     return '<td>' + helper.renderSmallCircle(null, color) + '</td>';
     return '<td><i id="' + color + '" class="fas fa-circle"></i></td>';
+}
+/**
+ * Renders column to show status as red or green.
+ *
+ * @param {number} wholeProcessScore
+ * @returns {String} wholeProcessScore
+ */
+function renderScoreColumn(wholeProcessScore) {
+    if (wholeProcessScore == 'None') {return '<td> </td>';}
+    else {return '<td>${wholeProcessScore}</td>';}
 }
 
 /**
