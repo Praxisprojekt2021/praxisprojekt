@@ -1,7 +1,7 @@
 //Base url to distinguish between localhost and production environment
 const base_url = window.location.href;
 
-//instantiate object of Helper class
+//instantiate object of helper class
 const helper = new Helper();
 
 //instantiate object of Modals class
@@ -59,9 +59,10 @@ function refreshProcessTable(json) {
  * Populate Component Table.
  *
  * @param {JSON} json object containing a list of components
+ * @param metricsDefinition
  */
 function refreshComponentTable(json, metricsDefinition) {
-    var table = document.getElementById('componentTable');
+    let table = document.getElementById('componentTable');
     json.components.forEach(function (object) {
         let category = object.category;
         let tr = document.createElement('tr');
