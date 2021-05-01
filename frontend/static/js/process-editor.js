@@ -413,6 +413,7 @@ function renderWholeProcessScoreCircle(wholeProcessScore) {
         document.getElementById("whole-process-score").innerHTML = `${wholeProcessScore}%`;
     } else {
         document.getElementById("whole-process-score").style.setProperty("display", "none");
+        document.getElementById("whole-process-score").innerHTML = ` `;
     }
 }
 
