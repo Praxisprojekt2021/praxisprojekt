@@ -1,10 +1,10 @@
-//Base url to distinguish between localhost and production environment
+// Base url to distinguish between localhost and production environment
 const base_url = window.location.href;
 
-//instantiate object of Helper class
+// Instantiate object of Helper class
 const helper = new Helper();
 
-//instantiate object of Modals class
+// Instantiate object of Modals class
 const modals = new Modals();
 
 document.addEventListener("DOMContentLoaded", init(), false);
@@ -82,7 +82,7 @@ function refreshComponentTable(json, metricsDefinition) {
  * @returns {String} Edit-Process-Button HTML-Element
  */
 function renderEditProcessButton(uid) {
-    return `<a href="process?uid=`+uid+`"><i id="PenIcon" class="fas fa-pencil-alt"></i></a>`;
+    return `<a href="process?uid=` + uid + `"><i id="PenIcon" class="fas fa-pencil-alt"></i></a>`;
 }
 
 /**
@@ -91,7 +91,7 @@ function renderEditProcessButton(uid) {
  * @returns {String} Edit-Component-Button HTML-Element
  */
 function renderEditComponentButton(uid) {
-    return `<a href="component?uid=`+uid+`"><i id="PenIcon" class="fas fa-pencil-alt"></i></a>`;
+    return `<a href="component?uid=` + uid + `"><i id="PenIcon" class="fas fa-pencil-alt"></i></a>`;
 }
 
 /**
@@ -100,7 +100,7 @@ function renderEditComponentButton(uid) {
  * @returns {String} Delete-Process-Button HTML-Element
  */
 function renderDeleteProcessButton(uid) {
-    return `<div onclick="deleteProcess('`+uid+`')"><i id="TrashIcon" class="fas fa-trash-alt"></i></div>`;
+    return `<div onclick="deleteProcess('` + uid + `')"><i id="TrashIcon" class="fas fa-trash-alt"></i></div>`;
 }
 
 /**
@@ -109,7 +109,7 @@ function renderDeleteProcessButton(uid) {
  * @returns {String} Delete-Component-Button HTML-Element
  */
 function renderDeleteComponentButton(uid) {
-    return `<div onclick="deleteComponent('`+uid+`')"><i id="TrashIcon" class="fas fa-trash-alt"></i></div>`;
+    return `<div onclick="deleteComponent('` + uid + `')"><i id="TrashIcon" class="fas fa-trash-alt"></i></div>`;
 }
 
 /**
@@ -141,11 +141,9 @@ function deleteComponent(uid) {
  * @returns {String} green or red td-cell (depending on viv-value)
  */
 function renderStatusColumn(wholeProcessScore) {
-    // if score > 90, status is green, elseif score > 80, status is yellow, else status is red;
+    // If score > 90, status is green, elseif score > 80, status is yellow, else status is red;
     let color = helper.getCircleColor(wholeProcessScore);
-
     return '<td class="col-4">' + helper.renderSmallCircle(null, color) + '</td>';
-    return '<td><i id="' + color + '" class="fas fa-circle"></i></td>';
 }
 
 /**
@@ -155,8 +153,7 @@ function renderStatusColumn(wholeProcessScore) {
  */
 function loadMetricsDefinition(componentData) {
     helper.http_request("GET", "/content/mapping_metrics_definition.json", true, "", function (response_json) {
-        let metricsDefinition = response_json;
-        refreshComponentTable(componentData, metricsDefinition);
+        refreshComponentTable(componentData, response_json);
     });
 }
 
