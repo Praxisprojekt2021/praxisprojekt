@@ -336,3 +336,7 @@ button, html input[type="button"], input[type="reset"] {
   float: none;
   clear: none;
 }
+
+.icon-popup-fix.info-text-popup::before {
+  margin-right: 24%;
+}
