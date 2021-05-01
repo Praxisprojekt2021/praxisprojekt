@@ -7,8 +7,6 @@ const helper = new Helper();
 // Instantiate object of Modals class
 const modals = new Modals();
 
-document.addEventListener("DOMContentLoaded", init(), false);
-
 /**
  * Get component and process Data from Back-End and then populate the tables.
  */
@@ -38,9 +36,9 @@ function getComponentList() {
  * @param {JSON} json
  */
 function refreshProcessTable(json) {
-    var table = document.getElementById('processTable');
+    const table = document.getElementById('processTable');
     json.processes.forEach(function (object) {
-        var tr = document.createElement('tr');
+        const tr = document.createElement('tr');
         tr.innerHTML = '<td class="col-1">' + object.name + '</td>' +
             '<td class="col-2">' + object.components_count + '</td>' +
             '<td class="col-3">' + object.score + '</td>' +
