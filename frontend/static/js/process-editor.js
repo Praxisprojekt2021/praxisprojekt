@@ -177,6 +177,7 @@ function createMetricsSection(features, processData) {
 
         let innerHTML = '';
         innerHTML += '<div data-hover="" data-delay="0" class="accordion-item">';
+        innerHTML += '<div data-hover="" data-delay="0" class="accordion-item">';
         innerHTML += '<div class="accordion-toggle" onclick="helper.toggleSection(this)">';
         innerHTML += '<div class="accordion-icon-dropdown-toggle">&#709</div>';
         innerHTML += '<div class="features-label">' + feature_header + '</div>';
@@ -536,16 +537,6 @@ function loadComponentNames(processData) {
     });
 }
 
-
-/**
- * This function shows The Select-Line class on creation of process
- *
- *
- */
-function showAddComponentDropdown() {
-    document.getElementsByClassName('select-line')[0].style.display = 'block';
-}
-
 /**
  * This function renders the component drag and drop table
  *
@@ -607,7 +598,7 @@ function createComponentTable(processData, metricsDefinition) {
             }
         }
     });
-    showAddComponentDropdown();
+    helper.changeElementDisplayValue('add-component-dropdown');
 }
 
 /**
@@ -784,6 +775,12 @@ function visualizeProcess(processData, metricsDefinition) {
     let innerHTML = "";
     let components = processData['process']['components'];
     components.sort((a, b) => (a.weight > b.weight) ? 1 : ((b.weight > a.weight) ? -1 : 0));
+
+    if(components.length == 0) {
+        div.style.display = "none";
+    }   else {
+        div.style.display = "block";
+    }
 
 
     // begin at index 1 because 0 contains table headers
