@@ -117,7 +117,7 @@ function renderDeleteComponentButton(uid) {
  * @param {String} uid
  */
 function deleteProcess(uid) {
-    // call delete-process endpoint
+    Helper.showLoadingScreen();
     let params = JSON.stringify({uid: uid});
     helper.http_request("POST", "/process/delete", true, params, deleteCallback);
 }
@@ -128,6 +128,7 @@ function deleteProcess(uid) {
  * @param {String} uid
  */
 function deleteComponent(uid) {
+    Helper.showLoadingScreen();
     let params = JSON.stringify({uid: uid});
     helper.http_request("POST", "/component/delete", true, params, deleteCallback);
 }
@@ -160,5 +161,6 @@ function loadMetricsDefinition(componentData) {
  * Reloads page if deletion was successful.
  */
 function deleteCallback(response) {
+    Helper.hideLoadingScreen();
     window.location.reload();
 }
