@@ -7,12 +7,11 @@ const helper = new Helper();
 // Instantiate object of Modals class
 const modals = new Modals();
 
-document.addEventListener("DOMContentLoaded", init(), false);
-
 /**
  * Get component and process Data from Back-End and then populate the tables.
  */
 function init() {
+    Helper.showLoadingScreen();
     getComponentList();
     getProcessList();
 }
@@ -21,7 +20,6 @@ function init() {
  * Get processes data from Back-End and then populate the processes table in FE.
  */
 function getProcessList() {
-    helper.showLoadingScreen();
     helper.http_request("GET", "/process/overview", false, "", refreshProcessTable);
 }
 
@@ -38,9 +36,9 @@ function getComponentList() {
  * @param {JSON} json
  */
 function refreshProcessTable(json) {
-    var table = document.getElementById('processTable');
+    const table = document.getElementById('processTable');
     json.processes.forEach(function (object) {
-        var tr = document.createElement('tr');
+        const tr = document.createElement('tr');
         tr.innerHTML = '<td class="col-1">' + object.name + '</td>' +
             '<td class="col-2">' + object.components_count + '</td>' +
             '<td class="col-3">' + object.score + '</td>' +
@@ -51,7 +49,7 @@ function refreshProcessTable(json) {
             '<td class="col-8">' + renderDeleteProcessButton(object.uid) + '</td>';
         table.appendChild(tr);
     });
-    helper.hideLoadingScreen();
+    Helper.hideLoadingScreen();
     modals.getProcessDate(json);
 }
 
@@ -59,9 +57,10 @@ function refreshProcessTable(json) {
  * Populate Component Table.
  *
  * @param {JSON} json object containing a list of components
+ * @param metricsDefinition
  */
 function refreshComponentTable(json, metricsDefinition) {
-    var table = document.getElementById('componentTable');
+    let table = document.getElementById('componentTable');
     json.components.forEach(function (object) {
         let category = object.category;
         let tr = document.createElement('tr');
@@ -118,7 +117,7 @@ function renderDeleteComponentButton(uid) {
  * @param {String} uid
  */
 function deleteProcess(uid) {
-    // call delete-process endpoint
+    Helper.showLoadingScreen();
     let params = JSON.stringify({uid: uid});
     helper.http_request("POST", "/process/delete", true, params, deleteCallback);
 }
@@ -129,6 +128,7 @@ function deleteProcess(uid) {
  * @param {String} uid
  */
 function deleteComponent(uid) {
+    Helper.showLoadingScreen();
     let params = JSON.stringify({uid: uid});
     helper.http_request("POST", "/component/delete", true, params, deleteCallback);
 }
@@ -161,5 +161,6 @@ function loadMetricsDefinition(componentData) {
  * Reloads page if deletion was successful.
  */
 function deleteCallback(response) {
+    Helper.hideLoadingScreen();
     window.location.reload();
 }

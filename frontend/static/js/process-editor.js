@@ -14,7 +14,7 @@ let uid = url.searchParams.get('uid');
  */
 function init(json_process = false) {
 
-    helper.showLoadingScreen();
+    Helper.showLoadingScreen();
 
     getFeatures().then(data => {
         // If page is reloaded (after saving) processes are updated else => page is loaded from databased and entries are prepared
@@ -66,15 +66,15 @@ function getProcess(features) {
     const url = new URL(url_string);
     let uid = url.searchParams.get('uid');
 
-    // Check if view has received an uid as URL parameter to check whether to create a new component or edit an existing one
-    if (uid && uid.length === 32) {
-        // If so, load component data...
+    // Check if view has received an uid as URL parameter to check whether to create a new process or edit an existing one
+    if (uid) {
+        // If so, load process data...
         console.log('Editing existing process');
 
         // Trigger function which gathers process data and processes it
         const post_data = `{
             "uid": "` + uid + `"
-        }`
+        }`;
 
         helper.http_request("POST", "/process/view", true, post_data, function (processData) {
             fillDataFields(features, processData);
@@ -82,7 +82,7 @@ function getProcess(features) {
         });
 
     } else {
-        // If not, prepare for new component input...
+        // If not, prepare for new process input...
         let processData = {};
         createMetricsSection(features, processData);
         console.log('Entering new process');
@@ -105,7 +105,9 @@ function fillDataFields(features, processData) {
         //
     } else {
         // Component has not been created/edited successfully
-        window.alert('Process could not be loaded.');
+        //window.alert('Process could not be loaded.');
+        // Error will be shown in showError
+        window.location.href = '/';
     }
 }
 
@@ -234,8 +236,7 @@ function createMetricsSection(features, processData) {
     });
 
     checkCorrectInputs();
-
-    helper.hideLoadingScreen();
+    Helper.hideLoadingScreen();
 }
 
 function checkCorrectInputs() {
@@ -246,7 +247,7 @@ function checkCorrectInputs() {
         const inputs = document.getElementsByName(element);
         for (let i = 0; i < inputs.length; i++) {
             // Adding popup for target avg input -> with min max values if they exist
-            if(element == 'target-average') {
+            if (element == 'target-average') {
                 helper.addMinMaxPopup(inputs[i]);
             }
             // Adding event listener for input check
@@ -428,7 +429,7 @@ function renderWholeProcessScoreCircle(wholeProcessScore) {
  */
 
 function createEditProcess() {
-    helper.showLoadingScreen();
+    Helper.showLoadingScreen();
     let metric_elements = {};
     metric_elements['average'] = document.getElementsByName('target-average');
     metric_elements['min'] = document.getElementsByName('target-minimum');
@@ -509,7 +510,7 @@ function createEditProcess() {
             alert_string += '\nThe following Metrics are not within their min/max values:\n';
             alert_string += minmaxlist + "\n";
         }
-        helper.hideLoadingScreen();
+        Helper.hideLoadingScreen();
         window.alert(alert_string);
     }
 }
@@ -583,7 +584,7 @@ function createComponentTable(processData, metricsDefinition) {
             <td class="col-5" ></td>
             <td class="col-6" ></td>
             <td class="col-7" ></td>
-            <td class="col-8" ><i id="TrashIcon" class="fas fa-trash-alt" onclick="deleteComponent(this.parentElement.parentElement.id); helper.showLoadingScreen()"></i></td>
+            <td class="col-8" ><i id="TrashIcon" class="fas fa-trash-alt" onclick="deleteComponent(this.parentElement.parentElement.id);"></i></td>
         `;
 
         // Sorting the components according to their weights
@@ -625,6 +626,7 @@ function fillComponentDropdown(componentData) {
  * This function adds the selected component to the process
  */
 function addComponent() {
+    Helper.showLoadingScreen();
     let componentUID = document.getElementById('addposition').value;
     if (componentUID.length === 32) {
         let weight = document.getElementById('ComponentOverviewTable').lastChild.id;
@@ -643,7 +645,7 @@ function addComponent() {
 
         helper.http_request("POST", "/process/edit/createstep", true, JSON.stringify(data), init);
     } else {
-        helper.hideLoadingScreen();
+        Helper.hideLoadingScreen();
     }
 }
 
@@ -669,11 +671,11 @@ function editComponent(oldWeight, newWeight) {
  * @param {string} weight: The weight if the component to be deleted
  */
 function deleteComponent(weight) {
+    Helper.showLoadingScreen();
     let data = {
         "uid": uid,
         "weight": parseFloat(weight)
     }
-
     helper.http_request("POST", "/process/edit/deletestep", true, JSON.stringify(data), init);
 }
 
@@ -725,7 +727,7 @@ function drop(ev) {
     let newWeight = parseFloat(previousID + (nextID - previousID) / 2);
     element.id = newWeight;
 
-    helper.showLoadingScreen();
+    Helper.showLoadingScreen();
     editComponent(oldWeight, newWeight); // Updating component table
 }
 
@@ -846,7 +848,7 @@ function horizontalScroll() {
 
 function saveCallback(response) {
     // Process has been created/edited successfully
-    helper.hideLoadingScreen();
+    Helper.hideLoadingScreen();
     if (uid.length === 32) {
         init(response);
     } else {
