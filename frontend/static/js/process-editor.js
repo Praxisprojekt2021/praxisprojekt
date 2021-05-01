@@ -212,15 +212,15 @@ function createMetricsSection(features, processData, processFeatures) {
                 <th class="col-1" name="metric" data-i18n="metric"></th>
                 <th class="col-2 info-text-header" name="average" tooltip-data="${processData['average']}" data-i18n="average">
                 </th>
-                <th class="col-3 info-text-header" name="standard-deviation" tooltip-data="The standard deviation for each metric&#xa; across all components in the process." data-i18n="standard-deviation">
+                <th class="col-3 info-text-header" name="standard-deviation" tooltip-data="${processData['standard-deviation']}" data-i18n="standard-deviation">
                 </th>
-                <th class="col-4 info-text-header" name="sum" tooltip-data="The sum for each respective metric&#xa; across all components in the process." data-i18n="sum">
+                <th class="col-4 info-text-header" name="sum" tooltip-data="${processData['sum']}" data-i18n="sum">
                 </th>
-                <th class="col-5 info-text-header" name="min" tooltip-data="The minimum value specifies the smallest value for each&#xa; respective metric across all components in the process." data-i18n="min">
+                <th class="col-5 info-text-header" name="min" tooltip-data="${processData['min']}" data-i18n="min">
                 </th>
-                <th class="col-6 info-text-header" name="max" tooltip-data="The maximum value indicates the largest value for each&#xa; respective metric across all components of the process." data-i18n="max">
+                <th class="col-6 info-text-header" name="max" tooltip-data="${processData['max']}" data-i18n="max">
                 </th>
-                <th class="col-7 info-text-header" name="target-min" tooltip-data="The minimum target average, user-entered, Target-value&#xa; for each metric across all components in the process." data-i18n="target-min">
+                <th class="col-7 info-text-header" name="target-min" tooltip-data="${processData['target-min']}" data-i18n="target-min">
                 </th>
                 <th class="col-8 info-text-header" name="target-max" tooltip-data="The maximum target average, user-entered, Target-value&#xa; for each metric across all components in the process." data-i18n="target-max">
                 </th>

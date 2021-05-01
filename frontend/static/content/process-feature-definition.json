@@ -1,0 +1,13 @@
+{
+  "process-feature-table": {
+    "average": "The average value for the respective metrics&#xa; across all components in the process.",
+    "standard-deviation": "The standard deviation for each metric&#xa; across all components in the process.",
+    "sum": "The sum for each respective metric&#xa; across all components in the process.",
+    "min": "The minimum value specifies the smallest value for each&#xa; respective metric across all components in the process.",
+    "max": "The maximum value indicates the largest value for each&#xa; respective metric across all components of the process.",
+    "target-min": "The minimum target average, user-entered, Target-value&#xa; for each metric across all components in the process.",
+    "target-max": "The maximum target average, user-entered, Target-value&#xa; for each metric across all components in the process.",
+    "target-avg": "The average, user-entered, Target-value&#xa; for each metric across all components in the process.",
+    "target-sum": "The target sum for each metric across&#xa; all components in the process."
+  }
+}
