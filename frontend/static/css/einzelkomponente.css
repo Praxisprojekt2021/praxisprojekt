@@ -324,3 +324,19 @@ button, html input[type="button"], input[type="reset"] {
   padding-left: 10px;
   padding-right: 10px;
 }
+
+.metric-entry-element .info-text-popup {
+  display: inline-block;
+  float: left;
+  clear: left;
+}
+
+.icon-popup-fix.info-text-popup {
+  display: block;
+  float: none;
+  clear: none;
+}
+
+.icon-popup-fix.info-text-popup::before {
+  margin-right: 24%;
+}
