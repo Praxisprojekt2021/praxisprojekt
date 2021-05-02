@@ -68,13 +68,37 @@ function getFeatures() {
         .then(data => {
             const features = data['features'];
 
-            helper.createMetricsSection(features);
-            let div = document.createElement('div');
-            div.className = 'control-area';
-            div.innerHTML = '<a href="#" data-wait="Bitte warten..." id="save-button" class="create-button" onclick="createEditComponent()">Speichern</a>';
+            getButtonType().then(button => {
 
-            // Append element to document
-            document.getElementById('metrics-input').appendChild(div);
+                const features = data['features'];
+                let buttonType = button;
+                helper.createMetricsSection(features);
+                let div = document.createElement('div');
+                div.className = 'control-area';
+                //div.innerHTML = '<a href="#" data-wait="Bitte warten..." id="save-button" class="create-button" onclick="createEditComponent()">${buttonType}</a>';
+                div.innerHTML = `<button id="save-button" class="create-button" onclick="createEditComponent()" type="button">${buttonType}</button>`
+    
+                // Append element to document
+                document.getElementById('metrics-input').appendChild(div);
+                
+            })
+
+            return features;
+       });
+}
+
+/**
+* Get text for button types.
+*/
+
+async function getButtonType(){
+
+    // Read JSON file
+        return await fetch(base_url+ '/content/en.json')
+        .then(response=> response.json())
+        .then(data=> {
+            let saveButton = data['en']['translation']['saveButton'];
+        return saveButton;
         });
 }
 
