@@ -35,6 +35,7 @@ class Helper {
      *
      * @param {string} requestType: The type of request which is either GET or POST
      * @param {string} endpoint: The endpoint to be referred to
+     * @param async
      * @param {string} endpoint: The request to be either executed synchronously or asynchronously
      * @param {string} post_json: The JSON Object to be passed to the backend
      * @param {function} callbacks: The functions to be executed with the response
@@ -126,7 +127,7 @@ class Helper {
             }
         }
 
-        return `<div class="small-circle" style="background-color: ${color}"></div>`;
+        return `<div class="small-circle" style="background-color: ` + color + `"></div>`;
     }
 
     /**
@@ -140,7 +141,7 @@ class Helper {
         const metric_child_icon = element.parentElement.children[0].children[0];
         const isCollapsed = metric_child.getAttribute('data-collapsed') === 'true';
         metric_child.style.display = '';
-        if (!(element.getAttribute("disabled") == "true")) {
+        if (!(element.getAttribute("disabled") === "true")) {
             if (isCollapsed) {
                 this.expandSection(metric_child);
                 metric_child_icon.style.setProperty('transform', 'rotateX(180deg)');
@@ -219,10 +220,6 @@ class Helper {
         let min = parseFloat(element.getAttribute("min")); // Getting min value for metric
         let max = parseFloat(element.getAttribute("max")); // Getting max value for metric
         let input = parseFloat(element.value); // Getting entered value for metric
-        if (input < min || input > max) {
-            return false;
-        } else {
-            return true;
-        }
+        return !(input < min || input > max);
     }
 }
