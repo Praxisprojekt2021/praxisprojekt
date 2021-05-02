@@ -41,8 +41,8 @@ function refreshProcessTable(json) {
         const tr = document.createElement('tr');
         tr.innerHTML = '<td class="col-1">' + object.name + '</td>' +
             '<td class="col-2">' + object.components_count + '</td>' +
-            '<td class="col-3">' + object.score + '</td>' +
-            renderStatusColumn(object.score) +
+            '<td class="col-3">' + renderScoreColumn(object.score) + '</td>' +
+            '<td class="col-4">' + renderStatusColumn(object.score) + '</td>' +
             '<td class="col-5">' + helper.formatDate(object.creation_timestamp) + '</td>' +
             '<td class="col-6">' + helper.formatDate(object.last_timestamp) + '</td>' +
             '<td class="col-7">' + renderEditProcessButton(object.uid) + '</td>' +
@@ -133,7 +133,6 @@ function deleteComponent(uid) {
     helper.http_request("POST", "/component/delete", true, params, deleteCallback);
 }
 
-
 /**
  * Renders column to show status as red or green.
  *
@@ -143,7 +142,20 @@ function deleteComponent(uid) {
 function renderStatusColumn(wholeProcessScore) {
     // If score > 90, status is green, elseif score > 80, status is yellow, else status is red;
     let color = helper.getCircleColor(wholeProcessScore);
-    return '<td class="col-4">' + helper.renderSmallCircle(null, color) + '</td>';
+    return helper.renderSmallCircle(null, color);
+}
+
+/**
+ * Renders column to show status as red or green.
+ *
+ * @param {number, null} wholeProcessScore
+ * @returns {String} wholeProcessScore
+ */
+function renderScoreColumn(wholeProcessScore) {
+    if (wholeProcessScore == null) {
+        wholeProcessScore = "";
+    }
+    return wholeProcessScore;
 }
 
 /**
