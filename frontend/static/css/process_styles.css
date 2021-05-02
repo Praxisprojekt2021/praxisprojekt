@@ -506,6 +506,10 @@ table .process-visualization {
   pointer-events: none;
 }
 
+#ComponentOverviewTable td i {
+  pointer-events: auto;
+}
+
 #ComponentOverviewTable .col-1 {
   width: 15%;
 }
