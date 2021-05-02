@@ -68,7 +68,7 @@ function getFeatures() {
         .then(data => {
             const features = data['features'];
 
-            helper.createMetricsSection(features);
+            createMetricsSection(features);
             let div = document.createElement('div');
             div.className = 'control-area';
             div.innerHTML = '<a href="#" data-wait="Bitte warten..." id="save-button" class="create-button" onclick="createEditComponent()">Speichern</a>';
@@ -278,7 +278,7 @@ function saveCallback(response) {
  *
  * @param {json} features
  */
-createMetricsSection(features) {
+function createMetricsSection(features) {
     Object.keys(features).forEach(function (key) {
         let feature = features[key];
         let metrics = feature['metrics'];
