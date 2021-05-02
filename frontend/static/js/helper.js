@@ -9,6 +9,10 @@ class Helper {
         // Saving the data was not successful
         if (endpoint.includes("delete")) {
             window.alert("Object could not be deleted.")
+        } else if (endpoint.includes("/component/view")) {
+            window.alert('Component could not be loaded.');
+        } else if (endpoint.includes("/process/view")) {
+            window.alert('Process could not be loaded.');
         } else {
             window.alert('Changes could not be saved.');
         }
@@ -31,6 +35,24 @@ class Helper {
     }
 
     /**
+     * This functions hides the loading animation
+     */
+
+    static hideLoadingScreen() {
+        let element = document.getElementById('loader-wrapper');
+        element.setAttribute("class", "loader-wrapper-hidden");
+    }
+
+    /**
+     * This functions shows the loading animation
+     */
+
+    static showLoadingScreen() {
+        let element = document.getElementById('loader-wrapper');
+        element.setAttribute("class", "loader-wrapper");
+    }
+
+    /**
      * This function sends a post request to the backend
      *
      * @param {string} requestType: The type of request which is either GET or POST
@@ -42,7 +64,6 @@ class Helper {
      */
 
     http_request(requestType, endpoint, async, post_json, ...callbacks) {
-
         const base_url = window.location.origin;
         let xhttp = new XMLHttpRequest();
 
@@ -83,6 +104,24 @@ class Helper {
     formatDate(date) {
         const dateOptions = {year: 'numeric', month: '2-digit', day: '2-digit'};
         return new Date(date).toLocaleDateString("DE", dateOptions);
+    }
+
+    /**
+     * Adds a min max popup to the parent HTMLelement of the given HTMLelement
+     *
+     * @param {HTMLElement} element
+     */
+
+    addMinMaxPopup(element) {
+        let tooltipData;
+        if(element.hasAttribute("min") && element.hasAttribute("max")) {
+            tooltipData = "Min: "+element.getAttribute("min")+" Max: "+element.getAttribute("max");
+        } else {
+            if(element.hasAttribute("min")) tooltipData = "Min: "+element.getAttribute("min");
+            if(element.hasAttribute("max")) tooltipData = "Max: "+element.getAttribute("max")
+        }
+        element.parentElement.classList.add("info-text-popup");
+        element.parentElement.setAttribute("tooltip-data", tooltipData);
     }
 
     /**
@@ -190,24 +229,6 @@ class Helper {
         element.style.height = sectionHeight + 'px';
         element.style.margin = "0px 0px 10px 0px";
         element.setAttribute('data-collapsed', 'false');
-    }
-
-    /**
-     * This functions hides the loading animation
-     */
-
-    hideLoadingScreen() {
-        let element = document.getElementById('loader-wrapper');
-        element.setAttribute("class", "loader-wrapper-hidden");
-    }
-
-    /**
-     * This functions shows the loading animation
-     */
-
-    showLoadingScreen() {
-        let element = document.getElementById('loader-wrapper');
-        element.setAttribute("class", "loader-wrapper");
     }
 
     /**

@@ -16,9 +16,9 @@ function init() {
     getFeatures();
 
     // Check if view has received an uid as URL parameter to check whether to create a new component or edit an existing one
-    if (uid && uid.length === 32) {
+    if (uid) {
         // If so, load component data...
-        helper.showLoadingScreen();
+        Helper.showLoadingScreen();
         console.log('Editing existing component');
 
         // Trigger function which gathers component data and processes it
@@ -124,7 +124,9 @@ function processComponentData(json_data) {
         setSections(component['category']);
     } else {
         // Request was not successful
-        window.alert('Component could not be loaded');
+        //window.alert('Component could not be loaded');
+        // Error will be shown in showError
+        window.location.href = '/';
     }
 }
 
@@ -135,7 +137,6 @@ function processComponentData(json_data) {
  */
 
 function setSections(selected_category) {
-
     // Read JSON file
     fetch(base_url + '/content/mapping_metrics_definition.json')
         .then(response => response.json())
@@ -152,7 +153,7 @@ function setSections(selected_category) {
                 }
             });
         });
-    helper.hideLoadingScreen();
+    Helper.hideLoadingScreen();
 }
 
 
@@ -235,7 +236,7 @@ function createEditComponent() {
 
     // If an input has been performed, post changes to backend
     if (emptyFieldList === "" && minmaxlist === "" && component_category_helper_flag && !component_name_empty) {
-        helper.showLoadingScreen();
+        Helper.showLoadingScreen();
         helper.http_request("POST", '/component/create_edit', true, JSON.stringify(component), saveCallback);
     } else {
         let alert_string = 'Changes could not be saved. ';
@@ -258,7 +259,7 @@ function createEditComponent() {
             alert_string += '\nThe following Metrics are not within their min/max values:\n';
             alert_string += minmaxlist + "\n";
         }
-        helper.hideLoadingScreen();
+        Helper.hideLoadingScreen();
         window.alert(alert_string);
     }
 }
@@ -269,7 +270,7 @@ function createEditComponent() {
  */
 
 function saveCallback(response) {
-    helper.hideLoadingScreen();
+    Helper.hideLoadingScreen();
     // Component has been created/edited successfully
     window.location.replace(base_url);
 }
@@ -279,6 +280,7 @@ function saveCallback(response) {
  *
  * @param {json} features
  */
+
 function createMetricsSection(features) {
     Object.keys(features).forEach(function (key) {
         let feature = features[key];
@@ -301,16 +303,17 @@ function createMetricsSection(features) {
             let metric = metrics[key];
             innerHTML += '<div class="metric-entry-element">';
             innerHTML += ('<label for="availability-metric" class="entry-label">' + metric['name'] + '</label>');
-            innerHTML += '<input type="text" maxLength="256" data-name="availability-metric-1" id="' + key + '"' +
-                ' name="availability-metric" class="metric-input textfield"'
+            innerHTML += '<div><input type="text" maxLength="256" data-name="availability-metric-1" id="' + key + '"' +
+                ' name="availability-metric" class="metric-input textfield"';
             if (metric['max_value'] === -1) {
-                innerHTML += '" min="' + metric['min_value'] + '"'
+                innerHTML += ' min="' + metric['min_value'] + '"';
             } else {
-                innerHTML += ' max="' + metric['max_value'] + '" min="' + metric['min_value'] + '"'
+                innerHTML += ' max="' + metric['max_value'] + '" min="' + metric['min_value'] + '"';
             }
-            innerHTML += ' >';
-            innerHTML += '<img src="images/info.png" loading="lazy" width="35" alt="" title="' +
-                metric['description_component'] + '\ni.e. ' + metric['example_component'] + '" class="info-icon">';
+            innerHTML += ' ></div>';
+            innerHTML += '<div class="icon-popup-fix info-text-popup" tooltip-data="' +
+                metric['description_component'] + '\ni.e. ' + metric['example_component'] + '">' +
+                '<img src="images/info.png" loading="lazy" width="35" alt="" class="info-icon"></div>';
             innerHTML += '</div>';
         });
 
@@ -328,6 +331,7 @@ function createMetricsSection(features) {
     console.log(inputs);
     console.log(inputs[0]);
     for (let i = 0; i < inputs.length; i++) {
+        this.addMinMaxPopup(inputs[i]);
         inputs[i].addEventListener('blur', (event) => {
             if (!helper.targetAvgIsWithinMinMax(inputs[i]) || inputs[i].value === '') {
                 inputs[i].style.setProperty("border-color", "red", undefined);
