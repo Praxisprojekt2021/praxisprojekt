@@ -119,7 +119,7 @@ function fillDataFields(features, processData) {
 
 function fillDescriptionColumn(processData) {
 
-    this.renderWholeProcessScoreCircle(processData['score']);
+    renderWholeProcessScoreCircle(processData['score']);
 
     // Set uid and data fields
     document.getElementById('process-name-textarea').value = processData['process']['name'];
@@ -247,7 +247,7 @@ function checkCorrectInputs() {
         const inputs = document.getElementsByName(element);
         for (let i = 0; i < inputs.length; i++) {
             // Adding popup for target avg input -> with min max values if they exist
-            if (element == 'target-average') {
+            if (element === 'target-average') {
                 helper.addMinMaxPopup(inputs[i]);
             }
             // Adding event listener for input check
