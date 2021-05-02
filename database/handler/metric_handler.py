@@ -92,3 +92,4 @@ def remove_metrics_unique_constraint() -> dict:
     db.cypher_query(query)
 
     return success_handler()
+    

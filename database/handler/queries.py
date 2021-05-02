@@ -238,3 +238,4 @@ def remove_metrics_unique_constraint() -> str:
     :return: Query as String
     """
     return f"Drop CONSTRAINT ON (n:Metric) ASSERT n.name IS UNIQUE"
+    
