@@ -211,31 +211,31 @@ function createMetricsSection(features, processData, processFeatures) {
         <table class="responsive-table" id="process-feature-table">
             <tr class="table-header">
                 <th class="col-1" name="metric">Metric</th>
-                <th class="col-2 info-text-header" name="average" tooltip-data="${processFeatures['average']}">
+                <th class="col-2 info-text-popup" name="average" tooltip-data="${processFeatures['average']}">
                 Average
                 </th>
-                <th class="col-3 info-text-header" name="standard-deviation" tooltip-data="${processFeatures['standard-deviation']}">
+                <th class="col-3 info-text-popup" name="standard-deviation" tooltip-data="${processFeatures['standard-deviation']}">
                 Std. Dev.
                 </th>
-                <th class="col-4 info-text-header" name="sum" tooltip-data="${processFeatures['sum']}">
+                <th class="col-4 info-text-popup" name="sum" tooltip-data="${processFeatures['sum']}">
                 Sum
                 </th>
-                <th class="col-5 info-text-header" name="min" tooltip-data="${processFeatures['min']}">
+                <th class="col-5 info-text-popup" name="min" tooltip-data="${processFeatures['min']}">
                 Min
                 </th>
-                <th class="col-6 info-text-header" name="max" tooltip-data="${processFeatures['max']}">
+                <th class="col-6 info-text-popup" name="max" tooltip-data="${processFeatures['max']}">
                 Max
                 </th>
-                <th class="col-7 info-text-header" name="target-min" tooltip-data="${processFeatures['target-min']}">
+                <th class="col-7 info-text-popup" name="target-min" tooltip-data="${processFeatures['target-min']}">
                 Target Min
                 </th>
-                <th class="col-8 info-text-header" name="target-max" tooltip-data="${processFeatures['target-max']}">
+                <th class="col-8 info-text-popup" name="target-max" tooltip-data="${processFeatures['target-max']}">
                 Target Max
                 </th>
-                <th class="col-9 info-text-header" name="target-avg" tooltip-data="${processFeatures['target-avg']}">
+                <th class="col-9 info-text-popup" name="target-avg" tooltip-data="${processFeatures['target-avg']}">
                 Target Average
                 </th>
-                <th class="col-10 info-text-header" name="target-sum" tooltip-data="${processFeatures['target-sum']}">
+                <th class="col-10 info-text-popup" name="target-sum" tooltip-data="${processFeatures['target-sum']}">
                 Target Sum
                 </th>
                 <th class="col-11" name="ampel">Check</th>
