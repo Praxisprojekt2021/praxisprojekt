@@ -68,6 +68,7 @@ button, html input[type="button"], input[type="reset"] {
 
 .textarea {
   position: relative;
+  resize: vertical;
   display: block;
   overflow: hidden;
   font-size: 0.8vw;
@@ -164,7 +165,7 @@ button, html input[type="button"], input[type="reset"] {
   float: left;
   clear: left;
   border-radius: 7px;
-  padding: 1.37% 2.055%;
+  padding: 0.85vh 0.85vh;
   margin-bottom: 1.3%;
   font-size: 0.75vw;
   line-height: 1.428571429;

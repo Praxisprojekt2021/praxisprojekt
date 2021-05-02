@@ -87,6 +87,7 @@ button, html input[type="button"], input[type="reset"] {
 
 .textarea {
   position: relative;
+  resize: vertical;
   display: block;
   overflow: auto;
   width: 450px;
@@ -195,6 +196,8 @@ button, html input[type="button"], input[type="reset"] {
 
 .features-label {
   transition: 0.17s ease-out;
+  font-size: 0.95em;
+  padding-bottom: 7.5px;
   font-weight: 700;
 }
 
