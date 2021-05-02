@@ -36,23 +36,45 @@ async function getFeatures() {
     return await fetch(base_url + '/content/mapping_metrics_definition.json')
         .then(response => response.json())
         .then(data => {
+
             let features = data['features'];
+            getButtonType().then(button => {
 
-            document.getElementById('buttons').innerHTML = '';
-            let div = document.createElement('div');
-            div.className = 'control-area';
+                document.getElementById('buttons').innerHTML = '';
+                let div = document.createElement('div');
+                div.className = 'control-area';
 
-            let buttonType;
-            if (typeof uid !== undefined && uid !== "" && uid != null) {
-                buttonType = "Save";
-            } else {
-                buttonType = "Create";
-            }
-            div.innerHTML = `<button id="save-button" class="create-button" onclick="createEditProcess()" type="button">${buttonType}</button>`
+                let buttonType;
+                if (typeof uid !== undefined && uid !== "" && uid != null) {
+                    buttonType = button[0];
+                } else {
+                    buttonType = button[1];
+                }
+                div.innerHTML = `<button id="save-button" class="create-button" onclick="createEditProcess()" type="button">${buttonType}</button>`
 
-            // Append element to document
-            document.getElementById('buttons').appendChild(div);
+                // Append element to document
+                document.getElementById('buttons').appendChild(div);
+            })
             return features;
+        });
+}
+
+
+
+
+/**
+* Get description of buttons from json.
+*/
+
+async function getButtonType(){
+
+    // Read JSON file
+        return await fetch(base_url+ '/content/en.json')
+        .then(response=> response.json())
+        .then(data=> {
+            let saveButton = data['en']['translation']['saveButton'];
+            let createButton = data['en']['translation']['createButton'];
+        return [saveButton, createButton];
         });
 }
 
