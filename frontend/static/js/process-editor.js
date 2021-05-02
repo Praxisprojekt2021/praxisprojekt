@@ -19,14 +19,14 @@ function init(json_process = false) {
     getFeatures().then(data => {
         // If page is reloaded (after saving) processes are updated else => page is loaded from databased and entries are prepared
         getTableHeaderInfo().then(tableHeaderInfo => {
-        if (!json_process) {
-                getProcess(data, tableHeaderInfo);
+                if (!json_process) {
+                    getProcess(data, tableHeaderInfo);
 
-        } else {
-            fillDataFields(data, json_process, tableHeaderInfo);
-            loadComponentNames(json_process);
+                } else {
+                    fillDataFields(data, json_process, tableHeaderInfo);
+                    loadComponentNames(json_process);
+                }
             }
-        }
         );
     });
 
@@ -210,36 +210,36 @@ function createMetricsSection(features, processData, tableHeaderInfo) {
         innerHTML += `
         <table class="responsive-table" id="process-feature-table">
             <tr class="table-header">
-                <th class="col-1" name="metric">Metric</th>
-                <th class="col-2 info-text-popup" name="average" tooltip-data="${tableHeaderInfo['average']}">
-                Average
+                <th class="col-1" ></th>
+                <th class="col-2 info-text-popup" tooltip-data="` + tableHeaderInfo['average']['helper'] + `">
+                ` + tableHeaderInfo['average']['name'] + `
                 </th>
-                <th class="col-3 info-text-popup" name="standard-deviation" tooltip-data="${tableHeaderInfo['standard-deviation']}">
-                Std. Dev.
+                <th class="col-3 info-text-popup" tooltip-data="` + tableHeaderInfo['standard-deviation']['helper'] + `">
+                ` + tableHeaderInfo['standard-deviation']['name'] + `
                 </th>
-                <th class="col-4 info-text-popup" name="sum" tooltip-data="${tableHeaderInfo['sum']}">
-                Sum
+                <th class="col-4 info-text-popup" tooltip-data="` + tableHeaderInfo['sum']['helper'] + `">
+                ` + tableHeaderInfo['sum']['name'] + `
                 </th>
-                <th class="col-5 info-text-popup" name="min" tooltip-data="${tableHeaderInfo['min']}">
-                Min
+                <th class="col-5 info-text-popup" tooltip-data="` + tableHeaderInfo['min']['helper'] + `">
+                ` + tableHeaderInfo['min']['name'] + `
                 </th>
-                <th class="col-6 info-text-popup" name="max" tooltip-data="${tableHeaderInfo['max']}">
-                Max
+                <th class="col-6 info-text-popup" tooltip-data="` + tableHeaderInfo['max']['helper'] + `">
+                ` + tableHeaderInfo['max']['name'] + `
                 </th>
-                <th class="col-7 info-text-popup" name="target-min" tooltip-data="${tableHeaderInfo['target-min']}">
-                Target Min
+                <th class="col-7 info-text-popup" tooltip-data="` + tableHeaderInfo['target-min']['helper'] + `">
+                ` + tableHeaderInfo['target-min']['name'] + `
                 </th>
-                <th class="col-8 info-text-popup" name="target-max" tooltip-data="${tableHeaderInfo['target-max']}">
-                Target Max
+                <th class="col-8 info-text-popup" tooltip-data="` + tableHeaderInfo['target-max']['helper'] + `">
+                ` + tableHeaderInfo['target-max']['name'] + `
                 </th>
-                <th class="col-9 info-text-popup" name="target-avg" tooltip-data="${tableHeaderInfo['target-avg']}">
-                Target Average
+                <th class="col-9 info-text-popup" tooltip-data="` + tableHeaderInfo['target-avg']['helper'] + `">
+                ` + tableHeaderInfo['target-avg']['name'] + `
                 </th>
-                <th class="col-10 info-text-popup" name="target-sum" tooltip-data="${tableHeaderInfo['target-sum']}">
-                Target Sum
+                <th class="col-10 info-text-popup" tooltip-data="` + tableHeaderInfo['target-sum']['helper'] + `">
+                ` + tableHeaderInfo['target-sum']['name'] + `
                 </th>
-                <th class="col-11" name="ampel">Check</th>
-                <th class="col-12" name="info">Info</th>
+                <th class="col-11">` + tableHeaderInfo['check']['name'] + `</th>
+                <th class="col-12">` + tableHeaderInfo['info']['name'] + `</th>
             </tr>`;
 
         innerHTML += innerHTML_metric_block;
@@ -267,7 +267,7 @@ function checkCorrectInputs() {
         const inputs = document.getElementsByName(element);
         for (let i = 0; i < inputs.length; i++) {
             // Adding popup for target avg input -> with min max values if they exist
-            if(element == 'target-average') {
+            if (element == 'target-average') {
                 helper.addMinMaxPopup(inputs[i]);
             }
             // Adding event listener for input check
