@@ -18,12 +18,12 @@ function init(json_process = false) {
 
     getFeatures().then(data => {
         // If page is reloaded (after saving) processes are updated else => page is loaded from databased and entries are prepared
-        getProcessFeatures().then(processFeatures => {
+        getTableHeaderInfo().then(tableHeaderInfo => {
         if (!json_process) {
-                getProcess(data, processFeatures);
+                getProcess(data, tableHeaderInfo);
 
         } else {
-            fillDataFields(data, json_process, processFeatures);
+            fillDataFields(data, json_process, tableHeaderInfo);
             loadComponentNames(json_process);
             }
         }
@@ -63,13 +63,13 @@ async function getFeatures() {
 /**
  * Get list of process features.
  */
-async function getProcessFeatures() {
+async function getTableHeaderInfo() {
     // Read JSON file
-    return await fetch(base_url + '/content/process-feature-definition.json')
+    return await fetch(base_url + '/content/table_header_info.json')
         .then(response => response.json())
         .then(data => {
-            let features = data['process-feature-table'];
-            return features;
+            let tableHeaderInfo = data['headerInfo'];
+            return tableHeaderInfo;
         });
 }
 
@@ -77,10 +77,10 @@ async function getProcessFeatures() {
 /**
  * Fetches process data from BE.
  * @param features
- * @param processFeatures
+ * @param tableHeaderInfo
  */
 
-function getProcess(features, processFeatures) {
+function getProcess(features, tableHeaderInfo) {
     const url_string = window.location.href;
     const url = new URL(url_string);
     let uid = url.searchParams.get('uid');
@@ -96,14 +96,14 @@ function getProcess(features, processFeatures) {
         }`
 
         helper.http_request("POST", "/process/view", true, post_data, function (processData) {
-            fillDataFields(features, processData, processFeatures);
+            fillDataFields(features, processData, tableHeaderInfo);
             loadComponentNames(processData);
         });
 
     } else {
         // If not, prepare for new component input...
         let processData = {};
-        createMetricsSection(features, processData, processFeatures);
+        createMetricsSection(features, processData, tableHeaderInfo);
         console.log('Entering new process');
     }
 }
@@ -113,15 +113,15 @@ function getProcess(features, processFeatures) {
  *
  * @param {json} features
  * @param {json} processData
- * @param {json} processFeatures
+ * @param {json} tableHeaderInfo
  */
-function fillDataFields(features, processData, processFeatures) {
+function fillDataFields(features, processData, tableHeaderInfo) {
 
     if (processData['success']) {
         // fill description column
         fillDescriptionColumn(processData);
         // create metric/feature toggle area
-        createMetricsSection(features, processData, processFeatures);
+        createMetricsSection(features, processData, tableHeaderInfo);
         //
     } else {
         // Component has not been created/edited successfully
@@ -150,9 +150,9 @@ function fillDescriptionColumn(processData) {
  *
  * @param {json} features
  * @param {json} processData
- * @param {json} processFeatures
+ * @param {json} tableHeaderInfo
  */
-function createMetricsSection(features, processData, processFeatures) {
+function createMetricsSection(features, processData, tableHeaderInfo) {
     document.getElementById('metrics-input-processes').innerHTML = '';
     let featureCount = 0;
     Object.keys(features).forEach(function (key) {
@@ -211,31 +211,31 @@ function createMetricsSection(features, processData, processFeatures) {
         <table class="responsive-table" id="process-feature-table">
             <tr class="table-header">
                 <th class="col-1" name="metric">Metric</th>
-                <th class="col-2 info-text-popup" name="average" tooltip-data="${processFeatures['average']}">
+                <th class="col-2 info-text-popup" name="average" tooltip-data="${tableHeaderInfo['average']}">
                 Average
                 </th>
-                <th class="col-3 info-text-popup" name="standard-deviation" tooltip-data="${processFeatures['standard-deviation']}">
+                <th class="col-3 info-text-popup" name="standard-deviation" tooltip-data="${tableHeaderInfo['standard-deviation']}">
                 Std. Dev.
                 </th>
-                <th class="col-4 info-text-popup" name="sum" tooltip-data="${processFeatures['sum']}">
+                <th class="col-4 info-text-popup" name="sum" tooltip-data="${tableHeaderInfo['sum']}">
                 Sum
                 </th>
-                <th class="col-5 info-text-popup" name="min" tooltip-data="${processFeatures['min']}">
+                <th class="col-5 info-text-popup" name="min" tooltip-data="${tableHeaderInfo['min']}">
                 Min
                 </th>
-                <th class="col-6 info-text-popup" name="max" tooltip-data="${processFeatures['max']}">
+                <th class="col-6 info-text-popup" name="max" tooltip-data="${tableHeaderInfo['max']}">
                 Max
                 </th>
-                <th class="col-7 info-text-popup" name="target-min" tooltip-data="${processFeatures['target-min']}">
+                <th class="col-7 info-text-popup" name="target-min" tooltip-data="${tableHeaderInfo['target-min']}">
                 Target Min
                 </th>
-                <th class="col-8 info-text-popup" name="target-max" tooltip-data="${processFeatures['target-max']}">
+                <th class="col-8 info-text-popup" name="target-max" tooltip-data="${tableHeaderInfo['target-max']}">
                 Target Max
                 </th>
-                <th class="col-9 info-text-popup" name="target-avg" tooltip-data="${processFeatures['target-avg']}">
+                <th class="col-9 info-text-popup" name="target-avg" tooltip-data="${tableHeaderInfo['target-avg']}">
                 Target Average
                 </th>
-                <th class="col-10 info-text-popup" name="target-sum" tooltip-data="${processFeatures['target-sum']}">
+                <th class="col-10 info-text-popup" name="target-sum" tooltip-data="${tableHeaderInfo['target-sum']}">
                 Target Sum
                 </th>
                 <th class="col-11" name="ampel">Check</th>
