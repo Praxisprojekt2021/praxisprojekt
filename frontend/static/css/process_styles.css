@@ -176,12 +176,12 @@ button, html input[type="button"], input[type="reset"] {
   display: inline-block;
   width: auto;
   max-width: 100%;
-  min-width: 200px;
+  min-width: 60%;
   float: left;
   clear: left;
   border-radius: 7px;
-  padding: 8px 12px;
-  margin-bottom: 10px;
+  padding: 3.5% 5.25%;
+  margin-bottom: 2%;
   font-size: 14px;
   line-height: 1.428571429;
   color: #333333;
@@ -508,7 +508,7 @@ table .process-visualization {
 .accordion-icon-dropdown-toggle {
   position: absolute;
   font-size: 20px;
-  top: 20;
+  top: 20px;
   right: 0;
   bottom: 0;
   margin: auto;
