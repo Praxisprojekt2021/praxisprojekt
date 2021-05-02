@@ -140,9 +140,9 @@ a {
 .small-circle {
     height: 80%;
     width: 45%;
-    max-height: 20px;
-    max-width: 50px;
-    border-radius: 8%;
+    max-height: 2vh;
+    max-width: 2.5vh;
+    border-radius: 10%;
     display: flex;
     align-items: center;
     justify-content: center;
