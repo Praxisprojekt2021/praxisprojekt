@@ -9,6 +9,10 @@ class Helper {
         // Saving the data was not successful
         if (endpoint.includes("delete")) {
             window.alert("Object could not be deleted.")
+        } else if (endpoint.includes("/component/view")) {
+            window.alert('Component could not be loaded.');
+        } else if (endpoint.includes("/process/view")) {
+            window.alert('Process could not be loaded.');
         } else {
             window.alert('Changes could not be saved.');
         }
@@ -31,6 +35,24 @@ class Helper {
     }
 
     /**
+     * This functions hides the loading animation
+     */
+
+    static hideLoadingScreen() {
+        let element = document.getElementById('loader-wrapper');
+        element.setAttribute("class", "loader-wrapper-hidden");
+    }
+
+    /**
+     * This functions shows the loading animation
+     */
+
+    static showLoadingScreen() {
+        let element = document.getElementById('loader-wrapper');
+        element.setAttribute("class", "loader-wrapper");
+    }
+
+    /**
      * This function sends a post request to the backend
      *
      * @param {string} requestType: The type of request which is either GET or POST
@@ -42,7 +64,6 @@ class Helper {
      */
 
     http_request(requestType, endpoint, async, post_json, ...callbacks) {
-
         const base_url = window.location.origin;
         let xhttp = new XMLHttpRequest();
 
@@ -113,11 +134,11 @@ class Helper {
                 innerHTML += '<div class="metric-entry-element">';
                 innerHTML += ('<label for="availability-metric" class="entry-label">' + metric['name'] + '</label>');
                 innerHTML += '<div><input type="text" maxLength="256" data-name="availability-metric-1" id="' + key + '"' +
-                    ' name="availability-metric" class="metric-input textfield"'
+                    ' name="availability-metric" class="metric-input textfield"';
                 if (metric['max_value'] === -1) {
-                    innerHTML += '" min="' + metric['min_value'] + '"'
+                    innerHTML += ' min="' + metric['min_value'] + '"';
                 } else {
-                    innerHTML += ' max="' + metric['max_value'] + '" min="' + metric['min_value'] + '"'
+                    innerHTML += ' max="' + metric['max_value'] + '" min="' + metric['min_value'] + '"';
                 }
                 innerHTML += ' ></div>';
                 innerHTML += '<div class="icon-popup-fix info-text-popup" tooltip-data="' +
@@ -274,24 +295,6 @@ class Helper {
         element.style.height = sectionHeight + 'px';
         element.style.margin = "0px 0px 10px 0px";
         element.setAttribute('data-collapsed', 'false');
-    }
-
-    /**
-     * This functions hides the loading animation
-     */
-
-    hideLoadingScreen() {
-        let element = document.getElementById('loader-wrapper');
-        element.setAttribute("class", "loader-wrapper-hidden");
-    }
-
-    /**
-     * This functions shows the loading animation
-     */
-
-    showLoadingScreen() {
-        let element = document.getElementById('loader-wrapper');
-        element.setAttribute("class", "loader-wrapper");
     }
 
     /**
