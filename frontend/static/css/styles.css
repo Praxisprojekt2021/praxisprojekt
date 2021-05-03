@@ -358,6 +358,7 @@ td {
 
 #processTable .col-1 {
     width: 36%;
+    overflow: hidden;
 }
 
 #processTable .col-2 {
