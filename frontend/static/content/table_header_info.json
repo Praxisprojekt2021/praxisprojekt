@@ -1,0 +1,46 @@
+{
+  "headerInfo": {
+    "average": {
+      "name": "Average",
+      "helper": "The average value for the respective metrics&#xa; across all components in the process."
+    },
+    "standard-deviation": {
+      "name": "Standard deviation",
+      "helper": "The standard deviation for each metric&#xa; across all components in the process."
+    },
+    "sum": {
+      "name": "Sum",
+      "helper": "The sum for each respective metric&#xa; across all components in the process."
+    },
+    "min": {
+      "name": "Min",
+      "helper": "The minimum value specifies the smallest value for each&#xa; respective metric across all components in the process."
+    },
+    "max": {
+      "name": "Max",
+      "helper": "The maximum value indicates the largest value for each&#xa; respective metric across all components of the process."
+    },
+    "target-min": {
+      "name": "Target Min",
+      "helper": "The minimum target average, user-entered, Target-value&#xa; for each metric across all components in the process."
+    },
+    "target-max": {
+      "name": "Target Max",
+      "helper": "The maximum target average, user-entered, Target-value&#xa; for each metric across all components in the process."
+    },
+    "target-avg": {
+      "name": "Target Average",
+      "helper": "The average, user-entered, Target-value&#xa; for each metric across all components in the process."
+    },
+    "target-sum": {
+      "name": "Target Sum",
+      "helper": "The target sum for each metric across&#xa; all components in the process."
+    },
+    "info": {
+      "name": "Info"
+    },
+    "check": {
+      "name": "Check"
+    }
+  }
+}
