@@ -271,6 +271,12 @@ function checkCorrectInputs() {
             if (element === 'target-average') {
                 helper.addMinMaxPopup(inputs[i]);
             }
+            if (element === 'target-min') {
+                helper.addMinMaxPopup(inputs[i]);
+            }
+            if (element === 'target-max') {
+                helper.addMinMaxPopup(inputs[i]);
+            }
             // Adding event listener for input check
             inputs[i].addEventListener('blur', (event) => {
                 if (!helper.targetAvgIsWithinMinMax(inputs[i])) {
