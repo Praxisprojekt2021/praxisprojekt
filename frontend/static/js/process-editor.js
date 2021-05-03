@@ -268,13 +268,7 @@ function checkCorrectInputs() {
         const inputs = document.getElementsByName(element);
         for (let i = 0; i < inputs.length; i++) {
             // Adding popup for target avg, min, and max input -> with min max values if they exist
-            if (element === 'target-average') {
-                helper.addMinMaxPopup(inputs[i]);
-            }
-            if (element === 'target-minimum') {
-                helper.addMinMaxPopup(inputs[i]);
-            }
-            if (element === 'target-maximum') {
+            if (element === 'target-average' || element === 'target-minimum' || element === 'target-maximum') {
                 helper.addMinMaxPopup(inputs[i]);
             }
             // Adding event listener for input check
