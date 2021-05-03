@@ -279,9 +279,8 @@ function checkCorrectInputs() {
                     inputs[i].style.removeProperty("border-color");
                 }
             });
-        
+        }
     });
-
 }
 
 /**
