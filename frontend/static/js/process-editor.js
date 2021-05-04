@@ -296,6 +296,7 @@ function fillMetricRows(metricData, slug, processData) {
     let metric_fulfillment = null;
     let count_component = 0;
 
+    let binary = metricData['binary'];
     // default table row, when no metric data is provided
     let innerHTML_actual = `
                     <tr>
@@ -307,12 +308,12 @@ function fillMetricRows(metricData, slug, processData) {
                         <td class="col-6" ></td>`;
 
     let innerHTML_target = [];
-    innerHTML_target['min'] =
-        `<td class="col-7" ><input type="text" name="target-minimum" id="` + slug + `"`; // Rest of the string is added below
-    innerHTML_target['max'] =
-        `<td class="col-8" ><input type="text" name="target-maximum" id="` + slug + `"`; // Rest of the string is added below
-    innerHTML_target['average'] = `
-                        <td class="col-9" ><input type="text" name="target-average" id="` + slug + `"`; // Rest of the string is added below
+        innerHTML_target['min'] =
+            `<td class="col-7" ><input type="text" name="target-minimum" id="` + slug + `"`; // Rest of the string is added below
+        innerHTML_target['max'] =
+            `<td class="col-8" ><input type="text" name="target-maximum" id="` + slug + `"`; // Rest of the string is added below
+        innerHTML_target['average'] = `
+             <td class="col-9" ><input type="text" name="target-average" id="` + slug + `"`; // Rest of the string is added below
     let innerHTML_total = `
                         <td class="col-10" ></td>`;
     let innerHTML_fulfillment = `
@@ -336,11 +337,12 @@ function fillMetricRows(metricData, slug, processData) {
         }
 
         // check if target values are provided
-        if ('target' in actual_target_metrics) {
-            innerHTML_target = getMetricRowTarget(innerHTML_target, actual_target_metrics, slug);
+            if ('target' in actual_target_metrics) {
+                innerHTML_target = getMetricRowTarget(innerHTML_target, actual_target_metrics, slug, binary);
 
-            innerHTML_total = getMetricRowTotal(actual_target_metrics);
-        }
+                innerHTML_total = getMetricRowTotal(actual_target_metrics);
+            }
+
 
         // check if a fulfillment and consequentially a target sum is provided (if fulfillment was calculated, a target sum was also able to be calculated)
         if ('fulfillment' in processData['actual_target_metrics'][slug]) {
@@ -365,8 +367,9 @@ function fillMetricRows(metricData, slug, processData) {
 
 
 function getMetricRowActual(actual_target_metrics, metricData) {
-
-    return `
+    let binary = metricData['binary'];
+    if (binary === false) {
+        return `
                 <tr>
                     <td class="col-1"  id="` + metricData['name'] + `">` + metricData['name'] + ` </td>
                     <td class="col-2" >` + Math.round(actual_target_metrics['actual']['average'] * 100 + Number.EPSILON) / 100 + `</td>
@@ -374,9 +377,19 @@ function getMetricRowActual(actual_target_metrics, metricData) {
                     <td class="col-4" >` + Math.round(actual_target_metrics['actual']['total'] * 100 + Number.EPSILON) / 100 + `</td>
                     <td class="col-5" >` + Math.round(actual_target_metrics['actual']['min'] * 100 + Number.EPSILON) / 100 + `</td>
                     <td class="col-6" >` + Math.round(actual_target_metrics['actual']['max'] * 100 + Number.EPSILON) / 100 + `</td>`;
-}
+    } else {
+        return `
+                <tr>
+                    <td class="col-1"  id="` + metricData['name'] + `">` + metricData['name'] + ` </td>
+                    <td class="col-2" >` + Math.round(actual_target_metrics['actual']['average'] * 100 + Number.EPSILON) + `%</td>
+                    <td class="col-3" >` + Math.round(actual_target_metrics['actual']['standard_deviation'] * 100 + Number.EPSILON) + `</td>
+                    <td class="col-4" ></td>
+                    <td class="col-5" ></td>
+                    <td class="col-6" ></td>`;
+    }
+    }
 
-function getMetricRowTarget(innerHTML_target, actual_target_metrics, slug) {
+function getMetricRowTarget(innerHTML_target, actual_target_metrics, slug, binary) {
 
     let targetValues = {};
 
@@ -389,13 +402,20 @@ function getMetricRowTarget(innerHTML_target, actual_target_metrics, slug) {
     });
 
     // replace null with empty strings, so that "null" is not entered in the table
-
+    if (binary === false) {
     innerHTML_target['min'] = `
                         <td class="col-7" ><input type="text" name="target-minimum" id = "` + slug + `" value="` + targetValues['min'] + `"`;
     innerHTML_target['max'] = `
                         <td class="col-8" ><input type="text" name="target-maximum" id = "` + slug + `" value="` + targetValues['max'] + `"`;
-    innerHTML_target['average'] = `
-                        <td class="col-9" ><input type="text" name="target-average" id = "` + slug + `" value="` + targetValues['average'] + `"`;
+    } else {
+        innerHTML_target['min'] = `
+                        <td class="col-7" ><input type="text" name="target-minimum" id = "` + slug + `" disabled`;
+        innerHTML_target['max'] = `
+                        <td class="col-8" ><input type="text" name="target-maximum" id = "` + slug + `" disabled`;
+    }
+        innerHTML_target['average'] = `
+                        <td class="col-9" ><input type="text" name="target-average" + id = "` + slug + `" value="` + targetValues['average'] + `"`;
+
     return innerHTML_target;
 }
 
@@ -412,11 +432,15 @@ function getMetricRowTotal(actual_target_metrics) {
 
 
 function addMinMaxToInputFields(innerHTML_target, metricData) {
-
+    let binary = metricData['binary'];
     // Rest of the innerHTML_target string
-    if (metricData['min_value'] >= 0) innerHTML_target += ' min="' + metricData['min_value'] + '"';
-    if (metricData['max_value'] >= 0) innerHTML_target += ' max="' + metricData['max_value'] + '"';
-
+    if (binary === false) {
+        if (metricData['min_value'] >= 0) innerHTML_target += ' min="' + metricData['min_value'] + '"';
+        if (metricData['max_value'] >= 0) innerHTML_target += ' max="' + metricData['max_value'] + '"';
+    } else {
+        innerHTML_target += ' min="' + 0 + '"';
+        innerHTML_target += ' max="' + 100 + '"';
+    }
     innerHTML_target += `></td>`;
 
     return innerHTML_target;

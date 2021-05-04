@@ -131,20 +131,32 @@ class Helper {
 
             Object.keys(metrics).forEach(function (key) {
                 let metric = metrics[key];
+                let binary = metric['binary'];
+
                 innerHTML += '<div class="metric-entry-element">';
                 innerHTML += ('<label for="availability-metric" class="entry-label">' + metric['name'] + '</label>');
-                innerHTML += '<div><input type="text" maxLength="256" data-name="availability-metric-1" id="' + key + '"' +
-                    ' name="availability-metric" class="metric-input textfield"';
-                if (metric['max_value'] === -1) {
-                    innerHTML += ' min="' + metric['min_value'] + '"';
+                if (!binary) {
+                    innerHTML += '<div><input type="text" maxLength="256" data-name="availability-metric-1" id="' + key + '"' +
+                        ' name="availability-metric" class="metric-input textfield"';
+                    if (metric['max_value'] === -1) {
+                        innerHTML += ' min="' + metric['min_value'] + '"';
+                    } else {
+                        innerHTML += ' max="' + metric['max_value'] + '" min="' + metric['min_value'] + '"';
+                    }
+                    innerHTML += ' ></div>';
                 } else {
-                    innerHTML += ' max="' + metric['max_value'] + '" min="' + metric['min_value'] + '"';
+                    innerHTML += `
+                    <div>
+                        <select id="${key}" class="metric-input category-dropdown">
+                            <option value="0">No</option>
+                            <option value="1">Yes</option>
+                        </select>
+                    </div>`;
                 }
-                innerHTML += ' ></div>';
-                innerHTML += '<div class="icon-popup-fix info-text-popup" tooltip-data="' +
-                    metric['description_component'] + '\ni.e. ' + metric['example_component'] + '">' +
-                    '<img src="images/info.png" loading="lazy" width="35" alt="" class="info-icon"></div>';
-                innerHTML += '</div>';
+                    innerHTML += '<div class="icon-popup-fix info-text-popup" tooltip-data="' +
+                        metric['description_component'] + '\ni.e. ' + metric['example_component'] + '">' +
+                        '<img src="images/info.png" loading="lazy" width="35" alt="" class="info-icon"></div>';
+                    innerHTML += '</div>';
             });
 
             innerHTML += '</div>';
