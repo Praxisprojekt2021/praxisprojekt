@@ -445,9 +445,7 @@ data = {
     },
 }
 
-
 # metric_handler.get_metrics_data -> core -> calculations
-
 data = {
     'success': True,
     'metrics': {
@@ -459,114 +457,7 @@ data = {
             'uid': '1de621af9cb7404291a55671463b5ad7',
             'fulfilled_if': '>'
         },
-        'ratio_of_late_corrections': {
-            'uid': '3197d7334db748189d01dc43e60137a5',
-            'fulfilled_if': '>'
-        },
-        'pre_post_release_faults_ratio': {
-            'uid': '829e81d56e3c4b76b545b65537fa7e95',
-            'fulfilled_if': '>'
-        },
-        'error_during_testing': {
-            'uid': 'a6bc173d9e2649899568698c23c187a9',
-            'fulfilled_if': '>'
-        },
-        'testability': {
-            'uid': '9ae1ea37923c470abf215297a7e9b2f5',
-            'fulfilled_if': '>'
-        },
-        'restore_time': {
-            'uid': '5e655b8ca216431baa0b616dc510795b',
-            'fulfilled_if': '<'
-        },
-        'downtime': {
-            'uid': '3912b00a4648487b90c92adb15304977',
-            'fulfilled_if': '<'
-        },
-        'planned_maintenance_percentage': {
-            'uid': '33780b041560450cb498b27a8bee954f',
-            'fulfilled_if': '<'
-        },
-        'redundancy': {
-            'uid': '4f5b983da6554dc78e714c511cac1777',
-            'fulfilled_if': '>'
-        },
-        'number_of_administrators': {
-            'uid': 'a8d19d183dec4dd5bd59924d64879e25',
-            'fulfilled_if': '>'
-        },
-        'encryption': {
-            'uid': '718dc5e3724d462e8c0fe97e665626a5',
-            'fulfilled_if': '>'
-        },
-        'time_between_failures': {
-            'uid': '5450970b267744ab94cd1984b7d9df5c',
-            'fulfilled_if': '>'
-        },
-        'maximum_downtime_at_a_time': {
-            'uid': '43cf04efc71043499edaa4231bea2dae',
-            'fulfilled_if': '<'
-        },
-        'number_of_lines_of_source_code_loc': {
-            'uid': 'b30a6d26c6134c07b3b8439662977632',
-            'fulfilled_if': '<'
-        },
-        'development_time': {
-            'uid': '541dd00f31f543b4b57d31e39e7512f9',
-            'fulfilled_if': '<'
-        },
-        'code_review_frequency': {
-            'uid': 'd9da830bdf434963b965e62032fba383',
-            'fulfilled_if': '>'
-        },
-        'comment_quality': {
-            'uid': 'd049296893d54e138ccf095d8617515d',
-            'fulfilled_if': '>'
-        },
-        'back-up': {
-            'uid': '202e39d1fdae4a8cbbf3d625ab2c379f',
-            'fulfilled_if': '>'
-        },
-        'test_scope': {
-            'uid': 'e4d6f7372dda4c3bad0c4e2414d8d7f3',
-            'fulfilled_if': '>'
-        },
-        'change_tracking': {
-            'uid': '5b0eee6edb08446ca7329b66dc17d751',
-            'fulfilled_if': '>'
-        },
-        'complaints': {
-            'uid': '9870746c577946c8ba33526711fd22e1',
-            'fulfilled_if': '<'
-        },
-        'patch_status_check': {
-            'uid': 'a4947283abe747788c896df63d1451a4',
-'           fulfilled_if': '>'
-        },
-        'training': {
-            'uid': 'acbce74d1cb14230b55d95a7d84552a2',
-            'fulfilled_if': '>'
-        },
-        'time_to_implement_updates': {
-            'uid': '0fe49270553147b286796fc4a9af7ae7',
-            'fulfilled_if': '<'
-        },
-        'external_support': {
-            'uid': 'b6fe9cae2b774b24ba9a8b574bc02aef',
-            'fulfilled_if': '>'
-        },
-        'internal_support': {
-            'uid': 'c3c133eb49f846fab0496e36dfa545e7',
-            'fulfilled_if': '>'
-        },
-        'number_of_views_per_day': {
-            'uid': 'eee796fd75a5425e87d7e4d8e329c30a',
-            'fulfilled_if': '<'
-        },
-        'restart': {
-            'uid': '521295b3c71740cd8ba2d46a1afaf201',
-            'fulfilled_if': '<'
-        }
+        # ...
     }
 }
 
