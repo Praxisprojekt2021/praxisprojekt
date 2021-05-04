@@ -605,14 +605,14 @@ test2_4301_process_dict = {
     },
     "target_metrics": {
         "codelines": {
-            "average": 50,
-            "min": 30.5,
-            "max": 20,
+            "average": 500,
+            "min": 300.5,
+            "max": 200,
         },
         "admins": {
-            "average": 50,
-            "min": 30.5,
-            "max": 20,
+            "average": 500,
+            "min": 300.5,
+            "max": 200,
         },
         # ...
     },
@@ -676,20 +676,20 @@ test3_4301_process_dict = {
     },
     "target_metrics": {
         "codelines": {
-            "average": 50,
-            "min": 30.5,
-            "max": 20,
+            "average": 5000,
+            "min": 3000.5,
+            "max": 2000,
         },
         "admins": {
-            "average": 50,
-            "min": 30.5,
-            "max": 20,
+            "average": 5000,
+            "min": 3000.5,
+            "max": 2000,
         },
         # ...
     },
 }
 
-#process dicts with order changes of target metrics, but identically values from test1_4301_process_dict -> test1_4301_component_metrics
+#process dicts with order changes of target metrics, but identically values from test1_4301_process_dict -> test1_4301_target_metrics
 test1_4302_process_dict = {
     "success": True,
     "process": {
@@ -749,8 +749,8 @@ test1_4302_process_dict = {
     },
     "target_metrics": {
         "codelines": {
-            "average": 50,
             "min": 30.5,
+            "average": 50,
             "max": 20,
         },
         "admins": {
@@ -821,8 +821,8 @@ test2_4302_process_dict = {
     "target_metrics": {
         "codelines": {
             "average": 50,
-            "min": 30.5,
             "max": 20,
+            "min": 30.5,
         },
         "admins": {
             "average": 50,
@@ -891,9 +891,9 @@ test3_4302_process_dict = {
     },
     "target_metrics": {
         "codelines": {
-            "average": 50,
             "min": 30.5,
             "max": 20,
+            "average": 50,
         },
         "admins": {
             "average": 50,
@@ -922,11 +922,11 @@ class TestCalc2(unittest.TestCase):
 
     def test_get_all_target_metrics_4202(self):
         print('4302 - Überprüfen, ob die Reihenfolge der process_dict Elemente variieren kann')
-        self.assertEqual(calc.get_all_target_metrics(test1_4202_process_dict),
+        self.assertEqual(calc.get_all_target_metrics(test1_4302_process_dict),
+                         test1_4301_target_metrics)
+        self.assertEqual(calc.get_all_target_metrics(test2_4302_process_dict),
                          test1_4301_target_metrics),
-        self.assertEqual(calc.get_all_target_metrics(test2_4202_process_dict),
-                         test1_4301_target_metrics),
-        self.assertEqual(calc.get_all_target_metrics(test3_4202_process_dict),
+        self.assertEqual(calc.get_all_target_metrics(test3_4302_process_dict),
                          test1_4301_target_metrics)
 
 
