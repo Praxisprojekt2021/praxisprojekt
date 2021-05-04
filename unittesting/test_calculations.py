@@ -445,12 +445,18 @@ test3_4202_process_dict = {
     },
 }
 
-test1_4201_component_metrics = calc.get_all_component_metrics(test1_4201_process_dict)
-test2_4201_component_metrics = calc.get_all_component_metrics(test2_4201_process_dict)
-test3_4201_component_metrics = calc.get_all_component_metrics(test3_4201_process_dict)
+#test1_4201_component_metrics = calc.get_all_component_metrics(test1_4201_process_dict)
+#print(test1_4201_component_metrics)
+test1_4201_component_metrics = {'codelines': [20000, 20000, 20000], 'admins': [10, 10, 10], 'recovery_time': [5, 5, 5]}
+#test2_4201_component_metrics = calc.get_all_component_metrics(test2_4201_process_dict)
+#print(test2_4201_component_metrics)
+test2_4201_component_metrics = {'codelines': [40000, 10000, 50000], 'admins': [20, 5, 70], 'recovery_time': [10, 3, 50]}
+#test3_4201_component_metrics = calc.get_all_component_metrics(test3_4201_process_dict)
+#print(test3_4201_component_metrics)
+test3_4201_component_metrics = {'codelines': [50000, 40000, 50000], 'admins': [70, 50, 60], 'recovery_time': [4, 6, 4]}
 
 
-class TestCalc(unittest.TestCase):
+class Test_get_all_component_metrics(unittest.TestCase):
 
     def test_get_all_component_metrics_4201(self):
         print('4201 - Überprüfen, ob alle Metriken ausgelesen werden')
@@ -904,12 +910,18 @@ test3_4302_process_dict = {
     },
 }
 
-test1_4301_target_metrics = calc.get_all_target_metrics(test1_4301_process_dict)
-test2_4301_target_metrics = calc.get_all_target_metrics(test2_4301_process_dict)
-test3_4301_target_metrics = calc.get_all_target_metrics(test3_4301_process_dict)
+#test1_4301_target_metrics = calc.get_all_target_metrics(test1_4301_process_dict)
+#print(test1_4301_target_metrics)
+test1_4301_target_metrics = {'codelines': {'target': {'average': 50, 'min': 30.5, 'max': 20}}, 'admins': {'target': {'average': 50, 'min': 30.5, 'max': 20}}}
+#test2_4301_target_metrics = calc.get_all_target_metrics(test2_4301_process_dict)
+#print(test2_4301_target_metrics)
+test2_4301_target_metrics = {'codelines': {'target': {'average': 500, 'min': 300.5, 'max': 200}}, 'admins': {'target': {'average': 500, 'min': 300.5, 'max': 200}}}
+#test3_4301_target_metrics = calc.get_all_target_metrics(test3_4301_process_dict)
+#print(test3_4301_target_metrics)
+test3_4301_target_metrics = {'codelines': {'target': {'average': 5000, 'min': 3000.5, 'max': 2000}}, 'admins': {'target': {'average': 5000, 'min': 3000.5, 'max': 2000}}}
 
 
-class TestCalc2(unittest.TestCase):
+class Test_get_all_target_metrics(unittest.TestCase):
 
     def test_get_all_target_metrics_4201(self):
         print('4301 - Überprüfen, ob alle Metriken ausgelesen werden')
