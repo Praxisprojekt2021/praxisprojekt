@@ -1,18 +1,17 @@
-//Base url to distinguish between localhost and production environment
+// Base url to distinguish between localhost and production environment
 const base_url = window.location.href;
 
-//instantiate object of Helper class
+// Instantiate object of Helper class
 const helper = new Helper();
 
-//instantiate object of Modals class
+// Instantiate object of Modals class
 const modals = new Modals();
-
-document.addEventListener("DOMContentLoaded", init(), false);
 
 /**
  * Get component and process Data from Back-End and then populate the tables.
  */
 function init() {
+    Helper.showLoadingScreen();
     getComponentList();
     getProcessList();
 }
@@ -21,7 +20,6 @@ function init() {
  * Get processes data from Back-End and then populate the processes table in FE.
  */
 function getProcessList() {
-    helper.showLoadingScreen();
     helper.http_request("GET", "/process/overview", false, "", refreshProcessTable);
 }
 
@@ -38,20 +36,20 @@ function getComponentList() {
  * @param {JSON} json
  */
 function refreshProcessTable(json) {
-    var table = document.getElementById('processTable');
+    const table = document.getElementById('processTable');
     json.processes.forEach(function (object) {
-        var tr = document.createElement('tr');
+        const tr = document.createElement('tr');
         tr.innerHTML = '<td class="col-1">' + object.name + '</td>' +
             '<td class="col-2">' + object.components_count + '</td>' +
-            '<td class="col-3">' + object.score + '</td>' +
-            renderStatusColumn(object.score) +
+            '<td class="col-3">' + renderScoreColumn(object.score) + '</td>' +
+            '<td class="col-4">' + renderStatusColumn(object.score) + '</td>' +
             '<td class="col-5">' + helper.formatDate(object.creation_timestamp) + '</td>' +
             '<td class="col-6">' + helper.formatDate(object.last_timestamp) + '</td>' +
             '<td class="col-7">' + renderEditProcessButton(object.uid) + '</td>' +
             '<td class="col-8">' + renderDeleteProcessButton(object.uid) + '</td>';
         table.appendChild(tr);
     });
-    helper.hideLoadingScreen();
+    Helper.hideLoadingScreen();
     modals.getProcessDate(json);
 }
 
@@ -59,9 +57,10 @@ function refreshProcessTable(json) {
  * Populate Component Table.
  *
  * @param {JSON} json object containing a list of components
+ * @param metricsDefinition
  */
 function refreshComponentTable(json, metricsDefinition) {
-    var table = document.getElementById('componentTable');
+    let table = document.getElementById('componentTable');
     json.components.forEach(function (object) {
         let category = object.category;
         let tr = document.createElement('tr');
@@ -82,7 +81,7 @@ function refreshComponentTable(json, metricsDefinition) {
  * @returns {String} Edit-Process-Button HTML-Element
  */
 function renderEditProcessButton(uid) {
-    return `<a href="process?uid=${uid}"><i id="PenIcon" class="fas fa-pencil-alt"></i></a>`;
+    return `<a href="process?uid=` + uid + `"><i id="PenIcon" class="fas fa-pencil-alt"></i></a>`;
 }
 
 /**
@@ -91,7 +90,7 @@ function renderEditProcessButton(uid) {
  * @returns {String} Edit-Component-Button HTML-Element
  */
 function renderEditComponentButton(uid) {
-    return `<a href="component?uid=${uid}"><i id="PenIcon" class="fas fa-pencil-alt"></i></a>`;
+    return `<a href="component?uid=` + uid + `"><i id="PenIcon" class="fas fa-pencil-alt"></i></a>`;
 }
 
 /**
@@ -100,7 +99,7 @@ function renderEditComponentButton(uid) {
  * @returns {String} Delete-Process-Button HTML-Element
  */
 function renderDeleteProcessButton(uid) {
-    return `<div onclick="deleteProcess('${uid}')"><i id="TrashIcon" class="fas fa-trash-alt"></i></div>`;
+    return `<div onclick="deleteProcess('` + uid + `')"><i id="TrashIcon" class="fas fa-trash-alt"></i></div>`;
 }
 
 /**
@@ -109,7 +108,7 @@ function renderDeleteProcessButton(uid) {
  * @returns {String} Delete-Component-Button HTML-Element
  */
 function renderDeleteComponentButton(uid) {
-    return `<div onclick="deleteComponent('${uid}')"><i id="TrashIcon" class="fas fa-trash-alt"></i></div>`;
+    return `<div onclick="deleteComponent('` + uid + `')"><i id="TrashIcon" class="fas fa-trash-alt"></i></div>`;
 }
 
 /**
@@ -118,7 +117,7 @@ function renderDeleteComponentButton(uid) {
  * @param {String} uid
  */
 function deleteProcess(uid) {
-    // call delete-process endpoint
+    Helper.showLoadingScreen();
     let params = JSON.stringify({uid: uid});
     helper.http_request("POST", "/process/delete", true, params, deleteCallback);
 }
@@ -129,10 +128,10 @@ function deleteProcess(uid) {
  * @param {String} uid
  */
 function deleteComponent(uid) {
+    Helper.showLoadingScreen();
     let params = JSON.stringify({uid: uid});
     helper.http_request("POST", "/component/delete", true, params, deleteCallback);
 }
-
 
 /**
  * Renders column to show status as red or green.
@@ -141,11 +140,22 @@ function deleteComponent(uid) {
  * @returns {String} green or red td-cell (depending on viv-value)
  */
 function renderStatusColumn(wholeProcessScore) {
-    // if score > 90, status is green, elseif score > 80, status is yellow, else status is red;
+    // If score > 90, status is green, elseif score > 80, status is yellow, else status is red;
     let color = helper.getCircleColor(wholeProcessScore);
+    return helper.renderSmallCircle(null, color);
+}
 
-    return '<td class="col-4">' + helper.renderSmallCircle(null, color) + '</td>';
-    return '<td><i id="' + color + '" class="fas fa-circle"></i></td>';
+/**
+ * Renders column to show status as red or green.
+ *
+ * @param {number, null} wholeProcessScore
+ * @returns {String} wholeProcessScore
+ */
+function renderScoreColumn(wholeProcessScore) {
+    if (wholeProcessScore == null) {
+        wholeProcessScore = "";
+    }
+    return wholeProcessScore;
 }
 
 /**
@@ -155,8 +165,7 @@ function renderStatusColumn(wholeProcessScore) {
  */
 function loadMetricsDefinition(componentData) {
     helper.http_request("GET", "/content/mapping_metrics_definition.json", true, "", function (response_json) {
-        let metricsDefinition = response_json;
-        refreshComponentTable(componentData, metricsDefinition);
+        refreshComponentTable(componentData, response_json);
     });
 }
 
@@ -164,5 +173,6 @@ function loadMetricsDefinition(componentData) {
  * Reloads page if deletion was successful.
  */
 function deleteCallback(response) {
+    Helper.hideLoadingScreen();
     window.location.reload();
 }
