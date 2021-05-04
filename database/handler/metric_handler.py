@@ -66,3 +66,30 @@ def get_metrics_data() -> dict:
         output_dict["metrics"][metric.pop('name')] = metric
 
     return output_dict
+
+
+def set_metrics_unique_constraint() -> dict:
+    """
+    Function to set unique constraint on metric names
+
+    :return: success handler
+    """
+
+    query = queries.set_metrics_unique_constraint()
+    db.cypher_query(query)
+
+    return success_handler()
+
+
+def remove_metrics_unique_constraint() -> dict:
+    """
+    Function to remove unique constraint on metric names
+
+    :return: success handler
+    """
+
+    query = queries.remove_metrics_unique_constraint()
+    db.cypher_query(query)
+
+    return success_handler()
+    
