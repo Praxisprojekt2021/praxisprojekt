@@ -368,7 +368,7 @@ function fillMetricRows(metricData, slug, processData) {
 
 function getMetricRowActual(actual_target_metrics, metricData) {
     let binary = metricData['binary'];
-    if (binary === false) {
+    if (!binary) {
         return `
                 <tr>
                     <td class="col-1"  id="` + metricData['name'] + `">` + metricData['name'] + ` </td>
