@@ -1065,7 +1065,6 @@ no_target_process_dict=data = {
         },  # false means that the metric is not fulfilled --> problem.
     }
 }
-
 no_target_no_metric_process_dict={
      "success": True,
     "process": {
@@ -1167,16 +1166,33 @@ class TestClac4 (unittest.TestCase):
         actual_component_metric_data=[30000, 10000, 40000]
         self.assertEqual(calc.calculate_actual_values(actual_component_metric_data)['count_component'],3)
 
-        
+"""
+
+
+#46xx - compare_actual_target_metrics(process_dict, metrics_dict)
+#process_dict: output from calculate_current_values()
+
+outcome_compare_actual_target_metrics = calc.compare_actual_target_metrics(test_calculate_current_values_1, metrics_dict)
+
+class Test_compare_actual_target_metrics(unittest.TestCase):
+
+    def test_compare_actual_target_metrics_4601(self):
+        print('4201 - Überprüfen, ob alle Metriken ausgelesen werden')
+        self.assertEqual(calc.compare_actual_target_metrics(test_calculate_current_values_1, metrics_dict),
+                         outcome_compare_actual_target_metrics)
+
+"""
+
+
 #47xx - calculate_risk_score(process_dict: dict) -> dict:
 
-
+"""
 class TestClac6 (unittest.TestCase):
     def test_calculate_risk_score_4701(self):
         
         print('4701-')
         print(calc.calculate_risk_score(no_target_process_dict[score]))
         self.assertEqual(calc.calculate_actual_values(actual_component_metric_data)['actual']['total'],60000 )
-
+"""
 if __name__ == '__main__':
     unittest.main()
