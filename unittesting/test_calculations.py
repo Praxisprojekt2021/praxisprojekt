@@ -12,6 +12,7 @@ print(process_dict)
 print(component_metrics)
 print(test1_component_metrics)
 """
+#41xx - start_calculate_risk(process_dict: dict, metrics_dict: dict) -> dict:
 
 #42xx - get_all_component_metrics
 
@@ -34,9 +35,9 @@ test1_4201_process_dict = {
                 "creation_timestamp": "20200219...",
                 "last_timestamp": "20200219...",
                 "metrics": {
-                    "codelines": 20000,
+                    "number_of_lines_of_source_code_loc": 20000,
                     "admins": 10,
-                    "recovery_time": 5,
+                    "time_to_implement_updates": 5,
                     # ...
                 }
             },
@@ -49,9 +50,9 @@ test1_4201_process_dict = {
                 "creation_timestamp": "20200219...",
                 "last_timestamp": "20200219...",
                 "metrics": {
-                    "codelines": 20000,
+                    "number_of_lines_of_source_code_loc": 20000,
                     "admins": 10,
-                    "recovery_time": 5,
+                    "time_to_implement_updates": 5,
                     # ...
                 }
             },
@@ -64,9 +65,9 @@ test1_4201_process_dict = {
                 "creation_timestamp": "20200219...",
                 "last_timestamp": "20200219...",
                 "metrics": {
-                    "codelines": 20000,
+                    "number_of_lines_of_source_code_loc": 20000,
                     "admins": 10,
-                    "recovery_time": 5,
+                    "time_to_implement_updates": 5,
                     # ...
                 }
             }
@@ -74,7 +75,7 @@ test1_4201_process_dict = {
         ]
     },
     "target_metrics": {
-        "codelines": {
+        "number_of_lines_of_source_code_loc": {
             "average": 50,
             "min": 30.5,
             "max": 20,
@@ -105,9 +106,9 @@ test2_4201_process_dict = {
                 "creation_timestamp": "20200219...",
                 "last_timestamp": "20200219...",
                 "metrics": {
-                    "codelines": 40000,
+                    "number_of_lines_of_source_code_loc": 40000,
                     "admins": 20,
-                    "recovery_time": 10,
+                    "time_to_implement_updates": 10,
                     # ...
                 }
             },
@@ -120,9 +121,9 @@ test2_4201_process_dict = {
                 "creation_timestamp": "20200219...",
                 "last_timestamp": "20200219...",
                 "metrics": {
-                    "codelines": 10000,
+                    "number_of_lines_of_source_code_loc": 10000,
                     "admins": 5,
-                    "recovery_time": 3,
+                    "time_to_implement_updates": 3,
                     # ...
                 }
             },
@@ -135,9 +136,9 @@ test2_4201_process_dict = {
                 "creation_timestamp": "20200219...",
                 "last_timestamp": "20200219...",
                 "metrics": {
-                    "codelines": 50000,
+                    "number_of_lines_of_source_code_loc": 50000,
                     "admins": 70,
-                    "recovery_time": 50,
+                    "time_to_implement_updates": 50,
                     # ...
                 }
             }
@@ -145,7 +146,7 @@ test2_4201_process_dict = {
         ]
     },
     "target_metrics": {
-        "codelines": {
+        "number_of_lines_of_source_code_loc": {
             "average": 50,
             "min": 30.5,
             "max": 20,
@@ -176,9 +177,9 @@ test3_4201_process_dict = {
                 "creation_timestamp": "20200219...",
                 "last_timestamp": "20200219...",
                 "metrics": {
-                    "codelines": 50000,
+                    "number_of_lines_of_source_code_loc": 50000,
                     "admins": 70,
-                    "recovery_time": 4,
+                    "time_to_implement_updates": 4,
                     # ...
                 }
             },
@@ -191,9 +192,9 @@ test3_4201_process_dict = {
                 "creation_timestamp": "20200219...",
                 "last_timestamp": "20200219...",
                 "metrics": {
-                    "codelines": 40000,
+                    "number_of_lines_of_source_code_loc": 40000,
                     "admins": 50,
-                    "recovery_time": 6,
+                    "time_to_implement_updates": 6,
                     # ...
                 }
             },
@@ -206,9 +207,9 @@ test3_4201_process_dict = {
                 "creation_timestamp": "20200219...",
                 "last_timestamp": "20200219...",
                 "metrics": {
-                    "codelines": 50000,
+                    "number_of_lines_of_source_code_loc": 50000,
                     "admins": 60,
-                    "recovery_time": 4,
+                    "time_to_implement_updates": 4,
                     # ...
                 }
             }
@@ -216,7 +217,7 @@ test3_4201_process_dict = {
         ]
     },
     "target_metrics": {
-        "codelines": {
+        "number_of_lines_of_source_code_loc": {
             "average": 50,
             "min": 30.5,
             "max": 20,
@@ -250,8 +251,8 @@ test1_4202_process_dict = {
                 "last_timestamp": "20200219...",
                 "metrics": {
                     "admins": 10,
-                    "codelines": 20000,
-                    "recovery_time": 5,
+                    "number_of_lines_of_source_code_loc": 20000,
+                    "time_to_implement_updates": 5,
                     # ...
                 }
             },
@@ -264,9 +265,9 @@ test1_4202_process_dict = {
                 "creation_timestamp": "20200219...",
                 "last_timestamp": "20200219...",
                 "metrics": {
-                    "codelines": 20000,
+                    "number_of_lines_of_source_code_loc": 20000,
                     "admins": 10,
-                    "recovery_time": 5,
+                    "time_to_implement_updates": 5,
                     # ...
                 }
             },
@@ -279,9 +280,9 @@ test1_4202_process_dict = {
                 "creation_timestamp": "20200219...",
                 "last_timestamp": "20200219...",
                 "metrics": {
-                    "codelines": 20000,
+                    "number_of_lines_of_source_code_loc": 20000,
                     "admins": 10,
-                    "recovery_time": 5,
+                    "time_to_implement_updates": 5,
                     # ...
                 }
             }
@@ -289,7 +290,7 @@ test1_4202_process_dict = {
         ]
     },
     "target_metrics": {
-        "codelines": {
+        "number_of_lines_of_source_code_loc": {
             "average": 50,
             "min": 30.5,
             "max": 20,
@@ -320,8 +321,8 @@ test2_4202_process_dict = {
                 "creation_timestamp": "20200219...",
                 "last_timestamp": "20200219...",
                 "metrics": {
-                    "codelines": 20000,
-                    "recovery_time": 5,
+                    "number_of_lines_of_source_code_loc": 20000,
+                    "time_to_implement_updates": 5,
                     "admins": 10,
                     # ...
                 }
@@ -335,9 +336,9 @@ test2_4202_process_dict = {
                 "creation_timestamp": "20200219...",
                 "last_timestamp": "20200219...",
                 "metrics": {
-                    "codelines": 20000,
+                    "number_of_lines_of_source_code_loc": 20000,
                     "admins": 10,
-                    "recovery_time": 5,
+                    "time_to_implement_updates": 5,
                     # ...
                 }
             },
@@ -350,9 +351,9 @@ test2_4202_process_dict = {
                 "creation_timestamp": "20200219...",
                 "last_timestamp": "20200219...",
                 "metrics": {
-                    "codelines": 20000,
+                    "number_of_lines_of_source_code_loc": 20000,
                     "admins": 10,
-                    "recovery_time": 5,
+                    "time_to_implement_updates": 5,
                     # ...
                 }
             }
@@ -360,7 +361,7 @@ test2_4202_process_dict = {
         ]
     },
     "target_metrics": {
-        "codelines": {
+        "number_of_lines_of_source_code_loc": {
             "average": 50,
             "min": 30.5,
             "max": 20,
@@ -392,8 +393,8 @@ test3_4202_process_dict = {
                 "last_timestamp": "20200219...",
                 "metrics": {
                     "admins": 10,
-                    "recovery_time": 5,
-                    "codelines": 20000,
+                    "time_to_implement_updates": 5,
+                    "number_of_lines_of_source_code_loc": 20000,
                     # ...
                 }
             },
@@ -406,9 +407,9 @@ test3_4202_process_dict = {
                 "creation_timestamp": "20200219...",
                 "last_timestamp": "20200219...",
                 "metrics": {
-                    "codelines": 20000,
+                    "number_of_lines_of_source_code_loc": 20000,
                     "admins": 10,
-                    "recovery_time": 5,
+                    "time_to_implement_updates": 5,
                     # ...
                 }
             },
@@ -421,9 +422,9 @@ test3_4202_process_dict = {
                 "creation_timestamp": "20200219...",
                 "last_timestamp": "20200219...",
                 "metrics": {
-                    "codelines": 20000,
+                    "number_of_lines_of_source_code_loc": 20000,
                     "admins": 10,
-                    "recovery_time": 5,
+                    "time_to_implement_updates": 5,
                     # ...
                 }
             }
@@ -431,7 +432,7 @@ test3_4202_process_dict = {
         ]
     },
     "target_metrics": {
-        "codelines": {
+        "number_of_lines_of_source_code_loc": {
             "average": 50,
             "min": 30.5,
             "max": 20,
@@ -447,13 +448,13 @@ test3_4202_process_dict = {
 
 #test1_4201_component_metrics = calc.get_all_component_metrics(test1_4201_process_dict)
 #print(test1_4201_component_metrics)
-test1_4201_component_metrics = {'codelines': [20000, 20000, 20000], 'admins': [10, 10, 10], 'recovery_time': [5, 5, 5]}
+test1_4201_component_metrics = {'number_of_lines_of_source_code_loc': [20000, 20000, 20000], 'admins': [10, 10, 10], 'time_to_implement_updates': [5, 5, 5]}
 #test2_4201_component_metrics = calc.get_all_component_metrics(test2_4201_process_dict)
 #print(test2_4201_component_metrics)
-test2_4201_component_metrics = {'codelines': [40000, 10000, 50000], 'admins': [20, 5, 70], 'recovery_time': [10, 3, 50]}
+test2_4201_component_metrics = {'number_of_lines_of_source_code_loc': [40000, 10000, 50000], 'admins': [20, 5, 70], 'time_to_implement_updates': [10, 3, 50]}
 #test3_4201_component_metrics = calc.get_all_component_metrics(test3_4201_process_dict)
 #print(test3_4201_component_metrics)
-test3_4201_component_metrics = {'codelines': [50000, 40000, 50000], 'admins': [70, 50, 60], 'recovery_time': [4, 6, 4]}
+test3_4201_component_metrics = {'number_of_lines_of_source_code_loc': [50000, 40000, 50000], 'admins': [70, 50, 60], 'time_to_implement_updates': [4, 6, 4]}
 
 
 class Test_get_all_component_metrics(unittest.TestCase):
@@ -499,9 +500,9 @@ test1_4301_process_dict = {
                 "creation_timestamp": "20200219...",
                 "last_timestamp": "20200219...",
                 "metrics": {
-                    "codelines": 20000,
+                    "number_of_lines_of_source_code_loc": 20000,
                     "admins": 10,
-                    "recovery_time": 5,
+                    "time_to_implement_updates": 5,
                     # ...
                 }
             },
@@ -514,9 +515,9 @@ test1_4301_process_dict = {
                 "creation_timestamp": "20200219...",
                 "last_timestamp": "20200219...",
                 "metrics": {
-                    "codelines": 20000,
+                    "number_of_lines_of_source_code_loc": 20000,
                     "admins": 10,
-                    "recovery_time": 5,
+                    "time_to_implement_updates": 5,
                     # ...
                 }
             },
@@ -529,9 +530,9 @@ test1_4301_process_dict = {
                 "creation_timestamp": "20200219...",
                 "last_timestamp": "20200219...",
                 "metrics": {
-                    "codelines": 20000,
+                    "number_of_lines_of_source_code_loc": 20000,
                     "admins": 10,
-                    "recovery_time": 5,
+                    "time_to_implement_updates": 5,
                     # ...
                 }
             }
@@ -539,7 +540,7 @@ test1_4301_process_dict = {
         ]
     },
     "target_metrics": {
-        "codelines": {
+        "number_of_lines_of_source_code_loc": {
             "average": 50,
             "min": 30.5,
             "max": 20,
@@ -570,9 +571,9 @@ test2_4301_process_dict = {
                 "creation_timestamp": "20200219...",
                 "last_timestamp": "20200219...",
                 "metrics": {
-                    "codelines": 20000,
+                    "number_of_lines_of_source_code_loc": 20000,
                     "admins": 10,
-                    "recovery_time": 5,
+                    "time_to_implement_updates": 5,
                     # ...
                 }
             },
@@ -585,9 +586,9 @@ test2_4301_process_dict = {
                 "creation_timestamp": "20200219...",
                 "last_timestamp": "20200219...",
                 "metrics": {
-                    "codelines": 20000,
+                    "number_of_lines_of_source_code_loc": 20000,
                     "admins": 10,
-                    "recovery_time": 5,
+                    "time_to_implement_updates": 5,
                     # ...
                 }
             },
@@ -600,9 +601,9 @@ test2_4301_process_dict = {
                 "creation_timestamp": "20200219...",
                 "last_timestamp": "20200219...",
                 "metrics": {
-                    "codelines": 20000,
+                    "number_of_lines_of_source_code_loc": 20000,
                     "admins": 10,
-                    "recovery_time": 5,
+                    "time_to_implement_updates": 5,
                     # ...
                 }
             }
@@ -610,7 +611,7 @@ test2_4301_process_dict = {
         ]
     },
     "target_metrics": {
-        "codelines": {
+        "number_of_lines_of_source_code_loc": {
             "average": 500,
             "min": 300.5,
             "max": 200,
@@ -641,9 +642,9 @@ test3_4301_process_dict = {
                 "creation_timestamp": "20200219...",
                 "last_timestamp": "20200219...",
                 "metrics": {
-                    "codelines": 20000,
+                    "number_of_lines_of_source_code_loc": 20000,
                     "admins": 10,
-                    "recovery_time": 5,
+                    "time_to_implement_updates": 5,
                     # ...
                 }
             },
@@ -656,9 +657,9 @@ test3_4301_process_dict = {
                 "creation_timestamp": "20200219...",
                 "last_timestamp": "20200219...",
                 "metrics": {
-                    "codelines": 20000,
+                    "number_of_lines_of_source_code_loc": 20000,
                     "admins": 10,
-                    "recovery_time": 5,
+                    "time_to_implement_updates": 5,
                     # ...
                 }
             },
@@ -671,9 +672,9 @@ test3_4301_process_dict = {
                 "creation_timestamp": "20200219...",
                 "last_timestamp": "20200219...",
                 "metrics": {
-                    "codelines": 20000,
+                    "number_of_lines_of_source_code_loc": 20000,
                     "admins": 10,
-                    "recovery_time": 5,
+                    "time_to_implement_updates": 5,
                     # ...
                 }
             }
@@ -681,7 +682,7 @@ test3_4301_process_dict = {
         ]
     },
     "target_metrics": {
-        "codelines": {
+        "number_of_lines_of_source_code_loc": {
             "average": 5000,
             "min": 3000.5,
             "max": 2000,
@@ -714,9 +715,9 @@ test1_4302_process_dict = {
                 "creation_timestamp": "20200219...",
                 "last_timestamp": "20200219...",
                 "metrics": {
-                    "codelines": 20000,
+                    "number_of_lines_of_source_code_loc": 20000,
                     "admins": 10,
-                    "recovery_time": 5,
+                    "time_to_implement_updates": 5,
                     # ...
                 }
             },
@@ -729,9 +730,9 @@ test1_4302_process_dict = {
                 "creation_timestamp": "20200219...",
                 "last_timestamp": "20200219...",
                 "metrics": {
-                    "codelines": 20000,
+                    "number_of_lines_of_source_code_loc": 20000,
                     "admins": 10,
-                    "recovery_time": 5,
+                    "time_to_implement_updates": 5,
                     # ...
                 }
             },
@@ -744,9 +745,9 @@ test1_4302_process_dict = {
                 "creation_timestamp": "20200219...",
                 "last_timestamp": "20200219...",
                 "metrics": {
-                    "codelines": 20000,
+                    "number_of_lines_of_source_code_loc": 20000,
                     "admins": 10,
-                    "recovery_time": 5,
+                    "time_to_implement_updates": 5,
                     # ...
                 }
             }
@@ -754,7 +755,7 @@ test1_4302_process_dict = {
         ]
     },
     "target_metrics": {
-        "codelines": {
+        "number_of_lines_of_source_code_loc": {
             "min": 30.5,
             "average": 50,
             "max": 20,
@@ -785,9 +786,9 @@ test2_4302_process_dict = {
                 "creation_timestamp": "20200219...",
                 "last_timestamp": "20200219...",
                 "metrics": {
-                    "codelines": 20000,
+                    "number_of_lines_of_source_code_loc": 20000,
                     "admins": 10,
-                    "recovery_time": 5,
+                    "time_to_implement_updates": 5,
                     # ...
                 }
             },
@@ -800,9 +801,9 @@ test2_4302_process_dict = {
                 "creation_timestamp": "20200219...",
                 "last_timestamp": "20200219...",
                 "metrics": {
-                    "codelines": 20000,
+                    "number_of_lines_of_source_code_loc": 20000,
                     "admins": 10,
-                    "recovery_time": 5,
+                    "time_to_implement_updates": 5,
                     # ...
                 }
             },
@@ -815,9 +816,9 @@ test2_4302_process_dict = {
                 "creation_timestamp": "20200219...",
                 "last_timestamp": "20200219...",
                 "metrics": {
-                    "codelines": 20000,
+                    "number_of_lines_of_source_code_loc": 20000,
                     "admins": 10,
-                    "recovery_time": 5,
+                    "time_to_implement_updates": 5,
                     # ...
                 }
             }
@@ -825,7 +826,7 @@ test2_4302_process_dict = {
         ]
     },
     "target_metrics": {
-        "codelines": {
+        "number_of_lines_of_source_code_loc": {
             "average": 50,
             "max": 20,
             "min": 30.5,
@@ -856,9 +857,9 @@ test3_4302_process_dict = {
                 "creation_timestamp": "20200219...",
                 "last_timestamp": "20200219...",
                 "metrics": {
-                    "codelines": 20000,
+                    "number_of_lines_of_source_code_loc": 20000,
                     "admins": 10,
-                    "recovery_time": 5,
+                    "time_to_implement_updates": 5,
                     # ...
                 }
             },
@@ -871,9 +872,9 @@ test3_4302_process_dict = {
                 "creation_timestamp": "20200219...",
                 "last_timestamp": "20200219...",
                 "metrics": {
-                    "codelines": 20000,
+                    "number_of_lines_of_source_code_loc": 20000,
                     "admins": 10,
-                    "recovery_time": 5,
+                    "time_to_implement_updates": 5,
                     # ...
                 }
             },
@@ -886,9 +887,9 @@ test3_4302_process_dict = {
                 "creation_timestamp": "20200219...",
                 "last_timestamp": "20200219...",
                 "metrics": {
-                    "codelines": 20000,
+                    "number_of_lines_of_source_code_loc": 20000,
                     "admins": 10,
-                    "recovery_time": 5,
+                    "time_to_implement_updates": 5,
                     # ...
                 }
             }
@@ -896,7 +897,7 @@ test3_4302_process_dict = {
         ]
     },
     "target_metrics": {
-        "codelines": {
+        "number_of_lines_of_source_code_loc": {
             "min": 30.5,
             "max": 20,
             "average": 50,
@@ -912,13 +913,13 @@ test3_4302_process_dict = {
 
 #test1_4301_target_metrics = calc.get_all_target_metrics(test1_4301_process_dict)
 #print(test1_4301_target_metrics)
-test1_4301_target_metrics = {'codelines': {'target': {'average': 50, 'min': 30.5, 'max': 20}}, 'admins': {'target': {'average': 50, 'min': 30.5, 'max': 20}}}
+test1_4301_target_metrics = {'number_of_lines_of_source_code_loc': {'target': {'average': 50, 'min': 30.5, 'max': 20}}, 'admins': {'target': {'average': 50, 'min': 30.5, 'max': 20}}}
 #test2_4301_target_metrics = calc.get_all_target_metrics(test2_4301_process_dict)
 #print(test2_4301_target_metrics)
-test2_4301_target_metrics = {'codelines': {'target': {'average': 500, 'min': 300.5, 'max': 200}}, 'admins': {'target': {'average': 500, 'min': 300.5, 'max': 200}}}
+test2_4301_target_metrics = {'number_of_lines_of_source_code_loc': {'target': {'average': 500, 'min': 300.5, 'max': 200}}, 'admins': {'target': {'average': 500, 'min': 300.5, 'max': 200}}}
 #test3_4301_target_metrics = calc.get_all_target_metrics(test3_4301_process_dict)
 #print(test3_4301_target_metrics)
-test3_4301_target_metrics = {'codelines': {'target': {'average': 5000, 'min': 3000.5, 'max': 2000}}, 'admins': {'target': {'average': 5000, 'min': 3000.5, 'max': 2000}}}
+test3_4301_target_metrics = {'number_of_lines_of_source_code_loc': {'target': {'average': 5000, 'min': 3000.5, 'max': 2000}}, 'admins': {'target': {'average': 5000, 'min': 3000.5, 'max': 2000}}}
 
 
 class Test_get_all_target_metrics(unittest.TestCase):
@@ -942,11 +943,12 @@ class Test_get_all_target_metrics(unittest.TestCase):
                          test1_4301_target_metrics)
 
 #44xx - calculate_current_values (metrics_dict: dict, component_metrics, target_metrics)
-no_target_process_dict={ 
+no_target_process_dict=data = {
     "success": True,
     "process": {
         "uid": "b141f94973a43cf8ee972e9dffc1b004",
         "name": "Kunde anlegen",
+        "responsible_person": "Peter Rossbach",
         "description": "Prozess zum anlegen von einem neuen Kunden in allen Systemen",
         "creation_timestamp": "20210210...",
         "last_timestamp": "20200211...",
@@ -993,13 +995,13 @@ no_target_process_dict={
                     "number_of_lines_of_source_code_loc": 20000,
                     "admins": 10,
                     "time_to_implement_updates": 5,
-                
                     # ...
                 }
             }
             # ...
         ]
     },
+    # nach risk calc dann nicht mehr drin
     "target_metrics": {
         "number_of_lines_of_source_code_loc": {
             "average": 50,
@@ -1011,9 +1013,59 @@ no_target_process_dict={
             "min": 30.5,
             "max": 20,
         },
-       
+        # ...
     },
+    # ab jetzt erst ab Backend durch Risk calc
+    "score": 80,  # percent as integer
+    "actual_target_metrics": {
+        "number_of_lines_of_source_code_loc": {
+            "actual": {
+                "average": 30,
+                "max": 50,
+                "min": 20,
+                "standard_deviation": 5,
+                "total": 300,  # summe
+            },
+            "target": {
+                "average": 30,
+                "total": 300,  # summe
+            },
+            "count_component": 10,
+            "fulfillment": True
+        },  # true means that the metric is fulfilled --> no problem.
+        "admins": {
+            "actual": {
+                "average": 30,
+                "max": 50,
+                "min": 20,
+                "standard_deviation": 5,
+                "total": 300,  # summe
+            },
+            "target": {
+                "average": 30,
+                "total": 300,  # summe
+            },
+            "count_component": 10,
+            "fulfillment": True
+        },
+        "time_to_implement_updates": {
+            "actual": {
+                "average": 0.65,
+                "max": 0.8,
+                "min": 0.5,
+                "standard_deviation": 5,
+                "total": 0.4,  # summe
+            },
+            "target": {
+                "average": 0.8,
+                "total": 0.64,  # summe
+            },
+            "count_component": 2,
+            "fulfillment": True
+        },  # false means that the metric is not fulfilled --> problem.
+    }
 }
+
 no_target_no_metric_process_dict={
      "success": True,
     "process": {
@@ -1116,7 +1168,15 @@ class TestClac4 (unittest.TestCase):
         self.assertEqual(calc.calculate_actual_values(actual_component_metric_data)['count_component'],3)
 
         
-#46xx - compare_actual_target_metrics(process_dict: dict, metrics_dict: dict) -> dict:
+#47xx - calculate_risk_score(process_dict: dict) -> dict:
+
+
+class TestClac6 (unittest.TestCase):
+    def test_calculate_risk_score_4701(self):
+        
+        print('4701-')
+        print(calc.calculate_risk_score(no_target_process_dict[score]))
+        self.assertEqual(calc.calculate_actual_values(actual_component_metric_data)['actual']['total'],60000 )
 
 if __name__ == '__main__':
     unittest.main()
