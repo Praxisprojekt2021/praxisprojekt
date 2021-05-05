@@ -3,10 +3,6 @@ import processing.calculations as calc
 import database.handler.metric_handler as metric_handler
 
 
-#41xx - start_calculate_risk(process_dict: dict, metrics_dict: dict) -> dict:
-""""""
-
-
 #42xx - get_all_component_metrics
 
 #process_dicts with different component metric values
@@ -448,7 +444,6 @@ test2_4201_component_metrics = {'number_of_lines_of_source_code_loc': [40000, 10
 #test3_4201_component_metrics = calc.get_all_component_metrics(test3_4201_process_dict)
 #print(test3_4201_component_metrics)
 test3_4201_component_metrics = {'number_of_lines_of_source_code_loc': [50000, 40000, 50000], 'admins': [70, 50, 60], 'time_to_implement_updates': [4, 6, 4]}
-
 
 class Test_get_all_component_metrics(unittest.TestCase):
 
@@ -913,7 +908,6 @@ test2_4301_target_metrics = {'number_of_lines_of_source_code_loc': {'target': {'
 #print(test3_4301_target_metrics)
 test3_4301_target_metrics = {'number_of_lines_of_source_code_loc': {'target': {'average': 5000, 'min': 3000.5, 'max': 2000}}, 'admins': {'target': {'average': 5000, 'min': 3000.5, 'max': 2000}}}
 
-
 class Test_get_all_target_metrics(unittest.TestCase):
 
     def test_get_all_target_metrics_4201(self):
@@ -1119,11 +1113,11 @@ test_calculate_current_values_1= calc.calculate_current_values(metrics_dict, com
 class Test_calculate_current_values (unittest.TestCase):
 
     def test_calculate_current_values_4401(self): 
-        print('4401-Wenn kein Target-Wert vorhanden ist, keine Anlegen von Targetkey ')
+        print('4401 - Wenn kein Target-Wert vorhanden ist, keine Anlegen von Targetkey ')
         self.assertRaises(KeyError, test_calculate_current_values_1['time_to_implement_updates'].__getitem__, 'target')
 
     def test_calculate_current_values_4402(self):
-        print('4402-Target wird richtig berechnet')
+        print('4402 - Target wird richtig berechnet')
         self.assertEqual(test_calculate_current_values_1['number_of_lines_of_source_code_loc'] ['target']['total'],
                         150 )
 
@@ -1131,7 +1125,7 @@ class Test_calculate_current_values (unittest.TestCase):
         component_metrics=calc.get_all_component_metrics(no_target_no_metric_process_dict)
         target_metrics=calc.get_all_target_metrics(no_target_no_metric_process_dict)
         test_calculate_current_values_2= calc.calculate_current_values(metrics_dict, component_metrics, target_metrics )
-        print('4403- Rückgabe leerer Metric, falls proccess_target_flage und component metric flag false sind')
+        print('4403 - Rückgabe leerer Metric, falls proccess_target_flage und component metric flag false sind')
         self.assertEqual(test_calculate_current_values_2, {})
 
 
@@ -1139,32 +1133,32 @@ class Test_calculate_current_values (unittest.TestCase):
 
 class Test_calculate_actual_values (unittest.TestCase):
     def test_calculate_actual_values_4501(self):
-        print('4501- Richtige Berechnung des Totals')
+        print('4501 - Richtige Berechnung des Totals')
         actual_component_metric_data=[20000, 20000, 20000]
         self.assertEqual(calc.calculate_actual_values(actual_component_metric_data)['actual']['total'],60000 )
 
     def test_calculate_actual_values_4502(self):
-        print('4502- Richtige Berechung des Min')
+        print('4502 - Richtige Berechung des Min')
         actual_component_metric_data=[30000, 10000, 40000]
         self.assertEqual(calc.calculate_actual_values(actual_component_metric_data)['actual']['min'],10000)
 
     def test_calculate_actual_values_4503(self):
-        print('4503- Richtige Berechung des Max')
+        print('4503 - Richtige Berechung des Max')
         actual_component_metric_data=[30000, 10000, 40000]
         self.assertEqual(calc.calculate_actual_values(actual_component_metric_data)['actual']['max'],40000)
 
     def test_calculate_actual_values_4504(self):
-        print('4504- Richtige Berechung des Standard_deviation')
+        print('4504 - Richtige Berechung des Standard_deviation')
         actual_component_metric_data=[30000, 10000, 40000]
         self.assertEqual(calc.calculate_actual_values(actual_component_metric_data)['actual']['standard_deviation'],15275.252316519465)
 
     def test_calculate_actual_values_4505(self):
-        print('4505- Richtige Berechnung des Average')
+        print('4505 - Richtige Berechnung des Average')
         actual_component_metric_data=[30000, 10000, 40000]
         self.assertEqual(calc.calculate_actual_values(actual_component_metric_data)['actual']['average'],26666.666666666668)
 
     def test_calculate_actual_values_4506(self):
-        print('4506- Überprüfen, ob die Anzahl der Komponenten richtig berechnet wird')
+        print('4506 - Überprüfen, ob die Anzahl der Komponenten richtig berechnet wird')
         actual_component_metric_data=[30000, 10000, 40000]
         self.assertEqual(calc.calculate_actual_values(actual_component_metric_data)['count_component'],3)
 
@@ -1199,23 +1193,152 @@ outcome_compare_actual_target_metrics= \
 class Test_compare_actual_target_metrics(unittest.TestCase):
 
     def test_compare_actual_target_metrics_4601(self):
-        print('4201 - Überprüfen, ob alle Metriken ausgelesen werden')
+        print('4601 - Überprüfen, ob alle Metriken korrekt ausgelesen werden')
         self.assertEqual(calc.compare_actual_target_metrics(output_dict, metrics_dict),
                          outcome_compare_actual_target_metrics)
+"""
+    def test_compare_actual_target_metrics_4602(self):
+        print('4602 - Überprüfen, ob fulfilled erkannt wird, wenn MIN(actual=target)')
+        #...
 
+    def test_compare_actual_target_metrics_4603(self):
+        print('4603 - Überprüfen, ob fulfilled erkannt wird, wenn MAX(actual=target)')
+        #...
 
+    def test_compare_actual_target_metrics_4604(self):
+        print('4604 - Überprüfen, ob fulfilled erkannt wird, wenn AVERAGE(actual=target)')
+        #...
+"""
 
 
 #47xx - calculate_risk_score(process_dict: dict) -> dict:
+"""
+#process_dict = outcome_compare_actual_target_metrics = output from compare_actual_target_metrics()
+outcome_calculate_risk_score = calc.calculate_risk_score(outcome_compare_actual_target_metrics)
 
+class Test_calculate_risk_score(unittest.TestCase):
+
+    def test_compare_actual_target_metrics_4701(self):
+        print('4701 - Überprüfen, ob der Score richtig berechnet wurde, insofern mindestens eine metrik den Anforderungen entsprach')
+        self.assertEqual(calc.calculate_risk_score(outcome_compare_actual_target_metrics),
+                         outcome_calculate_risk_score)
+
+    def test_compare_actual_target_metrics_4702(self):
+        print('4702 - Überprüfen, ob der Score 0 beträgt, insofern keine metrik den Anforderungen entsprach')
+        self.assertEqual(calc.calculate_risk_score(outcome_compare_actual_target_metrics),
+                         outcome_calculate_risk_score)
+
+    def test_compare_actual_target_metrics_4703(self):
+        print('4703 - Überprüfen, ob ein Score über 100% erreicht werden kann. (actual value > target value sollte nicht möglich sein)')
+        self.assertEqual(calc.calculate_risk_score(outcome_compare_actual_target_metrics),
+                         outcome_calculate_risk_score)
 """
-class TestClac6 (unittest.TestCase):
-    def test_calculate_risk_score_4701(self):
-        
-        print('4701-')
-        print(calc.calculate_risk_score(no_target_process_dict[score]))
-        self.assertEqual(calc.calculate_actual_values(actual_component_metric_data)['actual']['total'],60000 )
-"""
+
+
+#41xx - start_calculate_risk(process_dict: dict, metrics_dict: dict) -> dict:
+
+test1_4101_process_dict = {
+    "success": True,
+    "process": {
+        "uid": "b141f94973a43cf8ee972e9dffc1b004",
+        "name": "Kunde anlegen",
+        "description": "Prozess zum anlegen von einem neuen Kunden in allen Systemen",
+        "creation_timestamp": "20210210...",
+        "last_timestamp": "20200211...",
+        "components": [
+            {
+                "uid": "b141f94973a43cf8ee972e9dffc1b004",
+                "weight": 1,  # different from single component view!
+                "name": "SQL Datenbank",
+                "category": "Datenbank",
+                "description": "Kundendatenbank",
+                "creation_timestamp": "20200219...",
+                "last_timestamp": "20200219...",
+                "metrics": {
+                    "number_of_lines_of_source_code_loc": 10,
+                    "admins": 10,
+                    "time_to_implement_updates": 5,
+                    # ...
+                }
+            },
+            {
+                "uid": "b141f94973a43cf8ee972e9dffc1b004",
+                "weight": 1.5,
+                "name": "Frontend API",
+                "category": "API",
+                "description": "API für das Frontend",
+                "creation_timestamp": "20200219...",
+                "last_timestamp": "20200219...",
+                "metrics": {
+                    "number_of_lines_of_source_code_loc": 10,
+                    "admins": 10,
+                    "time_to_implement_updates": 5,
+                    # ...
+                }
+            },
+            {
+                "uid": "b141f94973a43cf8ee972e9dffc1b004",
+                "weight": 2,
+                "name": "Hadoop Cluster",
+                "category": "Datenbank",
+                "description": "Big Data Plattform",
+                "creation_timestamp": "20200219...",
+                "last_timestamp": "20200219...",
+                "metrics": {
+                    "number_of_lines_of_source_code_loc": 10,
+                    "admins": 10,
+                    "time_to_implement_updates": 5,
+                    # ...
+                }
+            }
+            # ...
+        ]
+    },
+    "target_metrics": {
+        "number_of_lines_of_source_code_loc": {
+            "average": 50,
+            "min": 30.5,
+            "max": 20,
+        },
+        "admins": {
+            "average": 50,
+            "min": 30.5,
+            "max": 20,
+        },
+        # ...
+    },
+}
+
+#outcome_start_calculate_risk = calc.start_calculate_risk(test1_4101_process_dict, metrics_dict)
+outcome_start_calculate_risk = \
+    {'success': True, 'process': {'uid': 'b141f94973a43cf8ee972e9dffc1b004', 'name': 'Kunde anlegen',
+                              'description': 'Prozess zum anlegen von einem neuen Kunden in allen Systemen',
+                              'creation_timestamp': '20210210...', 'last_timestamp': '20200211...', 'components': [
+        {'uid': 'b141f94973a43cf8ee972e9dffc1b004', 'weight': 1, 'name': 'SQL Datenbank', 'category': 'Datenbank',
+         'description': 'Kundendatenbank', 'creation_timestamp': '20200219...', 'last_timestamp': '20200219...',
+         'metrics': {'number_of_lines_of_source_code_loc': 10, 'admins': 10, 'time_to_implement_updates': 5}},
+        {'uid': 'b141f94973a43cf8ee972e9dffc1b004', 'weight': 1.5, 'name': 'Frontend API', 'category': 'API',
+         'description': 'API für das Frontend', 'creation_timestamp': '20200219...', 'last_timestamp': '20200219...',
+         'metrics': {'number_of_lines_of_source_code_loc': 10, 'admins': 10, 'time_to_implement_updates': 5}},
+        {'uid': 'b141f94973a43cf8ee972e9dffc1b004', 'weight': 2, 'name': 'Hadoop Cluster', 'category': 'Datenbank',
+         'description': 'Big Data Plattform', 'creation_timestamp': '20200219...', 'last_timestamp': '20200219...',
+         'metrics': {'number_of_lines_of_source_code_loc': 10, 'admins': 10, 'time_to_implement_updates': 5}}]},
+ 'actual_target_metrics': {'number_of_lines_of_source_code_loc': {
+     'actual': {'total': 30, 'min': 10, 'max': 10, 'average': 10, 'standard_deviation': 0.0}, 'count_component': 3,
+     'target': {'average': 50, 'min': 30.5, 'max': 20, 'total': 150}, 'fulfillment': False},
+                           'time_to_implement_updates': {
+                               'actual': {'total': 15, 'min': 5, 'max': 5, 'average': 5, 'standard_deviation': 0.0},
+                               'count_component': 3}}, 'score': 0}
+
+class Test_start_calculate_risk(unittest.TestCase):
+
+    def test_compare_actual_target_metrics_4701(self):
+        print('4101 - Überprüfen, ob alle Funktionen erfolgreich durchlaufen wurden')
+        self.assertEqual(calc.start_calculate_risk(test1_4101_process_dict, metrics_dict),
+                         outcome_start_calculate_risk)
+
+
+
 
 if __name__ == '__main__':
     unittest.main()
