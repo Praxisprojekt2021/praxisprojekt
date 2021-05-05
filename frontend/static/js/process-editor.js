@@ -265,12 +265,10 @@ function checkCorrectInputs() {
     // Live check for correct inputs
     let names = ['target-average', 'target-minimum', 'target-maximum'];
     names.forEach(element => {
-        if (element === 'target-average' || element === 'target-minimum' || element === 'target-maximum') {
             const inputs = document.getElementsByName(element);
             for (let i = 0; i < inputs.length; i++) {
                 // Adding popup for target avg, min, and max input -> with min max values if they exist
                 helper.addMinMaxPopup(inputs[i]);
-
                 // Adding event listener for input check
                 inputs[i].addEventListener('blur', (event) => {
                     if (!helper.targetAvgIsWithinMinMax(inputs[i])) {
@@ -280,7 +278,6 @@ function checkCorrectInputs() {
                     }
                 });
             }
-        }
     });
 }
 
