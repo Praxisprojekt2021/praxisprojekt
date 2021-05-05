@@ -158,8 +158,7 @@ class Helper {
 
         // Live check for correct inputs
         const inputs = document.getElementsByClassName('metric-input textfield');
-        console.log(inputs);
-        console.log(inputs[0]);
+
         for (let i = 0; i < inputs.length; i++) {
             this.addMinMaxPopup(inputs[i]);
             inputs[i].addEventListener('blur', (event) => {
@@ -170,6 +169,29 @@ class Helper {
                 }
             });
         }
+    }
+
+    checkCorrectInputs() {
+
+        // Live check for correct inputs
+        let names = ['target-average', 'target-minimum', 'target-maximum'];
+        names.forEach(element => {
+            const inputs = document.getElementsByName(element);
+            for (let i = 0; i < inputs.length; i++) {
+                // Adding popup for target avg input -> with min max values if they exist
+                if (element === 'target-average') {
+                    helper.addMinMaxPopup(inputs[i]);
+                }
+                // Adding event listener for input check
+                inputs[i].addEventListener('blur', (event) => {
+                    if (!helper.targetAvgIsWithinMinMax(inputs[i])) {
+                        inputs[i].style.setProperty("border-color", "red", undefined);
+                    } else {
+                        inputs[i].style.removeProperty("border-color");
+                    }
+                });
+            }
+        });
     }
 
     /**
