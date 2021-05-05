@@ -290,7 +290,7 @@ class Helper {
         }
     }
 
-    raise_alert(type, name_empty = false, text_replaced = false, minmaxlist = '', component_category_missing = true, emptyFieldList = ''){
+    raise_alert(type, name_empty = false, text_replaced = false, minmaxlist = '', component_category_missing = false, emptyFieldList = ''){
         let alert_string = 'Changes could not be saved. ';
         if(type=='process'){
 
@@ -305,8 +305,11 @@ class Helper {
                 alert_string += '\nThe following Metrics are not within their min/max values:\n';
                 alert_string += minmaxlist + "\n";
             }
+            if (component_category_missing) {
+                alert_string += 'Please select a metric.';
+            }
         }   else if(type=='component'){
-                if (!component_category_missing) {
+                if (component_category_missing) {
                     alert_string += 'Please select a category. \n';
                 }
                 if(name_empty) {

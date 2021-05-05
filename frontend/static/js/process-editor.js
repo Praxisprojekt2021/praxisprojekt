@@ -612,6 +612,7 @@ function fillComponentDropdown(componentData) {
  */
 function addComponent() {
     let componentUID = document.getElementById('addposition').value;
+    
     if (componentUID.length === 32) {
         let weight = document.getElementById('ComponentOverviewTable').lastChild.id;
         // If there is no components in the table, the new component receives the weight = 1
@@ -629,7 +630,7 @@ function addComponent() {
 
         helper.http_request("POST", "/process/edit/createstep", true, JSON.stringify(data), init);
     } else {
-        helper.hideLoadingScreen();
+        helper.raise_alert('process', false, false, '', true, '');
     }
 }
 
