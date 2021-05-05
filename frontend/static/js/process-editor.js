@@ -256,31 +256,9 @@ function createMetricsSection(features, processData, tableHeaderInfo) {
         document.getElementById('metrics-input-processes').appendChild(div);
     });
 
-    checkCorrectInputs();
+    let elementNames = ['target-average', 'target-minimum', 'target-maximum'];
+    Helper.checkCorrectInputs(elementNames);
     Helper.hideLoadingScreen();
-}
-
-function checkCorrectInputs() {
-
-    // Live check for correct inputs
-    let names = ['target-average', 'target-minimum', 'target-maximum'];
-    names.forEach(element => {
-        const inputs = document.getElementsByName(element);
-        for (let i = 0; i < inputs.length; i++) {
-            // Adding popup for target avg input -> with min max values if they exist
-            if (element === 'target-average') {
-                helper.addMinMaxPopup(inputs[i]);
-            }
-            // Adding event listener for input check
-            inputs[i].addEventListener('blur', (event) => {
-                if (!helper.targetAvgIsWithinMinMax(inputs[i])) {
-                    inputs[i].style.setProperty("border-color", "red", undefined);
-                } else {
-                    inputs[i].style.removeProperty("border-color");
-                }
-            });
-        }
-    });
 }
 
 /**

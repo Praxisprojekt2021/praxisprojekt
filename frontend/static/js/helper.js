@@ -157,31 +157,18 @@ class Helper {
         });
 
         // Live check for correct inputs
-        const inputs = document.getElementsByClassName('metric-input textfield');
-
-        for (let i = 0; i < inputs.length; i++) {
-            this.addMinMaxPopup(inputs[i]);
-            inputs[i].addEventListener('blur', (event) => {
-                if (!helper.targetAvgIsWithinMinMax(inputs[i]) || inputs[i].value === '') {
-                    inputs[i].style.setProperty("border-color", "red", undefined);
-                } else {
-                    inputs[i].style.removeProperty("border-color");
-                }
-            });
-        }
+        let elementNames = ['metric-input textfield'];
+        this.checkCorrectInputs(elementNames);
     }
 
-    checkCorrectInputs() {
+    static checkCorrectInputs(elementNames) {
 
         // Live check for correct inputs
         let names = ['target-average', 'target-minimum', 'target-maximum'];
-        names.forEach(element => {
+        elementNames.forEach(element => {
             const inputs = document.getElementsByName(element);
             for (let i = 0; i < inputs.length; i++) {
-                // Adding popup for target avg input -> with min max values if they exist
-                if (element === 'target-average') {
-                    helper.addMinMaxPopup(inputs[i]);
-                }
+                this.addMinMaxPopup(inputs[i]);
                 // Adding event listener for input check
                 inputs[i].addEventListener('blur', (event) => {
                     if (!helper.targetAvgIsWithinMinMax(inputs[i])) {
@@ -200,7 +187,7 @@ class Helper {
      * @param {HTMLElement} element
      */
 
-    addMinMaxPopup(element) {
+    static addMinMaxPopup(element) {
         let tooltipData;
         if(element.hasAttribute("min") && element.hasAttribute("max")) {
             tooltipData = "Min: "+element.getAttribute("min")+" Max: "+element.getAttribute("max");
