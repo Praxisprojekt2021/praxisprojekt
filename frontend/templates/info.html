@@ -10,12 +10,16 @@
 </head>
 <body>
 <header id="header" class="header">
-    <a href="/"><img src="{{ url_for('static', filename='images/logo.png') }}" loading="lazy" alt="" class="logo"></a>
+
+    <a href="/"><img src="{{ url_for('static', filename='images/logo.png') }}" loading="lazy" alt="" class="logo">
+    </a>
+
     <div class="navigation">
         <a href="/" class="navigation-links" data-i18n="home"></a>
         <div class="navigation-link-separator">&gt;</div>
         <a href="#" class="navigation-links" data-i18n="about"></a>
     </div>
+
 </header>
 
 <div class="info-overview" id="info-overview">
@@ -35,6 +39,7 @@
         </div>
 
         <!-- Tutorial Slideshow -->
+
         <div class="subheader2">
             <p data-i18n="tutorial"></p>
         </div>
@@ -79,11 +84,14 @@
             <span class="dot" onclick="currentSlide(2)"></span>
             <span class="dot" onclick="currentSlide(3)"></span>
         </div>
-    </div>
-</div>
 
-<script src="{{ url_for('static', filename='js/info.js') }}"></script>
-<script src="{{ url_for('static', filename='js/helper.js') }}"></script>
-<script type="module" src="{{ url_for('static', filename='js/translator.js') }}"></script>
+    </div>
+
+    </div>
+
+    <script src="{{ url_for('static', filename='js/info.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/helper.js') }}"></script>
+    <script type="module" src="{{ url_for('static', filename='js/translator.js') }}"></script>
+
 </body>
 </html>

@@ -68,7 +68,7 @@ function getFeatures() {
         .then(data => {
             const features = data['features'];
 
-            helper.createMetricsSection(features);
+            createMetricsSection(features);
             let div = document.createElement('div');
             div.className = 'control-area';
             div.innerHTML = '<a href="#" data-wait="Bitte warten..." id="save-button" class="create-button" onclick="createEditComponent()">Speichern</a>';
@@ -280,7 +280,8 @@ function saveCallback(response) {
  *
  * @param {json} features
  */
-createMetricsSection(features) {
+
+function createMetricsSection(features) {
     Object.keys(features).forEach(function (key) {
         let feature = features[key];
         let metrics = feature['metrics'];
@@ -302,16 +303,17 @@ createMetricsSection(features) {
             let metric = metrics[key];
             innerHTML += '<div class="metric-entry-element">';
             innerHTML += ('<label for="availability-metric" class="entry-label">' + metric['name'] + '</label>');
-            innerHTML += '<input type="text" maxLength="256" data-name="availability-metric-1" id="' + key + '"' +
-                ' name="availability-metric" class="metric-input textfield"'
+            innerHTML += '<div><input type="text" maxLength="256" data-name="availability-metric-1" id="' + key + '"' +
+                ' name="availability-metric" class="metric-input textfield"';
             if (metric['max_value'] === -1) {
-                innerHTML += '" min="' + metric['min_value'] + '"'
+                innerHTML += ' min="' + metric['min_value'] + '"';
             } else {
-                innerHTML += ' max="' + metric['max_value'] + '" min="' + metric['min_value'] + '"'
+                innerHTML += ' max="' + metric['max_value'] + '" min="' + metric['min_value'] + '"';
             }
-            innerHTML += ' >';
-            innerHTML += '<img src="images/info.png" loading="lazy" width="35" alt="" title="' +
-                metric['description_component'] + '\ni.e. ' + metric['example_component'] + '" class="info-icon">';
+            innerHTML += ' ></div>';
+            innerHTML += '<div class="icon-popup-fix info-text-popup" tooltip-data="' +
+                metric['description_component'] + '\ni.e. ' + metric['example_component'] + '">' +
+                '<img src="images/info.png" loading="lazy" width="35" alt="" class="info-icon"></div>';
             innerHTML += '</div>';
         });
 
@@ -329,6 +331,7 @@ createMetricsSection(features) {
     console.log(inputs);
     console.log(inputs[0]);
     for (let i = 0; i < inputs.length; i++) {
+        this.addMinMaxPopup(inputs[i]);
         inputs[i].addEventListener('blur', (event) => {
             if (!helper.targetAvgIsWithinMinMax(inputs[i]) || inputs[i].value === '') {
                 inputs[i].style.setProperty("border-color", "red", undefined);

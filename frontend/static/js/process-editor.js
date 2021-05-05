@@ -14,7 +14,7 @@ let uid = url.searchParams.get('uid');
  */
 function init(json_process = false) {
 
-    Helper.showLoadingScreen();
+    helper.showLoadingScreen();
 
     getFeatures().then(data => {
         // If page is reloaded (after saving) processes are updated else => page is loaded from databased and entries are prepared
@@ -85,15 +85,15 @@ function getProcess(features, tableHeaderInfo) {
     const url = new URL(url_string);
     let uid = url.searchParams.get('uid');
 
-    // Check if view has received an uid as URL parameter to check whether to create a new process or edit an existing one
-    if (uid) {
-        // If so, load process data...
+    // Check if view has received an uid as URL parameter to check whether to create a new component or edit an existing one
+    if (uid && uid.length === 32) {
+        // If so, load component data...
         console.log('Editing existing process');
 
         // Trigger function which gathers process data and processes it
         const post_data = `{
             "uid": "` + uid + `"
-        }`;
+        }`
 
         helper.http_request("POST", "/process/view", true, post_data, function (processData) {
             fillDataFields(features, processData, tableHeaderInfo);
@@ -101,7 +101,7 @@ function getProcess(features, tableHeaderInfo) {
         });
 
     } else {
-        // If not, prepare for new process input...
+        // If not, prepare for new component input...
         let processData = {};
         createMetricsSection(features, processData, tableHeaderInfo);
         console.log('Entering new process');
@@ -125,9 +125,7 @@ function fillDataFields(features, processData, tableHeaderInfo) {
         //
     } else {
         // Component has not been created/edited successfully
-        //window.alert('Process could not be loaded.');
-        // Error will be shown in showError
-        window.location.href = '/';
+        window.alert('Process could not be loaded.');
     }
 }
 
@@ -257,7 +255,8 @@ function createMetricsSection(features, processData, tableHeaderInfo) {
     });
 
     checkCorrectInputs();
-    Helper.hideLoadingScreen();
+
+    helper.hideLoadingScreen();
 }
 
 function checkCorrectInputs() {
@@ -317,9 +316,9 @@ function fillMetricRows(metricData, slug, processData) {
                         <td class="col-10" ></td>`;
     let innerHTML_fulfillment = `
                         <td class="col-11" ></td>
-                        <td class="col-12" ><div tooltip-data="` + metricData['description_process'] + `\ni.e. ` + metricData['example_process'] + `"
-                         class="info-text-popup"><img class="info-icon" src="images/info.png" loading="lazy" width="35"
-                         ></div></td>
+                        <td class="col-12" ><img src="images/info.png" loading="lazy" width="35"
+                        title="` + metricData['description_process'] + `\ni.e. ` + metricData['example_process'] + `"
+                        alt="" class="info-icon"></td>
                     </tr>`;
 
     if (uid != null && uid !== -1 && (slug in processData['actual_target_metrics'])) {
@@ -347,9 +346,9 @@ function fillMetricRows(metricData, slug, processData) {
             metric_fulfillment = processData['actual_target_metrics'][slug]['fulfillment'];
             innerHTML_fulfillment = `
                         <td class="col-11" >` + helper.renderSmallCircle(metric_fulfillment) + ` </td>
-                        <td class="col-12" ><div tooltip-data="` + metricData['description_process'] + `\ni.e. ` + metricData['example_process'] + `"
-                         class="info-text-popup"><img class="info-icon" src="images/info.png" loading="lazy" width="35"
-                         ></div></td>
+                        <td class="col-12" ><img src="images/info.png" loading="lazy" width="35" alt="heyy"
+                         title="` + metricData['description_process'] + `\ni.e. ` + metricData['example_process'] + `"
+                         class="info-icon"></td>
                     </tr>`;
         }
     }
@@ -396,6 +395,7 @@ function getMetricRowTarget(innerHTML_target, actual_target_metrics, slug) {
                         <td class="col-8" ><input type="text" name="target-maximum" id = "` + slug + `" value="` + targetValues['max'] + `"`;
     innerHTML_target['average'] = `
                         <td class="col-9" ><input type="text" name="target-average" id = "` + slug + `" value="` + targetValues['average'] + `"`;
+
     return innerHTML_target;
 }
 
@@ -449,7 +449,7 @@ function renderWholeProcessScoreCircle(wholeProcessScore) {
  */
 
 function createEditProcess() {
-    Helper.showLoadingScreen();
+    helper.showLoadingScreen();
     let metric_elements = {};
     metric_elements['average'] = document.getElementsByName('target-average');
     metric_elements['min'] = document.getElementsByName('target-minimum');
@@ -530,7 +530,7 @@ function createEditProcess() {
             alert_string += '\nThe following Metrics are not within their min/max values:\n';
             alert_string += minmaxlist + "\n";
         }
-        Helper.hideLoadingScreen();
+        helper.hideLoadingScreen();
         window.alert(alert_string);
     }
 }
@@ -604,7 +604,7 @@ function createComponentTable(processData, metricsDefinition) {
             <td class="col-5" ></td>
             <td class="col-6" ></td>
             <td class="col-7" ></td>
-            <td class="col-8" ><i id="TrashIcon" class="fas fa-trash-alt" onclick="deleteComponent(this.parentElement.parentElement.id);"></i></td>
+            <td class="col-8" ><i id="TrashIcon" class="fas fa-trash-alt" onclick="deleteComponent(this.parentElement.parentElement.id); helper.showLoadingScreen()"></i></td>
         `;
 
         // Sorting the components according to their weights
@@ -646,7 +646,6 @@ function fillComponentDropdown(componentData) {
  * This function adds the selected component to the process
  */
 function addComponent() {
-    Helper.showLoadingScreen();
     let componentUID = document.getElementById('addposition').value;
     if (componentUID.length === 32) {
         let weight = document.getElementById('ComponentOverviewTable').lastChild.id;
@@ -665,7 +664,7 @@ function addComponent() {
 
         helper.http_request("POST", "/process/edit/createstep", true, JSON.stringify(data), init);
     } else {
-        Helper.hideLoadingScreen();
+        helper.hideLoadingScreen();
     }
 }
 
@@ -691,11 +690,11 @@ function editComponent(oldWeight, newWeight) {
  * @param {string} weight: The weight if the component to be deleted
  */
 function deleteComponent(weight) {
-    Helper.showLoadingScreen();
     let data = {
         "uid": uid,
         "weight": parseFloat(weight)
     }
+
     helper.http_request("POST", "/process/edit/deletestep", true, JSON.stringify(data), init);
 }
 
@@ -747,7 +746,7 @@ function drop(ev) {
     let newWeight = parseFloat(previousID + (nextID - previousID) / 2);
     element.id = newWeight;
 
-    Helper.showLoadingScreen();
+    helper.showLoadingScreen();
     editComponent(oldWeight, newWeight); // Updating component table
 }
 
@@ -868,7 +867,7 @@ function horizontalScroll() {
 
 function saveCallback(response) {
     // Process has been created/edited successfully
-    Helper.hideLoadingScreen();
+    helper.hideLoadingScreen();
     if (uid.length === 32) {
         init(response);
     } else {

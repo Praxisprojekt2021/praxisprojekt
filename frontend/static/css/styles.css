@@ -473,31 +473,3 @@ td {
 .fa-trash-alt {
     cursor: pointer;
 }
-
-.info-text-popup {
-    position: relative;
-}
-
-.info-text-popup::before {
-    content: attr(tooltip-data);/* print em-space with class text */
-    font-size: 10.5px;
-    right: 10%;
-    display: block;
-    position: absolute;
-    bottom: 100%;
-    background: #000;
-    color: #FFF;
-    padding: 5px;
-    border-radius: 5px;
-    white-space: pre;
-    max-width:none;
-    opacity:0;
-    transition:0.35s ease-out;
-    overflow:hidden;
-    pointer-events: none; /* prevents tooltip from firing on pseudo hover */
-}
-
-.info-text-popup:hover::before {
-    opacity:1;
-    bottom: 100%;
-}
