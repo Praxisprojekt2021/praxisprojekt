@@ -1087,28 +1087,36 @@ class TestCalc3 (unittest.TestCase):
         print('4403- Rückgabe leerer Metric, falls proccess_target_flage und component metric flag false sind')
         self.assertEqual(test_calculate_current_values_2, {})
 
-#45xx - calculate_current_values (metrics_dict: dict, component_metrics, target_metrics)
+#45xx - calculate_actual_values (metrics_dict: dict, component_metrics, target_metrics)
 
 class TestClac4 (unittest.TestCase):
-    var1=[20000, 20000, 20000]
-    var2=[5, 5, 5]
     def test_calculate_actual_values_4501(self):
         print('4501- Richtige Berechnung des Totals')
-        var1=[20000, 20000, 20000]
-        self.assertEqual(calc.calculate_actual_values(var1)['actual']['total'],60000 )
+        actual_component_metric_data=[20000, 20000, 20000]
+        self.assertEqual(calc.calculate_actual_values(actual_component_metric_data)['actual']['total'],60000 )
     def test_calculate_actual_values_4502(self):
         print('4502- Richtige Berechung des Min')
-        var1=[30000, 10000, 40000]
-        self.assertEqual(calc.calculate_actual_values(var1)['actual']['min'],10000)
+        actual_component_metric_data=[30000, 10000, 40000]
+        self.assertEqual(calc.calculate_actual_values(actual_component_metric_data)['actual']['min'],10000)
     def test_calculate_actual_values_4503(self):
         print('4503- Richtige Berechung des Max')
-        var1=[30000, 10000, 40000]
-        self.assertEqual(calc.calculate_actual_values(var1)['actual']['max'],40000)
+        actual_component_metric_data=[30000, 10000, 40000]
+        self.assertEqual(calc.calculate_actual_values(actual_component_metric_data)['actual']['max'],40000)
     def test_calculate_actual_values_4504(self):
         print('4504- Richtige Berechung des Standard_deviation')
-        var1=[30000, 10000, 40000]
-        self.assertEqual(calc.calculate_actual_values(var1)['actual']['standard_deviation'],15275.252316519465)
+        actual_component_metric_data=[30000, 10000, 40000]
+        self.assertEqual(calc.calculate_actual_values(actual_component_metric_data)['actual']['standard_deviation'],15275.252316519465)
+    def test_calculate_actual_values_4505(self):
+        print('4505- Richtige Berechnung des Average')
+        actual_component_metric_data=[30000, 10000, 40000]
+        self.assertEqual(calc.calculate_actual_values(actual_component_metric_data)['actual']['average'],26666.666666666668)
+    def test_calculate_actual_values_4506(self):
+        print('4506- Überprüfen, ob die Anzahl der Komponenten richtig berechnet wird')
+        actual_component_metric_data=[30000, 10000, 40000]
+        self.assertEqual(calc.calculate_actual_values(actual_component_metric_data)['count_component'],3)
 
+        
+#46xx - compare_actual_target_metrics(process_dict: dict, metrics_dict: dict) -> dict:
 
 if __name__ == '__main__':
     unittest.main()
