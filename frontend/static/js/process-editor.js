@@ -434,7 +434,7 @@ function getMetricRowTotal(actual_target_metrics) {
 function addMinMaxToInputFields(innerHTML_target, metricData) {
     let binary = metricData['binary'];
     // Rest of the innerHTML_target string
-    if (binary === false) {
+    if (!binary) {
         if (metricData['min_value'] >= 0) innerHTML_target += ' min="' + metricData['min_value'] + '"';
         if (metricData['max_value'] >= 0) innerHTML_target += ' max="' + metricData['max_value'] + '"';
     } else {
