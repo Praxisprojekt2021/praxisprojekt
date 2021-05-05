@@ -220,3 +220,22 @@ def get_metrics_list() -> str:
     :return: Query as string
     """
     return "Match (m: Metric) Return collect(properties(m))"
+
+
+def set_metrics_unique_constraint() -> str: 
+    """
+    Function to get the cypher query to set a unique constraint on metric names
+
+    :return: Query as String
+    """
+    return f"Create CONSTRAINT ON (n:Metric) ASSERT n.name IS UNIQUE"
+
+
+def remove_metrics_unique_constraint() -> str: 
+    """
+    Function to get the cypher query to remove a unique constraint on metric names
+
+    :return: Query as String
+    """
+    return f"Drop CONSTRAINT ON (n:Metric) ASSERT n.name IS UNIQUE"
+    
