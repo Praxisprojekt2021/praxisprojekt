@@ -271,7 +271,7 @@ function createMetricsSection(features, processData, tableHeaderInfo) {
 function fillMetricRows(metricData, slug, processData) {
 
     // default value, because null has no influence on feature_fulfillment if metric_fulfillment is not given
-    let metric_fulfillment = null;
+    let metric_fulfillment = processData['actual_target_metrics'][slug]['fulfillment'];
     let count_component = 0;
 
     // default table row, when no metric data is provided
@@ -284,25 +284,23 @@ function fillMetricRows(metricData, slug, processData) {
                         <td class="col-5" ></td>
                         <td class="col-6" ></td>`;
 
+    let actual_target_metrics = processData['actual_target_metrics'][slug];
+
     let innerHTML_target = [];
-    innerHTML_target['min'] =
-        `<td class="col-7" ><input type="text" name="target-minimum" id="` + slug + `"`; // Rest of the string is added below
-    innerHTML_target['max'] =
-        `<td class="col-8" ><input type="text" name="target-maximum" id="` + slug + `"`; // Rest of the string is added below
-    innerHTML_target['average'] = `
-                        <td class="col-9" ><input type="text" name="target-average" id="` + slug + `"`; // Rest of the string is added below
-    let innerHTML_total = `
-                        <td class="col-10" ></td>`;
+    innerHTML_target['min'] = '';
+    innerHTML_target['max'] = '';
+    innerHTML_target['average'] = '';
+    innerHTML_target = getMetricRowTarget(innerHTML_target, actual_target_metrics, slug);
+
+    let innerHTML_total = getMetricRowTotal(actual_target_metrics);
     let innerHTML_fulfillment = `
-                        <td class="col-11" ></td>
+                        <td class="col-11" >` + helper.renderSmallCircle(metric_fulfillment) + ` </td>
                         <td class="col-12" ><div tooltip-data="` + metricData['description_process'] + `\ni.e. ` + metricData['example_process'] + `"
                          class="info-text-popup"><img class="info-icon" src="images/info.png" loading="lazy" width="35"
                          ></div></td>
                     </tr>`;
 
     if (uid != null && uid !== -1 && (slug in processData['actual_target_metrics'])) {
-
-        let actual_target_metrics = processData['actual_target_metrics'][slug];
 
         if ('count_component' in actual_target_metrics) {
             count_component = actual_target_metrics['count_component'];
@@ -311,24 +309,6 @@ function fillMetricRows(metricData, slug, processData) {
         // check if actual values are provided
         if ('actual' in actual_target_metrics) {
             innerHTML_actual = getMetricRowActual(actual_target_metrics, metricData);
-        }
-
-        // check if target values are provided
-        if ('target' in actual_target_metrics) {
-            innerHTML_target = getMetricRowTarget(innerHTML_target, actual_target_metrics, slug);
-
-            innerHTML_total = getMetricRowTotal(actual_target_metrics);
-        }
-
-        // check if a fulfillment and consequentially a target sum is provided (if fulfillment was calculated, a target sum was also able to be calculated)
-        if ('fulfillment' in processData['actual_target_metrics'][slug]) {
-            metric_fulfillment = processData['actual_target_metrics'][slug]['fulfillment'];
-            innerHTML_fulfillment = `
-                        <td class="col-11" >` + helper.renderSmallCircle(metric_fulfillment) + ` </td>
-                        <td class="col-12" ><div tooltip-data="` + metricData['description_process'] + `\ni.e. ` + metricData['example_process'] + `"
-                         class="info-text-popup"><img class="info-icon" src="images/info.png" loading="lazy" width="35"
-                         ></div></td>
-                    </tr>`;
         }
     }
 
@@ -364,8 +344,7 @@ function getMetricRowTarget(innerHTML_target, actual_target_metrics, slug) {
         } else {
             targetValues[key] = '';
         }
-    });
-
+    })
     // replace null with empty strings, so that "null" is not entered in the table
 
     innerHTML_target['min'] = `
@@ -383,6 +362,8 @@ function getMetricRowTotal(actual_target_metrics) {
 
     if ('total' in actual_target_metrics['target']) {
         targetTotalValue = Math.round(actual_target_metrics['target']['total'] * 100 + Number.EPSILON) / 100;
+    } else {
+        targetTotalValue = '0';
     }
 
     return `<td class="col-10" >` + targetTotalValue + `</td>`;
