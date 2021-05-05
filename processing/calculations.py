@@ -84,7 +84,6 @@ def calculate_current_values(metrics_dict: dict, component_metrics, target_metri
 
         # if any component has this specific metric
         if metric in component_metrics.keys():
-            print(component_metrics[metric])
             calculations[metric] = calculate_actual_values(component_metrics[metric])
             component_metric_flag = True
 
