@@ -1166,22 +1166,22 @@ class TestClac4 (unittest.TestCase):
         actual_component_metric_data=[30000, 10000, 40000]
         self.assertEqual(calc.calculate_actual_values(actual_component_metric_data)['count_component'],3)
 
-"""
 
 
 #46xx - compare_actual_target_metrics(process_dict, metrics_dict)
 #process_dict: output from calculate_current_values()
-
-outcome_compare_actual_target_metrics = calc.compare_actual_target_metrics(test_calculate_current_values_1, metrics_dict)
-
+output_dict = {'success': no_target_process_dict["success"],'process': no_target_process_dict["process"],'actual_target_metrics': {}}
+output_dict['actual_target_metrics']= test_calculate_current_values_1
+outcome_compare_actual_target_metrics={'success': True, 'process': {'uid': 'b141f94973a43cf8ee972e9dffc1b004', 'name': 'Kunde anlegen', 'responsible_person': 'Peter Rossbach', 'description': 'Prozess zum anlegen von einem neuen Kunden in allen Systemen', 'creation_timestamp': '20210210...', 'last_timestamp': '20200211...', 'components': [{'uid': 'b141f94973a43cf8ee972e9dffc1b004', 'weight': 1, 'name': 'SQL Datenbank', 'category': 'Datenbank', 'description': 'Kundendatenbank', 'creation_timestamp': '20200219...', 'last_timestamp': '20200219...', 'metrics': {'number_of_lines_of_source_code_loc': 20000, 'admins': 10, 'time_to_implement_updates': 5}}, {'uid': 'b141f94973a43cf8ee972e9dffc1b004', 'weight': 1.5, 'name': 'Frontend API', 'category': 'API', 'description': 'API für das Frontend', 'creation_timestamp': '20200219...', 'last_timestamp': '20200219...', 'metrics': {'number_of_lines_of_source_code_loc': 20000, 'admins': 10, 
+'time_to_implement_updates': 5}}, {'uid': 'b141f94973a43cf8ee972e9dffc1b004', 'weight': 2, 'name': 'Hadoop Cluster', 'category': 'Datenbank', 'description': 'Big Data Plattform', 'creation_timestamp': '20200219...', 'last_timestamp': '20200219...', 'metrics': {'number_of_lines_of_source_code_loc': 20000, 'admins': 10, 'time_to_implement_updates': 5}}]}, 'actual_target_metrics': {'number_of_lines_of_source_code_loc': {'actual': {'total': 60000, 'min': 20000, 'max': 20000, 'average': 20000, 'standard_deviation': 0.0}, 'count_component': 3, 'target': {'average': 50, 'min': 30.5, 'max': 20, 'total': 150}, 'fulfillment': False}, 'time_to_implement_updates': {'actual': {'total': 15, 'min': 5, 'max': 5, 'average': 5, 'standard_deviation': 0.0}, 'count_component': 3}}}
+print(outcome_compare_actual_target_metrics)
 class Test_compare_actual_target_metrics(unittest.TestCase):
 
     def test_compare_actual_target_metrics_4601(self):
         print('4201 - Überprüfen, ob alle Metriken ausgelesen werden')
-        self.assertEqual(calc.compare_actual_target_metrics(test_calculate_current_values_1, metrics_dict),
+        self.assertEqual(calc.compare_actual_target_metrics(output_dict, metrics_dict),
                          outcome_compare_actual_target_metrics)
 
-"""
 
 
 #47xx - calculate_risk_score(process_dict: dict) -> dict:
