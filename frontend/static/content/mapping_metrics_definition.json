@@ -70,7 +70,7 @@
           "min_value": 0,
           "binary": true,
           "description_component": "Are changes recorded / logged in the component.",
-          "example_component": "If this is the case, an input of 1, otherwise 0, follows.",
+          "example_component": "yes or no.",
           "description_process": "Proportions of components, for which change must be logged.",
           "example_process": "If 12 out of 15 components record changes, an input of 80 [%] follows."
         },
@@ -108,7 +108,7 @@
           "min_value": 0,
           "binary": true,
           "description_component": "Have all users of the component been adequately trained?",
-          "example_component": "If this is the case, an input of 1, otherwise 0, follows.",
+          "example_component": "yes or no.",
           "description_process": "Proportion of components that should have sufficient user training.",
           "example_process": "If 12 out of 15 components have sufficient user training, an input of 80 [%] follows."
         },
@@ -119,7 +119,7 @@
           "min_value": 0,
           "binary": true,
           "description_component": "Is the component operated automatically?",
-          "example_component": "If this is the case, an input of 1, otherwise 0, follows.",
+          "example_component": "yes or no.",
           "description_process": "Proportions  of components, that must be operated automatically.",
           "example_process": "Proportion of components that should have sufficient user training."
         }
@@ -217,7 +217,7 @@
           "min_value": 0,
           "binary": true,
           "description_component": "Is external support available?",
-          "example_component": "If this is the case, an input of 1, otherwise 0, follows.",
+          "example_component": "yes or no.",
           "description_process": "Proportions of components with external support.",
           "example_process": "If 5 out of 15 components have external support, enter 33 [%]."
         },
@@ -228,7 +228,7 @@
           "min_value": 0,
           "binary": true,
           "description_component": "Is internal support available?",
-          "example_component": "If this is the case, an input of 1, otherwise 0, follows.",
+          "example_component": "yes or no.",
           "description_process": "Proportions of components with internal support.",
           "example_process": "If 3 out of 15 components have internal support, the input is 20 [%]."
         }
@@ -321,7 +321,7 @@
           "min_value": 0,
           "binary": true,
           "description_component": "Is the component redundant?",
-          "example_component": "If this is the case, an input of 1, otherwise 0, follows.",
+          "example_component": "yes or no.",
           "description_process": "Proportions of components, that must be available redundantly.",
           "example_process": "If 12 out of 15 components are redundant, an input of 80 [%] follows."
         }
@@ -348,7 +348,7 @@
           "min_value": 0,
           "binary": true,
           "description_component": "Is the data sufficiently encrypted?",
-          "example_component": "If this is the case, an input of 1, otherwise 0, follows.",
+          "example_component": "yes or no.",
           "description_process": "Proportions of components, for whose data should be sufficiently encrypted.",
           "example_process": "If 12 out of 15 components work with sufficiently encrypted data, an input of 80 [%] follows."
         }
