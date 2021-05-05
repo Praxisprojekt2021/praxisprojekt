@@ -161,12 +161,16 @@ function setSections(selected_category) {
                 const metrics_child = document.getElementById(key).children[0].children[1];
                 if (category[key] === 'true') {
                     feature_child.removeAttribute("disabled");
+                    feature_child.setAttribute("onclick", "helper.toggleSection(this)");
                     metrics_child.children[0].childNodes.forEach(element => element.children[1].children[0].removeAttribute("disabled"));
                 } else {
+                    helper.collapseSection(metrics_child);
                     feature_child.setAttribute("disabled", "true");
+                    feature_child.removeAttribute("onclick");
                     metrics_child.style.display = 'none';
                     metrics_child.children[0].childNodes.forEach(element => element.children[1].children[0].setAttribute("disabled", true));
                 }
+                //metrics_child.setAttribute("data-collapsed", "true");
             });
         });
     Helper.hideLoadingScreen();

@@ -1,5 +1,6 @@
 class Helper {
 
+
     /**
      * Shows error message if request was not successful.
      *
@@ -255,7 +256,9 @@ class Helper {
                 metric_child_icon.style.setProperty('transform', 'rotateX(0deg)');
             }
         } else {
-            this.collapseSection(metric_child);
+            if(!isCollapsed) {
+                this.collapseSection(metric_child);
+            }
         }
     }
 
@@ -266,6 +269,7 @@ class Helper {
      */
 
     collapseSection(element) {
+
         const sectionHeight = element.scrollHeight;
 
         const elementTransition = element.style.transition;
@@ -279,7 +283,7 @@ class Helper {
                 element.style.height = 0 + 'px';
             });
         });
-
+        element.children[0].childNodes.forEach(element => element.children[1].children[0].setAttribute("disabled", true));
         element.setAttribute('data-collapsed', 'true');
     }
 
@@ -294,6 +298,7 @@ class Helper {
         element.style.height = sectionHeight + 'px';
         element.style.margin = "0px 0px 10px 0px";
         element.setAttribute('data-collapsed', 'false');
+        element.children[0].childNodes.forEach(element => element.children[1].children[0].removeAttribute("disabled"));
     }
 
     /**
