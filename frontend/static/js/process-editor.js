@@ -282,9 +282,9 @@ function fillMetricRows(metricData, slug, processData) {
 
     let innerHTML_target = [];
     innerHTML_target['min'] =
-                        `<td class="col-7" ><input type="text" name="target-minimum" id="` + slug + `"`; // Rest of the string is added below
+        `<td class="col-7" ><input type="text" name="target-minimum" id="` + slug + `"`; // Rest of the string is added below
     innerHTML_target['max'] =
-                        `<td class="col-8" ><input type="text" name="target-maximum" id="` + slug + `"`; // Rest of the string is added below
+        `<td class="col-8" ><input type="text" name="target-maximum" id="` + slug + `"`; // Rest of the string is added below
     innerHTML_target['average'] = `
                         <td class="col-9" ><input type="text" name="target-average" id="` + slug + `"`; // Rest of the string is added below
     let innerHTML_total = `
@@ -366,11 +366,11 @@ function getMetricRowTarget(innerHTML_target, actual_target_metrics, slug) {
     // replace null with empty strings, so that "null" is not entered in the table
 
     innerHTML_target['min'] = `
-                        <td class="col-7" ><input type="text" name="target-minimum" id = "`+ slug + `" value="`+ targetValues['min'] + `"`;
+                        <td class="col-7" ><input type="text" name="target-minimum" id = "`+ slug + `" value="` + targetValues['min'] + `"`;
     innerHTML_target['max'] = `
-                        <td class="col-8" ><input type="text" name="target-maximum" id = "`+ slug + `" value="`+ targetValues['max'] + `"`;
+                        <td class="col-8" ><input type="text" name="target-maximum" id = "`+ slug + `" value="` + targetValues['max'] + `"`;
     innerHTML_target['average'] = `
-                        <td class="col-9" ><input type="text" name="target-average" id = "`+ slug + `" value="`+ targetValues['average'] + `"`;
+                        <td class="col-9" ><input type="text" name="target-average" id = "`+ slug + `" value="` + targetValues['average'] + `"`;
 
     return innerHTML_target;
 }
@@ -410,7 +410,7 @@ function renderWholeProcessScoreCircle(wholeProcessScore) {
 
     color = helper.getCircleColor(wholeProcessScore);
 
-    if(!isNaN(wholeProcessScore)) {
+    if (!isNaN(wholeProcessScore)) {
         document.getElementById("whole-process-score").style.setProperty("background-color", color);
         document.getElementById("whole-process-score").style.setProperty("display", "flex");
         document.getElementById("whole-process-score").innerHTML = `${wholeProcessScore}%`;
@@ -488,7 +488,7 @@ function createEditProcess() {
             "target_metrics": ${JSON.stringify(metrics)}
         }`;
 
-    if(document.getElementById('process-name-textarea').value === "") process_name_empty = true;
+    if (document.getElementById('process-name-textarea').value === "") process_name_empty = true;
 
     // If a input has been performed, post changes to backend
     if (minmaxlist === "" && !process_name_empty && !text_replaced_flag) {
@@ -612,7 +612,7 @@ function fillComponentDropdown(componentData) {
  */
 function addComponent() {
     let componentUID = document.getElementById('addposition').value;
-    
+
     if (componentUID.length === 32) {
         let weight = document.getElementById('ComponentOverviewTable').lastChild.id;
         // If there is no components in the table, the new component receives the weight = 1
