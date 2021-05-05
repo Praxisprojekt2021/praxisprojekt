@@ -402,7 +402,7 @@ function getMetricRowTarget(innerHTML_target, actual_target_metrics, slug, binar
     });
 
     // replace null with empty strings, so that "null" is not entered in the table
-    if (binary === false) {
+    if (!binary) {
     innerHTML_target['min'] = `
                         <td class="col-7" ><input type="text" name="target-minimum" id = "` + slug + `" value="` + targetValues['min'] + `"`;
     innerHTML_target['max'] = `
