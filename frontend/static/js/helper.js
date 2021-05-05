@@ -1,5 +1,6 @@
 class Helper {
 
+
     /**
      * Shows error message if request was not successful.
      *
@@ -255,7 +256,9 @@ class Helper {
                 metric_child_icon.style.setProperty('transform', 'rotateX(0deg)');
             }
         } else {
-            this.collapseSection(metric_child);
+            if(!isCollapsed) {
+                this.collapseSection(metric_child);
+            }
         }
     }
 
@@ -266,6 +269,7 @@ class Helper {
      */
 
     collapseSection(element) {
+
         const sectionHeight = element.scrollHeight;
 
         const elementTransition = element.style.transition;
