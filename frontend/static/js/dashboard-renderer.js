@@ -20,7 +20,7 @@ function init() {
  * Get processes data from Back-End and then populate the processes table in FE.
  */
 function getProcessList() {
-    helper.http_request("GET", "/process/overview", false, "", refreshProcessTable);
+    helper.http_request("GET", "/process/overview", true, "", refreshProcessTable);
 }
 
 /**
