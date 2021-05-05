@@ -368,7 +368,7 @@ function fillMetricRows(metricData, slug, processData) {
 
 function getMetricRowActual(actual_target_metrics, metricData) {
     let binary = metricData['binary'];
-    if (binary === false) {
+    if (!binary) {
         return `
                 <tr>
                     <td class="col-1"  id="` + metricData['name'] + `">` + metricData['name'] + ` </td>
@@ -402,7 +402,7 @@ function getMetricRowTarget(innerHTML_target, actual_target_metrics, slug, binar
     });
 
     // replace null with empty strings, so that "null" is not entered in the table
-    if (binary === false) {
+    if (!binary) {
     innerHTML_target['min'] = `
                         <td class="col-7" ><input type="text" name="target-minimum" id = "` + slug + `" value="` + targetValues['min'] + `"`;
     innerHTML_target['max'] = `
@@ -434,7 +434,7 @@ function getMetricRowTotal(actual_target_metrics) {
 function addMinMaxToInputFields(innerHTML_target, metricData) {
     let binary = metricData['binary'];
     // Rest of the innerHTML_target string
-    if (binary === false) {
+    if (!binary) {
         if (metricData['min_value'] >= 0) innerHTML_target += ' min="' + metricData['min_value'] + '"';
         if (metricData['max_value'] >= 0) innerHTML_target += ' max="' + metricData['max_value'] + '"';
     } else {
