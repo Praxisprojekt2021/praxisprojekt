@@ -158,8 +158,7 @@ class Helper {
 
         // Live check for correct inputs
         const inputs = document.getElementsByClassName('metric-input textfield');
-        console.log(inputs);
-        console.log(inputs[0]);
+
         for (let i = 0; i < inputs.length; i++) {
             this.addMinMaxPopup(inputs[i]);
             inputs[i].addEventListener('blur', (event) => {

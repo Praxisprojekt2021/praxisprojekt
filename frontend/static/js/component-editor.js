@@ -147,9 +147,11 @@ function setSections(selected_category) {
                 const metrics_child = document.getElementById(key).children[0].children[1];
                 if (category[key] === 'true') {
                     feature_child.removeAttribute("disabled");
+                    metrics_child.children[0].childNodes.forEach(element => element.children[1].children[0].removeAttribute("disabled"));
                 } else {
                     feature_child.setAttribute("disabled", "true");
                     metrics_child.style.display = 'none';
+                    metrics_child.children[0].childNodes.forEach(element => element.children[1].children[0].setAttribute("disabled", true));
                 }
             });
         });
