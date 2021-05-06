@@ -267,10 +267,8 @@ function checkCorrectInputs() {
     names.forEach(element => {
         const inputs = document.getElementsByName(element);
         for (let i = 0; i < inputs.length; i++) {
-            // Adding popup for target avg input -> with min max values if they exist
-            if (element === 'target-average') {
-                helper.addMinMaxPopup(inputs[i]);
-            }
+            // Adding popup for target avg, min, and max input -> with min max values if they exist
+            helper.addMinMaxPopup(inputs[i]);
             // Adding event listener for input check
             inputs[i].addEventListener('blur', (event) => {
                 if (!helper.targetAvgIsWithinMinMax(inputs[i])) {
