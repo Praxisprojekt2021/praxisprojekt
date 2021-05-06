@@ -79,6 +79,8 @@
             "description": "Description",
             "responsible-person": "Responsible Person",
             "Whats-Riskify": "What's Riskify?",
+            "saveButton": "Save",
+            "createButton": "Create",
             "Loading": "Loading..."
         }
     }
