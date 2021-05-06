@@ -93,7 +93,7 @@ class Test_delete_component(unittest.TestCase):
 
 
 class Test_update_component(unittest.TestCase):
-    def test_1010(self):
+    def test_1201(self):
         data = {
             "uid": "b141f94973a43cf8ee972e9dffc1b004",
             "name": "SQL Datenbank",
@@ -108,15 +108,15 @@ class Test_update_component(unittest.TestCase):
         result = {'success': True}
         self.assertEqual(update_component(data), result)
 
-    def test_1011(self):
+    def test_1202(self):
         dict_in = {"test": 1, "test2": 2}
         self.assertRaises(KeyError, update_component, dict_in)
 
-    def test_1012(self):
+    def test_1203(self):
         dict_in = {"uid": "abc", "name": 2, "description": 3, "category": 4, "metrics": 5}
         self.assertRaises(KeyError, update_component, dict_in)
 
-    def test_1013(self):
+    def test_1204(self):
         data = {
             "uid": "999666111",
             "name": "SQL Datenbank",
@@ -130,7 +130,7 @@ class Test_update_component(unittest.TestCase):
         }
         self.assertRaises(IndexError, update_component, data)
 
-    def test_1088(self):
+    def test_1205(self):
         data = {
             "uid": "b141f94973a43cf8ee972e9dffc1b004",
             "name": "SQL Datenbank",
@@ -146,16 +146,16 @@ class Test_update_component(unittest.TestCase):
 
 class Test_add_component(unittest.TestCase):
 
-    def test_1014(self):
+    def test_1301(self):
         dict_in = {"uid": "1"}
         result = {'success': True}
         self.assertEqual(delete_component(dict_in), result)
 
-    def test_1015(self):
+    def test_1302(self):
         dict_in = {"test": 1, "test2": 2}
         self.assertRaises(KeyError, add_component, dict_in)
 
-    def test_1016(self):
+    def test_1304(self):
         dict_in = {"uid": "abc", "name": 2, "description": 3, "category": 4, "metrics": 5}
         self.assertRaises(KeyError, add_component, dict_in)
 
