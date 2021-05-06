@@ -15,6 +15,16 @@
     border-color: #fff;
     background-color: #ececec;
 }
+.info-overview {
+padding-top: 40px;
+padding-left: 50px;
+padding-right: 50px;
+border-style: solid;
+border-width: 1px;
+border-color: #e6e6e6;
+background-color: #ececec;
+box-shadow: rgba(50, 50, 93, 0.015) 0px 10px 10px -6px inset, rgba(0, 0, 0, 0.28) 0px 6px 25px -18px inset,rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.17) 0px 6px 6px;
+}
 .subheader1 {
     font-size: 17px;
     font-weight: 700;
