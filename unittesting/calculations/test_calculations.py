@@ -456,6 +456,7 @@ class Test_get_all_component_metrics(unittest.TestCase):
         self.assertEqual(calc.get_all_component_metrics(test3_4201_process_dict),
                          test3_4201_component_metrics)
 
+
     def test_get_all_component_metrics_4202(self):
         print('4202 - Überprüfen, ob die Reihenfolge der process_dict Elemente variieren kann')
         self.assertEqual(calc.get_all_component_metrics(test1_4202_process_dict),
@@ -919,6 +920,7 @@ class Test_get_all_target_metrics(unittest.TestCase):
         self.assertEqual(calc.get_all_target_metrics(test3_4301_process_dict),
                          test3_4301_target_metrics)
 
+
     def test_get_all_target_metrics_4202(self):
         print('4302 - Überprüfen, ob die Reihenfolge der process_dict Elemente variieren kann')
         self.assertEqual(calc.get_all_target_metrics(test1_4302_process_dict),
@@ -1116,10 +1118,12 @@ class Test_calculate_current_values (unittest.TestCase):
         print('4401 - Wenn kein Target-Wert vorhanden ist, keine Anlegen von Targetkey ')
         self.assertRaises(KeyError, test_calculate_current_values_1['time_to_implement_updates'].__getitem__, 'target')
 
+
     def test_calculate_current_values_4402(self):
         print('4402 - Target wird richtig berechnet')
         self.assertEqual(test_calculate_current_values_1['number_of_lines_of_source_code_loc'] ['target']['total'],
                         150 )
+
 
     def test_calculate_current_values_4403(self):
         component_metrics=calc.get_all_component_metrics(no_target_no_metric_process_dict)
@@ -1137,25 +1141,30 @@ class Test_calculate_actual_values (unittest.TestCase):
         actual_component_metric_data=[20000, 20000, 20000]
         self.assertEqual(calc.calculate_actual_values(actual_component_metric_data)['actual']['total'],60000 )
 
+
     def test_calculate_actual_values_4502(self):
         print('4502 - Richtige Berechung des Min')
         actual_component_metric_data=[30000, 10000, 40000]
         self.assertEqual(calc.calculate_actual_values(actual_component_metric_data)['actual']['min'],10000)
+
 
     def test_calculate_actual_values_4503(self):
         print('4503 - Richtige Berechung des Max')
         actual_component_metric_data=[30000, 10000, 40000]
         self.assertEqual(calc.calculate_actual_values(actual_component_metric_data)['actual']['max'],40000)
 
+
     def test_calculate_actual_values_4504(self):
         print('4504 - Richtige Berechung des Standard_deviation')
         actual_component_metric_data=[30000, 10000, 40000]
         self.assertEqual(calc.calculate_actual_values(actual_component_metric_data)['actual']['standard_deviation'],15275.252316519465)
 
+
     def test_calculate_actual_values_4505(self):
         print('4505 - Richtige Berechnung des Average')
         actual_component_metric_data=[30000, 10000, 40000]
         self.assertEqual(calc.calculate_actual_values(actual_component_metric_data)['actual']['average'],26666.666666666668)
+
 
     def test_calculate_actual_values_4506(self):
         print('4506 - Überprüfen, ob die Anzahl der Komponenten richtig berechnet wird')
@@ -1196,6 +1205,8 @@ class Test_compare_actual_target_metrics(unittest.TestCase):
         print('4601 - Überprüfen, ob alle Metriken korrekt ausgelesen werden')
         self.assertEqual(calc.compare_actual_target_metrics(output_dict, metrics_dict),
                          outcome_compare_actual_target_metrics)
+
+                         
 """
     def test_compare_actual_target_metrics_4602(self):
         print('4602 - Überprüfen, ob fulfilled erkannt wird, wenn MIN(actual=target)')
