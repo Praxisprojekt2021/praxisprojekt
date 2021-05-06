@@ -16,9 +16,9 @@ function init() {
     getFeatures();
 
     // Check if view has received an uid as URL parameter to check whether to create a new component or edit an existing one
-    if (uid && uid.length === 32) {
+    if (uid) {
         // If so, load component data...
-        helper.showLoadingScreen();
+        Helper.showLoadingScreen();
         console.log('Editing existing component');
 
         // Trigger function which gathers component data and processes it
@@ -124,6 +124,7 @@ function getComponent(uid) {
 function processComponentData(json_data) {
 
     // Check if the request has succeeded
+    let component;
     if (json_data['success']) {
         // Component data has been received
         component = json_data["component"]
@@ -147,7 +148,9 @@ function processComponentData(json_data) {
         setSections(component['category']);
     } else {
         // Request was not successful
-        window.alert('Component could not be loaded');
+        //window.alert('Component could not be loaded');
+        // Error will be shown in showError
+        window.location.href = '/';
     }
 }
 
@@ -158,7 +161,6 @@ function processComponentData(json_data) {
  */
 
 function setSections(selected_category) {
-
     // Read JSON file
     fetch(base_url + '/content/mapping_metrics_definition.json')
         .then(response => response.json())
@@ -175,7 +177,7 @@ function setSections(selected_category) {
                 }
             });
         });
-    helper.hideLoadingScreen();
+    Helper.hideLoadingScreen();
 }
 
 
@@ -210,7 +212,7 @@ function createEditComponent() {
         "metrics": metrics
     }
 
-    if(document.getElementById('component-name').value === "") component_name_empty = true;
+    if (document.getElementById('component-name').value === "") component_name_empty = true;
 
     // Check if all field have been filled
     // Also, when changing between categories, discard inputs made for non-relevant metrics
@@ -258,7 +260,7 @@ function createEditComponent() {
 
     // If an input has been performed, post changes to backend
     if (emptyFieldList === "" && minmaxlist === "" && component_category_helper_flag && !component_name_empty) {
-        helper.showLoadingScreen();
+        Helper.showLoadingScreen();
         helper.http_request("POST", '/component/create_edit', true, JSON.stringify(component), saveCallback);
     } else {
         let alert_string = 'Changes could not be saved. ';
@@ -266,7 +268,7 @@ function createEditComponent() {
         if (!component_category_helper_flag) {
             alert_string += 'Please select a category. \n';
         }
-        if(component_name_empty) {
+        if (component_name_empty) {
             alert_string += 'Please enter a component name. \n';
         }
         if (emptyFieldList !== "") {
@@ -281,7 +283,7 @@ function createEditComponent() {
             alert_string += '\nThe following Metrics are not within their min/max values:\n';
             alert_string += minmaxlist + "\n";
         }
-        helper.hideLoadingScreen();
+        Helper.hideLoadingScreen();
         window.alert(alert_string);
     }
 }
@@ -292,7 +294,7 @@ function createEditComponent() {
  */
 
 function saveCallback(response) {
-    helper.hideLoadingScreen();
+    Helper.hideLoadingScreen();
     // Component has been created/edited successfully
     window.location.replace(base_url);
 }
