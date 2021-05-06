@@ -18,12 +18,16 @@ function init(json_process = false) {
 
     getFeatures().then(data => {
         // If page is reloaded (after saving) processes are updated else => page is loaded from databased and entries are prepared
-        if (!json_process) {
-            getProcess(data);
-        } else {
-            fillDataFields(data, json_process);
-            loadComponentNames(json_process);
-        }
+        getTableHeaderInfo().then(tableHeaderInfo => {
+                if (!json_process) {
+                    getProcess(data, tableHeaderInfo);
+
+                } else {
+                    fillDataFields(data, json_process, tableHeaderInfo);
+                    loadComponentNames(json_process);
+                }
+            }
+        );
     });
 
 }
@@ -57,11 +61,26 @@ async function getFeatures() {
 }
 
 /**
+ * Get list of process features.
+ */
+async function getTableHeaderInfo() {
+    // Read JSON file
+    return await fetch(base_url + '/content/table_header_info.json')
+        .then(response => response.json())
+        .then(data => {
+            let tableHeaderInfo = data['headerInfo'];
+            return tableHeaderInfo;
+        });
+}
+
+
+/**
  * Fetches process data from BE.
  * @param features
+ * @param tableHeaderInfo
  */
 
-function getProcess(features) {
+function getProcess(features, tableHeaderInfo) {
     const url_string = window.location.href;
     const url = new URL(url_string);
     let uid = url.searchParams.get('uid');
@@ -77,14 +96,14 @@ function getProcess(features) {
         }`;
 
         helper.http_request("POST", "/process/view", true, post_data, function (processData) {
-            fillDataFields(features, processData);
+            fillDataFields(features, processData, tableHeaderInfo);
             loadComponentNames(processData);
         });
 
     } else {
         // If not, prepare for new process input...
         let processData = {};
-        createMetricsSection(features, processData);
+        createMetricsSection(features, processData, tableHeaderInfo);
         console.log('Entering new process');
     }
 }
@@ -94,14 +113,15 @@ function getProcess(features) {
  *
  * @param {json} features
  * @param {json} processData
+ * @param {json} tableHeaderInfo
  */
-function fillDataFields(features, processData) {
+function fillDataFields(features, processData, tableHeaderInfo) {
 
     if (processData['success']) {
         // fill description column
         fillDescriptionColumn(processData);
         // create metric/feature toggle area
-        createMetricsSection(features, processData);
+        createMetricsSection(features, processData, tableHeaderInfo);
         //
     } else {
         // Component has not been created/edited successfully
@@ -119,7 +139,7 @@ function fillDataFields(features, processData) {
 
 function fillDescriptionColumn(processData) {
 
-    this.renderWholeProcessScoreCircle(processData['score']);
+    renderWholeProcessScoreCircle(processData['score']);
 
     // Set uid and data fields
     document.getElementById('process-name-textarea').value = processData['process']['name'];
@@ -132,8 +152,9 @@ function fillDescriptionColumn(processData) {
  *
  * @param {json} features
  * @param {json} processData
+ * @param {json} tableHeaderInfo
  */
-function createMetricsSection(features, processData) {
+function createMetricsSection(features, processData, tableHeaderInfo) {
     document.getElementById('metrics-input-processes').innerHTML = '';
     let featureCount = 0;
     Object.keys(features).forEach(function (key) {
@@ -191,36 +212,36 @@ function createMetricsSection(features, processData) {
         innerHTML += `
         <table class="responsive-table" id="process-feature-table">
             <tr class="table-header">
-                <th class="col-1" name="metric">Metric</th>
-                <th class="col-2 info-text-popup" name="average" tooltip-data="The average value for the respective metrics&#xa; across all components in the process.">
-                    Average
+                <th class="col-1" ></th>
+                <th class="col-2 info-text-popup" tooltip-data="` + tableHeaderInfo['average']['helper'] + `">
+                ` + tableHeaderInfo['average']['name'] + `
                 </th>
-                <th class="col-3 info-text-popup" name="standard-deviation" tooltip-data="The standard deviation for each metric&#xa; across all components in the process." >
-                    Std. Dev.
+                <th class="col-3 info-text-popup" tooltip-data="` + tableHeaderInfo['standard-deviation']['helper'] + `">
+                ` + tableHeaderInfo['standard-deviation']['name'] + `
                 </th>
-                <th class="col-4 info-text-popup" name="sum" tooltip-data="The sum for each respective metric&#xa; across all components in the process.">
-                    Sum
+                <th class="col-4 info-text-popup" tooltip-data="` + tableHeaderInfo['sum']['helper'] + `">
+                ` + tableHeaderInfo['sum']['name'] + `
                 </th>
-                <th class="col-5 info-text-popup" name="min" tooltip-data="The minimum value specifies the smallest value for each&#xa; respective metric across all components in the process.">
-                    Min
+                <th class="col-5 info-text-popup" tooltip-data="` + tableHeaderInfo['min']['helper'] + `">
+                ` + tableHeaderInfo['min']['name'] + `
                 </th>
-                <th class="col-6 info-text-popup" name="max" tooltip-data="The maximum value indicates the largest value for each&#xa; respective metric across all components of the process.">
-                    Max
+                <th class="col-6 info-text-popup" tooltip-data="` + tableHeaderInfo['max']['helper'] + `">
+                ` + tableHeaderInfo['max']['name'] + `
                 </th>
-                <th class="col-7 info-text-popup" name="target-min" tooltip-data="The minimum target average, user-entered, Target-value&#xa; for each metric across all components in the process.">
-                    Target Min
+                <th class="col-7 info-text-popup" tooltip-data="` + tableHeaderInfo['target-min']['helper'] + `">
+                ` + tableHeaderInfo['target-min']['name'] + `
                 </th>
-                <th class="col-8 info-text-popup" name="target-max" tooltip-data="The maximum target average, user-entered, Target-value&#xa; for each metric across all components in the process.">
-                    Target Max
+                <th class="col-8 info-text-popup" tooltip-data="` + tableHeaderInfo['target-max']['helper'] + `">
+                ` + tableHeaderInfo['target-max']['name'] + `
                 </th>
-                <th class="col-9 info-text-popup" name="target-avg" tooltip-data="The average, user-entered, Target-value&#xa; for each metric across all components in the process.">
-                    Target Average
+                <th class="col-9 info-text-popup" tooltip-data="` + tableHeaderInfo['target-avg']['helper'] + `">
+                ` + tableHeaderInfo['target-avg']['name'] + `
                 </th>
-                <th class="col-10 info-text-popup" name="target-sum" tooltip-data="The target sum for each metric across&#xa; all components in the process.">
-                    Target Sum
+                <th class="col-10 info-text-popup" tooltip-data="` + tableHeaderInfo['target-sum']['helper'] + `">
+                ` + tableHeaderInfo['target-sum']['name'] + `
                 </th>
-                <th class="col-11" name="ampel">Check</th>
-                <th class="col-12" name="info">Info</th>
+                <th class="col-11">` + tableHeaderInfo['check']['name'] + `</th>
+                <th class="col-12">` + tableHeaderInfo['info']['name'] + `</th>
             </tr>`;
 
         innerHTML += innerHTML_metric_block;
@@ -246,10 +267,8 @@ function checkCorrectInputs() {
     names.forEach(element => {
         const inputs = document.getElementsByName(element);
         for (let i = 0; i < inputs.length; i++) {
-            // Adding popup for target avg input -> with min max values if they exist
-            if (element == 'target-average') {
-                helper.addMinMaxPopup(inputs[i]);
-            }
+            // Adding popup for target avg, min, and max input -> with min max values if they exist
+            helper.addMinMaxPopup(inputs[i]);
             // Adding event listener for input check
             inputs[i].addEventListener('blur', (event) => {
                 if (!helper.targetAvgIsWithinMinMax(inputs[i])) {
@@ -260,7 +279,6 @@ function checkCorrectInputs() {
             });
         }
     });
-
 }
 
 /**
