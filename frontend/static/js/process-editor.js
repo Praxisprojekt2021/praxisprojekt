@@ -291,7 +291,6 @@ function checkCorrectInputs() {
  * @param {json} processData
  */
 function fillMetricRows(metricData, slug, processData) {
-
     // default value, because null has no influence on feature_fulfillment if metric_fulfillment is not given
     let metric_fulfillment = null;
     let count_component = 0;
@@ -340,7 +339,7 @@ function fillMetricRows(metricData, slug, processData) {
             if ('target' in actual_target_metrics) {
                 innerHTML_target = getMetricRowTarget(innerHTML_target, actual_target_metrics, slug, binary);
 
-                innerHTML_total = getMetricRowTotal(actual_target_metrics);
+                innerHTML_total = getMetricRowTotal(actual_target_metrics, binary);
             }
 
 
@@ -382,10 +381,10 @@ function getMetricRowActual(actual_target_metrics, metricData) {
                 <tr>
                     <td class="col-1"  id="` + metricData['name'] + `">` + metricData['name'] + ` </td>
                     <td class="col-2" >` + Math.round(actual_target_metrics['actual']['average'] * 100 + Number.EPSILON) + `%</td>
-                    <td class="col-3" >` + Math.round(actual_target_metrics['actual']['standard_deviation'] * 100 + Number.EPSILON) + `</td>
-                    <td class="col-4" ></td>
-                    <td class="col-5" ></td>
-                    <td class="col-6" ></td>`;
+                    <td class="col-3" >` + Math.round(actual_target_metrics['actual']['standard_deviation'] * 100 + Number.EPSILON) / 100 + `</td>
+                    <td class="col-4" >-</td>
+                    <td class="col-5" >-</td>
+                    <td class="col-6" >-</td>`;
     }
     }
 
@@ -419,12 +418,15 @@ function getMetricRowTarget(innerHTML_target, actual_target_metrics, slug, binar
     return innerHTML_target;
 }
 
-function getMetricRowTotal(actual_target_metrics) {
+function getMetricRowTotal(actual_target_metrics, binary) {
 
     let targetTotalValue = "";
-
-    if ('total' in actual_target_metrics['target']) {
-        targetTotalValue = Math.round(actual_target_metrics['target']['total'] * 100 + Number.EPSILON) / 100;
+    if (!binary) {
+        if ('total' in actual_target_metrics['target']) {
+            targetTotalValue = Math.round(actual_target_metrics['target']['total'] * 100 + Number.EPSILON) / 100;
+        }
+    } else {
+        targetTotalValue = "-";
     }
 
     return `<td class="col-10" >` + targetTotalValue + `</td>`;
