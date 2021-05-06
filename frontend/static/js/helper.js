@@ -102,7 +102,7 @@ class Helper {
      * @returns formatted Date
      */
     formatDate(date) {
-        const dateOptions = {year: 'numeric', month: '2-digit', day: '2-digit'};
+        const dateOptions = { year: 'numeric', month: '2-digit', day: '2-digit' };
         return new Date(date).toLocaleDateString("DE", dateOptions);
     }
 
@@ -308,5 +308,36 @@ class Helper {
         let max = parseFloat(element.getAttribute("max")); // Getting max value for metric
         let input = parseFloat(element.value); // Getting entered value for metric
         return !(input < min || input > max);
+    }
+
+    raise_alert(type, name_empty = false, text_replaced = false, minmaxlist = '', component_category_missing = false, emptyFieldList = '') {
+        let alert_string = 'Changes could not be saved. ';
+
+        if (name_empty) {
+            alert_string += 'Please enter a ' + type + ' name. \n';
+        }
+
+        if (component_category_missing) {
+            let d = { 'process': 'metric', 'component': 'category' };
+            alert_string += 'Please select a ' + d[type] + '. \n';
+        }
+
+        if (text_replaced) {
+            alert_string += '\nNon quantitative metrics have been automatically discarded.\n';
+        }
+
+        if (minmaxlist !== "") {
+            alert_string += '\nThe following Metrics are not within their min/max values:\n';
+            alert_string += minmaxlist + "\n";
+        }
+
+        if (type == 'component' && emptyFieldList !== "") {
+            alert_string += 'Please fill all metrics fields. \n';
+            alert_string += '\nThe following Metrics are empty:\n';
+            alert_string += emptyFieldList + '\n';
+        }
+
+        this.hideLoadingScreen();
+        window.alert(alert_string);
     }
 }
