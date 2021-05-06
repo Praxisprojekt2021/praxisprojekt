@@ -247,7 +247,7 @@ data = {
                 "average": 30,
                 "total": 300,  # summe
             },
-            "component_count": 10,
+            "count_component": 10,
             "fulfillment": True
         },  # true means that the metric is fulfilled --> no problem.
         "admins": {
@@ -262,7 +262,7 @@ data = {
                 "average": 30,
                 "total": 300,  # summe
             },
-            "component_count": 10,
+            "count_component": 10,
             "fulfillment": True
         },
         "recovery_time": {
@@ -277,7 +277,7 @@ data = {
                 "average": 0.8,
                 "total": 0.64,  # summe
             },
-            "component_count": 2,
+            "count_component": 2,
             "fulfillment": True
         },  # false means that the metric is not fulfilled --> problem.
     }
@@ -444,6 +444,23 @@ data = {
         # ...
     },
 }
+
+# metric_handler.get_metrics_data -> core -> calculations
+data = {
+    'success': True,
+    'metrics': {
+        'automation': {
+            'uid': 'd0cfbd93a0d146d9a223b7cfad098a7a',
+            'fulfilled_if': '>'
+        },
+        'test_automation': {
+            'uid': '1de621af9cb7404291a55671463b5ad7',
+            'fulfilled_if': '>'
+        },
+        # ...
+    }
+}
+
 # Backend Processing -> Backend Core
 data = {
     "score": 80,  # percent as integer
@@ -460,7 +477,7 @@ data = {
                 "average": 30,
                 "total": 300,  # summe
             },
-            "component_count": 10,
+            "count_component": 10,
             "fulfillment": True
         },  # true means that the metric is fulfilled --> no problem.
         "admins": {
@@ -475,7 +492,7 @@ data = {
                 "average": 30,
                 "total": 300,  # summe
             },
-            "component_count": 10,
+            "count_component": 10,
             "fulfillment": True
         },
         "recovery_time": {
@@ -490,7 +507,7 @@ data = {
                 "average": 0.8,
                 "total": 0.64,  # summe
             },
-            "component_count": 2,
+            "count_component": 2,
             "fulfillment": True
         },  # false means that the metric is not fulfilled --> problem.
     }
