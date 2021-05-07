@@ -2,9 +2,13 @@ import unittest
 from database.handler.metric_handler import create_from_frontend_json
 
 
-class MyTestCase(unittest.TestCase):
+class Test_metric_handler(unittest.TestCase):
 
-    def test_1019(self):
+    def test_3001(self):
+        data = "abc"
+        self.assertRaises(ValueError, create_from_frontend_json, data)
+
+    def test_3002(self):
         data = {
             'success': True,
             'metrics': {
@@ -19,10 +23,6 @@ class MyTestCase(unittest.TestCase):
             }
         }
         self.assertRaises(TypeError, create_from_frontend_json, data)
-
-    def test_1018(self):
-        data = "abc"
-        self.assertRaises(ValueError, create_from_frontend_json, data)
 
 
 if __name__ == '__main__':
