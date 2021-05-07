@@ -936,7 +936,7 @@ class Test_get_all_target_metrics(unittest.TestCase):
     def test_get_all_target_metrics_4202(self):
         print('4302 - Überprüfen, ob die Reihenfolge der process_dict Elemente variieren kann')
         self.assertEqual(calc.get_all_target_metrics(test1_4302_process_dict),
-                         test1_4301_target_metrics)
+                         test1_4301_target_metrics),
         self.assertEqual(calc.get_all_target_metrics(test2_4302_process_dict),
                          test1_4301_target_metrics),
         self.assertEqual(calc.get_all_target_metrics(test3_4302_process_dict),
@@ -1150,17 +1150,20 @@ class Test_calculate_actual_values(unittest.TestCase):
     def test_calculate_actual_values_4501(self):
         print('4501 - Richtige Berechnung des Totals')
         actual_component_metric_data = [20000, 20000, 20000]
-        self.assertEqual(calc.calculate_actual_values(actual_component_metric_data)['actual']['total'], 60000)
+        self.assertEqual(calc.calculate_actual_values(actual_component_metric_data)['actual']['total'],
+                         60000)
 
     def test_calculate_actual_values_4502(self):
         print('4502 - Richtige Berechung des Min')
         actual_component_metric_data = [30000, 10000, 40000]
-        self.assertEqual(calc.calculate_actual_values(actual_component_metric_data)['actual']['min'], 10000)
+        self.assertEqual(calc.calculate_actual_values(actual_component_metric_data)['actual']['min'],
+                         10000)
 
     def test_calculate_actual_values_4503(self):
         print('4503 - Richtige Berechung des Max')
         actual_component_metric_data = [30000, 10000, 40000]
-        self.assertEqual(calc.calculate_actual_values(actual_component_metric_data)['actual']['max'], 40000)
+        self.assertEqual(calc.calculate_actual_values(actual_component_metric_data)['actual']['max'],
+                         40000)
 
     def test_calculate_actual_values_4504(self):
         print('4504 - Richtige Berechung des Standard_deviation')
@@ -1177,7 +1180,8 @@ class Test_calculate_actual_values(unittest.TestCase):
     def test_calculate_actual_values_4506(self):
         print('4506 - Überprüfen, ob die Anzahl der Komponenten richtig berechnet wird')
         actual_component_metric_data = [30000, 10000, 40000]
-        self.assertEqual(calc.calculate_actual_values(actual_component_metric_data)['count_component'], 3)
+        self.assertEqual(calc.calculate_actual_values(actual_component_metric_data)['count_component'],
+                         3)
 
 
 # 46xx - compare_actual_target_metrics(process_dict, metrics_dict)
@@ -1186,37 +1190,6 @@ class Test_calculate_actual_values(unittest.TestCase):
 output_dict = {'success': no_target_process_dict["success"], 'process': no_target_process_dict["process"],
                'actual_target_metrics': {}}
 output_dict['actual_target_metrics'] = test_calculate_current_values_1
-outcome_compare_actual_target_metrics = {'success': True,
-                                         'process': {'uid': 'b141f94973a43cf8ee972e9dffc1b004', 'name': 'Kunde anlegen',
-                                                     'responsible_person': 'Peter Rossbach',
-                                                     'description': 'Prozess zum anlegen von einem neuen Kunden in allen Systemen',
-                                                     'creation_timestamp': '20210210...',
-                                                     'last_timestamp': '20200211...', 'components': [
-                                                 {'uid': 'b141f94973a43cf8ee972e9dffc1b004', 'weight': 1,
-                                                  'name': 'SQL Datenbank', 'category': 'Datenbank',
-                                                  'description': 'Kundendatenbank', 'creation_timestamp': '20200219...',
-                                                  'last_timestamp': '20200219...',
-                                                  'metrics': {'number_of_lines_of_source_code_loc': 20000, 'admins': 10,
-                                                              'time_to_implement_updates': 5}},
-                                                 {'uid': 'b141f94973a43cf8ee972e9dffc1b004', 'weight': 1.5,
-                                                  'name': 'Frontend API', 'category': 'API',
-                                                  'description': 'API für das Frontend',
-                                                  'creation_timestamp': '20200219...', 'last_timestamp': '20200219...',
-                                                  'metrics': {'number_of_lines_of_source_code_loc': 20000, 'admins': 10,
-                                                              'time_to_implement_updates': 5}},
-                                                 {'uid': 'b141f94973a43cf8ee972e9dffc1b004', 'weight': 2,
-                                                  'name': 'Hadoop Cluster', 'category': 'Datenbank',
-                                                  'description': 'Big Data Plattform',
-                                                  'creation_timestamp': '20200219...', 'last_timestamp': '20200219...',
-                                                  'metrics': {'number_of_lines_of_source_code_loc': 20000, 'admins': 10,
-                                                              'time_to_implement_updates': 5}}]},
-                                         'actual_target_metrics': {'number_of_lines_of_source_code_loc': {
-                                             'actual': {'total': 60000, 'min': 20000, 'max': 20000, 'average': 20000,
-                                                        'standard_deviation': 0.0}, 'count_component': 3,
-                                             'target': {'average': 50, 'min': 30.5, 'max': 20, 'total': 150},
-                                             'fulfillment': False}, 'time_to_implement_updates': {
-                                             'actual': {'total': 15, 'min': 5, 'max': 5, 'average': 5,
-                                                        'standard_deviation': 0.0}, 'count_component': 3}}}
 outcome_compare_actual_target_metrics_dict = \
     {
         "success": True,
@@ -1302,10 +1275,40 @@ outcome_compare_actual_target_metrics_dict = \
             }
         }
     }
+outcome_compare_actual_target_metrics = {'success': True,
+                                         'process': {'uid': 'b141f94973a43cf8ee972e9dffc1b004', 'name': 'Kunde anlegen',
+                                                     'responsible_person': 'Peter Rossbach',
+                                                     'description': 'Prozess zum anlegen von einem neuen Kunden in allen Systemen',
+                                                     'creation_timestamp': '20210210...',
+                                                     'last_timestamp': '20200211...', 'components': [
+                                                 {'uid': 'b141f94973a43cf8ee972e9dffc1b004', 'weight': 1,
+                                                  'name': 'SQL Datenbank', 'category': 'Datenbank',
+                                                  'description': 'Kundendatenbank', 'creation_timestamp': '20200219...',
+                                                  'last_timestamp': '20200219...',
+                                                  'metrics': {'number_of_lines_of_source_code_loc': 20000, 'admins': 10,
+                                                              'time_to_implement_updates': 5}},
+                                                 {'uid': 'b141f94973a43cf8ee972e9dffc1b004', 'weight': 1.5,
+                                                  'name': 'Frontend API', 'category': 'API',
+                                                  'description': 'API für das Frontend',
+                                                  'creation_timestamp': '20200219...', 'last_timestamp': '20200219...',
+                                                  'metrics': {'number_of_lines_of_source_code_loc': 20000, 'admins': 10,
+                                                              'time_to_implement_updates': 5}},
+                                                 {'uid': 'b141f94973a43cf8ee972e9dffc1b004', 'weight': 2,
+                                                  'name': 'Hadoop Cluster', 'category': 'Datenbank',
+                                                  'description': 'Big Data Plattform',
+                                                  'creation_timestamp': '20200219...', 'last_timestamp': '20200219...',
+                                                  'metrics': {'number_of_lines_of_source_code_loc': 20000, 'admins': 10,
+                                                              'time_to_implement_updates': 5}}]},
+                                         'actual_target_metrics': {'number_of_lines_of_source_code_loc': {
+                                             'actual': {'total': 60000, 'min': 20000, 'max': 20000, 'average': 20000,
+                                                        'standard_deviation': 0.0}, 'count_component': 3,
+                                             'target': {'average': 50, 'min': 30.5, 'max': 20, 'total': 150},
+                                             'fulfillment': False}, 'time_to_implement_updates': {
+                                             'actual': {'total': 15, 'min': 5, 'max': 5, 'average': 5,
+                                                        'standard_deviation': 0.0}, 'count_component': 3}}}
 
 # dict -> String, da Fehlermeldung bei dict
 var_outcome_compare_actual_target_metrics = json.dumps(outcome_compare_actual_target_metrics)
-
 
 class Test_compare_actual_target_metrics(unittest.TestCase):
 
@@ -1332,24 +1335,280 @@ class Test_compare_actual_target_metrics(unittest.TestCase):
 
 # 47xx - calculate_risk_score(process_dict: dict) -> dict:
 
-# process_dict = outcome_compare_actual_target_metrics = output from compare_actual_target_metrics()
-outcome_calculate_risk_score = calc.calculate_risk_score(outcome_compare_actual_target_metrics)
+# outcome_calculate_risk_score = calc.calculate_risk_score(outcome_compare_actual_target_metrics)
+outcome_calculate_risk_score = \
+    {
+    "success":True,
+    "process":{
+        "uid":"b141f94973a43cf8ee972e9dffc1b004",
+        "name":"Kunde anlegen",
+        "responsible_person":"Peter Rossbach",
+        "description":"Prozess zum anlegen von einem neuen Kunden in allen Systemen",
+        "creation_timestamp":"20210210...",
+        "last_timestamp":"20200211...",
+        "components":[
+            {
+                "uid":"b141f94973a43cf8ee972e9dffc1b004",
+                "weight":1,
+                "name":"SQL Datenbank",
+                "category":"Datenbank",
+                "description":"Kundendatenbank",
+                "creation_timestamp":"20200219...",
+                "last_timestamp":"20200219...",
+                "metrics":{
+                    "number_of_lines_of_source_code_loc":20000,
+                    "admins":10,
+                    "time_to_implement_updates":5
+                }
+            },
+            {
+                "uid":"b141f94973a43cf8ee972e9dffc1b004",
+                "weight":1.5,
+                "name":"Frontend API",
+                "category":"API",
+                "description":"API für das Frontend",
+                "creation_timestamp":"20200219...",
+                "last_timestamp":"20200219...",
+                "metrics":{
+                    "number_of_lines_of_source_code_loc":20000,
+                    "admins":10,
+                    "time_to_implement_updates":5
+                }
+            },
+            {
+                "uid":"b141f94973a43cf8ee972e9dffc1b004",
+                "weight":2,
+                "name":"Hadoop Cluster",
+                "category":"Datenbank",
+                "description":"Big Data Plattform",
+                "creation_timestamp":"20200219...",
+                "last_timestamp":"20200219...",
+                "metrics":{
+                    "number_of_lines_of_source_code_loc":20000,
+                    "admins":10,
+                    "time_to_implement_updates":5
+                }
+            }
+        ]
+    },
+    "actual_target_metrics":{
+        "number_of_lines_of_source_code_loc":{
+            "actual":{
+                "total":60000,
+                "min":20000,
+                "max":20000,
+                "average":20000,
+                "standard_deviation":0.0
+            },
+            "count_component":3,
+            "target":{
+                "average":50,
+                "min":30.5,
+                "max":20,
+                "total":150
+            },
+            "fulfillment":False
+        },
+        "time_to_implement_updates":{
+            "actual":{
+                "total":15,
+                "min":5,
+                "max":5,
+                "average":5,
+                "standard_deviation":0.0
+            },
+            "count_component":3
+        }
+    },
+    "score":0
+}
+
+outcome_compare_actual_target_metrics_dict2 = \
+    {
+        "success": True,
+        "process": {
+            "uid": "b141f94973a43cf8ee972e9dffc1b004",
+            "name": "Kunde anlegen",
+            "responsible_person": "Peter Rossbach",
+            "description": "Prozess zum anlegen von einem neuen Kunden in allen Systemen",
+            "creation_timestamp": "20210210...",
+            "last_timestamp": "20200211...",
+            "components": [
+                {
+                    "uid": "b141f94973a43cf8ee972e9dffc1b004",
+                    "weight": 1,
+                    "name": "SQL Datenbank",
+                    "category": "Datenbank",
+                    "description": "Kundendatenbank",
+                    "creation_timestamp": "20200219...",
+                    "last_timestamp": "20200219...",
+                    "metrics": {
+                        "number_of_lines_of_source_code_loc": 20000,
+                        "admins": 10,
+                        "time_to_implement_updates": 5
+                    }
+                },
+                {
+                    "uid": "b141f94973a43cf8ee972e9dffc1b004",
+                    "weight": 1.5,
+                    "name": "Frontend API",
+                    "category": "API",
+                    "description": "API für das Frontend",
+                    "creation_timestamp": "20200219...",
+                    "last_timestamp": "20200219...",
+                    "metrics": {
+                        "number_of_lines_of_source_code_loc": 20000,
+                        "admins": 10,
+                        "time_to_implement_updates": 5
+                    }
+                },
+                {
+                    "uid": "b141f94973a43cf8ee972e9dffc1b004",
+                    "weight": 2,
+                    "name": "Hadoop Cluster",
+                    "category": "Datenbank",
+                    "description": "Big Data Plattform",
+                    "creation_timestamp": "20200219...",
+                    "last_timestamp": "20200219...",
+                    "metrics": {
+                        "number_of_lines_of_source_code_loc": 20000,
+                        "admins": 10,
+                        "time_to_implement_updates": 5
+                    }
+                }
+            ]
+        },
+        "actual_target_metrics": {
+            "number_of_lines_of_source_code_loc": {
+                "actual": {
+                    "total": 60000,
+                    "min": 20000,
+                    "max": 20000,
+                    "average": 20000,
+                    "standard_deviation": 0.0
+                },
+                "count_component": 3,
+                "target": {
+                    "average": 50,
+                    "min": 30.5,
+                    "max": 20,
+                    "total": 150
+                },
+                "fulfillment": True
+            },
+            "time_to_implement_updates": {
+                "actual": {
+                    "total": 15,
+                    "min": 5,
+                    "max": 5,
+                    "average": 5,
+                    "standard_deviation": 0.0
+                },
+                "count_component": 3
+            }
+        }
+    }
+# outcome_calculate_risk_score2 = calc.calculate_risk_score(outcome_compare_actual_target_metrics_dict2)
+outcome_calculate_risk_score2 = \
+    {
+        "success":True,
+        "process":{
+            "uid":"b141f94973a43cf8ee972e9dffc1b004",
+            "name":"Kunde anlegen",
+            "responsible_person":"Peter Rossbach",
+            "description":"Prozess zum anlegen von einem neuen Kunden in allen Systemen",
+            "creation_timestamp":"20210210...",
+            "last_timestamp":"20200211...",
+            "components":[
+                {
+                    "uid":"b141f94973a43cf8ee972e9dffc1b004",
+                    "weight":1,
+                    "name":"SQL Datenbank",
+                    "category":"Datenbank",
+                    "description":"Kundendatenbank",
+                    "creation_timestamp":"20200219...",
+                    "last_timestamp":"20200219...",
+                    "metrics":{
+                        "number_of_lines_of_source_code_loc":20000,
+                        "admins":10,
+                        "time_to_implement_updates":5
+                    }
+                },
+                {
+                    "uid":"b141f94973a43cf8ee972e9dffc1b004",
+                    "weight":1.5,
+                    "name":"Frontend API",
+                    "category":"API",
+                    "description":"API für das Frontend",
+                    "creation_timestamp":"20200219...",
+                    "last_timestamp":"20200219...",
+                    "metrics":{
+                        "number_of_lines_of_source_code_loc":20000,
+                        "admins":10,
+                        "time_to_implement_updates":5
+                    }
+                },
+                {
+                    "uid":"b141f94973a43cf8ee972e9dffc1b004",
+                    "weight":2,
+                    "name":"Hadoop Cluster",
+                    "category":"Datenbank",
+                    "description":"Big Data Plattform",
+                    "creation_timestamp":"20200219...",
+                    "last_timestamp":"20200219...",
+                    "metrics":{
+                        "number_of_lines_of_source_code_loc":20000,
+                        "admins":10,
+                        "time_to_implement_updates":5
+                    }
+                }
+            ]
+        },
+        "actual_target_metrics":{
+            "number_of_lines_of_source_code_loc":{
+                "actual":{
+                    "total":60000,
+                    "min":20000,
+                    "max":20000,
+                    "average":20000,
+                    "standard_deviation":0.0
+                },
+                "count_component":3,
+                "target":{
+                    "average":50,
+                    "min":30.5,
+                    "max":20,
+                    "total":150
+                },
+                "fulfillment":True
+            },
+            "time_to_implement_updates":{
+                "actual":{
+                    "total":15,
+                    "min":5,
+                    "max":5,
+                    "average":5,
+                    "standard_deviation":0.0
+                },
+                "count_component":3
+            }
+        },
+        "score":100
+    }
 
 
 class Test_calculate_risk_score(unittest.TestCase):
 
     def test_compare_actual_target_metrics_4701(self):
-        print('4701 - Überprüfen, ob der Score richtig berechnet wurde, insofern mindestens eine metrik den Anforderungen entsprach')
-        self.assertEqual(calc.calculate_risk_score(outcome_compare_actual_target_metrics),
+        print('4701 - Überprüfen, ob der Score 0 beträgt, insofern keine metrik den Anforderungen entsprach')
+        self.assertEqual(calc.calculate_risk_score(outcome_compare_actual_target_metrics_dict),
                          outcome_calculate_risk_score)
 
-
-"""
     def test_compare_actual_target_metrics_4702(self):
-        print('4702 - Überprüfen, ob der Score 0 beträgt, insofern keine metrik den Anforderungen entsprach')
-        self.assertEqual(calc.calculate_risk_score(outcome_compare_actual_target_metrics),
-                         outcome_calculate_risk_score)
-
+        print('4702 - Überprüfen, ob der Score richtig berechnet wurde, insofern mindestens eine metrik den Anforderungen entsprach')
+        self.assertEqual(calc.calculate_risk_score(outcome_compare_actual_target_metrics_dict2),
+                         outcome_calculate_risk_score2)
+"""
     def test_compare_actual_target_metrics_4703(self):
         print('4703 - Überprüfen, ob ein Score über 100% erreicht werden kann. (actual value > target value sollte nicht möglich sein)')
         self.assertEqual(calc.calculate_risk_score(outcome_compare_actual_target_metrics),
@@ -1358,8 +1617,6 @@ class Test_calculate_risk_score(unittest.TestCase):
 
 
 # 41xx - start_calculate_risk(process_dict: dict, metrics_dict: dict) -> dict:
-
-# outcome_start_calculate_risk = calc.start_calculate_risk(test1_4101_process_dict, metrics_dict)
 
 test1_4101_process_dict = {
     "success": True,
@@ -1432,13 +1689,13 @@ test1_4101_process_dict = {
         # ...
     },
 }
-outcome_start_calculate_risk1 = \
+# outcome_start_calculate_risk = calc.start_calculate_risk(test1_4101_process_dict, metrics_dict)
+outcome_start_calculate_risk = \
     {
         "success":True,
         "process":{
             "uid":"b141f94973a43cf8ee972e9dffc1b004",
             "name":"Kunde anlegen",
-            "responsible_person":"Peter Rossbach",
             "description":"Prozess zum anlegen von einem neuen Kunden in allen Systemen",
             "creation_timestamp":"20210210...",
             "last_timestamp":"20200211...",
@@ -1452,7 +1709,7 @@ outcome_start_calculate_risk1 = \
                     "creation_timestamp":"20200219...",
                     "last_timestamp":"20200219...",
                     "metrics":{
-                        "number_of_lines_of_source_code_loc":20000,
+                        "number_of_lines_of_source_code_loc":10,
                         "admins":10,
                         "time_to_implement_updates":5
                     }
@@ -1466,7 +1723,7 @@ outcome_start_calculate_risk1 = \
                     "creation_timestamp":"20200219...",
                     "last_timestamp":"20200219...",
                     "metrics":{
-                        "number_of_lines_of_source_code_loc":20000,
+                        "number_of_lines_of_source_code_loc":10,
                         "admins":10,
                         "time_to_implement_updates":5
                     }
@@ -1480,7 +1737,7 @@ outcome_start_calculate_risk1 = \
                     "creation_timestamp":"20200219...",
                     "last_timestamp":"20200219...",
                     "metrics":{
-                        "number_of_lines_of_source_code_loc":20000,
+                        "number_of_lines_of_source_code_loc":10,
                         "admins":10,
                         "time_to_implement_updates":5
                     }
@@ -1490,10 +1747,10 @@ outcome_start_calculate_risk1 = \
         "actual_target_metrics":{
             "number_of_lines_of_source_code_loc":{
                 "actual":{
-                    "total":60000,
-                    "min":20000,
-                    "max":20000,
-                    "average":20000,
+                    "total":30,
+                    "min":10,
+                    "max":10,
+                    "average":10,
                     "standard_deviation":0.0
                 },
                 "count_component":3,
@@ -1515,104 +1772,22 @@ outcome_start_calculate_risk1 = \
                 },
                 "count_component":3
             }
-        }
-    }
-outcome_start_calculate_risk2 = \
-    {
-        "success":True,
-        "process":{
-            "uid":"b141f94973a43cf8ee972e9dffc1b004",
-            "name":"Kunde anlegen",
-            "responsible_person":"Peter Rossbach",
-            "description":"Prozess zum anlegen von einem neuen Kunden in allen Systemen",
-            "creation_timestamp":"20210210...",
-            "last_timestamp":"20200211...",
-            "components":[
-                {
-                    "uid":"b141f94973a43cf8ee972e9dffc1b004",
-                    "weight":1,
-                    "name":"SQL Datenbank",
-                    "category":"Datenbank",
-                    "description":"Kundendatenbank",
-                    "creation_timestamp":"20200219...",
-                    "last_timestamp":"20200219...",
-                    "metrics":{
-                        "number_of_lines_of_source_code_loc":20000,
-                        "admins":10,
-                        "time_to_implement_updates":5
-                    }
-                },
-                {
-                    "uid":"b141f94973a43cf8ee972e9dffc1b004",
-                    "weight":1.5,
-                    "name":"Frontend API",
-                    "category":"API",
-                    "description":"API für das Frontend",
-                    "creation_timestamp":"20200219...",
-                    "last_timestamp":"20200219...",
-                    "metrics":{
-                        "number_of_lines_of_source_code_loc":20000,
-                        "admins":10,
-                        "time_to_implement_updates":5
-                    }
-                },
-                {
-                    "uid":"b141f94973a43cf8ee972e9dffc1b004",
-                    "weight":2,
-                    "name":"Hadoop Cluster",
-                    "category":"Datenbank",
-                    "description":"Big Data Plattform",
-                    "creation_timestamp":"20200219...",
-                    "last_timestamp":"20200219...",
-                    "metrics":{
-                        "number_of_lines_of_source_code_loc":20000,
-                        "admins":10,
-                        "time_to_implement_updates":5
-                    }
-                }
-            ]
         },
-        "actual_target_metrics":{
-            "number_of_lines_of_source_code_loc":{
-                "actual":{
-                    "total":60000,
-                    "min":20000,
-                    "max":20000,
-                    "average":20000,
-                    "standard_deviation":0.0
-                },
-                "count_component":3,
-                "target":{
-                    "average":50,
-                    "min":30.5,
-                    "max":20,
-                    "total":150
-                },
-                "fulfillment":False
-            },
-            "time_to_implement_updates":{
-                "actual":{
-                    "total":15,
-                    "min":5,
-                    "max":5,
-                    "average":5,
-                    "standard_deviation":0.0
-                },
-                "count_component":3
-            }
-        }
+        "score":0
     }
+
 
 class Test_start_calculate_risk(unittest.TestCase):
 
     def test_start_calculate_risk_4101(self):
         print('4101 - Überprüfen, ob alle Funktionen erfolgreich durchlaufen wurden')
         self.assertEqual(calc.start_calculate_risk(test1_4101_process_dict, metrics_dict),
-                         outcome_start_calculate_risk1)
-
+                         outcome_start_calculate_risk)
 
 
 
 
 if __name__ == '__main__':
     unittest.main()
+
+
