@@ -1596,7 +1596,6 @@ outcome_calculate_risk_score2 = \
         "score":100
     }
 
-
 class Test_calculate_risk_score(unittest.TestCase):
 
     def test_compare_actual_target_metrics_4701(self):
@@ -1608,12 +1607,6 @@ class Test_calculate_risk_score(unittest.TestCase):
         print('4702 - Überprüfen, ob der Score richtig berechnet wurde, insofern mindestens eine metrik den Anforderungen entsprach')
         self.assertEqual(calc.calculate_risk_score(outcome_compare_actual_target_metrics_dict2),
                          outcome_calculate_risk_score2)
-"""
-    def test_compare_actual_target_metrics_4703(self):
-        print('4703 - Überprüfen, ob ein Score über 100% erreicht werden kann. (actual value > target value sollte nicht möglich sein)')
-        self.assertEqual(calc.calculate_risk_score(outcome_compare_actual_target_metrics),
-                         outcome_calculate_risk_score)
-"""
 
 
 # 41xx - start_calculate_risk(process_dict: dict, metrics_dict: dict) -> dict:
@@ -1775,7 +1768,6 @@ outcome_start_calculate_risk = \
         },
         "score":0
     }
-
 
 class Test_start_calculate_risk(unittest.TestCase):
 
