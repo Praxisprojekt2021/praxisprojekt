@@ -4,7 +4,27 @@ from database.handler.component_handler import get_component, delete_component, 
 
 class Test_get_component(unittest.TestCase):
     def test_1001(self):
-        dict_in = {"uid": "4c4daea7bd0c46ba9aa0b73bda06e58f"}
+        dict_in = {
+            "process": {
+                "uid": "4c4daea7bd0c46ba9aa0b73bda06e58f",  # when -1 it indicates that it is a new process, anything else indicates its an update
+                "name": "Kunde anlegen",
+                "responsible_person": "Peter Rossbach",
+                "description": "Prozess zum anlegen von einem neuen Kunden in allen Systemen",
+            },
+            "target_metrics": {
+                "codelines": {
+                    "average": 50,
+                    "min": 30.5,
+                    "max": 20,
+                },
+                "admins": {
+                    "average": 50,
+                    "min": 30.5,
+                    "max": 20,
+                },
+
+            },
+        }
         result_1001 = {
             'success': True,
             'component':
@@ -36,12 +56,52 @@ class Test_get_component(unittest.TestCase):
         self.assertEqual(get_component(dict_in), result_1001)
 
     def test_1002(self):
-        dict_in = {"uid": 1.5}
-        self.assertRaises(TypeError, get_component, dict_in)
+        dict_in = {
+            "process": {
+                "uid": "1.5",  # when -1 it indicates that it is a new process, anything else indicates its an update
+                "name": "Kunde anlegen",
+                "responsible_person": "Peter Rossbach",
+                "description": "Prozess zum anlegen von einem neuen Kunden in allen Systemen",
+            },
+            "target_metrics": {
+                "codelines": {
+                    "average": 50,
+                    "min": 30.5,
+                    "max": 20,
+                },
+                "admins": {
+                    "average": 50,
+                    "min": 30.5,
+                    "max": 20,
+                },
+
+            },
+        }
+        self.assertRaises(KeyError, get_component, dict_in)
 
     def test_1003(self):
-        dict_in = {"uid": "abc"}
-        self.assertRaises(IndexError, get_component, dict_in)
+        dict_in = {
+            "process": {
+                "uid": "abc",  # when -1 it indicates that it is a new process, anything else indicates its an update
+                "name": "Kunde anlegen",
+                "responsible_person": "Peter Rossbach",
+                "description": "Prozess zum anlegen von einem neuen Kunden in allen Systemen",
+            },
+            "target_metrics": {
+                "codelines": {
+                    "average": 50,
+                    "min": 30.5,
+                    "max": 20,
+                },
+                "admins": {
+                    "average": 50,
+                    "min": 30.5,
+                    "max": 20,
+                },
+
+            },
+        }
+        self.assertRaises(KeyError, get_component, dict_in)
 
     def test_1004(self):
         dict_in = {"test": 1, "test2": 2}
@@ -50,7 +110,7 @@ class Test_get_component(unittest.TestCase):
 
 class Test_delete_component(unittest.TestCase):
     def test_1101(self):
-        data = data = {
+        data = {
             "uid": "b141f94973a43cf8ee972e9dffc1b004",
             "name": "SQL Datenbank",
             "category": "Datenbank",
@@ -64,14 +124,34 @@ class Test_delete_component(unittest.TestCase):
         result = {'success': True}
         self.assertEqual(delete_component(data), result)
 
+
     def test_1102(self):
-        dict_in = {"uid": "1"}
-        result = {'success': True}
-        self.assertEqual(delete_component(dict_in), result)
+        dict_in = {
+            "uid": "1.5",
+            "name": "SQL Datenbank",
+            "category": "Datenbank",
+            "description": "Datenbank zu xy mit ...",
+            "metrics": {
+                "codelines": 20000,
+                "admins": 10,
+                "recovery_time": 5,
+            },
+        }
+        self.assertRaises(TypeError, delete_component, dict_in)
 
     def test_1103(self):
-        dict_in = {"uid": 1.5}
-        self.assertRaises(TypeError, delete_component, dict_in)
+        data = {
+            "uid": "abc",
+            "name": "SQL Datenbank",
+            "category": "Datenbank",
+            "description": "Datenbank zu xy mit ...",
+            "metrics": {
+                "codelines": 20000,
+                "admins": 10,
+                "recovery_time": 5,
+            },
+        }
+        self.assertRaises(KeyError, delete_component, data)
 
     def test_1104(self):
         data = {"test": 1, "test2": 2}
@@ -113,8 +193,18 @@ class Test_update_component(unittest.TestCase):
         self.assertRaises(KeyError, update_component, dict_in)
 
     def test_1203(self):
-        dict_in = {"uid": "abc", "name": 2, "description": 3, "category": 4, "metrics": 5}
-        self.assertRaises(KeyError, update_component, dict_in)
+        dict_in = {
+            "uid": "abc",
+            "name": 2,
+            "category": 3,
+            "description": 4,
+            "metrics": {
+                "codelines": "zwei",
+                "admins": "drei",
+                "recovery_time": "fuenf",
+            },
+        }
+        self.assertRaises(ValueError, update_component, dict_in)
 
     def test_1204(self):
         data = {
@@ -137,7 +227,9 @@ class Test_update_component(unittest.TestCase):
             "category": "Datenbank",
             "description": "Datenbank zu xy mit ...",
             "metrics": {
-                "codelines": 20000
+                "codelines": 20000,
+                "admins": 10,
+                "recovery_time": 5
             },
         }
         result = {'success': True}
@@ -147,7 +239,17 @@ class Test_update_component(unittest.TestCase):
 class Test_add_component(unittest.TestCase):
 
     def test_1301(self):
-        dict_in = {"uid": "1"}
+        dict_in = {
+            "uid": "b141f94973a43cf8ee972e9dffc1b009",
+            "name": "SQL Datenbank",
+            "category": "Datenbank",
+            "description": "Datenbank zu xy mit ...",
+            "metrics": {
+                "codelines": 20000,
+                "admins": 10,
+                "recovery_time": 5,
+            },
+        }
         result = {'success': True}
         self.assertEqual(delete_component(dict_in), result)
 
@@ -156,7 +258,17 @@ class Test_add_component(unittest.TestCase):
         self.assertRaises(KeyError, add_component, dict_in)
 
     def test_1304(self):
-        dict_in = {"uid": "abc", "name": 2, "description": 3, "category": 4, "metrics": 5}
+        dict_in = {
+            "uid": "abc",
+            "name": 2,
+            "category": 3,
+            "description": 4,
+            "metrics": {
+                "codelines": "zwei",
+                "admins": "zehn",
+                "recovery_time": "fuenf",
+            }
+        }
         self.assertRaises(KeyError, add_component, dict_in)
 
 

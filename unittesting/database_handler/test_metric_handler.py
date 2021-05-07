@@ -6,7 +6,7 @@ class Test_metric_handler(unittest.TestCase):
 
     def test_3001(self):
         data = "abc"
-        self.assertRaises(ValueError, create_from_frontend_json, data)
+        self.assertRaises(FileNotFoundError, create_from_frontend_json, data)
 
     def test_3002(self):
         data = {
