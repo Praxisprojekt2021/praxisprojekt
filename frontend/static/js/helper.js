@@ -9,6 +9,10 @@ class Helper {
         // Saving the data was not successful
         if (endpoint.includes("delete")) {
             window.alert("Object could not be deleted.")
+        } else if (endpoint.includes("/component/view")) {
+            window.alert('Component could not be loaded.');
+        } else if (endpoint.includes("/process/view")) {
+            window.alert('Process could not be loaded.');
         } else {
             window.alert('Changes could not be saved.');
         }
@@ -31,17 +35,35 @@ class Helper {
     }
 
     /**
+     * This functions hides the loading animation
+     */
+
+    static hideLoadingScreen() {
+        let element = document.getElementById('loader-wrapper');
+        element.setAttribute("class", "loader-wrapper-hidden");
+    }
+
+    /**
+     * This functions shows the loading animation
+     */
+
+    static showLoadingScreen() {
+        let element = document.getElementById('loader-wrapper');
+        element.setAttribute("class", "loader-wrapper");
+    }
+
+    /**
      * This function sends a post request to the backend
      *
      * @param {string} requestType: The type of request which is either GET or POST
      * @param {string} endpoint: The endpoint to be referred to
+     * @param async
      * @param {string} endpoint: The request to be either executed synchronously or asynchronously
      * @param {string} post_json: The JSON Object to be passed to the backend
      * @param {function} callbacks: The functions to be executed with the response
      */
 
     http_request(requestType, endpoint, async, post_json, ...callbacks) {
-
         const base_url = window.location.origin;
         let xhttp = new XMLHttpRequest();
 
@@ -111,16 +133,17 @@ class Helper {
                 let metric = metrics[key];
                 innerHTML += '<div class="metric-entry-element">';
                 innerHTML += ('<label for="availability-metric" class="entry-label">' + metric['name'] + '</label>');
-                innerHTML += '<input type="text" maxLength="256" data-name="availability-metric-1" id="' + key + '"' +
-                    ' name="availability-metric" class="metric-input textfield"'
+                innerHTML += '<div><input type="text" maxLength="256" data-name="availability-metric-1" id="' + key + '"' +
+                    ' name="availability-metric" class="metric-input textfield"';
                 if (metric['max_value'] === -1) {
-                    innerHTML += '" min="' + metric['min_value'] + '"'
+                    innerHTML += ' min="' + metric['min_value'] + '"';
                 } else {
-                    innerHTML += ' max="' + metric['max_value'] + '" min="' + metric['min_value'] + '"'
+                    innerHTML += ' max="' + metric['max_value'] + '" min="' + metric['min_value'] + '"';
                 }
-                innerHTML += ' >';
-                innerHTML += '<img src="images/info.png" loading="lazy" width="35" alt="" title="' +
-                    metric['description_component'] + '\ni.e. ' + metric['example_component'] + '" class="info-icon">';
+                innerHTML += ' ></div>';
+                innerHTML += '<div class="icon-popup-fix info-text-popup" tooltip-data="' +
+                    metric['description_component'] + '\ni.e. ' + metric['example_component'] + '">' +
+                    '<img src="images/info.png" loading="lazy" width="35" alt="" class="info-icon"></div>';
                 innerHTML += '</div>';
             });
 
@@ -138,6 +161,7 @@ class Helper {
         console.log(inputs);
         console.log(inputs[0]);
         for (let i = 0; i < inputs.length; i++) {
+            this.addMinMaxPopup(inputs[i]);
             inputs[i].addEventListener('blur', (event) => {
                 if (!helper.targetAvgIsWithinMinMax(inputs[i]) || inputs[i].value === '') {
                     inputs[i].style.setProperty("border-color", "red", undefined);
@@ -146,6 +170,24 @@ class Helper {
                 }
             });
         }
+    }
+
+    /**
+     * Adds a min max popup to the parent HTMLelement of the given HTMLelement
+     *
+     * @param {HTMLElement} element
+     */
+
+    addMinMaxPopup(element) {
+        let tooltipData;
+        if(element.hasAttribute("min") && element.hasAttribute("max")) {
+            tooltipData = "Min: "+element.getAttribute("min")+" Max: "+element.getAttribute("max");
+        } else {
+            if(element.hasAttribute("min")) tooltipData = "Min: "+element.getAttribute("min");
+            if(element.hasAttribute("max")) tooltipData = "Max: "+element.getAttribute("max")
+        }
+        element.parentElement.classList.add("info-text-popup");
+        element.parentElement.setAttribute("tooltip-data", tooltipData);
     }
 
     /**
@@ -190,7 +232,7 @@ class Helper {
             }
         }
 
-        return `<div class="small-circle" style="background-color: ${color}"></div>`;
+        return `<div class="small-circle" style="background-color: ` + color + `"></div>`;
     }
 
     /**
@@ -204,7 +246,7 @@ class Helper {
         const metric_child_icon = element.parentElement.children[0].children[0];
         const isCollapsed = metric_child.getAttribute('data-collapsed') === 'true';
         metric_child.style.display = '';
-        if (!(element.getAttribute("disabled") == "true")) {
+        if (!(element.getAttribute("disabled") === "true")) {
             if (isCollapsed) {
                 this.expandSection(metric_child);
                 metric_child_icon.style.setProperty('transform', 'rotateX(180deg)');
@@ -256,24 +298,6 @@ class Helper {
     }
 
     /**
-     * This functions hides the loading animation
-     */
-
-    hideLoadingScreen() {
-        let element = document.getElementById('loader-wrapper');
-        element.setAttribute("class", "loader-wrapper-hidden");
-    }
-
-    /**
-     * This functions shows the loading animation
-     */
-
-    showLoadingScreen() {
-        let element = document.getElementById('loader-wrapper');
-        element.setAttribute("class", "loader-wrapper");
-    }
-
-    /**
      * This function checks if the given target average is within the allowed min/max value
      *
      * @param {HTMLElement} element
@@ -283,11 +307,7 @@ class Helper {
         let min = parseFloat(element.getAttribute("min")); // Getting min value for metric
         let max = parseFloat(element.getAttribute("max")); // Getting max value for metric
         let input = parseFloat(element.value); // Getting entered value for metric
-        if (input < min || input > max) {
-            return false;
-        } else {
-            return true;
-        }
+        return !(input < min || input > max);
     }
 
     /**

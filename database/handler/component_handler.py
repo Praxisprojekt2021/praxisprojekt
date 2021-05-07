@@ -45,7 +45,7 @@ class Component(StructuredNode):
 
     hasMetric = RelationshipTo(metric_handler.Metric, "has", model=RelationshipComponentMetric)
 
-
+@db.transaction
 def add_component(input_dict: dict) -> dict:
     """
     Function to add a single component

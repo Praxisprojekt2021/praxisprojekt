@@ -85,7 +85,7 @@
       "metrics": {
         "complaints": {
           "name": "Complaints [per month]",
-          "fulfilled_if": ">",
+          "fulfilled_if": "<",
           "max_value": -1,
           "min_value": 0,
           "description_component": "Number of user complaints per month.",
@@ -185,7 +185,7 @@
       "metrics": {
         "time_to_implement_updates": {
           "name": "Implementation time of updates [in days]",
-          "fulfilled_if": ">",
+          "fulfilled_if": "<",
           "max_value": -1,
           "min_value": 0,
           "description_component": "Time to implement post-release updates (average) until they are implemented (in days).",

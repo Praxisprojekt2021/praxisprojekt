@@ -6,69 +6,68 @@
     <link href="{{ url_for('static', filename='images/favicon.png') }}" rel="icon" type="image/x-icon">
     <script src="https://kit.fontawesome.com/f24e197897.js" crossorigin="anonymous"></script>
 </head>
-<body>
+<body class="body" onload="init()">
 <header id="header" class="header">
-    <a href="/"><img src="{{ url_for('static', filename='images/logo.png') }}"loading="lazy" alt="" class="logo"></a>
+    <a href="/"><img src="{{ url_for('static', filename='images/logo.png') }}" loading="lazy" alt="" class="logo"></a>
     <div class="navigation">
         <a href="/" class="navigation-links navigation-selected">Home</a>
-        <div class="navigation-link-separator"><</div>
+        <div class="navigation-link-separator">&gt;</div>
         <a href="/about" class="navigation-links" data-i18n="Whats-Riskify"></a>
     </div>
 </header>
 
 <div class="loader-wrapper" id="loader-wrapper">
     <span class="loader"><span class="loader-inner"></span></span>
-    <div class="loader-text"data-i18n="Loading"></div>
+    <div class="loader-text">Loading...</div>
 </div>
 
- <div class="dashboard-overview">
+<div class="dashboard-overview">
+    <div class="center table-container">
+        <h3 data-i18n="processes"></h3>
+        <table class="responsive-table" id="processTable">
+            <tr class="table-header">
+                <th class="col-1" data-i18n="process"></th>
+                <th class="col-2" data-i18n="components"></th>
+                <th class="col-3" data-i18n="score"></th>
+                <th class="col-4" data-i18n="status"></th>
+                <th class="col-5" data-i18n="created"></th>
+                <th class="col-6" data-i18n="edited"></th>
+                <th class="col-7"></th>
+                <th class="col-8"></th>
+            </tr>
+        </table>
+    </div>
 
-     <div class="center table-container">
-         <h3 data-i18n="processes"></h3>
-         <table class="responsive-table" id="processTable">
-             <tr class="table-header">
-                 <th class="col-1" data-i18n="process"></th>
-                 <th class="col-2" data-i18n="components"></th>
-                 <th class="col-3" data-i18n="score"></th>
-                 <th class="col-4" data-i18n="status"></th>
-                 <th class="col-5" data-i18n="created"></th>
-                 <th class="col-6" data-i18n="edited"></th>
-                 <th class="col-7" ></th>
-                 <th class="col-8" ></th>
-             </tr>
-         </table>
-     </div>
+    <div class="center button-area">
+        <a href="/process">
+            <button class="button" type="button" data-i18n="add"></button>
+        </a>
+    </div>
 
-<div class="center button-area">
-    <a href="process">
-        <button class="button" type="button" data-i18n="add"></button>
-    </a>
+    <div class="center table-container">
+        <h3 data-i18n="components"></h3>
+        <table class="responsive-table" id="componentTable">
+            <tr class="table-header">
+                <th class="col-1" data-i18n="component"></th>
+                <th class="col-2" data-i18n="category"></th>
+                <th class="col-3" data-i18n="created"></th>
+                <th class="col-4" data-i18n="edited"></th>
+                <th class="col-5"></th>
+                <th class="col-6"></th>
+            </tr>
+        </table>
+    </div>
+
+    <div class="center button-area">
+        <a href="/component">
+            <button class="button" type="button" data-i18n="add"></button>
+        </a>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/helper.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/modals.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/dashboard-renderer.js') }}"></script>
+    <script type="module" src="{{ url_for('static', filename='js/translator.js') }}"></script>
 </div>
-
-     <div class="center table-container">
-         <h3 data-i18n="components"></h3>
-         <table class="responsive-table" id="componentTable">
-             <tr class="table-header">
-                 <th class="col-1" data-i18n="component"></th>
-                 <th class="col-2" data-i18n="category"></th>
-                 <th class="col-3" data-i18n="created"></th>
-                 <th class="col-4" data-i18n="edited"></th>
-                 <th class="col-5" ></th>
-                 <th class="col-6" ></th>
-             </tr>
-         </table>
-     </div>
-
-<div class="center button-area">
-    <a href="component">
-        <button class="button" type="button" data-i18n="add"></button>
-    </a>
-</div>
-
-     <script src="{{ url_for('static', filename='js/helper.js') }}"></script>
-     <script src="{{ url_for('static', filename='js/modals.js') }}"></script>
-     <script src="{{ url_for('static', filename='js/dashboard-renderer.js') }}"></script>
-     <script type="module" src="{{ url_for('static', filename='js/translator.js') }}"></script>
- </div>
 </body>
 </html>
