@@ -365,25 +365,34 @@ function fillMetricRows(metricData, slug, processData) {
 
 function getMetricRowActual(actual_target_metrics, metricData) {
     let binary = metricData['binary'];
+
+    let actualAverage;
+    let actualStandardDev;
+    let actualTotal;
+    let actualMin;
+    let actualMax;
+
     if (!binary) {
-        return `
-                <tr>
-                    <td class="col-1"  id="` + metricData['name'] + `">` + metricData['name'] + ` </td>
-                    <td class="col-2" >` + Math.round(actual_target_metrics['actual']['average'] * 100 + Number.EPSILON) / 100 + `</td>
-                    <td class="col-3" >` + Math.round(actual_target_metrics['actual']['standard_deviation'] * 100 + Number.EPSILON) / 100 + `</td>
-                    <td class="col-4" >` + Math.round(actual_target_metrics['actual']['total'] * 100 + Number.EPSILON) / 100 + `</td>
-                    <td class="col-5" >` + Math.round(actual_target_metrics['actual']['min'] * 100 + Number.EPSILON) / 100 + `</td>
-                    <td class="col-6" >` + Math.round(actual_target_metrics['actual']['max'] * 100 + Number.EPSILON) / 100 + `</td>`;
+        actualAverage = Math.round(actual_target_metrics['actual']['average'] * 100 + Number.EPSILON) / 100;
+        actualStandardDev = Math.round(actual_target_metrics['actual']['standard_deviation'] * 100 + Number.EPSILON) / 100;
+        actualTotal = Math.round(actual_target_metrics['actual']['total'] * 100 + Number.EPSILON) / 100;
+        actualMin = Math.round(actual_target_metrics['actual']['min'] * 100 + Number.EPSILON) / 100;
+        actualMax = Math.round(actual_target_metrics['actual']['max'] * 100 + Number.EPSILON) / 100;
     } else {
-        return `
+        actualAverage = Math.round(actual_target_metrics['actual']['average'] * 100 + Number.EPSILON) + "%";
+        actualStandardDev = Math.round(actual_target_metrics['actual']['standard_deviation'] * 100 + Number.EPSILON) + "%";
+        actualTotal = "-";
+        actualMin = "-";
+        actualMax = "-";
+    }
+    return `
                 <tr>
                     <td class="col-1"  id="` + metricData['name'] + `">` + metricData['name'] + ` </td>
-                    <td class="col-2" >` + Math.round(actual_target_metrics['actual']['average'] * 100 + Number.EPSILON) + `%</td>
-                    <td class="col-3" >` + Math.round(actual_target_metrics['actual']['standard_deviation'] * 100 + Number.EPSILON) + `%</td>
-                    <td class="col-4" >-</td>
-                    <td class="col-5" >-</td>
-                    <td class="col-6" >-</td>`;
-    }
+                    <td class="col-2" >` + actualAverage + `</td>
+                    <td class="col-3" >` + actualStandardDev + `</td>
+                    <td class="col-4" >` + actualTotal + `</td>
+                    <td class="col-5" >` + actualMin + `</td>
+                    <td class="col-6" >` + actualMax + `</td>`;
     }
 
 function getMetricRowTarget(innerHTML_target, actual_target_metrics, slug, binary) {
