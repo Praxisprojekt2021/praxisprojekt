@@ -4,9 +4,9 @@ import database.handler.metric_handler as metric_handler
 import json
 
 
-#42xx - get_all_component_metrics
+# 42xx - get_all_component_metrics
 
-#process_dicts with different component metric values
+# process_dicts with different component metric values
 test1_4201_process_dict = {
     "success": True,
     "process": {
@@ -221,7 +221,7 @@ test3_4201_process_dict = {
     },
 }
 
-#process dicts with order changes of component metrics, but identically values from test1_4201_process_dict -> test1_4201_component_metrics
+# process dicts with order changes of component metrics, but identically values from test1_4201_process_dict -> test1_4201_component_metrics
 test1_4202_process_dict = {
     "success": True,
     "process": {
@@ -472,9 +472,9 @@ class Test_get_all_component_metrics(unittest.TestCase):
                          test1_4201_component_metrics)
 
 
-#43xx - get_all_target_metrics
+# 43xx - get_all_target_metrics
 
-#process_dicts with different target metric values
+# process_dicts with different target metric values
 test1_4301_process_dict = {
     "success": True,
     "process": {
@@ -943,7 +943,7 @@ class Test_get_all_target_metrics(unittest.TestCase):
                          test1_4301_target_metrics)
 
 
-#44xx - calculate_current_values (metrics_dict: dict, component_metrics, target_metrics)
+# 44xx - calculate_current_values (metrics_dict: dict, component_metrics, target_metrics)
 no_target_process_dict=data = {
     "success": True,
     "process": {
@@ -1144,7 +1144,7 @@ class Test_calculate_current_values(unittest.TestCase):
         self.assertEqual(test_calculate_current_values_2, {})
 
 
-#45xx - calculate_actual_values (metrics_dict: dict, component_metrics, target_metrics)
+# 45xx - calculate_actual_values (metrics_dict: dict, component_metrics, target_metrics)
 
 class Test_calculate_actual_values(unittest.TestCase):
     def test_calculate_actual_values_4501(self):
@@ -1180,7 +1180,7 @@ class Test_calculate_actual_values(unittest.TestCase):
         self.assertEqual(calc.calculate_actual_values(actual_component_metric_data)['count_component'], 3)
 
 
-#46xx - compare_actual_target_metrics(process_dict, metrics_dict)
+# 46xx - compare_actual_target_metrics(process_dict, metrics_dict)
 
 # output_dict = output from calculate_current_values()
 output_dict = {'success': no_target_process_dict["success"], 'process': no_target_process_dict["process"],
@@ -1303,7 +1303,7 @@ outcome_compare_actual_target_metrics_dict = \
         }
     }
 
-#dict -> String, da Fehlermeldung bei dict
+# dict -> String, da Fehlermeldung bei dict
 var_outcome_compare_actual_target_metrics = json.dumps(outcome_compare_actual_target_metrics)
 
 
@@ -1330,9 +1330,9 @@ class Test_compare_actual_target_metrics(unittest.TestCase):
 """
 
 
-#47xx - calculate_risk_score(process_dict: dict) -> dict:
+# 47xx - calculate_risk_score(process_dict: dict) -> dict:
 
-#process_dict = outcome_compare_actual_target_metrics = output from compare_actual_target_metrics()
+# process_dict = outcome_compare_actual_target_metrics = output from compare_actual_target_metrics()
 outcome_calculate_risk_score = calc.calculate_risk_score(outcome_compare_actual_target_metrics)
 
 
@@ -1357,8 +1357,10 @@ class Test_calculate_risk_score(unittest.TestCase):
 """
 
 
-#41xx - start_calculate_risk(process_dict: dict, metrics_dict: dict) -> dict:
-"""
+# 41xx - start_calculate_risk(process_dict: dict, metrics_dict: dict) -> dict:
+
+# outcome_start_calculate_risk = calc.start_calculate_risk(test1_4101_process_dict, metrics_dict)
+
 test1_4101_process_dict = {
     "success": True,
     "process": {
@@ -1430,8 +1432,6 @@ test1_4101_process_dict = {
         # ...
     },
 }
-
-#outcome_start_calculate_risk = calc.start_calculate_risk(test1_4101_process_dict, metrics_dict)
 outcome_start_calculate_risk1 = \
     {
         "success":True,
@@ -1605,13 +1605,13 @@ outcome_start_calculate_risk2 = \
 
 class Test_start_calculate_risk(unittest.TestCase):
 
-    def test_compare_actual_target_metrics_4701(self):
+    def test_start_calculate_risk_4101(self):
         print('4101 - Überprüfen, ob alle Funktionen erfolgreich durchlaufen wurden')
         self.assertEqual(calc.start_calculate_risk(test1_4101_process_dict, metrics_dict),
                          outcome_start_calculate_risk1)
 
-"""
-"""
+
+
 
 
 if __name__ == '__main__':
