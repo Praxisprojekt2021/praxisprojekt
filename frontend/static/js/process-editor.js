@@ -404,15 +404,16 @@ function getMetricRowTarget(innerHTML_target, actual_target_metrics, slug, binar
                         <td class="col-7" ><input type="text" name="target-minimum" id = "` + slug + `" value="` + targetValues['min'] + `"`;
     innerHTML_target['max'] = `
                         <td class="col-8" ><input type="text" name="target-maximum" id = "` + slug + `" value="` + targetValues['max'] + `"`;
+    innerHTML_target['average'] = `
+                        <td class="col-9" ><input type="text" name="target-average" + id = "` + slug + `" value="` + targetValues['average'] * 100 + `"`;
     } else {
         innerHTML_target['min'] = `
                         <td class="col-7" ><input type="text" name="target-minimum" id = "` + slug + `" disabled`;
         innerHTML_target['max'] = `
                         <td class="col-8" ><input type="text" name="target-maximum" id = "` + slug + `" disabled`;
-    }
         innerHTML_target['average'] = `
-                        <td class="col-9" ><input type="text" name="target-average" + id = "` + slug + `" value="` + targetValues['average'] + `"`;
-
+                        <td class="col-9" ><input type="text" name="target-average" binary="true" + id = "` + slug + `" value="` + targetValues['average'] * 100 + `"`;
+    }
     return innerHTML_target;
 }
 
@@ -438,8 +439,8 @@ function addMinMaxToInputFields(innerHTML_target, metricData) {
         if (metricData['min_value'] >= 0) innerHTML_target += ' min="' + metricData['min_value'] + '"';
         if (metricData['max_value'] >= 0) innerHTML_target += ' max="' + metricData['max_value'] + '"';
     } else {
-        innerHTML_target += ' min="' + 0 + '"';
-        innerHTML_target += ' max="' + 100 + '"';
+        innerHTML_target += ' min="' + 0 + '%"';
+        innerHTML_target += ' max="' + 100 + '%"';
     }
     innerHTML_target += `></td>`;
 
@@ -503,7 +504,11 @@ function createEditProcess() {
             }
 
             if (metric_elements[key][i].value !== '') {
-                metrics[id][key] = parseFloat(metric_elements[key][i].value);
+                if (key === "average" && metric_elements['average'][i].hasAttribute("binary")) {
+                        metrics[id][key] = parseFloat(metric_elements[key][i].value) / 100;
+                } else {
+                    metrics[id][key] = parseFloat(metric_elements[key][i].value);
+                }
                 if (!helper.targetAvgIsWithinMinMax(metric_elements[key][i])) {
                     minmaxlist += '\n' + metric_elements[key][i].parentElement.parentElement.children[0].id; //TODO: Add metric name to the list of wrong target avg values (von Roman?)
                     metric_elements[key][i].style.setProperty("border-color", "red", undefined); //TODO: noch nötig oder nicht durch EventListener schon abgedeckt? (von Jasmin)
