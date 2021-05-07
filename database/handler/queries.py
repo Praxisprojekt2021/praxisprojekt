@@ -152,7 +152,7 @@ def get_component(uid: str) -> str:
     :return: Query as string
     """
     return f"Match (c: Component {{uid: '{uid}'}}) " \
-            "Call {{ " \
+            "Call { " \
             "With c " \
             "Optional Match (c)-[h:has]-(m:Metric) " \
             "Return collect({value: h.value, metric: m.name}) As y " \
