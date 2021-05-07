@@ -1314,7 +1314,7 @@ class Test_calculate_risk_score(unittest.TestCase):
 
 
 #41xx - start_calculate_risk(process_dict: dict, metrics_dict: dict) -> dict:
-"""
+
 test1_4101_process_dict = {
     "success": True,
     "process": {
@@ -1388,7 +1388,92 @@ test1_4101_process_dict = {
 }
 
 #outcome_start_calculate_risk = calc.start_calculate_risk(test1_4101_process_dict, metrics_dict)
-outcome_start_calculate_risk = \
+outcome_start_calculate_risk1 = \
+    {
+        "success":True,
+        "process":{
+            "uid":"b141f94973a43cf8ee972e9dffc1b004",
+            "name":"Kunde anlegen",
+            "responsible_person":"Peter Rossbach",
+            "description":"Prozess zum anlegen von einem neuen Kunden in allen Systemen",
+            "creation_timestamp":"20210210...",
+            "last_timestamp":"20200211...",
+            "components":[
+                {
+                    "uid":"b141f94973a43cf8ee972e9dffc1b004",
+                    "weight":1,
+                    "name":"SQL Datenbank",
+                    "category":"Datenbank",
+                    "description":"Kundendatenbank",
+                    "creation_timestamp":"20200219...",
+                    "last_timestamp":"20200219...",
+                    "metrics":{
+                        "number_of_lines_of_source_code_loc":20000,
+                        "admins":10,
+                        "time_to_implement_updates":5
+                    }
+                },
+                {
+                    "uid":"b141f94973a43cf8ee972e9dffc1b004",
+                    "weight":1.5,
+                    "name":"Frontend API",
+                    "category":"API",
+                    "description":"API für das Frontend",
+                    "creation_timestamp":"20200219...",
+                    "last_timestamp":"20200219...",
+                    "metrics":{
+                        "number_of_lines_of_source_code_loc":20000,
+                        "admins":10,
+                        "time_to_implement_updates":5
+                    }
+                },
+                {
+                    "uid":"b141f94973a43cf8ee972e9dffc1b004",
+                    "weight":2,
+                    "name":"Hadoop Cluster",
+                    "category":"Datenbank",
+                    "description":"Big Data Plattform",
+                    "creation_timestamp":"20200219...",
+                    "last_timestamp":"20200219...",
+                    "metrics":{
+                        "number_of_lines_of_source_code_loc":20000,
+                        "admins":10,
+                        "time_to_implement_updates":5
+                    }
+                }
+            ]
+        },
+        "actual_target_metrics":{
+            "number_of_lines_of_source_code_loc":{
+                "actual":{
+                    "total":60000,
+                    "min":20000,
+                    "max":20000,
+                    "average":20000,
+                    "standard_deviation":0.0
+                },
+                "count_component":3,
+                "target":{
+                    "average":50,
+                    "min":30.5,
+                    "max":20,
+                    "total":150
+                },
+                "fulfillment":False
+            },
+            "time_to_implement_updates":{
+                "actual":{
+                    "total":15,
+                    "min":5,
+                    "max":5,
+                    "average":5,
+                    "standard_deviation":0.0
+                },
+                "count_component":3
+            }
+        }
+    }
+outcome_start_calculate_risk2 = \
     {
         "success":True,
         "process":{
@@ -1479,10 +1564,10 @@ class Test_start_calculate_risk(unittest.TestCase):
     def test_compare_actual_target_metrics_4701(self):
         print('4101 - Überprüfen, ob alle Funktionen erfolgreich durchlaufen wurden')
         self.assertEqual(calc.start_calculate_risk(test1_4101_process_dict, metrics_dict),
-                         outcome_start_calculate_risk)
+                         outcome_start_calculate_risk1)
 
 """
-
+"""
 
 if __name__ == '__main__':
     unittest.main()
