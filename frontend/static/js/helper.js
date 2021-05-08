@@ -293,7 +293,7 @@ class Helper {
     expandSection(element) {
         const sectionHeight = element.scrollHeight;
         element.style.height = sectionHeight + 'px';
-        element.style.margin = "0px 0px 10px 0px";
+        element.style.margin = "0px 0px 20px 0px";
         element.setAttribute('data-collapsed', 'false');
     }
 

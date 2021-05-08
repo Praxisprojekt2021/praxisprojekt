@@ -10,10 +10,10 @@
 
 body {
     font-family: 'Titillium Web', monospace;
-    margin: auto;
-    width: 70%;
-    padding-top: 40px;
-    font-size: 14px;
+    margin-left: 15%;
+    margin-right: 15%;
+    padding-top: 1.3%;
+    font-size: 0.8vw;
     line-height: 20px;
     min-height: 100%;
     background-color: #fff;
@@ -34,6 +34,7 @@ a {
     margin-right: auto;
     margin-left: auto;
     text-align: left;
+    width: 8%;
 }
 
 .button-area {
@@ -41,10 +42,10 @@ a {
 }
 
 .dashboard-overview {
-    padding-top: 40px;
-    padding-bottom: 40px;
-    padding-left: 50px;
-    padding-right: 50px;
+    padding-top: 4%;
+    padding-bottom: 4%;
+    padding-left: 4%;
+    padding-right: 4%;
     border-style: solid;
     border-width: 1px;
     border-color: #e6e6e6;
@@ -55,7 +56,7 @@ a {
 .button {
     position: static;
     font-family: inherit;
-    font-size: 15px;
+    font-size: 0.8vw;
     display: inline-block;
     padding: 9px 15px;
     margin-bottom: 3px;
@@ -137,9 +138,11 @@ a {
 }
 
 .small-circle {
-    height: 20px;
-    width: 45px;
-    border-radius: 8%;
+    height: 80%;
+    width: 45%;
+    max-height: 2vh;
+    max-width: 2.5vh;
+    border-radius: 10%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -261,7 +264,7 @@ a {
 .close {
     color: #aaa;
     float: right;
-    font-size: 28px;
+    font-size: 2vw;
     font-weight: bold;
 }
 
@@ -275,22 +278,26 @@ a {
 .table-container {
     margin-left: auto;
     margin-right: auto;
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-left: 0.5%;
+    padding-right: 0.5%;
+}
+
+.responsive-table {
+    font-size: 0.85vw;
 }
 
 .responsive-table tr {
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding-top: 1%;
+    padding-bottom: 1%;
     box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.1);
 }
 
 tr {
     border-radius: 3px;
-    padding-left: 30px;
-    padding-right: 30px;
+    padding-left: 2.2%;
+    padding-right: 0%;
     display: flex;
-    margin-bottom: 10px;
+    margin-bottom: 1%;
     transition: 1.0s ease-out;
 }
 
@@ -302,7 +309,7 @@ tr:hover:not(.table-header) {
 .table-header {
     background-color: #b1b1b1;
     color:#000000ea;
-    font-size: 14px;
+    font-size: 0.75vw;
     text-align: left;
     text-transform: uppercase;
 }
@@ -329,7 +336,7 @@ td {
 }
 
 #componentTable .col-1 {
-    width: 36%;
+    width: 32%;
 }
 
 #componentTable .col-2 {
@@ -341,7 +348,7 @@ td {
 }
 
 #componentTable .col-4 {
-    width: 10%;
+    width: 14%;
 }
 
 #componentTable .col-5 {
@@ -357,7 +364,7 @@ td {
 }
 
 #processTable .col-1 {
-    width: 36%;
+    width: 32%;
     overflow: hidden;
 }
 
@@ -378,7 +385,7 @@ td {
 }
 
 #processTable .col-6 {
-    width: 10%;
+    width: 14%;
 }
 
 #processTable .col-7 {
@@ -391,7 +398,6 @@ td {
 
 .header {
     display: block;
-    margin-bottom: 30px;
 }
 
 .navigation {
@@ -400,15 +406,15 @@ td {
     display: inline-block;
     overflow: visible;
     width: 300px;
-    height: 20px;
-    float: left;
+    margin-bottom: 0.6%;
+    /* float: left; */
 }
 
 .navigation-links {
     display: block;
     padding-right: 5px;
     padding-left: 5px;
-    font-size: 18px;
+    font-size: 1vw;
     float: left;
     color: #000;
     text-decoration: none;
