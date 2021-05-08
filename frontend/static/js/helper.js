@@ -1,5 +1,6 @@
 class Helper {
 
+
     /**
      * Shows error message if request was not successful.
      *
@@ -158,8 +159,7 @@ class Helper {
 
         // Live check for correct inputs
         const inputs = document.getElementsByClassName('metric-input textfield');
-        console.log(inputs);
-        console.log(inputs[0]);
+
         for (let i = 0; i < inputs.length; i++) {
             this.addMinMaxPopup(inputs[i]);
             inputs[i].addEventListener('blur', (event) => {
@@ -256,7 +256,9 @@ class Helper {
                 metric_child_icon.style.setProperty('transform', 'rotateX(0deg)');
             }
         } else {
-            this.collapseSection(metric_child);
+            if(!isCollapsed) {
+                this.collapseSection(metric_child);
+            }
         }
     }
 
@@ -267,6 +269,7 @@ class Helper {
      */
 
     collapseSection(element) {
+
         const sectionHeight = element.scrollHeight;
 
         const elementTransition = element.style.transition;
@@ -280,7 +283,17 @@ class Helper {
                 element.style.height = 0 + 'px';
             });
         });
-
+        if(element.parentElement.parentElement.parentElement.id == "metrics-input-processes") {
+            element.children[0].children[0].children[0].childNodes.forEach(element => element.childNodes.forEach(element => {
+                if(element.childNodes.length > 0) {
+                    if(element.children[0] !== undefined) {
+                        element.children[0].setAttribute("disabled", true);
+                    }
+                }
+            }));
+        } else {
+            element.children[0].childNodes.forEach(element => element.children[1].children[0].removeAttribute("disabled"));
+        }
         element.setAttribute('data-collapsed', 'true');
     }
 
@@ -295,6 +308,17 @@ class Helper {
         element.style.height = sectionHeight + 'px';
         element.style.margin = "0px 0px 10px 0px";
         element.setAttribute('data-collapsed', 'false');
+        if(element.parentElement.parentElement.parentElement.id == "metrics-input-processes") {
+            element.children[0].children[0].children[0].childNodes.forEach(element => element.childNodes.forEach(element => {
+                if(element.childNodes.length > 0) {
+                    if(element.children[0] !== undefined) {
+                        element.children[0].removeAttribute("disabled");
+                    }
+                }
+            }));
+        } else {
+            element.children[0].childNodes.forEach(element => element.children[1].children[0].removeAttribute("disabled"));
+        }
     }
 
     /**
