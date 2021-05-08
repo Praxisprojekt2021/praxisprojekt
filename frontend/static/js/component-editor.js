@@ -79,7 +79,9 @@ function getFeatures() {
 }
 
 /**
- * Load Features from file to provide component specifiv metrics information
+ * Load features from file to provide component specific metrics information
+ *
+ * @param {string} category: The component category of the section
  */
 
 function getMetricsInfo(category) {
