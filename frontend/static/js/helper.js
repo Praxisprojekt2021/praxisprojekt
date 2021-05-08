@@ -283,7 +283,17 @@ class Helper {
                 element.style.height = 0 + 'px';
             });
         });
-        element.children[0].childNodes.forEach(element => element.children[1].children[0].setAttribute("disabled", true));
+        if(element.parentElement.parentElement.parentElement.id == "metrics-input-processes") {
+            element.children[0].children[0].children[0].childNodes.forEach(element => element.childNodes.forEach(element => {
+                if(element.childNodes.length > 0) {
+                    if(element.children[0] !== undefined) {
+                        element.children[0].setAttribute("disabled", true);
+                    }
+                }
+            }));
+        } else {
+            element.children[0].childNodes.forEach(element => element.children[1].children[0].removeAttribute("disabled"));
+        }
         element.setAttribute('data-collapsed', 'true');
     }
 
@@ -298,7 +308,17 @@ class Helper {
         element.style.height = sectionHeight + 'px';
         element.style.margin = "0px 0px 10px 0px";
         element.setAttribute('data-collapsed', 'false');
-        element.children[0].childNodes.forEach(element => element.children[1].children[0].removeAttribute("disabled"));
+        if(element.parentElement.parentElement.parentElement.id == "metrics-input-processes") {
+            element.children[0].children[0].children[0].childNodes.forEach(element => element.childNodes.forEach(element => {
+                if(element.childNodes.length > 0) {
+                    if(element.children[0] !== undefined) {
+                        element.children[0].removeAttribute("disabled");
+                    }
+                }
+            }));
+        } else {
+            element.children[0].childNodes.forEach(element => element.children[1].children[0].removeAttribute("disabled"));
+        }
     }
 
     /**
