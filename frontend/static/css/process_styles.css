@@ -339,15 +339,15 @@ button, html input[type="button"], input[type="reset"] {
 }
 
 .circle {
-  height: 25vh;
-  width: 25vh;
-  border-radius: 50%;
+  height: 23vh;
+  width: 23vh;
+  border-radius:4%;
   display: table;
   margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 28px;
+  font-size: 4vh;
   font-weight: bolder;
 }
 
@@ -443,15 +443,15 @@ button, html input[type="button"], input[type="reset"] {
 .square-border {
   background: #FFF;
   border: 1vh solid #4AD28F;
-  height: 14vh;
+  border-radius: 3%;
+  height: 7vmax;
   text-align: center;
-  padding: 3.5vh;
+  padding: 1.5vmax;
 }
 
 .arrow {
   font-size: 9vh;
   margin: 3vh;
-  transform: translateY(17px);
 }
 
 table .process-visualization {
@@ -462,14 +462,13 @@ table .process-visualization {
 
 #modelling-process {
   vertical-align: middle;
-  border: 1px solid black;
   margin: 32px 0;
 }
 
 .visualize {
   border: 0px;
   display: inline-block;
-
+  line-height: 2.5vh;
 }
 
 .modelling-processes {
@@ -485,7 +484,7 @@ table .process-visualization {
 .componentname {
   font-weight: bold;
   text-decoration: underline;
-  margin-bottom: 8px;
+  margin-bottom: 0.5vh;
 }
 
 .accordion-icon-dropdown-toggle {
@@ -550,4 +549,9 @@ table .process-visualization {
 
 #ComponentOverviewTable tr {
   transition:0.2s ease-out;
+}
+
+#components-admin-process {
+  padding-top: 3%;
+  border-top: 1px solid #c5c5c5;
 }
