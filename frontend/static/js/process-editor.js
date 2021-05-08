@@ -314,11 +314,12 @@ function fillMetricRows(metricData, slug, processData) {
     let innerHTML_total = `
                         <td class="col-10" ></td>`;
     let innerHTML_fulfillment = `
-                        <td class="col-11" ></td>
+                        <td class="col-11" ></td>`;
+    let innerHTML_fulfillment_end = `
                         <td class="col-12" ><div tooltip-data="` + metricData['description_process'] + `\ni.e. ` + metricData['example_process'] + `"
                          class="info-text-popup"><img class="info-icon" src="images/info.png" loading="lazy" width="35"
                          ></div></td>
-                    </tr>`;
+                         </tr>`;
 
     if (uid != null && uid !== -1 && (slug in processData['actual_target_metrics'])) {
 
@@ -344,11 +345,7 @@ function fillMetricRows(metricData, slug, processData) {
         if ('fulfillment' in processData['actual_target_metrics'][slug]) {
             metric_fulfillment = processData['actual_target_metrics'][slug]['fulfillment'];
             innerHTML_fulfillment = `
-                        <td class="col-11" >` + helper.renderSmallCircle(metric_fulfillment) + ` </td>
-                        <td class="col-12" ><div tooltip-data="` + metricData['description_process'] + `\ni.e. ` + metricData['example_process'] + `"
-                         class="info-text-popup"><img class="info-icon" src="images/info.png" loading="lazy" width="35"
-                         ></div></td>
-                    </tr>`;
+                        <td class="col-11" >` + helper.renderSmallCircle(metric_fulfillment) + ` </td>`;
         }
     }
 
@@ -356,7 +353,7 @@ function fillMetricRows(metricData, slug, processData) {
         innerHTML_target[key] = addMinMaxToInputFields(innerHTML_target[key], metricData);
     });
 
-    let innerHTML_metric_row = innerHTML_actual + innerHTML_target['min'] + innerHTML_target['max'] + innerHTML_target['average'] + innerHTML_total + innerHTML_fulfillment;
+    let innerHTML_metric_row = innerHTML_actual + innerHTML_target['min'] + innerHTML_target['max'] + innerHTML_target['average'] + innerHTML_total + innerHTML_fulfillment + innerHTML_fulfillment_end;
 
     return [metric_fulfillment, count_component, innerHTML_metric_row];
 }
