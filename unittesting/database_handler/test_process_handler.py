@@ -251,7 +251,7 @@ class Test_delete_process_reference(unittest.TestCase):
             "Test": "1",
             "Test": "2"
         }
-        self.assertRaises(TypeError, delete_process_reference(), dict_in)
+        self.assertRaises(KeyError, delete_process_reference, dict_in)
 
     def test_2502(self):
         dict_in = {"uid": "b141f94973a43cf8ee972e9dffc1b004", "weight": 2}
@@ -298,54 +298,6 @@ class Test_update_process_reference(unittest.TestCase):
             "new_weight": 2.5
         }
         self.assertRaises(IndexError, update_process_reference, data)
-
-
-class Test_idk_what(unittest.TestCase):
-    # from here it's wtf all the way
-    def test_1080(self):
-        data = {
-            "uid": "b141f94973a43cf8ee972e9dffc1b004",
-        }
-        result = {'success': True}
-        self.assertEqual(delete_process(data), result)
-
-    def test_1073(self):
-        data = {
-            "uid": "999999999",
-            "old_weight": 3,
-            "new_weight": 2.5
-        }
-        self.assertRaises(IndexError, update_process_reference, data)
-
-    def test_1046(self):
-        dict_in = {
-            "weight": "abc",
-        }
-        self.assertRaises(KeyError, delete_process_reference(), dict_in)
-
-    def test_1046(self):
-        data = {
-            "uid": "b141f94973a43cf8ee972e9dffc1b004",  # process uid not component uid
-            "weight": 2
-        }
-        result = {'success': True}
-        self.assertEqual(delete_process_reference(data), result)
-
-    def test_1026(self):
-        dict_in = {"uid": "1"}
-        result = {'success': True}
-        self.assertEqual(get_process(dict_in), result)
-
-    def test_1035X(self):
-        dict_in = {"uid": "1"}
-        result = "1"
-        self.assertEqual(get_process(dict_in), result)
-
-
-    def test_21XX(self):
-        dict_in = {"uid": "b141f94973a43cf8ee972e9dffc1b004"}
-        result = {'success': True}
-        self.assertEqual(update_process(dict_in), result)
 
 
 if __name__ == '__main__':
