@@ -68,8 +68,7 @@ async function getTableHeaderInfo() {
     return await fetch(base_url + '/content/table_header_info.json')
         .then(response => response.json())
         .then(data => {
-            let tableHeaderInfo = data['headerInfo'];
-            return tableHeaderInfo;
+            return data['headerInfo'];
         });
 }
 
@@ -300,25 +299,25 @@ function fillMetricRows(metricData, slug, processData) {
     let innerHTML_actual = `
                     <tr>
                         <td class="col-1" id="` + metricData['name'] + `">` + metricData['name'] + `</td>
-                        <td class="col-2" ></td>
-                        <td class="col-3" ></td>
-                        <td class="col-4" ></td>
-                        <td class="col-5" ></td>
-                        <td class="col-6" ></td>`;
+                        <td class="col-2"></td>
+                        <td class="col-3"></td>
+                        <td class="col-4"></td>
+                        <td class="col-5"></td>
+                        <td class="col-6"></td>`;
 
     let innerHTML_target = [];
     innerHTML_target['min'] =
-        `<td class="col-7" ><input type="text" name="target-minimum" id="` + slug + `"`; // Rest of the string is added below
+        `<td class="col-7"><input type="text" name="target-minimum" id="` + slug + `"`; // Rest of the string is added below
     innerHTML_target['max'] =
-        `<td class="col-8" ><input type="text" name="target-maximum" id="` + slug + `"`; // Rest of the string is added below
+        `<td class="col-8"><input type="text" name="target-maximum" id="` + slug + `"`; // Rest of the string is added below
     innerHTML_target['average'] = `
-                        <td class="col-9" ><input type="text" name="target-average" id="` + slug + `"`; // Rest of the string is added below
+                        <td class="col-9"><input type="text" name="target-average" id="` + slug + `"`; // Rest of the string is added below
     let innerHTML_total = `
-                        <td class="col-10" ></td>`;
+                        <td class="col-10"></td>`;
     let innerHTML_fulfillment = `
-                        <td class="col-11" ></td>`;
+                        <td class="col-11"></td>`;
     let innerHTML_fulfillment_end = `
-                        <td class="col-12" ><div tooltip-data="` + metricData['description_process'] + `\ni.e. ` + metricData['example_process'] + `"
+                        <td class="col-12"><div tooltip-data="` + metricData['description_process'] + `\ni.e. ` + metricData['example_process'] + `"
                          class="info-text-popup"><img class="info-icon" src="images/info.png" loading="lazy" width="35"
                          ></div></td>
                          </tr>`;
@@ -365,12 +364,12 @@ function getMetricRowActual(actual_target_metrics, metricData) {
 
     return `
                 <tr>
-                    <td class="col-1"  id="` + metricData['name'] + `">` + metricData['name'] + ` </td>
-                    <td class="col-2" >` + Math.round(actual_target_metrics['actual']['average'] * 100 + Number.EPSILON) / 100 + `</td>
-                    <td class="col-3" >` + Math.round(actual_target_metrics['actual']['standard_deviation'] * 100 + Number.EPSILON) / 100 + `</td>
-                    <td class="col-4" >` + Math.round(actual_target_metrics['actual']['total'] * 100 + Number.EPSILON) / 100 + `</td>
-                    <td class="col-5" >` + Math.round(actual_target_metrics['actual']['min'] * 100 + Number.EPSILON) / 100 + `</td>
-                    <td class="col-6" >` + Math.round(actual_target_metrics['actual']['max'] * 100 + Number.EPSILON) / 100 + `</td>`;
+                    <td class="col-1" id="` + metricData['name'] + `">` + metricData['name'] + ` </td>
+                    <td class="col-2">` + Math.round(actual_target_metrics['actual']['average'] * 100 + Number.EPSILON) / 100 + `</td>
+                    <td class="col-3">` + Math.round(actual_target_metrics['actual']['standard_deviation'] * 100 + Number.EPSILON) / 100 + `</td>
+                    <td class="col-4">` + Math.round(actual_target_metrics['actual']['total'] * 100 + Number.EPSILON) / 100 + `</td>
+                    <td class="col-5">` + Math.round(actual_target_metrics['actual']['min'] * 100 + Number.EPSILON) / 100 + `</td>
+                    <td class="col-6">` + Math.round(actual_target_metrics['actual']['max'] * 100 + Number.EPSILON) / 100 + `</td>`;
 }
 
 function getMetricRowTarget(innerHTML_target, actual_target_metrics, slug) {
@@ -388,11 +387,11 @@ function getMetricRowTarget(innerHTML_target, actual_target_metrics, slug) {
     // replace null with empty strings, so that "null" is not entered in the table
 
     innerHTML_target['min'] = `
-                        <td class="col-7" ><input type="text" name="target-minimum" id = "` + slug + `" value="` + targetValues['min'] + `"`;
+                        <td class="col-7"><input type="text" name="target-minimum" id = "` + slug + `" value="` + targetValues['min'] + `"`;
     innerHTML_target['max'] = `
-                        <td class="col-8" ><input type="text" name="target-maximum" id = "` + slug + `" value="` + targetValues['max'] + `"`;
+                        <td class="col-8"><input type="text" name="target-maximum" id = "` + slug + `" value="` + targetValues['max'] + `"`;
     innerHTML_target['average'] = `
-                        <td class="col-9" ><input type="text" name="target-average" id = "` + slug + `" value="` + targetValues['average'] + `"`;
+                        <td class="col-9"><input type="text" name="target-average" id = "` + slug + `" value="` + targetValues['average'] + `"`;
     return innerHTML_target;
 }
 
@@ -404,7 +403,7 @@ function getMetricRowTotal(actual_target_metrics) {
         targetTotalValue = Math.round(actual_target_metrics['target']['total'] * 100 + Number.EPSILON) / 100;
     }
 
-    return `<td class="col-10" >` + targetTotalValue + `</td>`;
+    return `<td class="col-10">` + targetTotalValue + `</td>`;
 }
 
 
@@ -444,7 +443,6 @@ function renderWholeProcessScoreCircle(wholeProcessScore) {
 /**
  * This function saves the data entered to the database by transmitting the data to the backend
  */
-
 function createEditProcess() {
     Helper.showLoadingScreen();
     let metric_elements = {};
@@ -594,14 +592,14 @@ function createComponentTable(processData, metricsDefinition) {
 
         // Filling values
         component.innerHTML = `
-            <td class="col-1" ></td>
-            <td class="col-2" >` + componentData['name'] + `</td>
-            <td class="col-3" >` + metricsDefinition['categories'][componentData['category']]['name'] + ` </td>
-            <td class="col-4" ></td>
-            <td class="col-5" ></td>
-            <td class="col-6" ></td>
-            <td class="col-7" ></td>
-            <td class="col-8" ><i id="TrashIcon" class="fas fa-trash-alt" onclick="deleteComponent(this.parentElement.parentElement.id);"></i></td>
+            <td class="col-1"></td>
+            <td class="col-2">` + componentData['name'] + `</td>
+            <td class="col-3">` + metricsDefinition['categories'][componentData['category']]['name'] + ` </td>
+            <td class="col-4"></td>
+            <td class="col-5"></td>
+            <td class="col-6"></td>
+            <td class="col-7"></td>
+            <td class="col-8"><i id="TrashIcon" class="fas fa-trash-alt" onclick="deleteComponent(this.parentElement.parentElement.id);"></i></td>
         `;
 
         // Sorting the components according to their weights
@@ -782,7 +780,7 @@ function exit(ev) {
  *
  * @param {json} processData
  * @param {json} metricsDefinition
- * */
+ */
 function visualizeProcess(processData, metricsDefinition) {
     let div = document.createElement("div");
     div.className = "modelling-processes";
@@ -862,7 +860,6 @@ function horizontalScroll() {
  *
  * @param {JSON} response
  */
-
 function saveCallback(response) {
     // Process has been created/edited successfully
     Helper.hideLoadingScreen();
