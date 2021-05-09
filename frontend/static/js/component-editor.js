@@ -79,6 +79,22 @@ function getFeatures() {
 }
 
 /**
+ * Load features from file to provide component specific metrics information
+ *
+ * @param {string} category: The component category of the section
+ */
+
+function getMetricsInfo(category) {
+    // Read JSON file
+    let return_variable;
+    helper.http_request("GET", "/content/mapping_metrics_definition.json", false, "", function (data) {
+        let metrics_info = data['categories'][category]['sections'];
+        return_variable = metrics_info;
+    });
+    return return_variable
+}
+
+/**
  * This function fetches the component data from the backend
  *
  * @param {string} uid: The uid of the component to get data for
@@ -147,10 +163,14 @@ function setSections(selected_category) {
                 const metrics_child = document.getElementById(key).children[0].children[1];
                 if (category[key] === 'true') {
                     feature_child.removeAttribute("disabled");
+                    feature_child.setAttribute("onclick", "helper.toggleSection(this)");
                 } else {
+                    helper.collapseSection(metrics_child);
                     feature_child.setAttribute("disabled", "true");
+                    feature_child.removeAttribute("onclick");
                     metrics_child.style.display = 'none';
                 }
+                metrics_child.children[0].childNodes.forEach(element => element.children[1].children[0].setAttribute("disabled", true));
             });
         });
     Helper.hideLoadingScreen();
@@ -165,6 +185,7 @@ function createEditComponent() {
 
     let metric_elements = document.getElementsByClassName('metric-input');
     let metrics = {};
+    let metrics_info = {};
     let text_replaced_flag = false; // Helper variable that indicates, whether or not a non quantitative metric input has been found and discarded
     let component_name_empty = false; // Helper variable that indicates, whether or not the component name is given
 
@@ -188,6 +209,9 @@ function createEditComponent() {
         "metrics": metrics
     }
 
+    // Get information which categories apply for this metric
+    metrics_info = getMetricsInfo(component['category']);
+
     if (document.getElementById('component-name').value === "") component_name_empty = true;
 
     // Check if all field have been filled
@@ -196,16 +220,20 @@ function createEditComponent() {
     let minmaxlist = ""; // List for Metrics that are not within min or max
     let emptyFieldList = ""; // List for Metric inputs that are empty
     let component_category_helper_flag = true; // Helper flag for "not selected" category
+
     for (let i = 0; i < toggles.length; i++) {
         const feature_child = toggles[i].children[0].children[0];
         const metrics_child = toggles[i].children[0].children[1];
         const metrics_child_input_fields = metrics_child.getElementsByTagName('input');
 
         // Check if metric is mandatory or even not allowed
-        if (feature_child.getAttribute("disabled") === "true") {
+
+        if (metrics_info[toggles[i].id] === "false") {
             // Discard data from disabled metrics inputs
             for (let i = 0; i < metrics_child_input_fields.length; i++) {
                 metrics_child.getElementsByTagName('input')[i].value = '';
+                let current_metric_name = metrics_child.getElementsByTagName('input')[i].id;
+                component["metrics"][current_metric_name] = '';
             }
         } else {
             // Check if enabled fields have been filled - all fields are required
@@ -267,6 +295,7 @@ function createEditComponent() {
 /**
  * This function gets called if saving was successful and reloads the page.
  *
+ * @param response
  */
 
 function saveCallback(response) {
