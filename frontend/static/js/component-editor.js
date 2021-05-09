@@ -67,14 +67,30 @@ function getFeatures() {
         .then(response => response.json())
         .then(data => {
             const features = data['features'];
+            getButtonType().then(button => {
+                const features = data['features'];
+                let buttonType = button;
+                createMetricsSection(features);
+                let div = document.createElement('div');
+                div.className = 'control-area';
+                div.innerHTML = `<button id="save-button" class="create-button" onclick="createEditComponent()" type="button">` + buttonType + `</button>`;
 
-            createMetricsSection(features);
-            let div = document.createElement('div');
-            div.className = 'control-area';
-            div.innerHTML = '<a href="#" data-wait="Bitte warten..." id="save-button" class="create-button" onclick="createEditComponent()">Speichern</a>';
+                // Append element to document
+                document.getElementById('metrics-input').appendChild(div);
+            });
+            return features;
+        });
+}
 
-            // Append element to document
-            document.getElementById('metrics-input').appendChild(div);
+/**
+ * Get text for button types.
+ */
+function getButtonType() {
+    // Read JSON file
+    return fetch(base_url + '/content/en.json')
+        .then(response => response.json())
+        .then(data => {
+            return data['en']['translation']['saveButton'];
         });
 }
 
@@ -101,9 +117,7 @@ function getMetricsInfo(category) {
  */
 
 function getComponent(uid) {
-    const post_data = {
-        "uid": uid
-    }
+    const post_data = {"uid": uid};
     helper.http_request("POST", '/component/view', true, JSON.stringify(post_data), processComponentData);
 }
 
@@ -185,7 +199,7 @@ function createEditComponent() {
 
     let metric_elements = document.getElementsByClassName('metric-input');
     let metrics = {};
-    let metrics_info = {};
+    let metrics_info;
     let text_replaced_flag = false; // Helper variable that indicates, whether or not a non quantitative metric input has been found and discarded
     let component_name_empty = false; // Helper variable that indicates, whether or not the component name is given
 
@@ -233,7 +247,12 @@ function createEditComponent() {
             for (let i = 0; i < metrics_child_input_fields.length; i++) {
                 metrics_child.getElementsByTagName('input')[i].value = '';
                 let current_metric_name = metrics_child.getElementsByTagName('input')[i].id;
-                component["metrics"][current_metric_name] = '';
+                if (current_metric_name in component['metrics']) {
+                    delete component['metrics'][current_metric_name];
+
+                    // Easter Egg - please leave as is.
+                    window.alert('You tried to sneak around, didn\'t you? Of course, we deleted your input for ' + current_metric_name);
+                }
             }
         } else {
             // Check if enabled fields have been filled - all fields are required
@@ -242,7 +261,6 @@ function createEditComponent() {
                 let inputElement = metrics_child.getElementsByTagName('input')[i];
                 if (inputElement.value === '') {
                     emptyFieldList += '\n' + feature_child.getElementsByClassName('features-label')[0].innerHTML + ": " + inputLabel.innerHTML;
-                    console.log(inputElement);
                     inputElement.style.setProperty("border-color", "red", undefined);
                     continue;
                 }
