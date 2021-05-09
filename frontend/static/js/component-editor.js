@@ -248,7 +248,7 @@ function createEditComponent() {
                 }
 
                 // Check if enabled fields maintain min/max value
-                if (!helper.targetAvgIsWithinMinMax(inputElement)) {
+                if (!Helper.targetAvgIsWithinMinMax(inputElement)) {
                     minmaxlist += '\n' + feature_child.getElementsByClassName('features-label')[0].innerHTML + ": " + inputLabel.innerHTML;
                     inputElement.style.setProperty("border-color", "red", undefined);
                 } else {
@@ -330,9 +330,9 @@ function createMetricsSection(features) {
         Object.keys(metrics).forEach(function (key) {
             let metric = metrics[key];
             innerHTML += '<div class="metric-entry-element">';
-            innerHTML += ('<label for="availability-metric" class="entry-label">' + metric['name'] + '</label>');
-            innerHTML += '<div><input type="text" maxLength="256" data-name="availability-metric-1" id="' + key + '"' +
-                ' name="availability-metric" class="metric-input textfield"';
+            innerHTML += ('<label for="metric-input" class="entry-label">' + metric['name'] + '</label>');
+            innerHTML += '<div><input type="text" maxLength="256" id="' + key + '"' +
+                ' name="metric-input" class="metric-input textfield"';
             if (metric['max_value'] === -1) {
                 innerHTML += ' min="' + metric['min_value'] + '"';
             } else {
@@ -353,19 +353,6 @@ function createMetricsSection(features) {
         // Append element to document
         document.getElementById('metrics-input').appendChild(div);
     });
-
-    // Live check for correct inputs
-    const inputs = document.getElementsByClassName('metric-input textfield');
-    console.log(inputs);
-    console.log(inputs[0]);
-    for (let i = 0; i < inputs.length; i++) {
-        this.addMinMaxPopup(inputs[i]);
-        inputs[i].addEventListener('blur', (event) => {
-            if (!helper.targetAvgIsWithinMinMax(inputs[i]) || inputs[i].value === '') {
-                inputs[i].style.setProperty("border-color", "red", undefined);
-            } else {
-                inputs[i].style.removeProperty("border-color");
-            }
-        });
-    }
+    let elementNames = ['metric-input'];
+    Helper.checkCorrectInputs(elementNames);
 }

@@ -251,29 +251,9 @@ function createMetricsSection(features, processData, tableHeaderInfo) {
         document.getElementById('metrics-input-processes').appendChild(div);
     });
 
-    checkCorrectInputs();
+    let elementNames = ['target-average', 'target-minimum', 'target-maximum'];
+    Helper.checkCorrectInputs(elementNames);
     Helper.hideLoadingScreen();
-}
-
-function checkCorrectInputs() {
-
-    // Live check for correct inputs
-    let names = ['target-average', 'target-minimum', 'target-maximum'];
-    names.forEach(element => {
-        const inputs = document.getElementsByName(element);
-        for (let i = 0; i < inputs.length; i++) {
-            // Adding popup for target avg, min, and max input -> with min max values if they exist
-            helper.addMinMaxPopup(inputs[i]);
-            // Adding event listener for input check
-            inputs[i].addEventListener('blur', (event) => {
-                if (!helper.targetAvgIsWithinMinMax(inputs[i])) {
-                    inputs[i].style.setProperty("border-color", "red", undefined);
-                } else {
-                    inputs[i].style.removeProperty("border-color");
-                }
-            });
-        }
-    });
 }
 
 /**
@@ -309,7 +289,8 @@ function fillMetricRows(metricData, slug, processData) {
     let innerHTML_total = `
                         <td class="col-10"></td>`;
     let innerHTML_fulfillment = `
-                        <td class="col-11"></td>
+                        <td class="col-11"></td>`;
+    let innerHTML_fulfillment_end = `
                         <td class="col-12"><div tooltip-data="` + metricData['description_process'] + `\ni.e. ` + metricData['example_process'] + `"
                          class="info-text-popup"><img class="info-icon" src="images/info.png" loading="lazy" width="35"
                          ></div></td>
@@ -339,11 +320,7 @@ function fillMetricRows(metricData, slug, processData) {
         if ('fulfillment' in processData['actual_target_metrics'][slug]) {
             metric_fulfillment = processData['actual_target_metrics'][slug]['fulfillment'];
             innerHTML_fulfillment = `
-                        <td class="col-11" >` + helper.renderSmallCircle(metric_fulfillment) + ` </td>
-                        <td class="col-12" ><div tooltip-data="` + metricData['description_process'] + `\ni.e. ` + metricData['example_process'] + `"
-                         class="info-text-popup"><img class="info-icon" src="images/info.png" loading="lazy" width="35"
-                         ></div></td>
-                    </tr>`;
+                        <td class="col-11" >` + helper.renderSmallCircle(metric_fulfillment) + ` </td>`;
         }
     }
 
@@ -351,7 +328,7 @@ function fillMetricRows(metricData, slug, processData) {
         innerHTML_target[key] = addMinMaxToInputFields(innerHTML_target[key], metricData);
     });
 
-    let innerHTML_metric_row = innerHTML_actual + innerHTML_target['min'] + innerHTML_target['max'] + innerHTML_target['average'] + innerHTML_total + innerHTML_fulfillment;
+    let innerHTML_metric_row = innerHTML_actual + innerHTML_target['min'] + innerHTML_target['max'] + innerHTML_target['average'] + innerHTML_total + innerHTML_fulfillment + innerHTML_fulfillment_end;
 
     return [metric_fulfillment, count_component, innerHTML_metric_row];
 }
@@ -361,12 +338,12 @@ function getMetricRowActual(actual_target_metrics, metricData) {
 
     return `
                 <tr>
-                    <td class="col-1"  id="` + metricData['name'] + `">` + metricData['name'] + ` </td>
-                    <td class="col-2" >` + Math.round(actual_target_metrics['actual']['average'] * 100 + Number.EPSILON) / 100 + `</td>
-                    <td class="col-3" >` + Math.round(actual_target_metrics['actual']['standard_deviation'] * 100 + Number.EPSILON) / 100 + `</td>
-                    <td class="col-4" >` + Math.round(actual_target_metrics['actual']['total'] * 100 + Number.EPSILON) / 100 + `</td>
-                    <td class="col-5" >` + Math.round(actual_target_metrics['actual']['min'] * 100 + Number.EPSILON) / 100 + `</td>
-                    <td class="col-6" >` + Math.round(actual_target_metrics['actual']['max'] * 100 + Number.EPSILON) / 100 + `</td>`;
+                    <td class="col-1" id="` + metricData['name'] + `">` + metricData['name'] + ` </td>
+                    <td class="col-2">` + Math.round(actual_target_metrics['actual']['average'] * 100 + Number.EPSILON) / 100 + `</td>
+                    <td class="col-3">` + Math.round(actual_target_metrics['actual']['standard_deviation'] * 100 + Number.EPSILON) / 100 + `</td>
+                    <td class="col-4">` + Math.round(actual_target_metrics['actual']['total'] * 100 + Number.EPSILON) / 100 + `</td>
+                    <td class="col-5">` + Math.round(actual_target_metrics['actual']['min'] * 100 + Number.EPSILON) / 100 + `</td>
+                    <td class="col-6">` + Math.round(actual_target_metrics['actual']['max'] * 100 + Number.EPSILON) / 100 + `</td>`;
 }
 
 function getMetricRowTarget(innerHTML_target, actual_target_metrics, slug) {
@@ -384,11 +361,11 @@ function getMetricRowTarget(innerHTML_target, actual_target_metrics, slug) {
     // replace null with empty strings, so that "null" is not entered in the table
 
     innerHTML_target['min'] = `
-                        <td class="col-7" ><input type="text" name="target-minimum" id = "` + slug + `" value="` + targetValues['min'] + `"`;
+                        <td class="col-7"><input type="text" name="target-minimum" id = "` + slug + `" value="` + targetValues['min'] + `"`;
     innerHTML_target['max'] = `
-                        <td class="col-8" ><input type="text" name="target-maximum" id = "` + slug + `" value="` + targetValues['max'] + `"`;
+                        <td class="col-8"><input type="text" name="target-maximum" id = "` + slug + `" value="` + targetValues['max'] + `"`;
     innerHTML_target['average'] = `
-                        <td class="col-9" ><input type="text" name="target-average" id = "` + slug + `" value="` + targetValues['average'] + `"`;
+                        <td class="col-9"><input type="text" name="target-average" id = "` + slug + `" value="` + targetValues['average'] + `"`;
     return innerHTML_target;
 }
 
@@ -400,7 +377,7 @@ function getMetricRowTotal(actual_target_metrics) {
         targetTotalValue = Math.round(actual_target_metrics['target']['total'] * 100 + Number.EPSILON) / 100;
     }
 
-    return `<td class="col-10" >` + targetTotalValue + `</td>`;
+    return `<td class="col-10">` + targetTotalValue + `</td>`;
 }
 
 
@@ -439,7 +416,6 @@ function renderWholeProcessScoreCircle(wholeProcessScore) {
 /**
  * This function saves the data entered to the database by transmitting the data to the backend
  */
-
 function createEditProcess() {
     Helper.showLoadingScreen();
     let metric_elements = {};
@@ -472,7 +448,7 @@ function createEditProcess() {
 
             if (metric_elements[key][i].value !== '') {
                 metrics[id][key] = parseFloat(metric_elements[key][i].value);
-                if (!helper.targetAvgIsWithinMinMax(metric_elements[key][i])) {
+                if (!Helper.targetAvgIsWithinMinMax(metric_elements[key][i])) {
                     minmaxlist += '\n' + metric_elements[key][i].parentElement.parentElement.children[0].id; //TODO: Add metric name to the list of wrong target avg values (von Roman?)
                     metric_elements[key][i].style.setProperty("border-color", "red", undefined); //TODO: noch nötig oder nicht durch EventListener schon abgedeckt? (von Jasmin)
                 } else {
@@ -589,14 +565,14 @@ function createComponentTable(processData, metricsDefinition) {
 
         // Filling values
         component.innerHTML = `
-            <td class="col-1" ></td>
-            <td class="col-2" >` + componentData['name'] + `</td>
-            <td class="col-3" >` + metricsDefinition['categories'][componentData['category']]['name'] + ` </td>
-            <td class="col-4" ></td>
-            <td class="col-5" ></td>
-            <td class="col-6" ></td>
-            <td class="col-7" ></td>
-            <td class="col-8" ><i id="TrashIcon" class="fas fa-trash-alt" onclick="deleteComponent(this.parentElement.parentElement.id);"></i></td>
+            <td class="col-1"></td>
+            <td class="col-2">` + componentData['name'] + `</td>
+            <td class="col-3">` + metricsDefinition['categories'][componentData['category']]['name'] + ` </td>
+            <td class="col-4"></td>
+            <td class="col-5"></td>
+            <td class="col-6"></td>
+            <td class="col-7"></td>
+            <td class="col-8"><i id="TrashIcon" class="fas fa-trash-alt" onclick="deleteComponent(this.parentElement.parentElement.id);"></i></td>
         `;
 
         // Sorting the components according to their weights
@@ -777,7 +753,7 @@ function exit(ev) {
  *
  * @param {json} processData
  * @param {json} metricsDefinition
- * */
+ */
 function visualizeProcess(processData, metricsDefinition) {
     let div = document.createElement("div");
     div.className = "modelling-processes";
@@ -857,7 +833,6 @@ function horizontalScroll() {
  *
  * @param {JSON} response
  */
-
 function saveCallback(response) {
     // Process has been created/edited successfully
     Helper.hideLoadingScreen();
