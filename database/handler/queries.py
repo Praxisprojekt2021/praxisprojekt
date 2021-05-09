@@ -17,22 +17,22 @@ def get_process(uid: str) -> str:
     :return: Query as string
     """
     return f"Match (p: Process {{uid: '{uid}'}}) " \
-            "Call {" \
-            "With p " \
-            "Optional Match (p)-[t:targets]-(m:Metric) " \
-            "Return collect({value: properties(t), metric: m.name}) As target_metrics" \
-            "} " \
-            "Call {" \
-            "With p " \
-            "Optional Match (p)-[i:includes]-(c:Component) " \
-            "Call {" \
-            "With c " \
-            "Optional Match (c)-[h:has]-(n:Metric) " \
-            "Return collect({value: h.value, metric: n.name}) As y" \
-            "}" \
-            "Return collect({weight: i.weight, properties: properties(c), metrics: y}) As components" \
-            "}" \
-            "Return properties(p) As process, components, target_metrics"
+           "Call {" \
+           "With p " \
+           "Optional Match (p)-[t:targets]-(m:Metric) " \
+           "Return collect({value: properties(t), metric: m.name}) As target_metrics" \
+           "} " \
+           "Call {" \
+           "With p " \
+           "Optional Match (p)-[i:includes]-(c:Component) " \
+           "Call {" \
+           "With c " \
+           "Optional Match (c)-[h:has]-(n:Metric) " \
+           "Return collect({value: h.value, metric: n.name}) As y" \
+           "}" \
+           "Return collect({weight: i.weight, properties: properties(c), metrics: y}) As components" \
+           "}" \
+           "Return properties(p) As process, components, target_metrics"
 
 
 def update_process(uid: str, name: str, responsible_person: str, description: str, last_timestamp: str) -> str:
@@ -52,12 +52,12 @@ def update_process(uid: str, name: str, responsible_person: str, description: st
     :return: Query as string
     """
     return f"Match (p: Process {{uid: '{uid}'}}) " \
-            "Optional Match (p)-[t:targets]-(m:Metric) " \
-            "Delete t " \
-            f"Set p.name = '{name}' " \
-            f"Set p.responsible_person = '{responsible_person}' " \
-            f"Set p.description = '{description}' " \
-            f"Set p.last_timestamp = '{last_timestamp}' "
+           "Optional Match (p)-[t:targets]-(m:Metric) " \
+           "Delete t " \
+           f"Set p.name = '{name}' " \
+           f"Set p.responsible_person = '{responsible_person}' " \
+           f"Set p.description = '{description}' " \
+           f"Set p.last_timestamp = '{last_timestamp}' "
 
 
 def update_process_metric(uid: str, name: str, sub_query: str) -> str:
@@ -73,7 +73,7 @@ def update_process_metric(uid: str, name: str, sub_query: str) -> str:
     :return: Query as string
     """
     return f"Match (p: Process {{uid: '{uid}'}}), (m: Metric {{name: '{name}'}}) " \
-            f"Create (p)-[t: targets {{{ sub_query }}}]->(m) "
+           f"Create (p)-[t: targets {{{sub_query}}}]->(m) "
 
 
 def delete_process(uid: str) -> str:
@@ -85,7 +85,7 @@ def delete_process(uid: str) -> str:
     :return: Query as string
     """
     return f"Match (p: Process {{uid: '{uid}'}}) " \
-            "Detach Delete p"
+           "Detach Delete p"
 
 
 def add_process_reference(process_uid: str, component_uid: str, weight: float):
@@ -152,12 +152,12 @@ def get_component(uid: str) -> str:
     :return: Query as string
     """
     return f"Match (c: Component {{uid: '{uid}'}}) " \
-            "Call {{ " \
-            "With c " \
-            "Optional Match (c)-[h:has]-(m:Metric) " \
-            "Return collect({value: h.value, metric: m.name}) As y " \
-            "} " \
-            "Return {properties: properties(c), metrics: y}"
+           "Call { " \
+           "With c " \
+           "Optional Match (c)-[h:has]-(m:Metric) " \
+           "Return collect({value: h.value, metric: m.name}) As y " \
+           "} " \
+           "Return {properties: properties(c), metrics: y}"
 
 
 def update_component(uid: str, name: str, category: str, description: str, last_timestamp: str) -> str:
@@ -178,11 +178,11 @@ def update_component(uid: str, name: str, category: str, description: str, last_
     """
     return f"Match (c: Component {{uid: '{uid}'}}) " \
            "Optional Match (c)-[r:has]-(m:Metric) " \
-            "Delete r " \
-            f"Set c.name = '{name}' " \
-            f"Set c.category = '{category}' " \
-            f"Set c.description = '{description}' " \
-            f"Set c.last_timestamp = '{last_timestamp}' "
+           "Delete r " \
+           f"Set c.name = '{name}' " \
+           f"Set c.category = '{category}' " \
+           f"Set c.description = '{description}' " \
+           f"Set c.last_timestamp = '{last_timestamp}' "
 
 
 def update_component_metric(uid: str, name: str, value: float) -> str:
@@ -210,7 +210,7 @@ def delete_component(uid: str) -> str:
     :return: Query as string
     """
     return f"Match (c: Component {{uid: '{uid}'}}) " \
-            "Detach Delete c"
+           "Detach Delete c"
 
 
 def get_metrics_list() -> str:
@@ -222,7 +222,7 @@ def get_metrics_list() -> str:
     return "Match (m: Metric) Return collect(properties(m))"
 
 
-def set_metrics_unique_constraint() -> str: 
+def set_metrics_unique_constraint() -> str:
     """
     Function to get the cypher query to set a unique constraint on metric names
 
@@ -231,11 +231,10 @@ def set_metrics_unique_constraint() -> str:
     return f"Create CONSTRAINT ON (n:Metric) ASSERT n.name IS UNIQUE"
 
 
-def remove_metrics_unique_constraint() -> str: 
+def remove_metrics_unique_constraint() -> str:
     """
     Function to get the cypher query to remove a unique constraint on metric names
 
     :return: Query as String
     """
     return f"Drop CONSTRAINT ON (n:Metric) ASSERT n.name IS UNIQUE"
-    

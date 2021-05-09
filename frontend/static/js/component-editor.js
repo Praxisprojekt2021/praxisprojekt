@@ -67,9 +67,7 @@ function getFeatures() {
         .then(response => response.json())
         .then(data => {
             const features = data['features'];
-
             getButtonType().then(button => {
-
                 const features = data['features'];
                 let buttonType = button;
                 helper.createMetricsSection(features);
@@ -77,28 +75,23 @@ function getFeatures() {
                 div.className = 'control-area';
                 //div.innerHTML = '<a href="#" data-wait="Bitte warten..." id="save-button" class="create-button" onclick="createEditComponent()">${buttonType}</a>';
                 div.innerHTML = `<button id="save-button" class="create-button" onclick="createEditComponent()" type="button">${buttonType}</button>`
-    
+
                 // Append element to document
                 document.getElementById('metrics-input').appendChild(div);
-                
-            })
-
+            });
             return features;
-       });
+        });
 }
 
 /**
-* Get text for button types.
-*/
-
-async function getButtonType(){
-
+ * Get text for button types.
+ */
+function getButtonType() {
     // Read JSON file
-        return await fetch(base_url+ '/content/en.json')
-        .then(response=> response.json())
-        .then(data=> {
-            let saveButton = data['en']['translation']['saveButton'];
-        return saveButton;
+    return fetch(base_url + '/content/en.json')
+        .then(response => response.json())
+        .then(data => {
+            return data['en']['translation']['saveButton'];
         });
 }
 
@@ -109,9 +102,7 @@ async function getButtonType(){
  */
 
 function getComponent(uid) {
-    const post_data = {
-        "uid": uid
-    }
+    const post_data = {"uid": uid}
     helper.http_request("POST", '/component/view', true, JSON.stringify(post_data), processComponentData);
 }
 
@@ -238,7 +229,6 @@ function createEditComponent() {
                 let inputElement = metrics_child.getElementsByTagName('input')[i];
                 if (inputElement.value === '') {
                     emptyFieldList += '\n' + feature_child.getElementsByClassName('features-label')[0].innerHTML + ": " + inputLabel.innerHTML;
-                    console.log(inputElement);
                     inputElement.style.setProperty("border-color", "red", undefined);
                     continue;
                 }

@@ -13,9 +13,7 @@ let uid = url.searchParams.get('uid');
  * @param {json, boolean} json_process
  */
 function init(json_process = false) {
-
     Helper.showLoadingScreen();
-
     getFeatures().then(data => {
         // If page is reloaded (after saving) processes are updated else => page is loaded from databased and entries are prepared
         getTableHeaderInfo().then(tableHeaderInfo => {
@@ -29,7 +27,6 @@ function init(json_process = false) {
             }
         );
     });
-
 }
 
 /**
@@ -63,22 +60,17 @@ async function getFeatures() {
         });
 }
 
-
-
-
 /**
-* Get description of buttons from json.
-*/
-
-async function getButtonType(){
-
+ * Get description of buttons from json.
+ */
+async function getButtonType() {
     // Read JSON file
-        return await fetch(base_url+ '/content/en.json')
-        .then(response=> response.json())
-        .then(data=> {
+    return await fetch(base_url + '/content/en.json')
+        .then(response => response.json())
+        .then(data => {
             let saveButton = data['en']['translation']['saveButton'];
             let createButton = data['en']['translation']['createButton'];
-        return [saveButton, createButton];
+            return [saveButton, createButton];
         });
 }
 
@@ -94,7 +86,6 @@ async function getTableHeaderInfo() {
             return tableHeaderInfo;
         });
 }
-
 
 /**
  * Fetches process data from BE.
@@ -160,7 +151,6 @@ function fillDataFields(features, processData, tableHeaderInfo) {
  */
 
 function fillDescriptionColumn(processData) {
-
     renderWholeProcessScoreCircle(processData['score']);
 
     // Set uid and data fields
@@ -188,8 +178,7 @@ function createMetricsSection(features, processData, tableHeaderInfo) {
         div.id = key;
         div.className = 'feature-section';
 
-
-        // get all metric rows and the contained data
+        // Get all metric rows and the contained data
         let metric_fulfillment_list = [];
         let innerHTML_metric_block = '';
         let feature_component_count = 0;
@@ -199,19 +188,19 @@ function createMetricsSection(features, processData, tableHeaderInfo) {
             let metric = metrics[key];
             let [metric_fulfillment, component_count, innerHTML_metric_row] = fillMetricRows(metric, key, processData);
 
-            // append metric row to a metric row block for the feature
+            // Append metric row to a metric row block for the feature
             innerHTML_metric_block += innerHTML_metric_row;
 
-            // create a list of all metric fulfillments
+            // Create a list of all metric fulfillments
             if (metric_fulfillment != null) {
                 metric_fulfillment_list.push(metric_fulfillment);
             }
 
-            // set component_count ( should be equal over all metrics contained in a feature)
+            // Set component_count ( should be equal over all metrics contained in a feature)
             feature_component_count = component_count;
         });
 
-        // calculate the feature fulfillment -> if one metric_fulfillment is false, the feature_fulfillment is also false
+        // Calculate the feature fulfillment -> if one metric_fulfillment is false, the feature_fulfillment is also false
         if (metric_fulfillment_list.length === 0) {
             feature_fulfillment = null;
         } else {
@@ -312,11 +301,11 @@ function checkCorrectInputs() {
  */
 function fillMetricRows(metricData, slug, processData) {
 
-    // default value, because null has no influence on feature_fulfillment if metric_fulfillment is not given
+    // Default value, because null has no influence on feature_fulfillment if metric_fulfillment is not given
     let metric_fulfillment = null;
     let count_component = 0;
 
-    // default table row, when no metric data is provided
+    // Default table row, when no metric data is provided
     let innerHTML_actual = `
                     <tr>
                         <td class="col-1" id="` + metricData['name'] + `">` + metricData['name'] + `</td>
@@ -555,7 +544,6 @@ function createEditProcess() {
     }
 }
 
-
 /**
  * Saves data.
  * @param data
@@ -563,7 +551,6 @@ function createEditProcess() {
 function saveProcess(data) {
     helper.http_request("POST", "/process/create_edit", true, data, saveCallback);
 }
-
 
 /**
  * This function loads component names from json file
