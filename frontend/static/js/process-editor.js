@@ -13,7 +13,6 @@ let uid = url.searchParams.get('uid');
  * @param {json, boolean} json_process
  */
 function init(json_process = false) {
-
     Helper.showLoadingScreen();
 
     getFeatures().then(data => {
@@ -29,7 +28,6 @@ function init(json_process = false) {
             }
         );
     });
-
 }
 
 /**
@@ -117,14 +115,13 @@ function getProcess(features, tableHeaderInfo) {
 function fillDataFields(features, processData, tableHeaderInfo) {
 
     if (processData['success']) {
-        // fill description column
+        // Fill description column
         fillDescriptionColumn(processData);
-        // create metric/feature toggle area
+        // Create metric/feature toggle area
         createMetricsSection(features, processData, tableHeaderInfo);
-        //
     } else {
         // Component has not been created/edited successfully
-        //window.alert('Process could not be loaded.');
+        // window.alert('Process could not be loaded.');
         // Error will be shown in showError
         window.location.href = '/';
     }
@@ -137,7 +134,6 @@ function fillDataFields(features, processData, tableHeaderInfo) {
  */
 
 function fillDescriptionColumn(processData) {
-
     renderWholeProcessScoreCircle(processData['score']);
 
     // Set uid and data fields
@@ -298,7 +294,7 @@ function fillMetricRows(metricData, slug, processData) {
                         <td class="col-12"><div tooltip-data="` + metricData['description_process'] + `\ni.e. ` + metricData['example_process'] + `"
                          class="info-text-popup"><img class="info-icon" src="images/info.png" loading="lazy" width="35"
                          ></div></td>
-                         </tr>`;
+                    </tr>`;
 
     if (uid != null && uid !== -1 && (slug in processData['actual_target_metrics'])) {
 
@@ -308,19 +304,19 @@ function fillMetricRows(metricData, slug, processData) {
             count_component = actual_target_metrics['count_component'];
         }
 
-        // check if actual values are provided
+        // Check if actual values are provided
         if ('actual' in actual_target_metrics) {
             innerHTML_actual = getMetricRowActual(actual_target_metrics, metricData);
         }
 
-        // check if target values are provided
+        // Check if target values are provided
         if ('target' in actual_target_metrics) {
             innerHTML_target = getMetricRowTarget(innerHTML_target, actual_target_metrics, slug);
 
             innerHTML_total = getMetricRowTotal(actual_target_metrics);
         }
 
-        // check if a fulfillment and consequentially a target sum is provided (if fulfillment was calculated, a target sum was also able to be calculated)
+        // Check if a fulfillment and consequentially a target sum is provided (if fulfillment was calculated, a target sum was also able to be calculated)
         if ('fulfillment' in processData['actual_target_metrics'][slug]) {
             metric_fulfillment = processData['actual_target_metrics'][slug]['fulfillment'];
             innerHTML_fulfillment = `
@@ -391,10 +387,9 @@ function addMinMaxToInputFields(innerHTML_target, metricData) {
     if (metricData['min_value'] >= 0) innerHTML_target += ' min="' + metricData['min_value'] + '"';
     if (metricData['max_value'] >= 0) innerHTML_target += ' max="' + metricData['max_value'] + '"';
 
-    innerHTML_target += `></td>`;
+    innerHTML_target += ` disabled="true"></td>`;
 
     return innerHTML_target;
-
 }
 
 /**

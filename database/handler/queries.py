@@ -16,7 +16,7 @@ def get_process(uid: str) -> str:
     :type uid: str
     :return: Query as string
     """
-    return "Match (p: Process {uid: '" + uid + "'}) " \
+    return f"Match (p: Process {{uid: '{uid}'}}) " \
             "Call {" \
             "With p " \
             "Optional Match (p)-[t:targets]-(m:Metric) " \
@@ -51,13 +51,13 @@ def update_process(uid: str, name: str, responsible_person: str, description: st
     :type last_timestamp: str
     :return: Query as string
     """
-    return "Match (p: Process {uid: '" + uid + "'}) " \
+    return f"Match (p: Process {{uid: '{uid}'}}) " \
             "Optional Match (p)-[t:targets]-(m:Metric) " \
             "Delete t " \
-            "Set p.name = '" + name + "' " \
-            "Set p.responsible_person = '" + responsible_person + "' " \
-            "Set p.description = '" + description + "' " \
-            "Set p.last_timestamp = '" + last_timestamp + "' "
+            f"Set p.name = '{name}' " \
+            f"Set p.responsible_person = '{responsible_person}' " \
+            f"Set p.description = '{description}' " \
+            f"Set p.last_timestamp = '{last_timestamp}' "
 
 
 def update_process_metric(uid: str, name: str, sub_query: str) -> str:
@@ -72,8 +72,8 @@ def update_process_metric(uid: str, name: str, sub_query: str) -> str:
     :type sub_query: str
     :return: Query as string
     """
-    return "Match (p: Process {uid: '" + uid + "'}), (m: Metric {name: '" + name + "'}) " \
-            "Create (p)-[t: targets {" + sub_query + "}]->(m) "
+    return f"Match (p: Process {{uid: '{uid}'}}), (m: Metric {{name: '{name}'}}) " \
+            f"Create (p)-[t: targets {{{ sub_query }}}]->(m) "
 
 
 def delete_process(uid: str) -> str:
@@ -84,7 +84,7 @@ def delete_process(uid: str) -> str:
     :type uid: str
     :return: Query as string
     """
-    return "Match (p: Process {uid: '" + uid + "'}) " \
+    return f"Match (p: Process {{uid: '{uid}'}}) " \
             "Detach Delete p"
 
 
@@ -130,7 +130,7 @@ def delete_process_reference(uid: str, weight: float) -> str:
     :type weight: float
     :return: Query as string
     """
-    return "Match (n: Process {uid: '" + uid + "'})-[r: includes {weight: " + str(weight) + "}]-() Delete r"
+    return f"Match (n: Process {{uid: '{uid}'}})-[r: includes {{weight:  {str(weight)} }}]-() Delete r"
 
 
 def get_component_list() -> str:
@@ -151,7 +151,7 @@ def get_component(uid: str) -> str:
     :type uid: str
     :return: Query as string
     """
-    return "Match (c: Component {uid: '" + uid + "'}) " \
+    return f"Match (c: Component {{uid: '{uid}'}}) " \
             "Call { " \
             "With c " \
             "Optional Match (c)-[h:has]-(m:Metric) " \
@@ -176,13 +176,13 @@ def update_component(uid: str, name: str, category: str, description: str, last_
     :type last_timestamp: str
     :return: Query as string
     """
-    return "Match (c: Component {uid: '" + uid + "'}) " \
-            "Optional Match (c)-[r:has]-(m:Metric) " \
+    return f"Match (c: Component {{uid: '{uid}'}}) " \
+           "Optional Match (c)-[r:has]-(m:Metric) " \
             "Delete r " \
-            "Set c.name = '" + name + "' " \
-            "Set c.category = '" + category + "' " \
-            "Set c.description = '" + description + "' " \
-            "Set c.last_timestamp = '" + last_timestamp + "' "
+            f"Set c.name = '{name}' " \
+            f"Set c.category = '{category}' " \
+            f"Set c.description = '{description}' " \
+            f"Set c.last_timestamp = '{last_timestamp}' "
 
 
 def update_component_metric(uid: str, name: str, value: float) -> str:
@@ -197,8 +197,8 @@ def update_component_metric(uid: str, name: str, value: float) -> str:
     :type value: float
     :return: Query as string
     """
-    return "Match (c: Component {uid: '" + uid + "'}), (m: Metric {name: '" + name + "'}) " \
-            "Create (c)-[r: has {value: " + str(value) + "}]->(m)"
+    return f"Match (c: Component {{uid: '{uid}'}}), (m: Metric {{name: '{name}'}}) " \
+           f"Create (c)-[r: has {{value: {str(value)}}}]->(m)"
 
 
 def delete_component(uid: str) -> str:
@@ -209,7 +209,7 @@ def delete_component(uid: str) -> str:
     :type uid: str
     :return: Query as string
     """
-    return "Match (c: Component {uid: '" + uid + "'}) " \
+    return f"Match (c: Component {{uid: '{uid}'}}) " \
             "Detach Delete c"
 
 

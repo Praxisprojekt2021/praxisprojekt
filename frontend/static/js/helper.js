@@ -37,7 +37,6 @@ class Helper {
     /**
      * This functions hides the loading animation
      */
-
     static hideLoadingScreen() {
         let element = document.getElementById('loader-wrapper');
         element.setAttribute("class", "loader-wrapper-hidden");
@@ -46,7 +45,6 @@ class Helper {
     /**
      * This functions shows the loading animation
      */
-
     static showLoadingScreen() {
         let element = document.getElementById('loader-wrapper');
         element.setAttribute("class", "loader-wrapper");
@@ -62,7 +60,6 @@ class Helper {
      * @param {string} post_json: The JSON Object to be passed to the backend
      * @param {function} callbacks: The functions to be executed with the response
      */
-
     http_request(requestType, endpoint, async, post_json, ...callbacks) {
         const base_url = window.location.origin;
         let xhttp = new XMLHttpRequest();
@@ -132,9 +129,9 @@ class Helper {
             Object.keys(metrics).forEach(function (key) {
                 let metric = metrics[key];
                 innerHTML += '<div class="metric-entry-element">';
-                innerHTML += ('<label for="metric-input" class="entry-label">' + metric['name'] + '</label>');
-                innerHTML += '<div><input type="text" maxLength="256" id="' + key + '"' +
-                    ' name="metric-input" class="metric-input textfield"';
+                innerHTML += ('<label for="availability-metric" class="entry-label">' + metric['name'] + '</label>');
+                innerHTML += '<div><input type="text" maxLength="256" data-name="availability-metric-1" id="' + key + '"' +
+                    ' name="availability-metric" class="metric-input textfield"';
                 if (metric['max_value'] === -1) {
                     innerHTML += ' min="' + metric['min_value'] + '"';
                 } else {
@@ -157,8 +154,19 @@ class Helper {
         });
 
         // Live check for correct inputs
-        let elementNames = ['metric-input'];
-        Helper.checkCorrectInputs(elementNames);
+        const inputs = document.getElementsByClassName('metric-input textfield');
+        console.log(inputs);
+        console.log(inputs[0]);
+        for (let i = 0; i < inputs.length; i++) {
+            this.addMinMaxPopup(inputs[i]);
+            inputs[i].addEventListener('blur', (event) => {
+                if (!helper.targetAvgIsWithinMinMax(inputs[i]) || inputs[i].value === '') {
+                    inputs[i].style.setProperty("border-color", "red", undefined);
+                } else {
+                    inputs[i].style.removeProperty("border-color");
+                }
+            });
+        }
     }
 
     static checkCorrectInputs(elementNames) {
@@ -185,14 +193,13 @@ class Helper {
      *
      * @param {HTMLElement} element
      */
-
     static addMinMaxPopup(element) {
         let tooltipData;
-        if(element.hasAttribute("min") && element.hasAttribute("max")) {
-            tooltipData = "Min: "+element.getAttribute("min")+" Max: "+element.getAttribute("max");
+        if (element.hasAttribute("min") && element.hasAttribute("max")) {
+            tooltipData = "Min: " + element.getAttribute("min") + " Max: " + element.getAttribute("max");
         } else {
-            if(element.hasAttribute("min")) tooltipData = "Min: "+element.getAttribute("min");
-            if(element.hasAttribute("max")) tooltipData = "Max: "+element.getAttribute("max")
+            if (element.hasAttribute("min")) tooltipData = "Min: " + element.getAttribute("min");
+            if (element.hasAttribute("max")) tooltipData = "Max: " + element.getAttribute("max")
         }
         element.parentElement.classList.add("info-text-popup");
         element.parentElement.setAttribute("tooltip-data", tooltipData);
@@ -204,7 +211,6 @@ class Helper {
      * @param {number, null} score
      * @returns {string}
      */
-
     getCircleColor(score) {
         let color;
 
@@ -248,7 +254,6 @@ class Helper {
      *
      * @param {HTMLElement} element: HTML accordion to be either opened oder closed
      */
-
     toggleSection(element) {
         const metric_child = element.parentElement.children[1];
         const metric_child_icon = element.parentElement.children[0].children[0];
@@ -264,7 +269,9 @@ class Helper {
                 metric_child_icon.style.setProperty('transform', 'rotateX(0deg)');
             }
         } else {
-            this.collapseSection(metric_child);
+            if (!isCollapsed) {
+                this.collapseSection(metric_child);
+            }
         }
     }
 
@@ -273,10 +280,8 @@ class Helper {
      *
      * @param {HTMLElement} element: HTML accordion to be collapsed
      */
-
     collapseSection(element) {
         const sectionHeight = element.scrollHeight;
-
         const elementTransition = element.style.transition;
         element.style.transition = '';
 
@@ -288,7 +293,17 @@ class Helper {
                 element.style.height = 0 + 'px';
             });
         });
-
+        if (element.parentElement.parentElement.parentElement.id === "metrics-input-processes") {
+            element.children[0].children[0].children[0].childNodes.forEach(element => element.childNodes.forEach(element => {
+                if (element.childNodes.length > 0) {
+                    if (element.children[0] !== undefined) {
+                        element.children[0].setAttribute("disabled", true);
+                    }
+                }
+            }));
+        } else {
+            element.children[0].childNodes.forEach(element => element.children[1].children[0].removeAttribute("disabled"));
+        }
         element.setAttribute('data-collapsed', 'true');
     }
 
@@ -297,12 +312,22 @@ class Helper {
      *
      * @param {HTMLElement} element: HTML accordion to be expanded
      */
-
     expandSection(element) {
         const sectionHeight = element.scrollHeight;
         element.style.height = sectionHeight + 'px';
         element.style.margin = "0px 0px 10px 0px";
         element.setAttribute('data-collapsed', 'false');
+        if (element.parentElement.parentElement.parentElement.id === "metrics-input-processes") {
+            element.children[0].children[0].children[0].childNodes.forEach(element => element.childNodes.forEach(element => {
+                if (element.childNodes.length > 0) {
+                    if (element.children[0] !== undefined) {
+                        element.children[0].removeAttribute("disabled");
+                    }
+                }
+            }));
+        } else {
+            element.children[0].childNodes.forEach(element => element.children[1].children[0].removeAttribute("disabled"));
+        }
     }
 
     /**
@@ -310,7 +335,6 @@ class Helper {
      *
      * @param {HTMLElement} element
      */
-
     static targetAvgIsWithinMinMax(element) {
         let min = parseFloat(element.getAttribute("min")); // Getting min value for metric
         let max = parseFloat(element.getAttribute("max")); // Getting max value for metric
