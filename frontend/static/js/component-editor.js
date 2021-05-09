@@ -89,7 +89,7 @@ function getMetricsInfo(category) {
     let return_variable;
     helper.http_request("GET", "/content/mapping_metrics_definition.json", false, "", function (data) {
         let metrics_info = data['categories'][category]['sections'];
-        return_variable =  metrics_info;
+        return_variable = metrics_info;
     });
     return return_variable
 }
@@ -209,7 +209,7 @@ function createEditComponent() {
         "metrics": metrics
     }
 
-    //get information which categories apply for this metric
+    // Get information which categories apply for this metric
     metrics_info = getMetricsInfo(component['category']);
 
     if (document.getElementById('component-name').value === "") component_name_empty = true;
@@ -224,7 +224,7 @@ function createEditComponent() {
     for (let i = 0; i < toggles.length; i++) {
         const feature_child = toggles[i].children[0].children[0];
         const metrics_child = toggles[i].children[0].children[1];
-        const metrics_child_input_fields = metrics_child.getElementsByTagName('input'); 
+        const metrics_child_input_fields = metrics_child.getElementsByTagName('input');
 
         // Check if metric is mandatory or even not allowed
 
@@ -295,6 +295,7 @@ function createEditComponent() {
 /**
  * This function gets called if saving was successful and reloads the page.
  *
+ * @param response
  */
 
 function saveCallback(response) {
