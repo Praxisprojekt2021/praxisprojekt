@@ -220,7 +220,7 @@ function createEditComponent() {
                 }
 
                 // Check if enabled fields maintain min/max value
-                if (!helper.targetAvgIsWithinMinMax(inputElement)) {
+                if (!Helper.targetAvgIsWithinMinMax(inputElement)) {
                     minmaxlist += '\n' + feature_child.getElementsByClassName('features-label')[0].innerHTML + ": " + inputLabel.innerHTML;
                     inputElement.style.setProperty("border-color", "red", undefined);
                 } else {

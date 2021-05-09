@@ -132,9 +132,9 @@ class Helper {
             Object.keys(metrics).forEach(function (key) {
                 let metric = metrics[key];
                 innerHTML += '<div class="metric-entry-element">';
-                innerHTML += ('<label for="availability-metric" class="entry-label">' + metric['name'] + '</label>');
-                innerHTML += '<div><input type="text" maxLength="256" data-name="availability-metric-1" id="' + key + '"' +
-                    ' name="availability-metric" class="metric-input textfield"';
+                innerHTML += ('<label for="metric-input" class="entry-label">' + metric['name'] + '</label>');
+                innerHTML += '<div><input type="text" maxLength="256" id="' + key + '"' +
+                    ' name="metric-input" class="metric-input textfield"';
                 if (metric['max_value'] === -1) {
                     innerHTML += ' min="' + metric['min_value'] + '"';
                 } else {
@@ -157,21 +157,20 @@ class Helper {
         });
 
         // Live check for correct inputs
-        let elementNames = ['metric-input textfield'];
-        this.checkCorrectInputs(elementNames);
+        let elementNames = ['metric-input'];
+        Helper.checkCorrectInputs(elementNames);
     }
 
     static checkCorrectInputs(elementNames) {
 
         // Live check for correct inputs
-        let names = ['target-average', 'target-minimum', 'target-maximum'];
         elementNames.forEach(element => {
             const inputs = document.getElementsByName(element);
             for (let i = 0; i < inputs.length; i++) {
-                this.addMinMaxPopup(inputs[i]);
+                Helper.addMinMaxPopup(inputs[i]);
                 // Adding event listener for input check
                 inputs[i].addEventListener('blur', (event) => {
-                    if (!helper.targetAvgIsWithinMinMax(inputs[i])) {
+                    if (!Helper.targetAvgIsWithinMinMax(inputs[i])) {
                         inputs[i].style.setProperty("border-color", "red", undefined);
                     } else {
                         inputs[i].style.removeProperty("border-color");
@@ -182,7 +181,7 @@ class Helper {
     }
 
     /**
-     * Adds a min max popup to the parent HTMLelement of the given HTMLelement
+     * Adds a min max popup to the parent HTML element of the given HTML element
      *
      * @param {HTMLElement} element
      */
@@ -312,7 +311,7 @@ class Helper {
      * @param {HTMLElement} element
      */
 
-    targetAvgIsWithinMinMax(element) {
+    static targetAvgIsWithinMinMax(element) {
         let min = parseFloat(element.getAttribute("min")); // Getting min value for metric
         let max = parseFloat(element.getAttribute("max")); // Getting max value for metric
         let input = parseFloat(element.value); // Getting entered value for metric
