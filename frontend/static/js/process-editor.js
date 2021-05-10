@@ -302,13 +302,9 @@ function fillMetricRows(metricData, slug, processData) {
         `<td class="col-7" disabled="true"><input type="text" name="target-minimum" id="` + slug + `"`; // Rest of the string is added below
     innerHTML_target['max'] =
         `<td class="col-8" disabled="true"><input type="text" name="target-maximum" id="` + slug + `"`; // Rest of the string is added below
-    if (!binary) {
-        innerHTML_target['average'] = `
-             <td class="col-9" disabled="true"><input type="text" name="target-average" id="` + slug + `"`; // Rest of the string is added below
-    } else {
-        innerHTML_target['average'] = `
-        <td class="col-9" disabled="true"><input binary="true" type="text" name="target-average" id="` + slug + `"`; // Rest of the string is added below
-    }
+    innerHTML_target['average'] = `<td class="col-9" disabled="true"><input type="text" name="target-average" id="` + slug + `"`; // Rest of the string is added below
+    if (binary) innerHTML_target['average'] += ` binary="true"`;
+
     let innerHTML_total = `
                         <td class="col-10"></td>`;
     let innerHTML_fulfillment = `
@@ -335,7 +331,6 @@ function fillMetricRows(metricData, slug, processData) {
         // Check if target values are provided
         if ('target' in actual_target_metrics) {
             innerHTML_target = getMetricRowTarget(innerHTML_target, actual_target_metrics, slug, binary);
-
             innerHTML_total = getMetricRowTotal(actual_target_metrics, binary);
         }
 
