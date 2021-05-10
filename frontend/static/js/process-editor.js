@@ -476,7 +476,6 @@ function addMinMaxToInputFields(innerHTML_target, metricData) {
     innerHTML_target += `</td>`;
 
     return innerHTML_target;
-
 }
 
 /**
