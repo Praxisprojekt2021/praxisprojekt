@@ -49,7 +49,6 @@ class Process(StructuredNode):
     hasComponent = RelationshipTo(component_handler.Component, "includes", model=RelationshipProcessComponent)
     hasMetric = RelationshipTo(metric_handler.Metric, "targets", model=RelationshipProcessMetric)
 
-
 @db.transaction
 def add_process(input_dict: dict) -> dict:
     """

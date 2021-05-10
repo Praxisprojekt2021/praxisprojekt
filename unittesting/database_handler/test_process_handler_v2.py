@@ -2,6 +2,8 @@ import unittest
 
 from neo4j.exceptions import CypherSyntaxError
 
+from database.handler.component_handler import get_component_list, add_component, delete_component
+from unittesting.database_handler.test_data_component_handler import ADD_COMPONENT_IN
 from unittesting.database_handler.test_data_processs_handler import *
 from database.handler.process_handler import *
 
@@ -196,3 +198,77 @@ class TestDeleteProcess(unittest.TestCase):
 
         GET_PROCESS_IN["uid"] = self.uid
         delete_process(GET_PROCESS_IN)
+
+
+class TestAddProcessReference(unittest.TestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        cls.maxDiff = None
+        # get old process_list
+        process_list_pre = get_process_list()['processes']
+        # add new component
+        add_process(GET_PROCESS_SETUP_AND_OUT)
+        # get new process_list
+        process_list_post = get_process_list()['processes']
+
+        cls.uid = None
+        cls.componentUid = None
+
+        for post_uid in process_list_post:
+            if post_uid not in process_list_pre:
+                cls.uid = post_uid['uid']
+
+        GET_PROCESS_IN["uid"] = cls.uid
+        GET_PROCESS_SETUP_AND_OUT["process"]["uid"] = cls.uid
+
+
+        component_list_pre = get_component_list()['components']
+        # add new component
+        add_component(ADD_COMPONENT_IN)
+        component_list_post = get_component_list()['components']
+
+        for post_uid in component_list_post:
+            if post_uid not in component_list_pre:
+                cls.componentUid = post_uid['uid']
+
+    def test_2401(self):
+        ADD_PROCESS_REFERENCE_IN["process_uid"] = self.uid
+        ADD_PROCESS_REFERENCE_IN["component_uid"] = self.componentUid
+
+        self.assertEqual(add_process_reference(ADD_PROCESS_REFERENCE_IN), success_handler())
+
+        GET_PROCESS_IN["uid"] = self.uid
+        out_dict = get_process(GET_PROCESS_IN)
+        out_dict["process"].pop("last_timestamp")
+        out_dict["process"].pop("creation_timestamp")
+        out_dict["process"]["components"][0].pop("last_timestamp")
+        out_dict["process"]["components"][0].pop("creation_timestamp")
+        out_dict["process"]["components"][0]["uid"] = self.componentUid
+
+        ADD_PROCESS_REFERENCE_OUT["process"]["components"][0]["uid"] = self.componentUid
+        ADD_PROCESS_REFERENCE_OUT["process"]["uid"] = self.uid
+        self.assertEqual(out_dict, ADD_PROCESS_REFERENCE_OUT)
+
+    def test_2402(self):
+        ADD_PROCESS_REFERENCE_IN["process_uid"] = "ABC"
+        ADD_PROCESS_REFERENCE_IN["component_uid"] = "DCE"
+
+        with self.assertRaises(CypherSyntaxError):
+            add_process_reference(ADD_PROCESS_REFERENCE_IN)
+
+    def test_2403(self):
+        ADD_PROCESS_REFERENCE_IN["twwe"] = "ABC"
+        ADD_PROCESS_REFERENCE_IN["wee"] = "DCE"
+        ADD_PROCESS_REFERENCE_IN.pop("process_uid")
+        ADD_PROCESS_REFERENCE_IN.pop("component_uid")
+
+        with self.assertRaises(KeyError):
+            add_process_reference(ADD_PROCESS_REFERENCE_IN)
+
+    @classmethod
+    def tearDownClass(cls):
+        GET_PROCESS_IN["uid"] = cls.uid
+        delete_process(GET_PROCESS_IN)
+        GET_PROCESS_IN["uid"] = cls.componentUid
+        delete_component(GET_PROCESS_IN)
