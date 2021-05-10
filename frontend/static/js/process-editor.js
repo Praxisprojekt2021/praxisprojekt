@@ -347,9 +347,14 @@ function fillMetricRows(metricData, slug, processData) {
     return [metric_fulfillment, count_component, innerHTML_metric_row];
 }
 
-
+/**
+ * This function returns a part of the process features table
+ *
+ * @param actual_target_metrics
+ * @param metricData
+ * @returns {string}
+ */
 function getMetricRowActual(actual_target_metrics, metricData) {
-
     return `
                 <tr>
                     <td class="col-1" id="` + metricData['name'] + `">` + metricData['name'] + ` </td>
@@ -360,10 +365,16 @@ function getMetricRowActual(actual_target_metrics, metricData) {
                     <td class="col-6">` + Math.round(actual_target_metrics['actual']['max'] * 100 + Number.EPSILON) / 100 + `</td>`;
 }
 
+/**
+ * This function returns a part of the process features table
+ *
+ * @param innerHTML_target
+ * @param actual_target_metrics
+ * @param slug
+ * @returns {*}
+ */
 function getMetricRowTarget(innerHTML_target, actual_target_metrics, slug) {
-
     let targetValues = {};
-
     Object.keys(innerHTML_target).forEach(function (key) {
         if (actual_target_metrics['target'][key] !== null) {
             targetValues[key] = Math.round(actual_target_metrics['target'][key] * 100 + Number.EPSILON) / 100;
@@ -383,20 +394,28 @@ function getMetricRowTarget(innerHTML_target, actual_target_metrics, slug) {
     return innerHTML_target;
 }
 
+/**
+ * This function returns a part of the process features table
+ *
+ * @param actual_target_metrics
+ * @returns {string}
+ */
 function getMetricRowTotal(actual_target_metrics) {
-
     let targetTotalValue = "";
-
     if ('total' in actual_target_metrics['target']) {
         targetTotalValue = Math.round(actual_target_metrics['target']['total'] * 100 + Number.EPSILON) / 100;
     }
-
     return `<td class="col-10">` + targetTotalValue + `</td>`;
 }
 
-
+/**
+ * This function returns a part of the process features table
+ *
+ * @param innerHTML_target
+ * @param metricData
+ * @returns {*}
+ */
 function addMinMaxToInputFields(innerHTML_target, metricData) {
-
     // Rest of the innerHTML_target string
     if (metricData['min_value'] >= 0) innerHTML_target += ' min="' + metricData['min_value'] + '"';
     if (metricData['max_value'] >= 0) innerHTML_target += ' max="' + metricData['max_value'] + '"';
@@ -414,7 +433,6 @@ function addMinMaxToInputFields(innerHTML_target, metricData) {
 function renderWholeProcessScoreCircle(wholeProcessScore) {
     let color;
     wholeProcessScore = parseInt(wholeProcessScore);
-
     color = helper.getCircleColor(wholeProcessScore);
 
     if (!isNaN(wholeProcessScore)) {
@@ -534,8 +552,18 @@ function loadComponentNames(processData) {
     helper.http_request("GET", "/content/mapping_metrics_definition.json", true, "", function (metricsDefinition) {
         createComponentTable(processData, metricsDefinition);
         visualizeProcess(processData, metricsDefinition);
+        showAddComponent();
         helper.http_request("GET", "/component/overview", true, "", fillComponentDropdown);
     });
+}
+
+/**
+ * This function renders the add component elements to the view
+ */
+function showAddComponent() {
+    document.getElementById('add-component-dropdown').innerHTML = `
+        <select id="addposition" class="postion-dropdown"></select>
+        <button class="button" type="button" onclick="addComponent()">+</button>`;
 }
 
 /**
@@ -776,7 +804,6 @@ function visualizeProcess(processData, metricsDefinition) {
     let components = processData['process']['components'];
     components.sort((a, b) => (a.weight > b.weight) ? 1 : ((b.weight > a.weight) ? -1 : 0));
 
-
     // Begin at index 1 because 0 contains table headers
     for (let i = 0; i < components.length; i++) {
         let currentComponent = components[i];
@@ -835,7 +862,6 @@ function horizontalScroll() {
         delta = delta * (-50);
 
         document.getElementById("visualizeprocess").scrollLeft -= delta;
-
         e.preventDefault();
     });
 }
