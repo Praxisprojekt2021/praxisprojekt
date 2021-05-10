@@ -1,10 +1,8 @@
-GET_COMPONENT_SETUP = {
+ADD_COMPONENT_IN = {
     "uid": "-1",
     "name": "SQL Datenbank",
-    "category": "Datenbank",
+    "category": "databases",
     "description": "Datenbank zu xy mit ...",
-    "creation_timestamp": "20200219...",
-    "last_timestamp": "20200219...",
     "metrics": {
         "number_of_lines_of_source_code_loc": 20000,
         "number_of_administrators": 10,
@@ -22,10 +20,8 @@ GET_COMPONENT_OUT = {
     "component": {
         "uid": "",
         "name": "SQL Datenbank",
-        "category": "Datenbank",
+        "category": "databases",
         "description": "Datenbank zu xy mit ...",
-        "creation_timestamp": "20200219...",
-        "last_timestamp": "20200219...",
         "metrics": {
             "number_of_lines_of_source_code_loc": 20000,
             "number_of_administrators": 10,

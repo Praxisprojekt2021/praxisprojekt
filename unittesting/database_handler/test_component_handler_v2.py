@@ -5,15 +5,15 @@ from unittesting.database_handler.test_data_component_handler import *
 
 class TestGetComponent(unittest.TestCase):
 
+    uid = None
+
     @classmethod
     def setUpClass(cls):
 
         component_list_pre = get_component_list()['components']
         # add new component
-        add_component(GET_COMPONENT_SETUP)
+        add_component(ADD_COMPONENT_IN)
         component_list_post = get_component_list()['components']
-
-        cls.uid = None
 
         for post_uid in component_list_post:
             if post_uid not in component_list_pre:
@@ -23,18 +23,40 @@ class TestGetComponent(unittest.TestCase):
         pass
 
     def test_1001(self):
+        GET_COMPONENT_IN['uid'] = self.uid
+        GET_COMPONENT_OUT['component']['uid'] = self.uid
 
-        self.assertEqual(1, 1)
+        result = get_component(GET_COMPONENT_IN)
 
-    def test_1002(self):
+        del result['component']['creation_timestamp']
+        del result['component']['last_timestamp']
 
-        self.assertEqual(1, 1)
+        self.assertEqual(result, GET_COMPONENT_OUT)
+
+    def test_1002_1003(self):
+
+        result = get_component(GET_COMPONENT_IN)
+
+        del result['component']['creation_timestamp']
+        del result['component']['last_timestamp']
+
+        uids_to_be_tested = [1.5, 'abc']
+
+        for uid in uids_to_be_tested:
+            GET_COMPONENT_IN['uid'] = uid
+
+            with self.assertRaises(IndexError):
+                get_component(GET_COMPONENT_IN)
+
+
 
     def tearDown(self):
-        print('Hi2')
+        pass
 
     @classmethod
     def tearDownClass(cls):
-        cls.test = 1
-        print('Hi')
+
+        GET_COMPONENT_IN['uid'] = cls.uid
+        delete_component(GET_COMPONENT_IN)
+
 
