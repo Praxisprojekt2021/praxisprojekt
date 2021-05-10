@@ -74,3 +74,11 @@ UPDATE_COMPONENT_IN = {
 UPDATE_COMPONENT_OUT = {
     "success": True,
 }
+
+DELETE_COMPONENT_IN = {
+    "uid": "",
+}
+
+DELETE_COMPONENT_OUT = {
+    "success": True,
+}
