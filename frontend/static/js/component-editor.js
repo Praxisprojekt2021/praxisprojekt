@@ -173,6 +173,7 @@ function setSections(selected_category) {
         .then(data => {
             const category = data['categories'][selected_category]['sections'];
             Object.keys(category).forEach(function (key) {
+                console.log(document.getElementById(key));
                 const feature_child = document.getElementById(key).children[0].children[0];
                 const metrics_child = document.getElementById(key).children[0].children[1];
                 if (category[key] === 'true') {
@@ -349,7 +350,7 @@ function createMetricsSection(features) {
             let metric = metrics[key];
             innerHTML += '<div class="metric-entry-element">';
             innerHTML += ('<label for="metric-input" class="entry-label">' + metric['name'] + '</label>');
-            innerHTML += '<div><input type="text" maxLength="256" id="' + key + '"' +
+            innerHTML += '<div><input disabled="true" type="text" maxLength="256" id="' + key + '"' +
                 ' name="metric-input" class="metric-input textfield"';
             if (metric['max_value'] === -1) {
                 innerHTML += ' min="' + metric['min_value'] + '"';
