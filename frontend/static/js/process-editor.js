@@ -17,14 +17,14 @@ function init(json_process = false) {
     getFeatures().then(data => {
         // If page is reloaded (after saving) processes are updated else => page is loaded from databased and entries are prepared
         getTableHeaderInfo().then(tableHeaderInfo => {
-                if (!json_process) {
-                    getProcess(data, tableHeaderInfo);
+            if (!json_process) {
+                getProcess(data, tableHeaderInfo);
 
-                } else {
-                    fillDataFields(data, json_process, tableHeaderInfo);
-                    loadComponentNames(json_process);
-                }
+            } else {
+                fillDataFields(data, json_process, tableHeaderInfo);
+                loadComponentNames(json_process);
             }
+        }
         );
     });
 }
@@ -633,7 +633,8 @@ function addComponent() {
 
         helper.http_request("POST", "/process/edit/createstep", true, JSON.stringify(data), init);
     } else {
-        helper.raise_alert('process', false, false, '', true, '');
+        Helper.hideLoadingScreen();
+        window.alert('Please select a metric.');
     }
 }
 

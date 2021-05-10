@@ -287,11 +287,6 @@ class Helper {
             alert_string += 'Please enter a ' + type + ' name. \n';
         }
 
-        if (component_category_missing) {
-            let d = { 'process': 'metric', 'component': 'category' };
-            alert_string += 'Please select a ' + d[type] + '. \n';
-        }
-
         if (text_replaced) {
             alert_string += '\nNon quantitative metrics have been automatically discarded.\n';
         }
@@ -301,13 +296,19 @@ class Helper {
             alert_string += minmaxlist + "\n";
         }
 
-        if (type == 'component' && emptyFieldList !== "") {
-            alert_string += 'Please fill all metrics fields. \n';
-            alert_string += '\nThe following Metrics are empty:\n';
-            alert_string += emptyFieldList + '\n';
+        if (type == 'component') {
+            if (component_category_missing) {
+                alert_string += 'Please select a category. \n';
+            }
+
+            if (emptyFieldList !== "") {
+                alert_string += 'Please fill all metrics fields. \n';
+                alert_string += '\nThe following Metrics are empty:\n';
+                alert_string += emptyFieldList + '\n';
+            }
         }
 
-        this.hideLoadingScreen();
+        Helper.hideLoadingScreen();
         window.alert(alert_string);
     }
 }

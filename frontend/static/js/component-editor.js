@@ -117,7 +117,7 @@ function getMetricsInfo(category) {
  */
 
 function getComponent(uid) {
-    const post_data = {"uid": uid};
+    const post_data = { "uid": uid };
     helper.http_request("POST", '/component/view', true, JSON.stringify(post_data), processComponentData);
 }
 
