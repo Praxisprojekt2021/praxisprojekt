@@ -5,56 +5,44 @@ from database.handler.component_handler import get_component, delete_component, 
 class Test_get_component(unittest.TestCase):
     def test_1001(self):
         dict_in = {
-            "process": {
-                "uid": "4c4daea7bd0c46ba9aa0b73bda06e58f",  # when -1 it indicates that it is a new process, anything else indicates its an update
-                "name": "Kunde anlegen",
-                "responsible_person": "Peter Rossbach",
-                "description": "Prozess zum anlegen von einem neuen Kunden in allen Systemen",
-            },
-            "target_metrics": {
-                "codelines": {
-                    "average": 50,
-                    "min": 30.5,
-                    "max": 20,
-                },
-                "admins": {
-                    "average": 50,
-                    "min": 30.5,
-                    "max": 20,
-                },
-
-            },
+            "uid": "393ab1ecd34b41f39a79c0cad65cd5c8"
         }
-        result_1001 = {
-            'success': True,
-            'component':
-                {'uid': '4c4daea7bd0c46ba9aa0b73bda06e58f',
-                 'last_timestamp': '2021-05-05 20:06:48.137547',
-                 'creation_timestamp': '2021-05-02 13:56:26.715471',
-                 'name': 'Enterprise_Comp',
-                 'description': 'Important Test',
-                 'category': 'standardized_software',
-                 'metrics':
-                     {'encryption': 1,
-                      'number_of_administrators': 9,
-                      'redundancy': 1,
-                      'planned_maintenance_percentage': 7,
-                      'restore_time': 7,
-                      'time_between_failures': 7,
-                      'maximum_downtime_at_a_time': 5,
-                      'downtime': 5, 'restart': 3,
-                      'number_of_views_per_day': 3,
-                      'internal_support': 1,
-                      'external_support': 0,
-                      'time_to_implement_updates': 6,
-                      'automation': 0,
-                      'training': 1,
-                      'complaints': 5,
-                      'patch_status_check': 12,
-                      'change_tracking': 0,
-                      'back-up': 9}}}
+        result_1001 = {'success': True, 
+                        'component': 
+                            {'uid': '393ab1ecd34b41f39a79c0cad65cd5c8', 
+                            'last_timestamp': '2021-05-09 15:16:29.403909', 
+                            'creation_timestamp': '2021-05-09 14:24:49.243688', 
+                            'name': 'MS SQL', 
+                            'description': '', 
+                            'category': 'databases', 
+                            'metrics': 
+                                {'encryption': 1, 
+                                'number_of_administrators': 3, 
+                                'redundancy': 1, 
+                                'planned_maintenance_percentage': 100, 
+                                'restore_time': 15, 
+                                'time_between_failures': 300, 
+                                'maximum_downtime_at_a_time': 35, 
+                                'downtime': 120, 
+                                'restart': 4, 
+                                'number_of_views_per_day': 10000, 
+                                'internal_support': 1, 
+                                'external_support': 1, 
+                                'time_to_implement_updates': 5, 
+                                'test_scope': 20, 
+                                'testability': 25, 
+                                'error_during_testing': 90, 
+                                'pre_post_release_faults_ratio': 90, 
+                                'ratio_of_late_corrections': 100, 
+                                'test_automation': 80, 
+                                'automation': 0, 
+                                'training': 1, 
+                                'complaints': 0, 
+                                'patch_status_check': 1, 
+                                'change_tracking': 1, 
+                                'back-up': 4}}}
         self.assertEqual(get_component(dict_in), result_1001)
-
+'''
     def test_1002(self):
         dict_in = {
             "process": {
@@ -270,7 +258,7 @@ class Test_add_component(unittest.TestCase):
             }
         }
         self.assertRaises(KeyError, add_component, dict_in)
-
+'''
 
 if __name__ == '__main__':
     unittest.main()

@@ -1508,6 +1508,7 @@ outcome_compare_actual_target_metrics_dict2 = \
             }
         }
     }
+
 # outcome_calculate_risk_score2 = calc.calculate_risk_score(outcome_compare_actual_target_metrics_dict2)
 outcome_calculate_risk_score2 = \
     {

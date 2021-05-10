@@ -6,9 +6,17 @@ from database.handler.process_handler import get_process, update_process, add_pr
 class Test_get_process(unittest.TestCase):
     def test_2001(self):
         data = {
-            "uid": "b141f94973a43cf8ee972e9dffc1b004",
+            "uid": "d9b939b5536b4312b4d7678435dbc74a",
         }
-        result = {'success': True}
+        result = {'success': True, 
+                    'process': 
+                        {'uid': 'd9b939b5536b4312b4d7678435dbc74a', 
+                        'last_timestamp': '2021-05-09 14:20:41.249130', 
+                        'responsible_person': 'Sarah Sanders', 
+                        'creation_timestamp': '2021-05-08 23:26:12.617508', 
+                        'name': 'Fleet Management ', 
+                        'description': 'Company fleet management process. ', 
+                        'components': []}, 'target_metrics': {}}
         self.assertEqual(get_process(data), result)
 
     def test_2002(self):
@@ -62,7 +70,7 @@ class Test_add_process(unittest.TestCase):
 
 
 class Test_update_process(unittest.TestCase):
-
+    
     def test_2201(self):
         dict_in = {
             "process": {
@@ -88,13 +96,14 @@ class Test_update_process(unittest.TestCase):
             "target_metrics": {"number_of_lines_of_source_code_loc": {"average": 2, "min": 1, "max": 3}}
         }
         self.assertRaises(KeyError, update_process, dict_in)
-
+    
     def test_2203(self):
         dict_in = {
             "process": {
                 "uid": "b141f94973a43cf8ee972e9dffc1b004",
                 "name": "Hallo",
-                "description": "Hallo"
+                "description": "Hallo",
+                "responsible_person": "Sofie"
             },
             "target_metrics": {"number_of_lines_of_source_code_loc": {"average": 2, "min": 1, "max": 3}}
         }
