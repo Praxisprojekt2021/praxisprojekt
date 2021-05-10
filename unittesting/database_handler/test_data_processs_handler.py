@@ -25,3 +25,8 @@ GET_PROCESS_SETUP_AND_OUT = {
 GET_PROCESS_IN = {
     "uid": "",
 }
+
+ADD_PROCESS_OUT = {
+    "success": True,
+    "uid": -1
+}
