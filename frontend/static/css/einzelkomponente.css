@@ -131,6 +131,7 @@ button, html input[type="button"], input[type="reset"] {
 
 .accordion-item {
   display: block;
+  overflow: hidden;
   height: auto;
   width: 100%;
   position: relative;
