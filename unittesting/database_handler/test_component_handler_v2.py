@@ -160,54 +160,61 @@ class TestAddComponent(unittest.TestCase):
 
 class TestUpdateComponent(unittest.TestCase):
 
-    uid = None
-
     @classmethod
     def setUpClass(cls):
+        cls.component_list_pre = get_component_list()['components']
 
-        component_list_pre = get_component_list()['components']
-        # add new component
+    def setUp(self):
         add_component(ADD_COMPONENT_IN)
         component_list_post = get_component_list()['components']
 
         for post_uid in component_list_post:
-            if post_uid not in component_list_pre:
-                cls.uid = post_uid['uid']
+            if post_uid not in self.component_list_pre:
+                self.uid = post_uid['uid']
 
-    def setUp(self):
+        UPDATE_COMPONENT_IN['uid'] = self.uid
+
+    def test_1201(self):
+        result = update_component(UPDATE_COMPONENT_IN)
+        self.assertEqual(result, UPDATE_COMPONENT_OUT)
+
+    def test_1202(self):
+        with self.assertRaises(KeyError):
+            update_component({"test": 1, "test2": 2})
+
+    def test_1203(self):
+        with self.assertRaises((ValueError, DeflateError)):
+            wrong_input_dict = UPDATE_COMPONENT_IN
+            wrong_input_dict['metrics']['number_of_administrators'] = 'zwei'
+            update_component(wrong_input_dict)
+
+    def test_1204(self):
+        with self.assertRaises(KeyError):
+            GET_COMPONENT_IN['uid'] = '123456789'
+            update_component(GET_COMPONENT_IN)
+
+    def test_1205(self):
+        wrong_input_dict = UPDATE_COMPONENT_IN
+        wrong_input_dict['metrics']['planned_maintenance_percentage'] = 2
+        self.assertEqual(update_component(wrong_input_dict), UPDATE_COMPONENT_OUT)
+
         GET_COMPONENT_IN['uid'] = self.uid
-        GET_COMPONENT_OUT['component']['uid'] = self.uid
-
-    def test_1001(self):
         result = get_component(GET_COMPONENT_IN)
 
-        del result['component']['creation_timestamp']
-        del result['component']['last_timestamp']
-
-        self.assertEqual(result, GET_COMPONENT_OUT)
-
-    def test_1002_1003(self):
-        uids_to_be_tested = [1.5, 'abc']
-
-        for uid in uids_to_be_tested:
-            GET_COMPONENT_IN['uid'] = uid
-
-            with self.assertRaises(IndexError):
-                get_component(GET_COMPONENT_IN)
-
-    def test_1004(self):
-        with self.assertRaises(KeyError):
-            get_component({"test": 1, "test2": 2})
-
-        with self.assertRaises(TypeError):
-            get_component('abc')
+        self.assertTrue('test_metric' not in result['component']['metrics'])
 
     def tearDown(self):
-        pass
+        component_list_post = get_component_list()['components']
+
+        for post_uid in component_list_post:
+            if post_uid not in self.component_list_pre:
+                GET_COMPONENT_IN['uid'] = post_uid['uid']
+                delete_component(GET_COMPONENT_IN)
 
     @classmethod
     def tearDownClass(cls):
-        delete_component(GET_COMPONENT_IN)
+        pass
+
 
 class TestDeleteComponent(unittest.TestCase):
 
