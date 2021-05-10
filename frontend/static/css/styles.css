@@ -12,9 +12,9 @@ body {
     font-family: 'Titillium Web', monospace;
     margin: auto;
     width: 70%;
-    padding-top: 40px;
-    font-size: 14px;
-    line-height: 20px;
+    padding-top: 2.083vmax;
+    font-size: 0.729vmax;
+    line-height: 1.042vmax;
     min-height: 100%;
     background-color: #fff;
     overflow-y: scroll;
@@ -41,25 +41,25 @@ a {
 }
 
 .dashboard-overview {
-    padding-top: 40px;
-    padding-bottom: 40px;
-    padding-left: 50px;
-    padding-right: 50px;
+    padding-top: 2.083vmax;
+    padding-bottom: 2.083vmax;
+    padding-left: 2.604vmax;
+    padding-right: 2.604vmax;
     border-style: solid;
-    border-width: 1px;
+    border-width: 0.052vmax;
     border-color: #e6e6e6;
     background-color: #ececec;
-    box-shadow: rgba(50, 50, 93, 0.015) 0px 10px 10px -6px inset, rgba(0, 0, 0, 0.28) 0px 6px 25px -18px inset,rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.17) 0px 6px 6px;
+    box-shadow: rgba(50, 50, 93, 0.015) 0vmax 10vmax 10vmax -0.313vmax inset, rgba(0, 0, 0, 0.28) 0vmax 0.313vmax 1.302vmax -0.938vmax inset,rgba(0, 0, 0, 0.19) 0vmax 10vmax 20vmax, rgba(0, 0, 0, 0.17) 0vmax 0.313vmax 0.313vmax;
 }
 
 .button {
     position: static;
     font-family: inherit;
-    font-size: 15px;
+    font-size: 0.781vmax;
     display: inline-block;
-    padding: 9px 15px;
-    margin-bottom: 3px;
-    margin-right: 3px;
+    padding: 0.469vmax 0.781vmax;
+    margin-bottom: 0.156vmax;
+    margin-right: 0.156vmax;
     background-color: #1f299c;
     color: white;
     border: 0;
@@ -73,30 +73,30 @@ a {
     background-color: #a3a9f5ff;
     color: black;
     font-weight: 900;
-    box-shadow: 3px 3px;
+    box-shadow: 0.156vmax 0.156vmax;
 }
 
 .button:active {
     transition: 0.3s ease-out;
     background-color: #1f299c;
-    margin-top: 3px;
-    margin-left: 3px;
-    margin-bottom: 0px;
-    margin-right: 0px;
-    box-shadow: 0px 0px;
+    margin-top: 0.156vmax;
+    margin-left: 0.156vmax;
+    margin-bottom: 0vmax;
+    margin-right: 0vmax;
+    box-shadow: 0vmax 0vmax;
 }
 
 .center {
     margin: auto;
     /*
     width: 70%;
-    padding: 10px;
+    padding: 0.521vmax;
 
      */
 }
 
 .headline {
-    margin-top: 30px;
+    margin-top: 1.563vmax;
     text-align: center;
 }
 
@@ -137,16 +137,16 @@ a {
 }
 
 .small-circle {
-    height: 20px;
-    width: 45px;
+    height: 1.042vmax;
+    width: 2.344vmax;
     border-radius: 8%;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 1px 1px rgba(0,0,0,0.05),
-    0 2px 2px rgba(0,0,0,0.12),
-    0 3px 3px rgba(0,0,0,0.08),
-    0 4px 4px rgba(0,0,0,0.05);
+    box-shadow: 0 0.052vmax 0.052vmax rgba(0,0,0,0.05),
+    0 0.104vmax 0.104vmax rgba(0,0,0,0.12),
+    0 0.156vmax 0.156vmax rgba(0,0,0,0.08),
+    0 0.208vmax 0.208vmax rgba(0,0,0,0.05);
     -webkit-backface-visibility: hidden;
 }
 
@@ -172,10 +172,10 @@ a {
 
 .loader {
     display: inline-block;
-    width: 75px;
-    height: 75px;
+    width: 3.906vmax;
+    height: 3.906vmax;
     position: absolute;
-    border: 4px solid #61d199;
+    border: 0.208vmax solid #61d199;
     opacity: 1 !important;
     animation: loader 2s infinite ease;
 }
@@ -195,7 +195,7 @@ a {
     font-size: large;
     text-align: center;
     position: relative;
-    top: 80px;
+    top: 4.167vmax;
 }
 
 @keyframes loader {
@@ -252,8 +252,8 @@ a {
 .modal-content {
     background-color: #fefefe;
     margin: 15% auto; /* 15% from the top and centered */
-    padding: 20px;
-    border: 1px solid #888;
+    padding: 1.042vmax;
+    border: 0.052vmax solid #888;
     width: 80%; /* Could be more or less, depending on screen size */
 }
 
@@ -261,7 +261,7 @@ a {
 .close {
     color: #aaa;
     float: right;
-    font-size: 28px;
+    font-size: 1.458vmax;
     font-weight: bold;
 }
 
@@ -275,45 +275,45 @@ a {
 .table-container {
     margin-left: auto;
     margin-right: auto;
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-left: 0.521vmax;
+    padding-right: 0.521vmax;
 }
 
 .responsive-table tr {
-    padding-top: 10px;
-    padding-bottom: 10px;
-    box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.1);
+    padding-top: 0.521vmax;
+    padding-bottom: 0.521vmax;
+    box-shadow: 0vmax 0vmax 0.469vmax 0vmax rgba(0, 0, 0, 0.1);
 }
 
 tr {
-    border-radius: 3px;
-    padding-left: 30px;
-    padding-right: 30px;
+    border-radius: 0.156vmax;
+    padding-left: 1.563vmax;
+    padding-right: 1.563vmax;
     display: flex;
-    margin-bottom: 10px;
+    margin-bottom: 0.521vmax;
     transition: 1.0s ease-out;
 }
 
 tr:hover:not(.table-header) {
     transition: 0.15s ease-out;
-    box-shadow: 0px 0px 9px 0px rgb(0 0 0 / 39%)
+    box-shadow: 0vmax 0vmax 0.469vmax 0vmax rgb(0 0 0 / 39%)
 }
 
 .table-header {
     background-color: #b1b1b1;
     color:#000000ea;
-    font-size: 14px;
+    font-size: 0.729vmax;
     text-align: left;
     text-transform: uppercase;
 }
 
 .tbody, tr {
     background-color: #fff;
-    box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.1);
+    box-shadow: 0vmax 0vmax 0.469vmax 0vmax rgba(0, 0, 0, 0.1);
 }
 
 td, th {
-    border-width: 0px;
+    border-width: 0vmax;
     border-color: #2286fb;
     border-style: solid;
 }
@@ -391,7 +391,7 @@ td {
 
 .header {
     display: block;
-    margin-bottom: 30px;
+    margin-bottom: 1.563vmax;
 }
 
 .navigation {
@@ -399,16 +399,16 @@ td {
     left: auto;
     display: inline-block;
     overflow: visible;
-    width: 300px;
-    height: 20px;
+    width: 15.625vmax;
+    height: 1.042vmax;
     float: left;
 }
 
 .navigation-links {
     display: block;
-    padding-right: 5px;
-    padding-left: 5px;
-    font-size: 18px;
+    padding-right: 0.26vmax;
+    padding-left: 0.26vmax;
+    font-size: 0.938vmax;
     float: left;
     color: #000;
     text-decoration: none;
@@ -443,10 +443,10 @@ td {
     position: relative;
     display: inline-block;
     overflow: visible;
-    margin-top: 2px;
-    margin-left: 10px;
+    margin-top: 0.104vmax;
+    margin-left: 0.521vmax;
     float: left;
-    border-radius: 20px;
+    border-radius: 1.042vmax;
     opacity: 0.65;
     cursor: pointer;
 }
@@ -455,15 +455,15 @@ td {
     position: relative;
     display: inline-block;
     overflow: visible;
-    margin-top: 2px;
-    margin-left: 10px;
+    margin-top: 0.104vmax;
+    margin-left: 0.521vmax;
     float: right;
-    border-radius: 20px;
+    border-radius: 1.042vmax;
     opacity: 0.65;
     cursor: pointer;
     filter: invert();
-    height: 25px;
-    width: 25px;
+    height: 1.302vmax;
+    width: 1.302vmax;
 }
 
 .fa-pencil-alt {
@@ -481,15 +481,15 @@ td {
 
 .info-text-popup::before {
     content: attr(tooltip-data);/* print em-space with class text */
-    font-size: 10.5px;
+    font-size: 0.26vmax;
     right: 10%;
     display: block;
     position: absolute;
     bottom: 100%;
     background: #000;
     color: #FFF;
-    padding: 5px;
-    border-radius: 5px;
+    padding: 0.26vmax;
+    border-radius: 0.26vmax;
     white-space: pre;
     max-width:none;
     opacity:0;
