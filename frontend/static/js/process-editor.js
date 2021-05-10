@@ -307,7 +307,7 @@ function fillMetricRows(metricData, slug, processData) {
              <td class="col-9" disabled="true"><input type="text" name="target-average" id="` + slug + `"`; // Rest of the string is added below
     } else {
         innerHTML_target['average'] = `
-        <td class="col-9"><input binary="true" type="text" name="target-average" id="` + slug + `"`; // Rest of the string is added below
+        <td class="col-9" disabled="true"><input binary="true" type="text" name="target-average" id="` + slug + `"`; // Rest of the string is added below
     }
     let innerHTML_total = `
                         <td class="col-10"></td>`;
@@ -417,20 +417,17 @@ function getMetricRowTarget(innerHTML_target, actual_target_metrics, slug, binar
     });
 
     // Replace null with empty strings, so that "null" is not entered in the table
-    if (!binary) {
-        innerHTML_target['min'] = `
-                        <td class="col-7" ><input type="text" name="target-minimum" id="` + slug + `" value="` + targetValues['min'] + `"`;
-        innerHTML_target['max'] = `
-                        <td class="col-8" ><input type="text" name="target-maximum" id="` + slug + `" value="` + targetValues['max'] + `"`;
-        innerHTML_target['average'] = `
-                        <td class="col-9" ><input type="text" name="target-average" id="` + slug + `" value="` + targetValues['average'] + `"`;
+    innerHTML_target['min'] = `<td class="col-7" disabled="true"><input type="text" name="target-minimum" id="` + slug + `"`;
+    innerHTML_target['max'] = `<td class="col-8" disabled="true"><input type="text" name="target-maximum" id="` + slug + `"`;
+    innerHTML_target['average'] = `<td class="col-9" disabled="true"><input type="text" name="target-average" id="` + slug + `"`;
+    if (binary) {
+        innerHTML_target['min'] += ` disabled="true"`;
+        innerHTML_target['max'] += ` disabled="true"`;
+        innerHTML_target['average'] += ` binary="true" value="` + targetValues['average'] * 100 + `"`;
     } else {
-        innerHTML_target['min'] = `
-                        <td class="col-7" ><input disabled type="text" name="target-minimum" id="` + slug + `"`;
-        innerHTML_target['max'] = `
-                        <td class="col-8" ><input disabled type="text" name="target-maximum" id="` + slug + `"`;
-        innerHTML_target['average'] = `
-                        <td class="col-9" ><input type="text" name="target-average" binary="true" id="` + slug + `" value="` + targetValues['average'] * 100 + `"`;
+        innerHTML_target['min'] += ` value="` + targetValues['min'] + `"`;
+        innerHTML_target['max'] += ` value="` + targetValues['max'] + `"`;
+        innerHTML_target['average'] += ` value="` + targetValues['average'] + `"`;
     }
     return innerHTML_target;
 }
