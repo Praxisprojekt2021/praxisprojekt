@@ -442,7 +442,7 @@ function addMinMaxToInputFields(innerHTML_target, metricData) {
         innerHTML_target += ' min="' + 0 + '%"';
         innerHTML_target += ' max="' + 100 + '%"';
     }
-    innerHTML_target += `></td>`;
+    innerHTML_target += ` disabled="true"></td>`;
 
     return innerHTML_target;
 
