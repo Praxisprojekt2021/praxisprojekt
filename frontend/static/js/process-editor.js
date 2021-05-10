@@ -17,14 +17,14 @@ function init(json_process = false) {
     getFeatures().then(data => {
         // If page is reloaded (after saving) processes are updated else => page is loaded from databased and entries are prepared
         getTableHeaderInfo().then(tableHeaderInfo => {
-            if (!json_process) {
-                getProcess(data, tableHeaderInfo);
+                if (!json_process) {
+                    getProcess(data, tableHeaderInfo);
 
-            } else {
-                fillDataFields(data, json_process, tableHeaderInfo);
-                loadComponentNames(json_process);
+                } else {
+                    fillDataFields(data, json_process, tableHeaderInfo);
+                    loadComponentNames(json_process);
+                }
             }
-        }
         );
     });
 }
@@ -91,7 +91,6 @@ async function getTableHeaderInfo() {
  * @param features
  * @param tableHeaderInfo
  */
-
 function getProcess(features, tableHeaderInfo) {
     const url_string = window.location.href;
     const url = new URL(url_string);
@@ -147,7 +146,6 @@ function fillDataFields(features, processData, tableHeaderInfo) {
  *
  * @param {json} processData
  */
-
 function fillDescriptionColumn(processData) {
     renderWholeProcessScoreCircle(processData['score']);
 
@@ -523,7 +521,8 @@ function createEditProcess() {
 }
 
 /**
- * Saves data.
+ * Saves process data to backend
+ *
  * @param data
  */
 function saveProcess(data) {
