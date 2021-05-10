@@ -1,26 +1,23 @@
-GET_COMPONENT_LIST = {
+GET_COMPONENT_LIST_OUT = {
     "success": True,
     "components": [
         {
             "uid": "",
             "name": "SQL Datenbank",
-            "category": "Datenbank",
-            "creation_timestamp": "20200219...",
-            "last_timestamp": "20200219...",
+            "description": "Datenbank zu xy mit ...",
+            "category": "databases",
         },
         {
             "uid": "",
-            "name": "Oracle Datenbank",
-            "category": "Datenbank",
-            "creation_timestamp": "20200219...",
-            "last_timestamp": "20200219...",
+            "name": "SQL Datenbank",
+            "description": "Datenbank zu xy mit ...",
+            "category": "databases",
         },
         {
             "uid": "",
-            "name": "Oracle Datenbank",
-            "category": "Datenbank",
-            "creation_timestamp": "20200219...",
-            "last_timestamp": "20200219...",
+            "name": "SQL Datenbank",
+            "description": "Datenbank zu xy mit ...",
+            "category": "databases",
         }
     ]
 }
@@ -56,4 +53,8 @@ ADD_COMPONENT_IN = {
         "number_of_administrators": 10,
         "restore_time": 5,
     }
+}
+
+ADD_COMPONENT_OUT = {
+    "success": True,
 }
