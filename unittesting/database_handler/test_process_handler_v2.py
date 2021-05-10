@@ -114,7 +114,7 @@ class TestUpdateProcess(unittest.TestCase):
         GET_PROCESS_IN["uid"] = cls.uid
         GET_PROCESS_SETUP_AND_OUT["process"]["uid"] = cls.uid
 
-    def test_2301(self):
+    def test_2201(self):
         process_dict = get_process(GET_PROCESS_IN)
         process_dict["process"]["name"] = "New Name"
 
@@ -126,28 +126,73 @@ class TestUpdateProcess(unittest.TestCase):
 
         self.assertEqual(new_process_dict, process_dict)
 
-    def test_2302(self):
+    def test_2202(self):
         process_dict = get_process(GET_PROCESS_IN)
         process_dict["target_metrics"]["downtime"]["average"] = "ABD"
 
         with self.assertRaises(CypherSyntaxError):
             update_process(process_dict)
 
-    def test_2303(self):
+    def test_2203(self):
         process_dict = get_process(GET_PROCESS_IN)
         process_dict["process"].pop("name")
 
         with self.assertRaises(KeyError):
             update_process(process_dict)
 
-    def test_2304(self):
+    def test_2204(self):
         process_dict = get_process(GET_PROCESS_IN)
         process_dict["process"]["uid"] = "ABC"
+        print(update_process(process_dict))
 
         # TODO: Is this the right Exception?
+        """
         with self.assertRaises(CypherSyntaxError):
             update_process(process_dict)
+        """
 
     @classmethod
     def tearDownClass(cls):
+        delete_process(GET_PROCESS_IN)
+
+
+class TestDeleteProcess(unittest.TestCase):
+
+    def setUp(self):
+        self.maxDiff = None
+        # get old process_list
+        process_list_pre = get_process_list()['processes']
+        # add new component
+        add_process(GET_PROCESS_SETUP_AND_OUT)
+        # get new process_list
+        process_list_post = get_process_list()['processes']
+
+        self.uid = None
+
+        for post_uid in process_list_post:
+            if post_uid not in process_list_pre:
+                self.uid = post_uid['uid']
+
+        GET_PROCESS_IN["uid"] = self.uid
+
+    def test_2301(self):
+        self.assertEqual(delete_process(GET_PROCESS_IN), success_handler())
+
+    def test_2302(self):
+        GET_PROCESS_IN["uid"] = "ABC"
+
+        # TODO: Is this the right Exception?
+        with self.assertRaises(CypherSyntaxError):
+            delete_process(GET_PROCESS_IN)
+            GET_PROCESS_IN["uid"] = self.uid
+            delete_process(GET_PROCESS_IN)
+
+    def test_2303(self):
+        GET_PROCESS_IN.pop("uid")
+        GET_PROCESS_IN["ABC"] = 12
+
+        with self.assertRaises(KeyError):
+            delete_process(GET_PROCESS_IN)
+
+        GET_PROCESS_IN["uid"] = self.uid
         delete_process(GET_PROCESS_IN)
