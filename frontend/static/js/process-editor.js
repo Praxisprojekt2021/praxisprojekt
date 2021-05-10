@@ -373,6 +373,7 @@ function getMetricRowActual(actual_target_metrics, metricData) {
         actualMin = "-";
         actualMax = "-";
     }
+
     return `
                 <tr>
                     <td class="col-1"  id="` + metricData['name'] + `">` + metricData['name'] + ` </td>
@@ -402,12 +403,12 @@ function getMetricRowTarget(innerHTML_target, actual_target_metrics, slug, binar
         innerHTML_target['max'] = `
                         <td class="col-8" ><input type="text" name="target-maximum" id = "` + slug + `" value="` + targetValues['max'] + `"`;
         innerHTML_target['average'] = `
-                        <td class="col-9" ><input type="text" name="target-average" + id = "` + slug + `" value="` + targetValues['average'] * 100 + `"`;
+                        <td class="col-9" ><input type="text" name="target-average" + id = "` + slug + `" value="` + targetValues['average'] + `"`;
     } else {
         innerHTML_target['min'] = `
-                        <td class="col-7" ><input type="text" name="target-minimum" id = "` + slug + `" disabled`;
+                        <td class="col-7" ><input disabled type="text" name="target-minimum" id = "` + slug + `"`;
         innerHTML_target['max'] = `
-                        <td class="col-8" ><input type="text" name="target-maximum" id = "` + slug + `" disabled`;
+                        <td class="col-8" ><input disabled type="text" name="target-maximum" id = "` + slug + `"`;
         innerHTML_target['average'] = `
                         <td class="col-9" ><input type="text" name="target-average" binary="true" + id = "` + slug + `" value="` + targetValues['average'] * 100 + `"`;
     }
