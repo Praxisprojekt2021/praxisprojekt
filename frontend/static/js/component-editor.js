@@ -67,14 +67,30 @@ function getFeatures() {
         .then(response => response.json())
         .then(data => {
             const features = data['features'];
+            getButtonType().then(button => {
+                const features = data['features'];
+                let buttonType = button;
+                createMetricsSection(features);
+                let div = document.createElement('div');
+                div.className = 'control-area';
+                div.innerHTML = `<button id="save-button" class="create-button" onclick="createEditComponent()" type="button">` + buttonType + `</button>`;
 
-            createMetricsSection(features);
-            let div = document.createElement('div');
-            div.className = 'control-area';
-            div.innerHTML = '<a href="#" data-wait="Bitte warten..." id="save-button" class="create-button" onclick="createEditComponent()">Speichern</a>';
+                // Append element to document
+                document.getElementById('metrics-input').appendChild(div);
+            });
+            return features;
+        });
+}
 
-            // Append element to document
-            document.getElementById('metrics-input').appendChild(div);
+/**
+ * Get text for button types.
+ */
+function getButtonType() {
+    // Read JSON file
+    return fetch(base_url + '/content/en.json')
+        .then(response => response.json())
+        .then(data => {
+            return data['en']['translation']['saveButton'];
         });
 }
 
@@ -101,9 +117,7 @@ function getMetricsInfo(category) {
  */
 
 function getComponent(uid) {
-    const post_data = {
-        "uid": uid
-    }
+    const post_data = {"uid": uid};
     helper.http_request("POST", '/component/view', true, JSON.stringify(post_data), processComponentData);
 }
 
@@ -185,7 +199,7 @@ function createEditComponent() {
 
     let metric_elements = document.getElementsByClassName('metric-input');
     let metrics = {};
-    let metrics_info = {};
+    let metrics_info;
     let text_replaced_flag = false; // Helper variable that indicates, whether or not a non quantitative metric input has been found and discarded
     let component_name_empty = false; // Helper variable that indicates, whether or not the component name is given
 
@@ -233,7 +247,12 @@ function createEditComponent() {
             for (let i = 0; i < metrics_child_input_fields.length; i++) {
                 metrics_child.getElementsByTagName('input')[i].value = '';
                 let current_metric_name = metrics_child.getElementsByTagName('input')[i].id;
-                component["metrics"][current_metric_name] = '';
+                if (current_metric_name in component['metrics']) {
+                    delete component['metrics'][current_metric_name];
+
+                    // Easter Egg - please leave as is.
+                    window.alert('You tried to sneak around, didn\'t you? Of course, we deleted your input for ' + current_metric_name);
+                }
             }
         } else {
             // Check if enabled fields have been filled - all fields are required
@@ -242,13 +261,12 @@ function createEditComponent() {
                 let inputElement = metrics_child.getElementsByTagName('input')[i];
                 if (inputElement.value === '') {
                     emptyFieldList += '\n' + feature_child.getElementsByClassName('features-label')[0].innerHTML + ": " + inputLabel.innerHTML;
-                    console.log(inputElement);
                     inputElement.style.setProperty("border-color", "red", undefined);
                     continue;
                 }
 
                 // Check if enabled fields maintain min/max value
-                if (!helper.targetAvgIsWithinMinMax(inputElement)) {
+                if (!Helper.targetAvgIsWithinMinMax(inputElement)) {
                     minmaxlist += '\n' + feature_child.getElementsByClassName('features-label')[0].innerHTML + ": " + inputLabel.innerHTML;
                     inputElement.style.setProperty("border-color", "red", undefined);
                 } else {
@@ -330,9 +348,9 @@ function createMetricsSection(features) {
         Object.keys(metrics).forEach(function (key) {
             let metric = metrics[key];
             innerHTML += '<div class="metric-entry-element">';
-            innerHTML += ('<label for="availability-metric" class="entry-label">' + metric['name'] + '</label>');
-            innerHTML += '<div><input type="text" maxLength="256" data-name="availability-metric-1" id="' + key + '"' +
-                ' name="availability-metric" class="metric-input textfield"';
+            innerHTML += ('<label for="metric-input" class="entry-label">' + metric['name'] + '</label>');
+            innerHTML += '<div><input type="text" maxLength="256" id="' + key + '"' +
+                ' name="metric-input" class="metric-input textfield"';
             if (metric['max_value'] === -1) {
                 innerHTML += ' min="' + metric['min_value'] + '"';
             } else {
@@ -353,19 +371,6 @@ function createMetricsSection(features) {
         // Append element to document
         document.getElementById('metrics-input').appendChild(div);
     });
-
-    // Live check for correct inputs
-    const inputs = document.getElementsByClassName('metric-input textfield');
-    console.log(inputs);
-    console.log(inputs[0]);
-    for (let i = 0; i < inputs.length; i++) {
-        this.addMinMaxPopup(inputs[i]);
-        inputs[i].addEventListener('blur', (event) => {
-            if (!helper.targetAvgIsWithinMinMax(inputs[i]) || inputs[i].value === '') {
-                inputs[i].style.setProperty("border-color", "red", undefined);
-            } else {
-                inputs[i].style.removeProperty("border-color");
-            }
-        });
-    }
+    let elementNames = ['metric-input'];
+    Helper.checkCorrectInputs(elementNames);
 }

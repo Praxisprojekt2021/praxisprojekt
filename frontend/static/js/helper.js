@@ -104,11 +104,34 @@ class Helper {
     }
 
     /**
-     * Adds a min max popup to the parent HTMLelement of the given HTMLelement
+     * Adds min max popups and initializes an eventlistener for every input field
+     * @param {Array} elementNames
+     */
+    static checkCorrectInputs(elementNames) {
+
+        // Live check for correct inputs
+        elementNames.forEach(element => {
+            const inputs = document.getElementsByName(element);
+            for (let i = 0; i < inputs.length; i++) {
+                Helper.addMinMaxPopup(inputs[i]);
+                // Adding event listener for input check
+                inputs[i].addEventListener('blur', (event) => {
+                    if (!Helper.targetAvgIsWithinMinMax(inputs[i])) {
+                        inputs[i].style.setProperty("border-color", "red", undefined);
+                    } else {
+                        inputs[i].style.removeProperty("border-color");
+                    }
+                });
+            }
+        });
+    }
+
+    /**
+     * Adds a min max popup to the parent HTML element of the given HTML element
      *
      * @param {HTMLElement} element
      */
-    addMinMaxPopup(element) {
+    static addMinMaxPopup(element) {
         let tooltipData;
         if (element.hasAttribute("min") && element.hasAttribute("max")) {
             tooltipData = "Min: " + element.getAttribute("min") + " Max: " + element.getAttribute("max");
@@ -250,7 +273,7 @@ class Helper {
      *
      * @param {HTMLElement} element
      */
-    targetAvgIsWithinMinMax(element) {
+    static targetAvgIsWithinMinMax(element) {
         let min = parseFloat(element.getAttribute("min")); // Getting min value for metric
         let max = parseFloat(element.getAttribute("max")); // Getting max value for metric
         let input = parseFloat(element.value); // Getting entered value for metric
