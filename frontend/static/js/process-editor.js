@@ -8,6 +8,7 @@ const url = new URL(url_string);
 let uid = url.searchParams.get('uid');
 
 let features;
+
 /**
  * Initialize View.
  *
@@ -93,7 +94,6 @@ async function getTableHeaderInfo() {
  * @param features
  * @param tableHeaderInfo
  */
-
 function getProcess(features, tableHeaderInfo) {
     const url_string = window.location.href;
     const url = new URL(url_string);
@@ -299,17 +299,17 @@ function fillMetricRows(metricData, slug, processData) {
 
     let innerHTML_target = [];
     innerHTML_target['min'] =
-        `<td class="col-7"><input type="text" name="target-minimum" id="` + slug + `"`; // Rest of the string is added below
+        `<td class="col-7" disabled="true"><input type="text" name="target-minimum" id="` + slug + `"`; // Rest of the string is added below
     innerHTML_target['max'] =
-        `<td class="col-8"><input type="text" name="target-maximum" id="` + slug + `"`; // Rest of the string is added below
+        `<td class="col-8" disabled="true"><input type="text" name="target-maximum" id="` + slug + `"`; // Rest of the string is added below
     if (!binary) {
         innerHTML_target['average'] = `
-             <td class="col-9" ><input type="text" name="target-average" id="` + slug + `"`; // Rest of the string is added below
+             <td class="col-9" disabled="true"><input type="text" name="target-average" id="` + slug + `"`; // Rest of the string is added below
     } else {
         innerHTML_target['average'] = `
-        <td class="col-9" ><input binary="true" type="text" name="target-average" id="` + slug + `"`; // Rest of the string is added below
-            }
-        let innerHTML_total = `
+        <td class="col-9"><input binary="true" type="text" name="target-average" id="` + slug + `"`; // Rest of the string is added below
+    }
+    let innerHTML_total = `
                         <td class="col-10"></td>`;
     let innerHTML_fulfillment = `
                         <td class="col-11"></td>`;
@@ -357,7 +357,13 @@ function fillMetricRows(metricData, slug, processData) {
     return [metric_fulfillment, count_component, innerHTML_metric_row];
 }
 
-
+/**
+ * This function returns a part of the process features table
+ *
+ * @param actual_target_metrics
+ * @param metricData
+ * @returns {string}
+ */
 function getMetricRowActual(actual_target_metrics, metricData) {
     let binary = metricData['binary'];
 
@@ -391,10 +397,17 @@ function getMetricRowActual(actual_target_metrics, metricData) {
                     <td class="col-6" >` + actualMax + `</td>`;
 }
 
+/**
+ * This function returns a part of the process features table
+ *
+ * @param innerHTML_target
+ * @param slug
+ * @param actual_target_metrics
+ * @param binary
+ * @returns {*}
+ */
 function getMetricRowTarget(innerHTML_target, actual_target_metrics, slug, binary) {
-
     let targetValues = {};
-
     Object.keys(innerHTML_target).forEach(function (key) {
         if (actual_target_metrics['target'][key] !== null) {
             targetValues[key] = Math.round(actual_target_metrics['target'][key] * 100 + Number.EPSILON) / 100;
@@ -403,27 +416,33 @@ function getMetricRowTarget(innerHTML_target, actual_target_metrics, slug, binar
         }
     });
 
-    // replace null with empty strings, so that "null" is not entered in the table
+    // Replace null with empty strings, so that "null" is not entered in the table
     if (!binary) {
         innerHTML_target['min'] = `
-                        <td class="col-7" ><input type="text" name="target-minimum" id = "` + slug + `" value="` + targetValues['min'] + `"`;
+                        <td class="col-7" ><input type="text" name="target-minimum" id="` + slug + `" value="` + targetValues['min'] + `"`;
         innerHTML_target['max'] = `
-                        <td class="col-8" ><input type="text" name="target-maximum" id = "` + slug + `" value="` + targetValues['max'] + `"`;
+                        <td class="col-8" ><input type="text" name="target-maximum" id="` + slug + `" value="` + targetValues['max'] + `"`;
         innerHTML_target['average'] = `
-                        <td class="col-9" ><input type="text" name="target-average" + id = "` + slug + `" value="` + targetValues['average'] + `"`;
+                        <td class="col-9" ><input type="text" name="target-average" id="` + slug + `" value="` + targetValues['average'] + `"`;
     } else {
         innerHTML_target['min'] = `
-                        <td class="col-7" ><input disabled type="text" name="target-minimum" id = "` + slug + `"`;
+                        <td class="col-7" ><input disabled type="text" name="target-minimum" id="` + slug + `"`;
         innerHTML_target['max'] = `
-                        <td class="col-8" ><input disabled type="text" name="target-maximum" id = "` + slug + `"`;
+                        <td class="col-8" ><input disabled type="text" name="target-maximum" id="` + slug + `"`;
         innerHTML_target['average'] = `
-                        <td class="col-9" ><input type="text" name="target-average" binary="true" + id = "` + slug + `" value="` + targetValues['average'] * 100 + `"`;
+                        <td class="col-9" ><input type="text" name="target-average" binary="true" id="` + slug + `" value="` + targetValues['average'] * 100 + `"`;
     }
     return innerHTML_target;
 }
 
+/**
+ * This function returns a part of the process features table
+ *
+ * @param actual_target_metrics
+ * @param binary
+ * @returns {string}
+ */
 function getMetricRowTotal(actual_target_metrics, binary) {
-
     let targetTotalValue = "";
     if (!binary) {
         if ('total' in actual_target_metrics['target']) {
@@ -432,11 +451,16 @@ function getMetricRowTotal(actual_target_metrics, binary) {
     } else {
         targetTotalValue = "-";
     }
-
-    return `<td class="col-10" >` + targetTotalValue + `</td>`;
+    return `<td class="col-10">` + targetTotalValue + `</td>`;
 }
 
-
+/**
+ * This function returns a part of the process features table
+ *
+ * @param innerHTML_target
+ * @param metricData
+ * @returns {*}
+ */
 function addMinMaxToInputFields(innerHTML_target, metricData) {
     let binary = metricData['binary'];
     // Rest of the innerHTML_target string
@@ -447,7 +471,9 @@ function addMinMaxToInputFields(innerHTML_target, metricData) {
         innerHTML_target += ' min="' + 0 + '%"';
         innerHTML_target += ' max="' + 100 + '%"';
     }
-    innerHTML_target += ` disabled="true"></td>`;
+    innerHTML_target += ` disabled="true">`
+    if (binary && innerHTML_target.includes('target-average')) innerHTML_target += `<span class="percentage-span">%</span>`;
+    innerHTML_target += `</td>`;
 
     return innerHTML_target;
 
@@ -461,7 +487,6 @@ function addMinMaxToInputFields(innerHTML_target, metricData) {
 function renderWholeProcessScoreCircle(wholeProcessScore) {
     let color;
     wholeProcessScore = parseInt(wholeProcessScore);
-
     color = helper.getCircleColor(wholeProcessScore);
 
     if (!isNaN(wholeProcessScore)) {
@@ -586,8 +611,18 @@ function loadComponentNames(processData) {
     helper.http_request("GET", "/content/mapping_metrics_definition.json", true, "", function (metricsDefinition) {
         createComponentTable(processData, metricsDefinition);
         visualizeProcess(processData, metricsDefinition);
+        showAddComponent();
         helper.http_request("GET", "/component/overview", true, "", fillComponentDropdown);
     });
+}
+
+/**
+ * This function renders the add component elements to the view
+ */
+function showAddComponent() {
+    document.getElementById('add-component-dropdown').innerHTML = `
+        <select id="addposition" class="postion-dropdown"></select>
+        <button class="button" type="button" onclick="addComponent()">+</button>`;
 }
 
 /**
@@ -657,7 +692,7 @@ function createComponentTable(processData, metricsDefinition) {
  * This function fills the component dropdown to enable the functionality of adding components to a process
  *
  * @param {json} componentData: A list of all components available through user input
- * */
+ */
 function fillComponentDropdown(componentData) {
     let components = componentData['components'];
     document.getElementById('addposition').innerHTML = '';
@@ -828,7 +863,6 @@ function visualizeProcess(processData, metricsDefinition) {
     let components = processData['process']['components'];
     components.sort((a, b) => (a.weight > b.weight) ? 1 : ((b.weight > a.weight) ? -1 : 0));
 
-
     // Begin at index 1 because 0 contains table headers
     for (let i = 0; i < components.length; i++) {
         let currentComponent = components[i];
@@ -887,7 +921,6 @@ function horizontalScroll() {
         delta = delta * (-50);
 
         document.getElementById("visualizeprocess").scrollLeft -= delta;
-
         e.preventDefault();
     });
 }

@@ -129,7 +129,7 @@
       "name": "Test quality",
       "metrics": {
         "test_automation": {
-          "name": "Test-Automation[in %]",
+          "name": "Test-Automation [in %]",
           "fulfilled_if": ">",
           "max_value": 100,
           "min_value": 0,

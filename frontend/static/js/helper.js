@@ -236,11 +236,13 @@ class Helper {
                 if (element.childNodes.length > 0) {
                     if (element.children[0] !== undefined) {
                         element.children[0].setAttribute("disabled", true);
+                        element.setAttribute("disabled", true);
                     }
                 }
             }));
         } else {
             element.children[0].childNodes.forEach(element => element.children[1].children[0].removeAttribute("disabled"));
+            element.children[0].childNodes.forEach(element => element.children[1].removeAttribute("disabled"));
         }
         element.setAttribute('data-collapsed', 'true');
     }
@@ -272,10 +274,12 @@ class Helper {
                                     }
                                     if (!binary) {
                                         element.children[0].removeAttribute("disabled");
+                                        element.removeAttribute("disabled");
                                     }
                                 }
                             } else {
                                 element.children[0].removeAttribute("disabled");
+                                element.removeAttribute("disabled");
                             }
                         }
                     }
@@ -283,6 +287,7 @@ class Helper {
             }));
         } else {
             element.children[0].childNodes.forEach(element => element.children[1].children[0].removeAttribute("disabled"));
+            element.children[0].childNodes.forEach(element => element.children[1].removeAttribute("disabled"));
         }
     }
 
