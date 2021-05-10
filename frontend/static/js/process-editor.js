@@ -260,8 +260,10 @@ function createMetricsSection(features, processData, tableHeaderInfo) {
     Helper.hideLoadingScreen();
 }
 
+/**
+ * This functions checks input fields for correct inputs withig min and max values
+ */
 function checkCorrectInputs() {
-
     // Live check for correct inputs
     let names = ['target-average', 'target-minimum', 'target-maximum'];
     names.forEach(element => {
@@ -361,9 +363,14 @@ function fillMetricRows(metricData, slug, processData) {
     return [metric_fulfillment, count_component, innerHTML_metric_row];
 }
 
-
+/**
+ * This function returns a part of the process features table
+ *
+ * @param actual_target_metrics
+ * @param metricData
+ * @returns {string}
+ */
 function getMetricRowActual(actual_target_metrics, metricData) {
-
     return `
                 <tr>
                     <td class="col-1"  id="` + metricData['name'] + `">` + metricData['name'] + ` </td>
@@ -374,10 +381,16 @@ function getMetricRowActual(actual_target_metrics, metricData) {
                     <td class="col-6" >` + Math.round(actual_target_metrics['actual']['max'] * 100 + Number.EPSILON) / 100 + `</td>`;
 }
 
+/**
+ * This function returns a part of the process features table
+ *
+ * @param innerHTML_target
+ * @param actual_target_metrics
+ * @param slug
+ * @returns {*}
+ */
 function getMetricRowTarget(innerHTML_target, actual_target_metrics, slug) {
-
     let targetValues = {};
-
     Object.keys(innerHTML_target).forEach(function (key) {
         if (actual_target_metrics['target'][key] !== null) {
             targetValues[key] = Math.round(actual_target_metrics['target'][key] * 100 + Number.EPSILON) / 100;
@@ -397,20 +410,28 @@ function getMetricRowTarget(innerHTML_target, actual_target_metrics, slug) {
     return innerHTML_target;
 }
 
+/**
+ * This function returns a part of the process features table
+ *
+ * @param actual_target_metrics
+ * @returns {string}
+ */
 function getMetricRowTotal(actual_target_metrics) {
-
     let targetTotalValue = "";
-
     if ('total' in actual_target_metrics['target']) {
         targetTotalValue = Math.round(actual_target_metrics['target']['total'] * 100 + Number.EPSILON) / 100;
     }
-
     return `<td class="col-10" >` + targetTotalValue + `</td>`;
 }
 
-
+/**
+ * This function returns a part of the process features table
+ *
+ * @param innerHTML_target
+ * @param metricData
+ * @returns {*}
+ */
 function addMinMaxToInputFields(innerHTML_target, metricData) {
-
     // Rest of the innerHTML_target string
     if (metricData['min_value'] >= 0) innerHTML_target += ' min="' + metricData['min_value'] + '"';
     if (metricData['max_value'] >= 0) innerHTML_target += ' max="' + metricData['max_value'] + '"';
@@ -429,7 +450,6 @@ function addMinMaxToInputFields(innerHTML_target, metricData) {
 function renderWholeProcessScoreCircle(wholeProcessScore) {
     let color;
     wholeProcessScore = parseInt(wholeProcessScore);
-
     color = helper.getCircleColor(wholeProcessScore);
 
     if (!isNaN(wholeProcessScore)) {
@@ -445,7 +465,6 @@ function renderWholeProcessScoreCircle(wholeProcessScore) {
 /**
  * This function saves the data entered to the database by transmitting the data to the backend
  */
-
 function createEditProcess() {
     Helper.showLoadingScreen();
     let metric_elements = {};
@@ -557,8 +576,10 @@ function loadComponentNames(processData) {
     });
 }
 
-function showAddComponent(){
-
+/**
+ * This function renders the add component elements to the view
+ */
+function showAddComponent() {
     document.getElementById('add-component-dropdown').innerHTML = `
         <select id="addposition" class="postion-dropdown"></select>
         <button class="button" type="button" onclick="addComponent()">+</button>`;
@@ -860,7 +881,6 @@ function horizontalScroll() {
         delta = delta * (-50);
 
         document.getElementById("visualizeprocess").scrollLeft -= delta;
-
         e.preventDefault();
     });
 }
@@ -870,7 +890,6 @@ function horizontalScroll() {
  *
  * @param {JSON} response
  */
-
 function saveCallback(response) {
     // Process has been created/edited successfully
     Helper.hideLoadingScreen();
