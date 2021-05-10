@@ -34,6 +34,7 @@ a {
     margin-right: auto;
     margin-left: auto;
     text-align: left;
+    width: 5vmax;
 }
 
 .button-area {
@@ -48,6 +49,7 @@ a {
     border-style: solid;
     border-width: 0.052vmax;
     border-color: #e6e6e6;
+    border-radius: 1rem;
     background-color: #ececec;
     box-shadow: rgba(50, 50, 93, 0.015) 0vmax 10vmax 10vmax -0.313vmax inset, rgba(0, 0, 0, 0.28) 0vmax 0.313vmax 1.302vmax -0.938vmax inset,rgba(0, 0, 0, 0.19) 0vmax 10vmax 20vmax, rgba(0, 0, 0, 0.17) 0vmax 0.313vmax 0.313vmax;
 }
@@ -61,6 +63,7 @@ a {
     margin-bottom: 0.156vmax;
     margin-right: 0.156vmax;
     background-color: #1f299c;
+    border-radius: 0.5rem;
     color: white;
     border: 0;
     cursor: pointer;
@@ -139,7 +142,9 @@ a {
 .small-circle {
     height: 1.042vmax;
     width: 2.344vmax;
-    border-radius: 8%;
+    max-height: 2vh;
+    max-width: 2.5vh;
+    border-radius: 10%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -329,7 +334,7 @@ td {
 }
 
 #componentTable .col-1 {
-    width: 36%;
+    width: 32%;
 }
 
 #componentTable .col-2 {
@@ -341,7 +346,7 @@ td {
 }
 
 #componentTable .col-4 {
-    width: 10%;
+    width: 14%;
 }
 
 #componentTable .col-5 {
@@ -357,7 +362,7 @@ td {
 }
 
 #processTable .col-1 {
-    width: 36%;
+    width: 32%;
     overflow: hidden;
 }
 
@@ -378,7 +383,7 @@ td {
 }
 
 #processTable .col-6 {
-    width: 10%;
+    width: 14%;
 }
 
 #processTable .col-7 {
