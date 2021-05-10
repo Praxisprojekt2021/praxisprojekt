@@ -21,6 +21,14 @@ GET_PROCESS_SETUP_AND_OUT = {
         # ...
     },
 }
+dict_input_dict = {
+    "process": {
+        "uid": 3,
+        "name": "---",
+        "description": "...."
+    },
+    "target_metrics": {"number_of_lines_of_source_code_loc": {"average": "2", "min": "d", "max": "d"}}
+}
 
 GET_PROCESS_IN = {
     "uid": "",
