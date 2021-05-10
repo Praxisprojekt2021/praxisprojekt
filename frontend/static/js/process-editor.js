@@ -200,7 +200,6 @@ function createMetricsSection(features, processData, tableHeaderInfo) {
 
         let innerHTML = '';
         innerHTML += '<div data-hover="" data-delay="0" class="accordion-item">';
-        innerHTML += '<div data-hover="" data-delay="0" class="accordion-item">';
         innerHTML += '<div class="accordion-toggle" onclick="helper.toggleSection(this)">';
         innerHTML += '<div class="accordion-icon-dropdown-toggle">&#709</div>';
         innerHTML += '<div class="features-label">' + feature_header + '</div>';
@@ -553,8 +552,16 @@ function loadComponentNames(processData) {
     helper.http_request("GET", "/content/mapping_metrics_definition.json", true, "", function (metricsDefinition) {
         createComponentTable(processData, metricsDefinition);
         visualizeProcess(processData, metricsDefinition);
+        showAddComponent();
         helper.http_request("GET", "/component/overview", true, "", fillComponentDropdown);
     });
+}
+
+function showAddComponent(){
+
+    document.getElementById('add-component-dropdown').innerHTML = `
+        <select id="addposition" class="postion-dropdown"></select>
+        <button class="button" type="button" onclick="addComponent()">+</button>`;
 }
 
 /**
@@ -618,7 +625,6 @@ function createComponentTable(processData, metricsDefinition) {
             }
         }
     });
-    helper.changeElementDisplayValue('add-component-dropdown');
 }
 
 /**
@@ -795,13 +801,6 @@ function visualizeProcess(processData, metricsDefinition) {
     let innerHTML = "";
     let components = processData['process']['components'];
     components.sort((a, b) => (a.weight > b.weight) ? 1 : ((b.weight > a.weight) ? -1 : 0));
-
-    if(components.length == 0) {
-        div.style.display = "none";
-    }   else {
-        div.style.display = "block";
-    }
-
 
     // Begin at index 1 because 0 contains table headers
     for (let i = 0; i < components.length; i++) {

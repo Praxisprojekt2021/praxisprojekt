@@ -309,18 +309,4 @@ class Helper {
         let input = parseFloat(element.value); // Getting entered value for metric
         return !(input < min || input > max);
     }
-
-    /**
-     * This function shows The Select-Line class on creation of process
-     *
-     * @param {HTMLElement} id
-     * @param {String} display_value
-     */
-    changeElementDisplayValue(id, display_value = 'block') {
-        let element =  document.getElementById(id);
-        if(element.style.display !== display_value){
-             document.getElementById(id).style.display = display_value;
-        }
-
-    }
 }
