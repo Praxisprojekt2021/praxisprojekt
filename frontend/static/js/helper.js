@@ -280,7 +280,7 @@ class Helper {
         return !(input < min || input > max);
     }
 
-    raise_alert(type, name_empty = false, text_replaced = false, minmaxlist = '', component_category_missing = false, emptyFieldList = '') {
+    static raise_alert(type, name_empty = false, text_replaced = false, minmaxlist = '', component_category_missing = false, emptyFieldList = '') {
         let alert_string = 'Changes could not be saved. ';
 
         if (name_empty) {

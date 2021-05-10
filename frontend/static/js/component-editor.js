@@ -285,7 +285,7 @@ function createEditComponent() {
         Helper.showLoadingScreen();
         helper.http_request("POST", '/component/create_edit', true, JSON.stringify(component), saveCallback);
     } else {
-        helper.raise_alert('component', component_name_empty, text_replaced_flag, minmaxlist, !component_category_helper_flag, emptyFieldList);
+        Helper.raise_alert('component', component_name_empty, text_replaced_flag, minmaxlist, !component_category_helper_flag, emptyFieldList);
     }
 }
 

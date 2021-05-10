@@ -500,7 +500,7 @@ function createEditProcess() {
     if (minmaxlist === "" && !process_name_empty && !text_replaced_flag) {
         saveProcess(process);
     } else {
-        helper.raise_alert('process', process_name_empty, text_replaced_flag, minmaxlist);
+        Helper.raise_alert('process', process_name_empty, text_replaced_flag, minmaxlist);
     }
 }
 
