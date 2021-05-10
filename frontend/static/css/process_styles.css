@@ -179,8 +179,7 @@ button, html input[type="button"], input[type="reset"] {
   position: relative;
   display: inline-block;
   overflow: visible;
-  margin-top: 0.104vmax;
-  margin-left: 0.521vmax;
+  margin: 0;
   float: left;
   border-radius: 1.042vmax;
   transition: 0.21s ease-out;
@@ -503,7 +502,7 @@ table .process-visualization {
 .accordion-icon-dropdown-toggle {
   position: absolute;
   font-size: 1.042vmax;
-  top: 20;
+  top: 1.042vw;
   right: 0;
   bottom: 0;
   margin: auto;
@@ -515,8 +514,6 @@ table .process-visualization {
 
 #ComponentOverviewTable {
   display: block;
-  margin-left: 10%;
-  margin-right: 10%;
   padding-bottom: 1.042vmax;
 }
 
