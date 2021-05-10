@@ -224,11 +224,11 @@ class Helper {
         element.style.transition = '';
 
         requestAnimationFrame(function () {
-            element.style.height = sectionHeight + 'px';
+            element.style.height = sectionHeight + 'vmax';
             element.style.transition = elementTransition;
-            element.style.margin = "0px 0px 0px 0px";
+            element.style.margin = "0vmax 0vmax 0vmax 0vmax";
             requestAnimationFrame(function () {
-                element.style.height = 0 + 'px';
+                element.style.height = 0 + '0vmax';
             });
         });
         if (element.parentElement.parentElement.parentElement.id === "metrics-input-processes") {
@@ -252,8 +252,8 @@ class Helper {
      */
     expandSection(element) {
         const sectionHeight = element.scrollHeight;
-        element.style.height = sectionHeight + 'px';
-        element.style.margin = "0px 0px 10px 0px";
+        element.style.height = sectionHeight/(window.innerWidth/100) +'vmax';
+        element.style.margin = "0vmax 0vmax 0.5210vmax 0vmax";
         element.setAttribute('data-collapsed', 'false');
         if (element.parentElement.parentElement.parentElement.id === "metrics-input-processes") {
             element.children[0].children[0].children[0].childNodes.forEach(element => element.childNodes.forEach(element => {

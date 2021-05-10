@@ -20,6 +20,18 @@ body {
     overflow-y: scroll;
 }
 
+@media only screen and (max-width: 1400px) {
+    body {
+        width: 82%;
+    }
+}
+
+@media only screen and (max-width: 800px) {
+    body {
+        width: 87%;
+    }
+}
+
 * {
     box-sizing: border-box;
 }
@@ -49,7 +61,7 @@ a {
     border-style: solid;
     border-width: 0.052vmax;
     border-color: #e6e6e6;
-    border-radius: 1rem;
+    border-radius: 0.7vmax;
     background-color: #ececec;
     box-shadow: rgba(50, 50, 93, 0.015) 0vmax 10vmax 10vmax -0.313vmax inset, rgba(0, 0, 0, 0.28) 0vmax 0.313vmax 1.302vmax -0.938vmax inset,rgba(0, 0, 0, 0.19) 0vmax 10vmax 20vmax, rgba(0, 0, 0, 0.17) 0vmax 0.313vmax 0.313vmax;
 }
@@ -63,7 +75,7 @@ a {
     margin-bottom: 0.156vmax;
     margin-right: 0.156vmax;
     background-color: #1f299c;
-    border-radius: 0.5rem;
+    border-radius: 0.35vmax;
     color: white;
     border: 0;
     cursor: pointer;
@@ -284,6 +296,10 @@ a {
     padding-right: 0.521vmax;
 }
 
+.responsive-table {
+    font-size: 0.833vw;
+}
+
 .responsive-table tr {
     padding-top: 0.521vmax;
     padding-bottom: 0.521vmax;
@@ -291,7 +307,7 @@ a {
 }
 
 tr {
-    border-radius: 0.156vmax;
+    border-radius: 0.35vmax;
     padding-left: 1.563vmax;
     padding-right: 1.563vmax;
     display: flex;
@@ -301,7 +317,7 @@ tr {
 
 tr:hover:not(.table-header) {
     transition: 0.15s ease-out;
-    box-shadow: 0vmax 0vmax 0.469vmax 0vmax rgb(0 0 0 / 39%)
+    box-shadow: 0vmax 0vmax 0.469vmax 0vmax rgba(0, 0, 0, 0.39)
 }
 
 .table-header {
@@ -486,7 +502,7 @@ td {
 
 .info-text-popup::before {
     content: attr(tooltip-data);/* print em-space with class text */
-    font-size: 0.26vmax;
+    font-size: 0.6vmax;
     right: 10%;
     display: block;
     position: absolute;

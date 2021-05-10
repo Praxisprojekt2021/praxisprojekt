@@ -173,7 +173,6 @@ function setSections(selected_category) {
         .then(data => {
             const category = data['categories'][selected_category]['sections'];
             Object.keys(category).forEach(function (key) {
-                console.log(document.getElementById(key));
                 const feature_child = document.getElementById(key).children[0].children[0];
                 const metrics_child = document.getElementById(key).children[0].children[1];
                 if (category[key] === 'true') {

@@ -13,6 +13,18 @@ body {
   overflow-y: scroll;
 }
 
+@media only screen and (max-width: 1400px) {
+  body {
+    width: 82%;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  body {
+    width: 87%;
+  }
+}
+
 label {
   margin-bottom: 0.313vmax;
   max-width: 100%;
@@ -142,7 +154,7 @@ button, html input[type="button"], input[type="reset"] {
 .accordion-icon-dropdown-toggle {
   position: absolute;
   font-size: 1.042vmax;
-  top: 20;
+  top: 1.042vw;
   right: 0;
   bottom: 0;
   margin: auto;
@@ -165,6 +177,7 @@ button, html input[type="button"], input[type="reset"] {
 }
 
 .info-icon {
+  width: 6%;
   position: relative;
   display: inline-block;
   overflow: visible;
