@@ -309,7 +309,7 @@
           "max_value": -1,
           "min_value": 0,
           "description_component": "Number of administrators for the component.",
-          "example_component": "If there are 4 administrators for a component, an input of 4 follows. \nIf an administrator is responsible for multiple components, he will be considered as a single administrator for each component.",
+          "example_component": "If there are 4 administrators for a component, an input of 4 follows. \nIf an administrator is responsible for multiple components, \nhe will be considered as a single administrator for each component.",
           "description_process": "Number of administrators.",
           "example_process": "For a process with 15 components and a target value of 45 administrators, an input of 3 [Administrators] is entered."
         },
