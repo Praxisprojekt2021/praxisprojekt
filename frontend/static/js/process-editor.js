@@ -302,9 +302,14 @@ function fillMetricRows(metricData, slug, processData) {
         `<td class="col-7"><input type="text" name="target-minimum" id="` + slug + `"`; // Rest of the string is added below
     innerHTML_target['max'] =
         `<td class="col-8"><input type="text" name="target-maximum" id="` + slug + `"`; // Rest of the string is added below
-    innerHTML_target['average'] = `
+    if (!binary) {
+        innerHTML_target['average'] = `
              <td class="col-9" ><input type="text" name="target-average" id="` + slug + `"`; // Rest of the string is added below
-    let innerHTML_total = `
+    } else {
+        innerHTML_target['average'] = `
+        <td class="col-9" ><input binary="true" type="text" name="target-average" id="` + slug + `"`; // Rest of the string is added below
+            }
+        let innerHTML_total = `
                         <td class="col-10"></td>`;
     let innerHTML_fulfillment = `
                         <td class="col-11"></td>`;
@@ -503,6 +508,7 @@ function createEditProcess() {
             }
 
             if (metric_elements[key][i].value !== '') {
+                console.log(metric_elements['average'][i]);
                 if (key === "average" && metric_elements['average'][i].hasAttribute("binary")) {
                     metrics[id][key] = parseFloat(metric_elements[key][i].value) / 100;
                 } else {

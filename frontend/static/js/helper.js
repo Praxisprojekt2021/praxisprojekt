@@ -262,7 +262,6 @@ class Helper {
                     let binary = false;
                     if (element.children[0] !== undefined) {
                         if (metricDefinitions !== null) {
-                            console.log(element.children[0]);
                             if (element.children[0].name !== "target-average") {
                                 let metricId = element.children[0].id;
                                 if (metricId !== null && metricId !== undefined) {
@@ -270,7 +269,6 @@ class Helper {
                                     let metricDefinition = metricDefinitions[metricCategory]['metrics'][metricId];
                                     if (metricDefinition !== undefined) {
                                         binary = metricDefinition['binary'];
-                                        console.log(binary);
                                     }
                                     if (!binary) {
                                         element.children[0].removeAttribute("disabled");
