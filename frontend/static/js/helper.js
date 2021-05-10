@@ -218,11 +218,12 @@ class Helper {
      *
      * @param {HTMLElement} element: HTML accordion to be collapsed
      */
-    collapseSection(element) {
+     collapseSection(element) {
+        element.parentElement.style.setProperty("overflow", "hidden", undefined);
         const sectionHeight = element.scrollHeight;
         const elementTransition = element.style.transition;
         element.style.transition = '';
-
+ 
         requestAnimationFrame(function () {
             element.style.height = sectionHeight + 'px';
             element.style.transition = elementTransition;
@@ -244,7 +245,7 @@ class Helper {
         }
         element.setAttribute('data-collapsed', 'true');
     }
-
+ 
     /**
      * This functions expands the accordion
      *
@@ -266,8 +267,9 @@ class Helper {
         } else {
             element.children[0].childNodes.forEach(element => element.children[1].children[0].removeAttribute("disabled"));
         }
+        setTimeout(() => { element.parentElement.style.setProperty("overflow", "visible", undefined); }, 350);
     }
-
+    
     /**
      * This function checks if the given target average is within the allowed min/max value
      *
