@@ -7,6 +7,7 @@ const url_string = window.location.href;
 const url = new URL(url_string);
 let uid = url.searchParams.get('uid');
 
+let features;
 /**
  * Initialize View.
  *
@@ -15,6 +16,7 @@ let uid = url.searchParams.get('uid');
 function init(json_process = false) {
     Helper.showLoadingScreen();
     getFeatures().then(data => {
+        features = data;
         // If page is reloaded (after saving) processes are updated else => page is loaded from databased and entries are prepared
         getTableHeaderInfo().then(tableHeaderInfo => {
                 if (!json_process) {
@@ -209,7 +211,7 @@ function createMetricsSection(features, processData, tableHeaderInfo) {
 
         let innerHTML = '';
         innerHTML += '<div data-hover="" data-delay="0" class="accordion-item">';
-        innerHTML += '<div class="accordion-toggle" onclick="helper.toggleSection(this)">';
+        innerHTML += '<div class="accordion-toggle" onclick="helper.toggleSection(this, features)">';
         innerHTML += '<div class="accordion-icon-dropdown-toggle">&#709</div>';
         innerHTML += '<div class="features-label">' + feature_header + '</div>';
         innerHTML += helper.renderSmallCircle(feature_fulfillment);
