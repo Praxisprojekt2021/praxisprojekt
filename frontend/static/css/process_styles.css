@@ -14,54 +14,10 @@
   }
 }
 
-label {
-  margin-bottom: 0.313vmax;
-  max-width: 100%;
-  vertical-align: middle;
-}
-
-a {
-  background-color: transparent;
-}
-
-html input[disabled] {
-  cursor: default;
-  background: #dddddd;
-}
-
 input, select, textarea, button {
   font: inherit;
 }
 
-button, html input[type="button"], input[type="reset"] {
-  cursor: pointer;
-}
-
-.component-form, .process-form {
-  margin-right: 0.781vmax;
-  margin-left: 0.781vmax;
-}
-
-.sub-description-label {
-  padding-top: 0.5%;
-  font-size: 0.7vw;
-}
-
-.component-form-block, .process-form-block {
-  position: relative;
-  margin-top: 0.781vmax;
-  margin-bottom: 0.781vmax;
-}
-
-.entry-label {
-  position: relative;
-  top: 0.156vmax;
-  display: inline-block;
-  padding-left: 0.26vmax;
-  float: left;
-  clear: left;
-  font-weight: 400;
-}
 
 .textarea {
   position: relative;
@@ -92,54 +48,10 @@ button, html input[type="button"], input[type="reset"] {
   border-top: 1px solid #b1b1b16b;
 }
 
-.accordion-toggle {
-  display: block;
-  overflow: visible;
-  width: 100%;
-  position: relative;
-  vertical-align: top;
-  padding-top: 1.042vmax;
-  padding-bottom: 1.042vmax;
-  padding-left: 0.521vmax;
-  padding-right: 2.083vmax;
-  text-align: left;
-  margin-left: auto;
-  margin-right: auto;
-  cursor: pointer;
-  transition: 0.35s ease-out;
-}
-
-.accordion-toggle[disabled] {
-  color: #999999;
-  cursor: default;
-}
-
-.accordion-item {
-  display: block;
-  overflow: hidden;
-  height: auto;
-  width: 100%;
-  position: relative;
-  margin-left: auto;
-  margin-right: auto;
-}
-
 .accordion-icon {
   position: absolute;
   margin: auto;
   margin-right: 1.042vmax;
-}
-
-.dropdown-list {
-  height: 0vmax;
-  position: static;
-  display: block;
-  overflow: visible;
-  padding-right: 0vmax;
-  padding-left: 0vmax;
-  width: 100%;
-  min-width: 100%;
-  transition: height 0.3s ease-out;
 }
 
 .info-icon {
@@ -153,42 +65,6 @@ button, html input[type="button"], input[type="reset"] {
   opacity: 0.65;
 }
 
-.info-icon:hover {
-  transition: 0.21s ease-out;
-  opacity: 1;
-}
-
-.textfield, .category-dropdown {
-  display: inline-block;
-  width: auto;
-  max-width: 100%;
-  min-width: 10.417vmax;
-  float: left;
-  clear: left;
-  border-radius: 0.365vmax;
-  padding: 0.417vmax 0.625vmax;
-  margin-bottom: 0.521vmax;
-  font-size: 0.729vmax;
-  line-height: 1.428571429;
-  color: #333333;
-  vertical-align: middle;
-  border: 0.052vmax solid #ccc;
-}
-
-.category-dropdown {
-  cursor: pointer;
-}
-
-.features-label {
-  transition: 0.17s ease-out;
-  font-weight: 700;
-}
-
-.accordion-toggle:hover:not([disabled]) .features-label {
-  transition: 0.15s ease-out;
-  color: #414dde
-}
-
 .component-overview, .process-overview {
   border-radius: 0.7vmax;
   padding-top: 2.083vmax;
@@ -199,27 +75,6 @@ button, html input[type="button"], input[type="reset"] {
   border-color: #e6e6e6;
   background-color: #ececec;
   box-shadow: rgba(50, 50, 93, 0.015) 0vmax 10vmax 10vmax -0.313vmax inset, rgba(0, 0, 0, 0.28) 0vmax 0.313vmax 1.302vmax -0.938vmax inset,rgba(0, 0, 0, 0.19) 0vmax 10vmax 20vmax, rgba(0, 0, 0, 0.17) 0vmax 0.313vmax 0.313vmax;
-}
-
-.features-columns {
-  display: inline-block;
-  width: 100%;
-  margin-left: 0.521vmax;
-}
-
-.description-columns {
-  display: inline-block;
-}
-
-.feature-section {
-  overflow: visible;
-  border-bottom: 0.052vmax solid #c5c5c5;
-}
-
-.control-area {
-  padding-top: 1.563vmax;
-  padding-bottom: 1.042vmax;
-  padding-left: 0.521vmax;
 }
 
 .create-button {
@@ -240,14 +95,6 @@ button, html input[type="button"], input[type="reset"] {
 }
 
 .create-button:hover {
-  transition: 0.3s ease-out;
-  background-color: #a3a9f5ff;
-  color: black;
-  font-weight: 900;
-  box-shadow: 0.156vmax 0.156vmax;
-}
-
-.create-button:hover {
   box-shadow: 3px 3px #4ad28f, -3px -3px #4ad28f;
   cursor: pointer;
 }
@@ -260,20 +107,6 @@ button, html input[type="button"], input[type="reset"] {
   transition: 0.45s ease-out;
   background-color: #1f299c;
   box-shadow: 0px 0px #4ad28f, -0px -0px #4ad28f;
-}
-
-.metric-entry-element {
-  width: 50%;
-  display: inline-block;
-}
-
-.default-column {
-  position: relative;
-  float: left;
-  width: 50%;
-  min-height: 0.052vmax;
-  padding-left: 0.521vmax;
-  padding-right: 0.521vmax;
 }
 
 .div-wrapper {
