@@ -36,21 +36,7 @@
     margin-top: 2.424vmax;
     text-align: center;
 }
-/*
-.navigation-links {
-    display: block;
-    padding-right: 0.303vmax;
-    padding-left: 0.303vmax;
-    float: left;
-    color: #000;
-    text-decoration: none;
-    cursor: pointer;
-}
 
-.navigation-link-separator {
-    float: left;
-}
-*/
 * {box-sizing:border-box}
 
 /* Slideshow container */
