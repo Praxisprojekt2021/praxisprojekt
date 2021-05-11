@@ -70,7 +70,7 @@ function getFeatures() {
                 createMetricsSection(features);
                 let div = document.createElement('div');
                 div.className = 'control-area';
-                div.innerHTML = `<button id="save-button" class="create-button" onclick="createEditComponent()" type="button">` + buttonType + `</button>`;
+                div.innerHTML = `<button id="save-button" class="button" onclick="createEditComponent()" type="button">` + buttonType + `</button>`;
 
                 // Append element to document
                 document.getElementById('metrics-input').appendChild(div);
@@ -315,7 +315,7 @@ function createMetricsSection(features) {
             innerHTML += '<div class="metric-entry-element">';
             innerHTML += ('<label for="metric-input" class="entry-label">' + metric['name'] + '</label>');
             if (!binary) {
-                innerHTML += '<div><input type="text" maxLength="256" id="' + key + '"' +
+                innerHTML += '<div><input disabled="true" type="text" maxLength="256" id="' + key + '"' +
                     ' name="metric-input" class="metric-input textfield"';
                 if (metric['max_value'] === -1) {
                     innerHTML += ' min="' + metric['min_value'] + '"';

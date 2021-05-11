@@ -10,7 +10,7 @@ let uid = url.searchParams.get('uid');
 let features;
 
 /**
- * Initialize View.
+ * Initialize View
  *
  * @param {json, boolean} json_process
  */
@@ -33,7 +33,7 @@ function init(json_process = false) {
 }
 
 /**
- * Get list of features.
+ * Get list of features
  */
 async function getFeatures() {
     // Read JSON file
@@ -64,7 +64,7 @@ async function getFeatures() {
 }
 
 /**
- * Get description of buttons from json.
+ * Get description of buttons from json
  */
 async function getButtonType() {
     // Read JSON file
@@ -78,7 +78,7 @@ async function getButtonType() {
 }
 
 /**
- * Get list of process features.
+ * Get list of process features
  */
 async function getTableHeaderInfo() {
     // Read JSON file
@@ -90,7 +90,8 @@ async function getTableHeaderInfo() {
 }
 
 /**
- * Fetches process data from BE.
+ * Fetches process data from backend
+ *
  * @param features
  * @param tableHeaderInfo
  */
@@ -159,7 +160,7 @@ function fillDescriptionColumn(processData) {
 }
 
 /**
- * Render metrics section.
+ * Render metrics section
  *
  * @param {json} features
  * @param {json} processData
@@ -285,7 +286,7 @@ function fillMetricRows(metricData, slug, processData) {
     let count_component = 0;
 
     let binary = metricData['binary'];
-    // default table row, when no metric data is provided
+
     // Default table row, when no metric data is provided
     let innerHTML_actual = `
                     <tr>
@@ -332,7 +333,6 @@ function fillMetricRows(metricData, slug, processData) {
             innerHTML_target = getMetricRowTarget(innerHTML_target, actual_target_metrics, slug, binary);
             innerHTML_total = getMetricRowTotal(actual_target_metrics, binary);
         }
-
 
         // Check if a fulfillment and consequentially a target sum is provided (if fulfillment was calculated, a target sum was also able to be calculated)
         if ('fulfillment' in processData['actual_target_metrics'][slug]) {
@@ -383,12 +383,30 @@ function getMetricRowActual(actual_target_metrics, metricData) {
 
     return `
                 <tr>
-                    <td class="col-1"  id="` + metricData['name'] + `">` + metricData['name'] + ` </td>
-                    <td class="col-2" >` + actualAverage + `</td>
-                    <td class="col-3" >` + actualStandardDev + `</td>
-                    <td class="col-4" >` + actualTotal + `</td>
-                    <td class="col-5" >` + actualMin + `</td>
-                    <td class="col-6" >` + actualMax + `</td>`;
+                    <td class="col-1" id="` + metricData['name'] + `">` + metricData['name'] + ` </td>
+                    <td class="col-2">` + normalizeNumber(actualAverage) + `</td>
+                    <td class="col-3">` + normalizeNumber(actualStandardDev) + `</td>
+                    <td class="col-4">` + normalizeNumber(actualTotal) + `</td>
+                    <td class="col-5">` + normalizeNumber(actualMin) + `</td>
+                    <td class="col-6">` + normalizeNumber(actualMax) + `</td>`;
+}
+
+/**
+ * This function rounds the numbers according to their length
+ *
+ * @param {string} number: The number string that will be normalized
+ * @return {string} number: The normalized number string
+ */
+function normalizeNumber(number) {
+    if (number === '-') return number;
+    if (parseFloat(number) >= 10000) {
+        number = Math.round(parseFloat(number) + Number.EPSILON).toString();
+    } else if (parseFloat(number) >= 1000) {
+        number = (Math.round(parseFloat(number) * 10 + Number.EPSILON) / 10).toString();
+    } else {
+        number = (Math.round(parseFloat(number) * 100 + Number.EPSILON) / 100).toString();
+    }
+    return number;
 }
 
 /**
@@ -463,7 +481,9 @@ function addMinMaxToInputFields(innerHTML_target, metricData) {
         innerHTML_target += ' max="' + 100 + '%"';
     }
     innerHTML_target += ` disabled="true">`
-    if (binary && innerHTML_target.includes('target-average')) innerHTML_target += `<span class="percentage-span">%</span>`;
+    if (binary && innerHTML_target.includes('target-average')) {
+        innerHTML_target += `<span class="percentage-span">%</span>`;
+    }
     innerHTML_target += `</td>`;
 
     return innerHTML_target;
@@ -476,18 +496,23 @@ function addMinMaxToInputFields(innerHTML_target, metricData) {
  */
 function renderWholeProcessScoreCircle(wholeProcessScore) {
     let color;
+    let fontColor;
+    let background;
     wholeProcessScore = parseInt(wholeProcessScore);
-    color = helper.getCircleColor(wholeProcessScore);
+    fontColor = helper.getCircleFontColor(wholeProcessScore);
+    background = helper.getCircleBackground(wholeProcessScore);
 
     if (!isNaN(wholeProcessScore)) {
-        document.getElementById("whole-process-score").style.setProperty("background-color", color);
+        document.getElementById("whole-process-score").style.setProperty("color", fontColor);
+        document.getElementById("whole-process-score").style.setProperty("background-image", background);
         document.getElementById("whole-process-score").style.setProperty("display", "flex");
         document.getElementById("whole-process-score").innerHTML = wholeProcessScore + `%`;
+        document.getElementById("whole-process-score").style.setProperty("box-shadow:", "0vmax 0.3vmax 0.469vmax 0vmax rgba(0, 0, 0, 0.07)");
     } else {
         document.getElementById("whole-process-score").style.setProperty("display", "none");
+        document.getElementById("whole-process-score").style.setProperty("box-shadow:", "0vmax");
     }
 }
-
 
 /**
  * This function saves the data entered to the database by transmitting the data to the backend
@@ -523,7 +548,6 @@ function createEditProcess() {
             }
 
             if (metric_elements[key][i].value !== '') {
-                console.log(metric_elements['average'][i]);
                 if (key === "average" && metric_elements['average'][i].hasAttribute("binary")) {
                     metrics[id][key] = parseFloat(metric_elements[key][i].value) / 100;
                 } else {
@@ -539,7 +563,7 @@ function createEditProcess() {
         });
     }
 
-    // delete metric from json if no target metric (min, max, average) is entered
+    // Delete metric from json if no target metric (min, max, average) is entered
     for (const key in metrics) {
         if (metrics[key]["min"] == null && metrics[key]["max"] == null && metrics[key]["average"] == null) {
             delete metrics[key];
@@ -562,7 +586,7 @@ function createEditProcess() {
 
     if (document.getElementById('process-name-textarea').value === "") process_name_empty = true;
 
-    // If a input has been performed, post changes to backend
+    // If an input has been made, post changes to backend
     if (minmaxlist === "" && !process_name_empty && !text_replaced_flag) {
         saveProcess(process);
     } else {
@@ -718,8 +742,8 @@ function addComponent() {
 /**
  * This function saves the component after weights have changed
  *
- * @param {float} oldWeight: The old weight of the component selected
- * @param {float} newWeight: The new weight of the component selected
+ * @param {number} oldWeight: The old weight of the component selected
+ * @param {number} newWeight: The new weight of the component selected
  */
 function editComponent(oldWeight, newWeight) {
     let data = {
@@ -727,7 +751,6 @@ function editComponent(oldWeight, newWeight) {
         "old_weight": oldWeight,
         "new_weight": newWeight
     };
-
     helper.http_request("POST", "/process/edit/editstep", true, JSON.stringify(data), init);
 }
 
@@ -791,7 +814,7 @@ function drop(ev) {
         nextID = parseFloat(element.previousSibling.id) + 1; // If there is no next component the next weight is the weight of the previous component + 1
     }
     let newWeight = parseFloat(previousID + (nextID - previousID) / 2);
-    element.id = newWeight;
+    element.id = newWeight.toString();
 
     Helper.showLoadingScreen();
     editComponent(oldWeight, newWeight); // Updating component table
@@ -874,7 +897,7 @@ function visualizeProcess(processData, metricsDefinition) {
 }
 
 /**
- * Returns rectangle HTML-Element to visualize one component in the process visualization.
+ * Returns rectangle HTML-Element to visualize one component in the process visualization
  *
  * @param componentName
  * @param componentCategory
@@ -905,7 +928,7 @@ function horizontalScroll() {
 }
 
 /**
- * This function gets called if saving was successful and reloads the page.
+ * This function gets called if saving was successful and reloads the page
  *
  * @param {JSON} response
  */
