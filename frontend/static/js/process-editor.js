@@ -711,7 +711,7 @@ function addComponent() {
         helper.http_request("POST", "/process/edit/createstep", true, JSON.stringify(data), init);
     } else {
         Helper.hideLoadingScreen();
-        window.alert('Please select a metric.');
+        window.alert('Please select a component.');
     }
 }
 
