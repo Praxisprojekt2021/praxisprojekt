@@ -185,7 +185,7 @@ class Helper {
      * @returns formatted Date
      */
     formatDate(date) {
-        const dateOptions = {year: 'numeric', month: '2-digit', day: '2-digit'};
+        const dateOptions = { year: 'numeric', month: '2-digit', day: '2-digit' };
         return new Date(date).toLocaleDateString("EN", dateOptions);
     }
 
@@ -307,6 +307,7 @@ class Helper {
      * @param {HTMLElement} element: HTML accordion to be collapsed
      */
     collapseSection(element) {
+        element.parentElement.style.setProperty("overflow", "hidden", undefined);
         const sectionHeight = element.scrollHeight;
         const elementTransition = element.style.transition;
         element.style.transition = '';
@@ -380,5 +381,6 @@ class Helper {
             element.children[0].childNodes.forEach(element => element.children[1].children[0].removeAttribute("disabled"));
             element.children[0].childNodes.forEach(element => element.children[1].removeAttribute("disabled"));
         }
+        setTimeout(() => { element.parentElement.style.setProperty("overflow", "visible", undefined); }, 350);
     }
 }
