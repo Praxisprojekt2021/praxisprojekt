@@ -6,7 +6,6 @@ const helper = new Helper();
 /**
  * This function initializes the view and distinguishes between create and edit functionality
  */
-
 function init() {
     const url_string = window.location.href;
     const url = new URL(url_string);
@@ -37,7 +36,6 @@ function init() {
 /**
  *  Load Categories from file to get options for category dropdown.
  */
-
 function getCategoryDropdown() {
     // Read JSON file
     fetch(base_url + '/content/mapping_metrics_definition.json')
@@ -60,7 +58,6 @@ function getCategoryDropdown() {
 /**
  * Load Features from file to create metrics section.
  */
-
 function getFeatures() {
     // Read JSON file
     fetch(base_url + '/content/mapping_metrics_definition.json')
@@ -99,13 +96,11 @@ function getButtonType() {
  *
  * @param {string} category: The component category of the section
  */
-
 function getMetricsInfo(category) {
     // Read JSON file
     let return_variable;
     helper.http_request("GET", "/content/mapping_metrics_definition.json", false, "", function (data) {
-        let metrics_info = data['categories'][category]['sections'];
-        return_variable = metrics_info;
+        return_variable = data['categories'][category]['sections'];
     });
     return return_variable
 }
@@ -115,7 +110,6 @@ function getMetricsInfo(category) {
  *
  * @param {string} uid: The uid of the component to get data for
  */
-
 function getComponent(uid) {
     const post_data = {"uid": uid};
     helper.http_request("POST", '/component/view', true, JSON.stringify(post_data), processComponentData);
@@ -126,7 +120,6 @@ function getComponent(uid) {
  *
  * @param {string} json_data: The component data
  */
-
 function processComponentData(json_data) {
 
     // Check if the request has succeeded
@@ -165,7 +158,6 @@ function processComponentData(json_data) {
  *
  * @param {string} selected_category: The component category selected in the dropdown
  */
-
 function setSections(selected_category) {
     // Read JSON file
     fetch(base_url + '/content/mapping_metrics_definition.json')
@@ -194,7 +186,6 @@ function setSections(selected_category) {
 /**
  * This function saves the data entered to the database by transmitting the data to the backend
  */
-
 function createEditComponent() {
 
     let metric_elements = document.getElementsByClassName('metric-input');
@@ -285,28 +276,7 @@ function createEditComponent() {
         Helper.showLoadingScreen();
         helper.http_request("POST", '/component/create_edit', true, JSON.stringify(component), saveCallback);
     } else {
-        let alert_string = 'Changes could not be saved. ';
-        // Prepare alert message strings depending on the error cause
-        if (!component_category_helper_flag) {
-            alert_string += 'Please select a category. \n';
-        }
-        if (component_name_empty) {
-            alert_string += 'Please enter a component name. \n';
-        }
-        if (emptyFieldList !== "") {
-            alert_string += 'Please fill all metrics fields. \n';
-            alert_string += '\nThe following Metrics are empty:\n';
-            alert_string += emptyFieldList + '\n';
-        }
-        if (text_replaced_flag === true) {
-            alert_string += '\nNon quantitative metrics have been automatically discarded.\n';
-        }
-        if (minmaxlist !== "") {
-            alert_string += '\nThe following Metrics are not within their min/max values:\n';
-            alert_string += minmaxlist + "\n";
-        }
-        Helper.hideLoadingScreen();
-        window.alert(alert_string);
+        Helper.raise_alert('component', component_name_empty, text_replaced_flag, minmaxlist, !component_category_helper_flag, emptyFieldList);
     }
 }
 
@@ -315,18 +285,12 @@ function createEditComponent() {
  *
  * @param response
  */
-
 function saveCallback(response) {
     Helper.hideLoadingScreen();
     // Component has been created/edited successfully
     window.location.replace(base_url);
 }
 
-/**
- * Render metrics section.
- *
- * @param {json} features
- */
 function createMetricsSection(features) {
     Object.keys(features).forEach(function (key) {
         let feature = features[key];
@@ -347,16 +311,22 @@ function createMetricsSection(features) {
 
         Object.keys(metrics).forEach(function (key) {
             let metric = metrics[key];
+            let binary = metric['binary'];
             innerHTML += '<div class="metric-entry-element">';
             innerHTML += ('<label for="metric-input" class="entry-label">' + metric['name'] + '</label>');
-            innerHTML += '<div><input type="text" maxLength="256" id="' + key + '"' +
-                ' name="metric-input" class="metric-input textfield"';
-            if (metric['max_value'] === -1) {
-                innerHTML += ' min="' + metric['min_value'] + '"';
+            if (!binary) {
+                innerHTML += '<div><input type="text" maxLength="256" id="' + key + '"' +
+                    ' name="metric-input" class="metric-input textfield"';
+                if (metric['max_value'] === -1) {
+                    innerHTML += ' min="' + metric['min_value'] + '"';
+                } else {
+                    innerHTML += ' max="' + metric['max_value'] + '" min="' + metric['min_value'] + '"';
+                }
+                innerHTML += ' ></div>';
             } else {
-                innerHTML += ' max="' + metric['max_value'] + '" min="' + metric['min_value'] + '"';
+                innerHTML += '<div><select id="' + key + '" class="metric-input category-dropdown">' +
+                    '<option value="0">No</option><option value="1">Yes</option></select></div>';
             }
-            innerHTML += ' ></div>';
             innerHTML += '<div class="icon-popup-fix info-text-popup" tooltip-data="' +
                 metric['description_component'] + '\ni.e. ' + metric['example_component'] + '">' +
                 '<img src="images/info.png" loading="lazy" width="35" alt="" class="info-icon"></div>';

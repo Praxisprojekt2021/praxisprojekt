@@ -1,5 +1,6 @@
 {
 
+
     "en": {
         "translation": {
             "front-end-view": "Front-End View",
@@ -82,6 +83,7 @@
             "Home": "Home",
             "Loading": "Loading..."
         
+
 
     }
   }
