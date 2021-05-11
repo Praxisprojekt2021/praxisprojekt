@@ -340,6 +340,8 @@ td, th {
 }
 
 td {
+    display : flex;
+    align-items : center;
     height: auto;
     cursor: default;
     width: auto;

@@ -358,11 +358,31 @@ function getMetricRowActual(actual_target_metrics, metricData) {
     return `
                 <tr>
                     <td class="col-1" id="` + metricData['name'] + `">` + metricData['name'] + ` </td>
-                    <td class="col-2">` + Math.round(actual_target_metrics['actual']['average'] * 100 + Number.EPSILON) / 100 + `</td>
-                    <td class="col-3">` + Math.round(actual_target_metrics['actual']['standard_deviation'] * 100 + Number.EPSILON) / 100 + `</td>
-                    <td class="col-4">` + Math.round(actual_target_metrics['actual']['total'] * 100 + Number.EPSILON) / 100 + `</td>
-                    <td class="col-5">` + Math.round(actual_target_metrics['actual']['min'] * 100 + Number.EPSILON) / 100 + `</td>
-                    <td class="col-6">` + Math.round(actual_target_metrics['actual']['max'] * 100 + Number.EPSILON) / 100 + `</td>`;
+                    <td class="col-2">` + normalizeNumber(actual_target_metrics['actual']['average']) + `</td>
+                    <td class="col-3">` + normalizeNumber(actual_target_metrics['actual']['standard_deviation']) + `</td>
+                    <td class="col-4">` + normalizeNumber(actual_target_metrics['actual']['total']) + `</td>
+                    <td class="col-5">` + normalizeNumber(actual_target_metrics['actual']['min']) + `</td>
+                    <td class="col-6">` + normalizeNumber(actual_target_metrics['actual']['max']) + `</td>`;
+}
+
+/**
+ * This function renders the component drag and drop table
+ *
+ * @param {let} number: The string that will be normalized
+ * @return {let} number: The normalized string
+ */
+
+function normalizeNumber(number) {
+    number = Math.round(number * 100 + Number.EPSILON) / 100;
+    let string = number + '';
+    if(string.length > 4) {
+        string = Math.round(number * 10) / 10 + '';
+    } else if(string.length > 3) {
+        string = Math.round(number * 1) + '';
+    } else {
+        string = number;
+    }
+    return string;
 }
 
 /**
