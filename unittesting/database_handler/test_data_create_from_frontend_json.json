@@ -1,0 +1,19 @@
+{
+  "features": {
+    "code_quality": {
+      "name": "Test",
+      "metrics": {
+        "Test": {
+          "name": "Source Code Lines",
+          "fulfilled_if": "<",
+          "max_value": -1,
+          "min_value": 0,
+          "description_component": "Sum of actual lines of code, excl. empty & comment lines.",
+          "example_component": "For a total batch of 100 lines of code, with 10 blank and comment lines, an input of 80 follows.",
+          "description_process": "Sum of actual lines of code, excl. empty & comment lines.",
+          "example_process": "For a process with 10 components and a target value of 10,000 lines of code, an input of 1,000 lines follows."
+        }
+      }
+    }
+  }
+}
