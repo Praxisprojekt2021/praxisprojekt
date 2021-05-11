@@ -185,7 +185,7 @@ class Helper {
      * @returns formatted Date
      */
     formatDate(date) {
-        const dateOptions = {year: 'numeric', month: '2-digit', day: '2-digit'};
+        const dateOptions = { year: 'numeric', month: '2-digit', day: '2-digit' };
         return new Date(date).toLocaleDateString("EN", dateOptions);
     }
 
@@ -239,7 +239,7 @@ class Helper {
      * @param {HTMLElement} element: HTML accordion to be either opened oder closed
      * @param {json} metricDefinitions
      */
-    toggleSection(element, metricDefinitions= null) {
+    toggleSection(element, metricDefinitions = null) {
         const metric_child = element.parentElement.children[1];
         const metric_child_icon = element.parentElement.children[0].children[0];
         const isCollapsed = metric_child.getAttribute('data-collapsed') === 'true';
@@ -265,12 +265,12 @@ class Helper {
      *
      * @param {HTMLElement} element: HTML accordion to be collapsed
      */
-     collapseSection(element) {
+    collapseSection(element) {
         element.parentElement.style.setProperty("overflow", "hidden", undefined);
         const sectionHeight = element.scrollHeight;
         const elementTransition = element.style.transition;
         element.style.transition = '';
- 
+
         requestAnimationFrame(function () {
             element.style.height = sectionHeight + 'px';
             element.style.transition = elementTransition;
@@ -294,7 +294,7 @@ class Helper {
         }
         element.setAttribute('data-collapsed', 'true');
     }
- 
+
     /**
      * This functions expands the accordion
      *
@@ -338,17 +338,5 @@ class Helper {
             element.children[0].childNodes.forEach(element => element.children[1].removeAttribute("disabled"));
         }
         setTimeout(() => { element.parentElement.style.setProperty("overflow", "visible", undefined); }, 350);
-    }
-    
-    /**
-     * This function checks if the given target average is within the allowed min/max value
-     *
-     * @param {HTMLElement} element
-     */
-    static targetAvgIsWithinMinMax(element) {
-        let min = parseFloat(element.getAttribute("min")); // Getting min value for metric
-        let max = parseFloat(element.getAttribute("max")); // Getting max value for metric
-        let input = parseFloat(element.value); // Getting entered value for metric
-        return !(input < min || input > max);
     }
 }

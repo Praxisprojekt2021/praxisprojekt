@@ -264,8 +264,8 @@
           "fulfilled_if": "<",
           "max_value": 525600,
           "min_value": 0,
-          "description_component": "Downtime within the last year incl. repair work (in minutes).\nAvailability 90%: 52,595 min\nAvailability 95%: 26,298 min\nAvailability 99%: 5,256 min\nAvailability 99.9%: 525.6 min \nAvailability 99.99%: 52.56 min",
           "binary": false,
+          "description_component": "Downtime within the last year incl. repair work (in minutes).\nAvailability 90%: 52,595 min\nAvailability 95%: 26,298 min\nAvailability 99%: 5,256 min\nAvailability 99.9%: 525.6 min \nAvailability 99.99%: 52.56 min",
           "example_component": "The total downtime of the component last year. If the component's availability was 99%, the input is 5,256 [min].",
           "description_process": "Downtime within the last year incl. repair work (in minutes).\nAvailability 90%: 52,595 min\nAvailability 95%: 26,298 min\nAvailability 99%: 5,256 min\nAvailability 99.9%: 525.6 min \nAvailability 99.99%: 52.56 min",
           "example_process": "For a process with 15 components and a target value of 45min downtime within one year, an input of 3min follows."
@@ -550,5 +550,3 @@
     }
   }
 }
-
-
