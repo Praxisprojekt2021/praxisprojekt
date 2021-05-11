@@ -392,24 +392,21 @@ function getMetricRowActual(actual_target_metrics, metricData) {
 }
 
 /**
- * This function renders the component drag and drop table
+ * This function rounds the numbers according to their length
  *
- * @param {let} number: The string that will be normalized
- * @return {let} number: The normalized string
+ * @param {string} number: The number string that will be normalized
+ * @return {string} number: The normalized number string
  */
-
 function normalizeNumber(number) {
-    if(number == '-') return number;
-    number = Math.round(number * 100 + Number.EPSILON) / 100;
-    let string = number + '';
-    if(string.length > 4) {
-        string = Math.round(number * 10) / 10 + '';
-    } else if(string.length > 3) {
-        string = Math.round(number * 1) + '';
+    if (number === '-') return number;
+    if (parseFloat(number) >= 10000) {
+        number = Math.round(parseFloat(number) + Number.EPSILON).toString();
+    } else if (parseFloat(number) >= 1000) {
+        number = (Math.round(parseFloat(number) * 10 + Number.EPSILON) / 10).toString();
     } else {
-        string = number;
+        number = (Math.round(parseFloat(number) * 100 + Number.EPSILON) / 100).toString();
     }
-    return string;
+    return number;
 }
 
 /**

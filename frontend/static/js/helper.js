@@ -205,7 +205,7 @@ class Helper {
         } else if (score < 90) {
             color = '#f8ef42'; // Yellow
         } else if (score <= 100) {
-            color = '#4AD28F'; // Green
+            color = '#4ad28f'; // Green
         } else {
             color = '#d9d9d9'; // Grey
         }
