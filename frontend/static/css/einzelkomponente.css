@@ -233,6 +233,7 @@ button, html input[type="button"], input[type="reset"] {
   border-style: solid;
   border-width: 0.052vmax;
   border-color: #e6e6e6;
+  border-radius: 0.7vmax;
   background-color: #ececec;
   box-shadow: rgba(50, 50, 93, 0.015) 0vmax 10vmax 10vmax -0.313vmax inset, rgba(0, 0, 0, 0.28) 0vmax 0.313vmax 1.302vmax -0.938vmax inset,rgba(0, 0, 0, 0.19) 0vmax 10vmax 20vmax, rgba(0, 0, 0, 0.17) 0vmax 0.313vmax 0.313vmax;
 }

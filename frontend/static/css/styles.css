@@ -34,6 +34,23 @@ body {
 
 * {
     box-sizing: border-box;
+    scrollbar-width: thin;
+    scrollbar-color: #b1b1b1 #ececec;
+}
+
+*::-webkit-scrollbar {
+    width: 0.938vw;
+    height: 0.938vw;
+}
+
+*::-webkit-scrollbar-track {
+    background: #ececec
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: #b1b1b1;
+    border-radius: 1.042vw;
+    border: 0.313vw solid #ececec
 }
 
 a {
@@ -91,14 +108,19 @@ a {
     box-shadow: 0.156vmax 0.156vmax;
 }
 
+.button:hover {
+    box-shadow: 3px 3px #4ad28f, -3px -3px #4ad28f;
+    cursor: pointer;
+}
+
+.button:hover::before {
+    border: 0px;
+}
+
 .button:active {
-    transition: 0.3s ease-out;
+    transition: 0.45s ease-out;
     background-color: #1f299c;
-    margin-top: 0.156vmax;
-    margin-left: 0.156vmax;
-    margin-bottom: 0vmax;
-    margin-right: 0vmax;
-    box-shadow: 0vmax 0vmax;
+    box-shadow: 0px 0px #4ad28f, -0px -0px #4ad28f;
 }
 
 .center {
@@ -466,8 +488,6 @@ td {
     position: relative;
     display: inline-block;
     overflow: visible;
-    margin-top: 0.104vmax;
-    margin-left: 0.521vmax;
     float: left;
     border-radius: 1.042vmax;
     opacity: 0.65;
@@ -492,10 +512,22 @@ td {
 .fa-pencil-alt {
     text-decoration: none;
     color: black;
+    transition:0.125s ease-out;
+}
+
+.fa-pencil-alt:hover {
+    color: #006bff;
+    transition:0.125s ease-out;
 }
 
 .fa-trash-alt {
     cursor: pointer;
+    transition:0.125s ease-out;
+}
+
+.fa-trash-alt:hover {
+    color: #c30000bd;
+    transition:0.125s ease-out;
 }
 
 .info-text-popup {

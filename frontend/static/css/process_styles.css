@@ -125,6 +125,12 @@ button, html input[type="button"], input[type="reset"] {
   border: 0.052vmax solid #ccc;
 }
 
+#metrics-input-processes {
+  margin-top: 0.7vmax;
+  margin-bottom: 0.7vmax;
+  border-top: 1px solid #b1b1b16b;
+}
+
 .accordion-toggle {
   display: block;
   overflow: visible;
@@ -180,7 +186,6 @@ button, html input[type="button"], input[type="reset"] {
   position: relative;
   display: inline-block;
   overflow: visible;
-  margin: 0;
   float: left;
   border-radius: 1.042vmax;
   transition: 0.21s ease-out;
@@ -315,14 +320,19 @@ button, html input[type="button"], input[type="reset"] {
   box-shadow: 0.156vmax 0.156vmax;
 }
 
+.create-button:hover {
+  box-shadow: 3px 3px #4ad28f, -3px -3px #4ad28f;
+  cursor: pointer;
+}
+
+.create-button:hover::before {
+  border: 0px;
+}
+
 .create-button:active {
-  transition: 0.3s ease-out;
+  transition: 0.45s ease-out;
   background-color: #1f299c;
-  margin-top: 0.156vmax;
-  margin-left: 0.156vmax;
-  margin-bottom: 0vmax;
-  margin-right: 0vmax;
-  box-shadow: 0vmax 0vmax;
+  box-shadow: 0px 0px #4ad28f, -0px -0px #4ad28f;
 }
 
 .metric-entry-element {
@@ -430,10 +440,26 @@ button, html input[type="button"], input[type="reset"] {
   width: 4%;
 }
 
-#process-feature-table .col-2, .col-3, .col-4
-,.col-5, .col-6, th.col-7, .col-8, .col-9
-,.col-10 , .col-11 ,.col-12 {
-  text-align: center;
+#process-feature-table .col-2,#process-feature-table .col-3,#process-feature-table .col-4
+,#process-feature-table .col-5,#process-feature-table .col-6,#process-feature-table th.col-7,#process-feature-table .col-8,#process-feature-table .col-9
+,#process-feature-table .col-10 ,#process-feature-table .col-11 ,#process-feature-table .col-12 {
+  display : flex;
+  align-items : center;
+  justify-content: center;
+}
+
+#process-feature-table .col-2,#process-feature-table .col-3,#process-feature-table .col-4
+,#process-feature-table .col-5,#process-feature-table .col-6,#process-feature-table .col-11 {
+  border-left: 1px solid #b1b1b16b;
+}
+
+#process-feature-table tr {
+  padding-top: 0.35vmax;
+  padding-bottom: 0.35vmax;
+}
+
+#process-feature-table th {
+  font-size: 0.677vw;
 }
 
 .postion-dropdown {
@@ -457,11 +483,13 @@ button, html input[type="button"], input[type="reset"] {
 
 .square-border {
   background: #FFF;
-  border: 0.521vmax solid #4AD28F;
+  border: 0.35vmax solid #4AD28F;
   height: 6.25vmax;
   min-width: 9.375vmax;
   text-align: center;
   padding: 1.25vmax;
+  border-radius: 0.7vmax;
+  box-shadow: 0.01vmax 0.01vmax 0.4vmax rgba(0, 0, 0, 0.1);
 }
 
 .arrow {
@@ -478,17 +506,14 @@ table .process-visualization {
 
 #modelling-process {
   vertical-align: middle;
-  border: 0.052vmax solid #0000002e;
   margin: 1.667vmax 0;
   padding: 1vmax 1vmax;
-  box-shadow: 0vmax 0vmax 0.469vmax 0vmax rgba(0, 0, 0, 0.1);
   border-radius: 0.7vmax;
 }
 
 .visualize {
   border: 0vmax;
   display: inline-block;
-
 }
 
 .modelling-processes {
@@ -518,6 +543,11 @@ table .process-visualization {
   width: 1em;
   height: 1em;
   transition: 0.35s ease-out;
+}
+
+#components-admin-process {
+  padding-top: 1.4vmax;
+  border-top: 1px solid #b1b1b16b;
 }
 
 #ComponentOverviewTable {
