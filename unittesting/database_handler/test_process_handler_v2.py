@@ -371,7 +371,6 @@ class TestUpdateProcessReference(unittest.TestCase):
 
         add_process_reference(ADD_PROCESS_REFERENCE_IN)
 
-        # UPDATE_PROCESS_REFERENCE_IN["process_uid"] = cls.uid
 
     def test_2501(self):
         UPDATE_PROCESS_REFERENCE_IN["uid"] = self.uid
@@ -413,3 +412,41 @@ class TestUpdateProcessReference(unittest.TestCase):
         delete_process(GET_PROCESS_IN)
         GET_PROCESS_IN["uid"] = cls.componentUid
         delete_component(GET_PROCESS_IN)
+
+
+class TestGetProcessList(unittest.TestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        cls.maxDiff = None
+        # get old process_list
+        process_list_pre = get_process_list()['processes']
+        # add new component
+        add_process(GET_PROCESS_SETUP_AND_OUT)
+        # get new process_list
+        process_list_post = get_process_list()['processes']
+
+        cls.uid = None
+        cls.componentUid = None
+
+        for post_uid in process_list_post:
+            if post_uid not in process_list_pre:
+                cls.uid = post_uid['uid']
+
+        GET_PROCESS_IN["uid"] = cls.uid
+        GET_PROCESS_SETUP_AND_OUT["process"]["uid"] = cls.uid
+        GET_PROCESS_SETUP_AND_OUT["process"].pop("components")
+
+    def test_2601(self):
+        process_list = get_process_list()
+        for process in process_list["processes"]:
+            if(process["uid"] == self.uid):
+                process.pop("creation_timestamp")
+                process.pop("last_timestamp")
+                self.assertEqual(process, GET_PROCESS_SETUP_AND_OUT["process"])
+
+
+    @classmethod
+    def tearDownClass(cls):
+        GET_PROCESS_IN["uid"] = cls.uid
+        delete_process(GET_PROCESS_IN)
