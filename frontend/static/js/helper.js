@@ -323,6 +323,7 @@ class Helper {
             });
         });
         if (element.parentElement.parentElement.parentElement.id === "metrics-input-processes") {
+            // Process View
             element.children[0].children[0].children[0].childNodes.forEach(element => element.childNodes.forEach(element => {
                 if (element.childNodes.length > 0) {
                     if (element.children[0] !== undefined) {
@@ -332,8 +333,10 @@ class Helper {
                 }
             }));
         } else {
-            element.children[0].childNodes.forEach(element => element.children[1].children[0].removeAttribute("disabled"));
-            element.children[0].childNodes.forEach(element => element.children[1].removeAttribute("disabled"));
+            // Component View
+            element.parentElement.children[1].children[0].childNodes.forEach(element => {
+                element.children[1].children[0].setAttribute("disabled", true);
+            });
         }
         element.setAttribute('data-collapsed', 'true');
     }
