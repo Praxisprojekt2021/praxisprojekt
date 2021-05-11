@@ -37,6 +37,12 @@ ADD_PROCESS_REFERENCE_IN = {
     "weight": 69
 }
 
+UPDATE_PROCESS_REFERENCE_IN = {
+    "uid": "-1",
+    "old_weight": 69,
+    "new_weight": 7
+}
+
 ADD_PROCESS_REFERENCE_OUT = {
     'success': True,
     'process':

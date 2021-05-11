@@ -150,7 +150,6 @@ class TestUpdateProcess(unittest.TestCase):
         with self.assertRaises(CypherSyntaxError):
             update_process(process_dict)
 
-
     @classmethod
     def tearDownClass(cls):
         delete_process(GET_PROCESS_IN)
@@ -219,7 +218,6 @@ class TestAddProcessReference(unittest.TestCase):
 
         GET_PROCESS_IN["uid"] = cls.uid
         GET_PROCESS_SETUP_AND_OUT["process"]["uid"] = cls.uid
-
 
         component_list_pre = get_component_list()['components']
         # add new component
@@ -294,7 +292,6 @@ class TestDeleteProcessReference(unittest.TestCase):
         GET_PROCESS_IN["uid"] = cls.uid
         GET_PROCESS_SETUP_AND_OUT["process"]["uid"] = cls.uid
 
-
         component_list_pre = get_component_list()['components']
         # add new component
         add_component(ADD_COMPONENT_IN)
@@ -307,7 +304,6 @@ class TestDeleteProcessReference(unittest.TestCase):
     def setUp(self):
         ADD_PROCESS_REFERENCE_IN["process_uid"] = self.uid
         add_process_reference(ADD_PROCESS_REFERENCE_IN)
-
 
     def test_2501(self):
         ADD_PROCESS_REFERENCE_IN["uid"] = self.uid
@@ -330,6 +326,86 @@ class TestDeleteProcessReference(unittest.TestCase):
             delete_process(ADD_PROCESS_REFERENCE_IN)
             ADD_PROCESS_REFERENCE_IN["uid"] = self.uid
             delete_process(ADD_PROCESS_REFERENCE_IN)
+
+    @classmethod
+    def tearDownClass(cls):
+        GET_PROCESS_IN["uid"] = cls.uid
+        delete_process(GET_PROCESS_IN)
+        GET_PROCESS_IN["uid"] = cls.componentUid
+        delete_component(GET_PROCESS_IN)
+
+
+class TestUpdateProcessReference(unittest.TestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        cls.maxDiff = None
+        # get old process_list
+        process_list_pre = get_process_list()['processes']
+        # add new component
+        add_process(GET_PROCESS_SETUP_AND_OUT)
+        # get new process_list
+        process_list_post = get_process_list()['processes']
+
+        cls.uid = None
+        cls.componentUid = None
+
+        for post_uid in process_list_post:
+            if post_uid not in process_list_pre:
+                cls.uid = post_uid['uid']
+
+        GET_PROCESS_IN["uid"] = cls.uid
+        GET_PROCESS_SETUP_AND_OUT["process"]["uid"] = cls.uid
+
+        component_list_pre = get_component_list()['components']
+        # add new component
+        add_component(ADD_COMPONENT_IN)
+        component_list_post = get_component_list()['components']
+
+        for post_uid in component_list_post:
+            if post_uid not in component_list_pre:
+                cls.componentUid = post_uid['uid']
+
+        ADD_PROCESS_REFERENCE_IN["process_uid"] = cls.uid
+        ADD_PROCESS_REFERENCE_IN["component_uid"] = cls.componentUid
+
+        add_process_reference(ADD_PROCESS_REFERENCE_IN)
+
+        # UPDATE_PROCESS_REFERENCE_IN["process_uid"] = cls.uid
+
+    def test_2501(self):
+        UPDATE_PROCESS_REFERENCE_IN["uid"] = self.uid
+
+        self.assertEqual(update_process_reference(UPDATE_PROCESS_REFERENCE_IN), success_handler())
+
+        new_process_dict = get_process(GET_PROCESS_IN)
+        new_process_dict["process"].pop("creation_timestamp")
+        new_process_dict["process"]["components"][0].pop("creation_timestamp")
+        new_process_dict["process"].pop("last_timestamp")
+        new_process_dict["process"]["components"][0].pop("last_timestamp")
+
+        ADD_PROCESS_REFERENCE_OUT["process"]["components"][0]["weight"] = 7
+        ADD_PROCESS_REFERENCE_OUT["process"]["components"][0]["uid"] = self.componentUid
+        ADD_PROCESS_REFERENCE_OUT["process"]["uid"] = self.uid
+
+        self.assertEqual(new_process_dict, ADD_PROCESS_REFERENCE_OUT)
+
+    def test_2502(self):
+        UPDATE_PROCESS_REFERENCE_IN["uid"] = "ABC"
+        # TODO: Is this the right Exception?
+        with self.assertRaises(CypherSyntaxError):
+            update_process_reference(UPDATE_PROCESS_REFERENCE_IN)
+
+    def test_2503(self):
+        UPDATE_PROCESS_REFERENCE_IN["old_weight"] = "ABC"
+        with self.assertRaises(CypherSyntaxError):
+            update_process_reference(UPDATE_PROCESS_REFERENCE_IN)
+
+    def test_2504(self):
+        UPDATE_PROCESS_REFERENCE_IN.pop("old_weight")
+        with self.assertRaises(KeyError):
+            update_process_reference(UPDATE_PROCESS_REFERENCE_IN)
+
 
     @classmethod
     def tearDownClass(cls):
