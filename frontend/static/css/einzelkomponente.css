@@ -1,18 +1,7 @@
 * {
   box-sizing: border-box;
 }
-/*
-body {
-  margin: auto;
-  width: 70%;
-  padding-top: 2.083vmax;
-  font-size: 0.729vmax;
-  line-height: 1.042vmax;
-  min-height: 100%;
-  background-color: #fff;
-  overflow-y: scroll;
-}
-*/
+
 @media only screen and (max-width: 1400px) {
   body {
     width: 82%;
