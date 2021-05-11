@@ -269,9 +269,9 @@ class Helper {
             } else {
                 background = 'linear-gradient(315deg, #d9d9d9 0%, #f6f2f2 74%)'; // Grey
             }
+            return `<div class="small-circle" style="background-image: ` + background + `;"></div>`;
         }
-
-        return `<div class="small-circle" style="background-image: ` + background + `"></div>`;
+        return `<div class="small-circle" style="background-color: ` + color + `;"></div>`;
     }
 
     /**
