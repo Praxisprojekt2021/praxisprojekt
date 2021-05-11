@@ -179,7 +179,7 @@ class Helper {
     }
 
     /**
-     * Formats date to a MM/DD/YYYY-String to show it in Front-End as German date format.
+     * Formats date to a MM/DD/YYYY-String to show it in frontend as English date format.
      *
      * @param {String} date
      * @returns formatted Date
@@ -190,7 +190,7 @@ class Helper {
     }
 
     /**
-     * Adds min max popups and initializes an eventlistener for every input field
+     * Adds min max popups and initializes an event listener for every input field
      * @param {Array} elementNames
      */
     static checkCorrectInputs(elementNames) {
