@@ -1,6 +1,4 @@
-{
-
-
+ {
     "en": {
         "translation": {
             "front-end-view": "Front-End View",
@@ -81,9 +79,7 @@
             "description": "Description",
             "responsible-person": "Responsible Person",
             "Loading": "Loading..."
-        
-
-
+        }
     }
-  }
-}
+ }
+
