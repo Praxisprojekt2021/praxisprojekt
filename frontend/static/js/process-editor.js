@@ -500,12 +500,10 @@ function renderWholeProcessScoreCircle(wholeProcessScore) {
     let background;
     wholeProcessScore = parseInt(wholeProcessScore);
     fontColor = helper.getCircleFontColor(wholeProcessScore);
-    color = helper.getCircleColor(wholeProcessScore);
     background = helper.getCircleBackground(wholeProcessScore);
 
     if (!isNaN(wholeProcessScore)) {
         document.getElementById("whole-process-score").style.setProperty("color", fontColor);
-        document.getElementById("whole-process-score").style.setProperty("background-color", color);
         document.getElementById("whole-process-score").style.setProperty("background-image", background);
         document.getElementById("whole-process-score").style.setProperty("display", "flex");
         document.getElementById("whole-process-score").innerHTML = wholeProcessScore + `%`;

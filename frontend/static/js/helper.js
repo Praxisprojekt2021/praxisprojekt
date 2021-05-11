@@ -263,18 +263,15 @@ class Helper {
         let background;
         if (!color) {
             if (fulfillment === true) {
-                color = '#f8ef42'; //green
-                background = 'linear-gradient(315deg, rgb(109 228 60) 0%, rgb(15, 214, 79) 74%)';
+                background = 'linear-gradient(315deg, rgb(109 228 60) 0%, rgb(15, 214, 79) 74%)'; // Green
             } else if (fulfillment === false) {
-                color = '#99201c'; //red
-                background = 'linear-gradient(316deg, #99201c 0%, #f56545 74%)';
+                background = 'linear-gradient(316deg, #99201c 0%, #f56545 74%)'; // Red
             } else {
-                color = '#d9d9d9'; //grey
-                background = 'linear-gradient(315deg, #d9d9d9 0%, #f6f2f2 74%)';
+                background = 'linear-gradient(315deg, #d9d9d9 0%, #f6f2f2 74%)'; // Grey
             }
         }
 
-        return `<div class="small-circle" style="background-color: ` + color + `;background-image: ` + background + `"></div>`;
+        return `<div class="small-circle" style="background-image: ` + background + `"></div>`;
     }
 
     /**
