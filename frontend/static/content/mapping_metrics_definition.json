@@ -53,7 +53,7 @@
       "name": "Integrity",
       "metrics": {
         "back-up": {
-          "name": "Back-Ups [per month]",
+          "name": "Backups [per month]",
           "fulfilled_if": ">",
           "max_value": -1,
           "min_value": 0,
@@ -61,7 +61,7 @@
           "description_component": "Number of backup creations per month.",
           "example_component": "If a backup is created every day, an input of 30 (rounded) follows.",
           "description_process": "Number of backup creations per month.",
-          "example_process": "If on average 2 back-ups per month are created for each component, enter 2."
+          "example_process": "If on average 2 backups per month are created for each component, enter 2."
         },
         "change_tracking": {
           "name": "Tracking of changes",
