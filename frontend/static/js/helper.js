@@ -199,15 +199,15 @@ class Helper {
         let color;
 
         if (score === null) {
-            color = '#d9d9d9'; //grey
+            color = '#d9d9d9'; // Grey
         } else if (score < 80) {
-            color = '#99201c'; //red
+            color = '#99201c'; // Red
         } else if (score < 90) {
-            color = '#fff293'; //yellow
+            color = '#f8ef42'; // Yellow
         } else if (score <= 100) {
-            color = '#f8ef42'; //green
+            color = '#4AD28F'; // Green
         } else {
-            color = '#d9d9d9'; //grey
+            color = '#d9d9d9'; // Grey
         }
         return color;
     }
