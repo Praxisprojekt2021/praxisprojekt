@@ -51,6 +51,91 @@ class Helper {
     }
 
     /**
+     * Adds min max popups and initializes an eventlistener for every input field
+     *
+     * @param {Array} elementNames
+     */
+    static checkCorrectInputs(elementNames) {
+
+        // Live check for correct inputs
+        elementNames.forEach(element => {
+            const inputs = document.getElementsByName(element);
+            for (let i = 0; i < inputs.length; i++) {
+                Helper.addMinMaxPopup(inputs[i]);
+                // Adding event listener for input check
+                inputs[i].addEventListener('blur', (event) => {
+                    if (!Helper.targetAvgIsWithinMinMax(inputs[i])) {
+                        inputs[i].style.setProperty("border-color", "red", undefined);
+                    } else {
+                        inputs[i].style.removeProperty("border-color");
+                    }
+                });
+            }
+        });
+    }
+
+    /**
+     * Adds a min max popup to the parent HTML element of the given HTML element
+     *
+     * @param {HTMLElement} element
+     */
+    static addMinMaxPopup(element) {
+        let tooltipData;
+        if (element.hasAttribute("min") && element.hasAttribute("max")) {
+            tooltipData = "Min: " + element.getAttribute("min") + " Max: " + element.getAttribute("max");
+        } else {
+            if (element.hasAttribute("min")) tooltipData = "Min: " + element.getAttribute("min");
+            if (element.hasAttribute("max")) tooltipData = "Max: " + element.getAttribute("max")
+        }
+        element.parentElement.classList.add("info-text-popup");
+        element.parentElement.setAttribute("tooltip-data", tooltipData);
+    }
+
+    /**
+     * This function checks if the given target average is within the allowed min/max value
+     *
+     * @param {HTMLElement} element
+     */
+    static targetAvgIsWithinMinMax(element) {
+        let min = parseFloat(element.getAttribute("min")); // Getting min value for metric
+        let max = parseFloat(element.getAttribute("max")); // Getting max value for metric
+        let input = parseFloat(element.value); // Getting entered value for metric
+        return !(input < min || input > max);
+    }
+
+    static raise_alert(type, name_empty = false, text_replaced = false, minmaxlist = '', component_category_missing = false, emptyFieldList = '') {
+        let alert_string = 'Changes could not be saved. ';
+
+        if (name_empty) {
+            alert_string += 'Please enter a ' + type + ' name. \n';
+        }
+
+        if (text_replaced) {
+            alert_string += '\nNon quantitative metrics have been automatically discarded.\n';
+        }
+
+        if (minmaxlist !== "") {
+            alert_string += '\nThe following metrics are not within their min/max values:\n';
+            alert_string += minmaxlist + "\n";
+        }
+
+        if (type === 'component') {
+            if (component_category_missing) {
+                alert_string += 'Please select a category. \n';
+            }
+
+            if (emptyFieldList !== "") {
+                alert_string += 'Please fill all metrics fields. \n';
+                alert_string += '\nThe following metrics are empty:\n';
+                alert_string += emptyFieldList + '\n';
+            }
+        }
+
+        Helper.hideLoadingScreen();
+        window.alert(alert_string);
+    }
+
+    /**
      * This function sends a post request to the backend
      *
      * @param {string} requestType: The type of request which is either GET or POST
@@ -94,53 +179,14 @@ class Helper {
     }
 
     /**
-     * Formats date to a DD.MM.YYYY-String to show it in Front-End as German date format.
+     * Formats date to a MM/DD/YYYY-String to show it in frontend as English date format.
+     *
      * @param {String} date
      * @returns formatted Date
      */
     formatDate(date) {
         const dateOptions = {year: 'numeric', month: '2-digit', day: '2-digit'};
-        return new Date(date).toLocaleDateString("DE", dateOptions);
-    }
-
-    /**
-     * Adds min max popups and initializes an eventlistener for every input field
-     * @param {Array} elementNames
-     */
-    static checkCorrectInputs(elementNames) {
-
-        // Live check for correct inputs
-        elementNames.forEach(element => {
-            const inputs = document.getElementsByName(element);
-            for (let i = 0; i < inputs.length; i++) {
-                Helper.addMinMaxPopup(inputs[i]);
-                // Adding event listener for input check
-                inputs[i].addEventListener('blur', (event) => {
-                    if (!Helper.targetAvgIsWithinMinMax(inputs[i])) {
-                        inputs[i].style.setProperty("border-color", "red", undefined);
-                    } else {
-                        inputs[i].style.removeProperty("border-color");
-                    }
-                });
-            }
-        });
-    }
-
-    /**
-     * Adds a min max popup to the parent HTML element of the given HTML element
-     *
-     * @param {HTMLElement} element
-     */
-    static addMinMaxPopup(element) {
-        let tooltipData;
-        if (element.hasAttribute("min") && element.hasAttribute("max")) {
-            tooltipData = "Min: " + element.getAttribute("min") + " Max: " + element.getAttribute("max");
-        } else {
-            if (element.hasAttribute("min")) tooltipData = "Min: " + element.getAttribute("min");
-            if (element.hasAttribute("max")) tooltipData = "Max: " + element.getAttribute("max")
-        }
-        element.parentElement.classList.add("info-text-popup");
-        element.parentElement.setAttribute("tooltip-data", tooltipData);
+        return new Date(date).toLocaleDateString("EN", dateOptions);
     }
 
     /**
@@ -191,15 +237,16 @@ class Helper {
      * This functions toggles the accordion
      *
      * @param {HTMLElement} element: HTML accordion to be either opened oder closed
+     * @param {json} metricDefinitions
      */
-    toggleSection(element) {
+    toggleSection(element, metricDefinitions= null) {
         const metric_child = element.parentElement.children[1];
         const metric_child_icon = element.parentElement.children[0].children[0];
         const isCollapsed = metric_child.getAttribute('data-collapsed') === 'true';
         metric_child.style.display = '';
         if (!(element.getAttribute("disabled") === "true")) {
             if (isCollapsed) {
-                this.expandSection(metric_child);
+                this.expandSection(metric_child, metricDefinitions);
                 metric_child_icon.style.setProperty('transform', 'rotateX(180deg)');
                 metric_child.setAttribute('data-collapsed', 'false');
             } else {
@@ -237,11 +284,13 @@ class Helper {
                 if (element.childNodes.length > 0) {
                     if (element.children[0] !== undefined) {
                         element.children[0].setAttribute("disabled", true);
+                        element.setAttribute("disabled", true);
                     }
                 }
             }));
         } else {
             element.children[0].childNodes.forEach(element => element.children[1].children[0].removeAttribute("disabled"));
+            element.children[0].childNodes.forEach(element => element.children[1].removeAttribute("disabled"));
         }
         element.setAttribute('data-collapsed', 'true');
     }
@@ -250,8 +299,9 @@ class Helper {
      * This functions expands the accordion
      *
      * @param {HTMLElement} element: HTML accordion to be expanded
+     * @param {json} metricDefinitions
      */
-    expandSection(element) {
+    expandSection(element, metricDefinitions) {
         const sectionHeight = element.scrollHeight;
         element.style.height = sectionHeight + 'px';
         element.style.margin = "0px 0px 10px 0px";
@@ -259,13 +309,33 @@ class Helper {
         if (element.parentElement.parentElement.parentElement.id === "metrics-input-processes") {
             element.children[0].children[0].children[0].childNodes.forEach(element => element.childNodes.forEach(element => {
                 if (element.childNodes.length > 0) {
+                    let binary = false;
                     if (element.children[0] !== undefined) {
-                        element.children[0].removeAttribute("disabled");
+                        if (metricDefinitions !== null) {
+                            if (element.children[0].name !== "target-average") {
+                                let metricId = element.children[0].id;
+                                if (metricId !== null && metricId !== undefined) {
+                                    let metricCategory = element.children[0].parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.id;
+                                    let metricDefinition = metricDefinitions[metricCategory]['metrics'][metricId];
+                                    if (metricDefinition !== undefined) {
+                                        binary = metricDefinition['binary'];
+                                    }
+                                    if (!binary) {
+                                        element.children[0].removeAttribute("disabled");
+                                        element.removeAttribute("disabled");
+                                    }
+                                }
+                            } else {
+                                element.children[0].removeAttribute("disabled");
+                                element.removeAttribute("disabled");
+                            }
+                        }
                     }
                 }
             }));
         } else {
             element.children[0].childNodes.forEach(element => element.children[1].children[0].removeAttribute("disabled"));
+            element.children[0].childNodes.forEach(element => element.children[1].removeAttribute("disabled"));
         }
         setTimeout(() => { element.parentElement.style.setProperty("overflow", "visible", undefined); }, 350);
     }
