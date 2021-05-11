@@ -67,16 +67,6 @@ button, html input[type="button"], input[type="reset"] {
   text-align: left;
 }
 
-.navigation {
-  position: relative;
-  left: auto;
-  display: inline-block;
-  overflow: visible;
-  width: 15.625vmax;
-  height: 1.042vmax;
-  float: left;
-}
-
 .view-description-label {
   font-size: 0.885vmax;
   font-weight: 700;
@@ -246,40 +236,6 @@ button, html input[type="button"], input[type="reset"] {
 
 .description-columns {
   display: inline-block;
-}
-
-.navigation-links {
-  display: block;
-  padding-right: 0.26vmax;
-  padding-left: 0.26vmax;
-  font-size: 0.938vmax;
-  float: left;
-  color: #000;
-  text-decoration: none;
-  cursor: pointer;
-  transition: 0.21s ease-out;
-}
-
-.navigation-link-separator {
-  transition: 0.21s ease-out;
-  float: left;
-}
-
-.navigation-selected {
-  color: #44d08b;
-}
-
-.navigation-links:hover ~ .navigation-selected {
-  color: #000000;
-}
-
-.navigation-links:hover ~ .navigation-link-separator {
-  transition: 0.21s ease-out;
-  -webkit-transform: rotateY(180deg);
-}
-
-.navigation-links:hover {
-  color: #44d08b;
 }
 
 .feature-section {
