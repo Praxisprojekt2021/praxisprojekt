@@ -3,9 +3,9 @@ import unittest
 from neo4j.exceptions import CypherSyntaxError
 
 from database.handler.component_handler import get_component_list, add_component, delete_component
+from database.handler.process_handler import *
 from unittesting.database_handler.test_data_component_handler import ADD_COMPONENT_IN
 from unittesting.database_handler.test_data_processs_handler import *
-from database.handler.process_handler import *
 
 
 class TestGetProcess(unittest.TestCase):
@@ -371,7 +371,6 @@ class TestUpdateProcessReference(unittest.TestCase):
 
         add_process_reference(ADD_PROCESS_REFERENCE)
 
-
     def test_2501(self):
         UPDATE_PROCESS_REFERENCE["uid"] = self.uid
 
@@ -404,7 +403,6 @@ class TestUpdateProcessReference(unittest.TestCase):
         UPDATE_PROCESS_REFERENCE.pop("old_weight")
         with self.assertRaises(KeyError):
             update_process_reference(UPDATE_PROCESS_REFERENCE)
-
 
     @classmethod
     def tearDownClass(cls):
@@ -440,11 +438,10 @@ class TestGetProcessList(unittest.TestCase):
     def test_2601(self):
         process_list = get_process_list()
         for process in process_list["processes"]:
-            if(process["uid"] == self.uid):
+            if (process["uid"] == self.uid):
                 process.pop("creation_timestamp")
                 process.pop("last_timestamp")
                 self.assertEqual(process, PROCESS_WITHOUT_TARGET_METRICS["process"])
-
 
     @classmethod
     def tearDownClass(cls):
