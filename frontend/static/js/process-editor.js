@@ -485,7 +485,6 @@ function createEditProcess() {
                     metric_elements[key][i].style.removeProperty("border-color"); //TODO: noch nötig oder nicht durch EventListener schon abgedeckt? (von Jasmin)
                 }
             }
-
         });
     }
 

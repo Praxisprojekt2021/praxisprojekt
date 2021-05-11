@@ -115,7 +115,7 @@ class Helper {
         }
 
         if (minmaxlist !== "") {
-            alert_string += '\nThe following Metrics are not within their min/max values:\n';
+            alert_string += '\nThe following metrics are not within their min/max values:\n';
             alert_string += minmaxlist + "\n";
         }
 
@@ -126,7 +126,7 @@ class Helper {
 
             if (emptyFieldList !== "") {
                 alert_string += 'Please fill all metrics fields. \n';
-                alert_string += '\nThe following Metrics are empty:\n';
+                alert_string += '\nThe following metrics are empty:\n';
                 alert_string += emptyFieldList + '\n';
             }
         }
@@ -179,14 +179,14 @@ class Helper {
     }
 
     /**
-     * Formats date to a DD.MM.YYYY-String to show it in Front-End as German date format.
+     * Formats date to a MM/DD/YYYY-String to show it in Front-End as German date format.
      *
      * @param {String} date
      * @returns formatted Date
      */
     formatDate(date) {
         const dateOptions = {year: 'numeric', month: '2-digit', day: '2-digit'};
-        return new Date(date).toLocaleDateString("DE", dateOptions);
+        return new Date(date).toLocaleDateString("EN", dateOptions);
     }
 
     /**
