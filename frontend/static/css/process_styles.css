@@ -41,19 +41,6 @@ button, html input[type="button"], input[type="reset"] {
   margin-right: 0.781vmax;
   margin-left: 0.781vmax;
 }
-/*
-.logo {
-  position: inherit;
-  display: block;
-  margin-right: auto;
-  margin-left: auto;
-  text-align: left;
-}
-*/
-.view-description-label {
-  font-size: 0.885vmax;
-  font-weight: 700;
-}
 
 .sub-description-label {
   padding-top: 0.5%;

@@ -19,6 +19,10 @@ body {
     background-color: #fff;
     overflow-y: scroll;
 }
+.view-description-label {
+    font-size: 0.885vmax;
+    font-weight: 700;
+}
 
 @media only screen and (max-width: 1400px) {
     body {
