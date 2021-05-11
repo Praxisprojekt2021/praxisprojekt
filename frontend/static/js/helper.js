@@ -190,45 +190,6 @@ class Helper {
     }
 
     /**
-     * Adds min max popups and initializes an event listener for every input field
-     * @param {Array} elementNames
-     */
-    static checkCorrectInputs(elementNames) {
-        // Live check for correct inputs
-        elementNames.forEach(element => {
-            const inputs = document.getElementsByName(element);
-            for (let i = 0; i < inputs.length; i++) {
-                Helper.addMinMaxPopup(inputs[i]);
-                // Adding event listener for input check
-                inputs[i].addEventListener('blur', (event) => {
-                    if (!Helper.targetAvgIsWithinMinMax(inputs[i])) {
-                        inputs[i].style.setProperty("border-color", "red", undefined);
-                    } else {
-                        inputs[i].style.removeProperty("border-color");
-                    }
-                });
-            }
-        });
-    }
-
-    /**
-     * Adds a min max popup to the parent HTML element of the given HTML element
-     *
-     * @param {HTMLElement} element
-     */
-    static addMinMaxPopup(element) {
-        let tooltipData;
-        if (element.hasAttribute("min") && element.hasAttribute("max")) {
-            tooltipData = "Min: " + element.getAttribute("min") + " Max: " + element.getAttribute("max");
-        } else {
-            if (element.hasAttribute("min")) tooltipData = "Min: " + element.getAttribute("min");
-            if (element.hasAttribute("max")) tooltipData = "Max: " + element.getAttribute("max")
-        }
-        element.parentElement.classList.add("info-text-popup");
-        element.parentElement.setAttribute("tooltip-data", tooltipData);
-    }
-
-    /**
      * Get the color of the process given the calculated score
      *
      * @param {number, null} score
