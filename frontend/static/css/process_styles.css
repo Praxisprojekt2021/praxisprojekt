@@ -37,16 +37,11 @@ button, html input[type="button"], input[type="reset"] {
   cursor: pointer;
 }
 
-.header {
-  display: block;
-  margin-bottom: 1.563vmax;
-}
-
 .component-form, .process-form {
   margin-right: 0.781vmax;
   margin-left: 0.781vmax;
 }
-
+/*
 .logo {
   position: inherit;
   display: block;
@@ -54,7 +49,7 @@ button, html input[type="button"], input[type="reset"] {
   margin-left: auto;
   text-align: left;
 }
-
+*/
 .view-description-label {
   font-size: 0.885vmax;
   font-weight: 700;

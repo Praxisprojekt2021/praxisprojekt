@@ -38,11 +38,6 @@ button, html input[type="button"], input[type="reset"] {
   cursor: pointer;
 }
 
-.header {
-  display: block;
-  margin-bottom: 1.563vmax;
-}
-
 .component-form {
   margin-right: 0.781vmax;
   margin-left: 0.781vmax;
