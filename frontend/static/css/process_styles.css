@@ -182,7 +182,7 @@ button, html input[type="button"], input[type="reset"] {
 }
 
 .info-icon {
-  width: 4vh;
+  width: 1.5vw;
   position: relative;
   display: inline-block;
   overflow: visible;
@@ -617,5 +617,7 @@ table .process-visualization {
 }
 
 .percentage-span {
-  padding-left: 0.35vmax;
+  margin-left: -20px;
+  position: absolute;
+  font-size: 130%;
 }
