@@ -1,26 +1,23 @@
-GET_COMPONENT_LIST = {
+GET_COMPONENT_LIST_OUT = {
     "success": True,
     "components": [
         {
             "uid": "",
             "name": "SQL Datenbank",
-            "category": "Datenbank",
-            "creation_timestamp": "20200219...",
-            "last_timestamp": "20200219...",
+            "description": "Datenbank zu xy mit ...",
+            "category": "databases",
         },
         {
             "uid": "",
-            "name": "Oracle Datenbank",
-            "category": "Datenbank",
-            "creation_timestamp": "20200219...",
-            "last_timestamp": "20200219...",
+            "name": "SQL Datenbank",
+            "description": "Datenbank zu xy mit ...",
+            "category": "databases",
         },
         {
             "uid": "",
-            "name": "Oracle Datenbank",
-            "category": "Datenbank",
-            "creation_timestamp": "20200219...",
-            "last_timestamp": "20200219...",
+            "name": "SQL Datenbank",
+            "description": "Datenbank zu xy mit ...",
+            "category": "databases",
         }
     ]
 }
@@ -56,4 +53,32 @@ ADD_COMPONENT_IN = {
         "number_of_administrators": 10,
         "restore_time": 5,
     }
+}
+
+ADD_COMPONENT_OUT = {
+    "success": True,
+}
+
+UPDATE_COMPONENT_IN = {
+    "uid": "",
+    "name": "SQL Datenbank",
+    "category": "databases",
+    "description": "Datenbank zu xy mit ...",
+    "metrics": {
+        "number_of_lines_of_source_code_loc": 40000,
+        "number_of_administrators": 20,
+        "restore_time": 95,
+    }
+}
+
+UPDATE_COMPONENT_OUT = {
+    "success": True,
+}
+
+DELETE_COMPONENT_IN = {
+    "uid": "",
+}
+
+DELETE_COMPONENT_OUT = {
+    "success": True,
 }
