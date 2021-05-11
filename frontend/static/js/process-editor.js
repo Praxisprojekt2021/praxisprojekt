@@ -511,8 +511,10 @@ function renderWholeProcessScoreCircle(wholeProcessScore) {
         document.getElementById("whole-process-score").style.setProperty("background-image", background);
         document.getElementById("whole-process-score").style.setProperty("display", "flex");
         document.getElementById("whole-process-score").innerHTML = wholeProcessScore + `%`;
+        document.getElementById("whole-process-score").style.setProperty("box-shadow:", "0vmax 0.3vmax 0.469vmax 0vmax rgba(0, 0, 0, 0.07)");
     } else {
         document.getElementById("whole-process-score").style.setProperty("display", "none");
+        document.getElementById("whole-process-score").style.setProperty("box-shadow:", "0vmax");
     }
 }
 
