@@ -7,6 +7,8 @@ const url_string = window.location.href;
 const url = new URL(url_string);
 let uid = url.searchParams.get('uid');
 
+let features;
+
 /**
  * Initialize View.
  *
@@ -15,6 +17,7 @@ let uid = url.searchParams.get('uid');
 function init(json_process = false) {
     Helper.showLoadingScreen();
     getFeatures().then(data => {
+        features = data;
         // If page is reloaded (after saving) processes are updated else => page is loaded from databased and entries are prepared
         getTableHeaderInfo().then(tableHeaderInfo => {
                 if (!json_process) {
@@ -91,7 +94,6 @@ async function getTableHeaderInfo() {
  * @param features
  * @param tableHeaderInfo
  */
-
 function getProcess(features, tableHeaderInfo) {
     const url_string = window.location.href;
     const url = new URL(url_string);
@@ -209,7 +211,7 @@ function createMetricsSection(features, processData, tableHeaderInfo) {
 
         let innerHTML = '';
         innerHTML += '<div data-hover="" data-delay="0" class="accordion-item">';
-        innerHTML += '<div class="accordion-toggle" onclick="helper.toggleSection(this)">';
+        innerHTML += '<div class="accordion-toggle" onclick="helper.toggleSection(this, features)">';
         innerHTML += '<div class="accordion-icon-dropdown-toggle">&#709</div>';
         innerHTML += '<div class="features-label">' + feature_header + '</div>';
         innerHTML += helper.renderSmallCircle(feature_fulfillment);
@@ -283,6 +285,8 @@ function fillMetricRows(metricData, slug, processData) {
     let metric_fulfillment = null;
     let count_component = 0;
 
+    let binary = metricData['binary'];
+    // default table row, when no metric data is provided
     // Default table row, when no metric data is provided
     let innerHTML_actual = `
                     <tr>
@@ -295,11 +299,12 @@ function fillMetricRows(metricData, slug, processData) {
 
     let innerHTML_target = [];
     innerHTML_target['min'] =
-        `<td class="col-7"><input type="text" name="target-minimum" id="` + slug + `"`; // Rest of the string is added below
+        `<td class="col-7" disabled="true"><input type="text" name="target-minimum" id="` + slug + `"`; // Rest of the string is added below
     innerHTML_target['max'] =
-        `<td class="col-8"><input type="text" name="target-maximum" id="` + slug + `"`; // Rest of the string is added below
-    innerHTML_target['average'] = `
-                        <td class="col-9"><input type="text" name="target-average" id="` + slug + `"`; // Rest of the string is added below
+        `<td class="col-8" disabled="true"><input type="text" name="target-maximum" id="` + slug + `"`; // Rest of the string is added below
+    innerHTML_target['average'] = `<td class="col-9" disabled="true"><input type="text" name="target-average" id="` + slug + `"`; // Rest of the string is added below
+    if (binary) innerHTML_target['average'] += ` binary="true"`;
+
     let innerHTML_total = `
                         <td class="col-10"></td>`;
     let innerHTML_fulfillment = `
@@ -325,10 +330,10 @@ function fillMetricRows(metricData, slug, processData) {
 
         // Check if target values are provided
         if ('target' in actual_target_metrics) {
-            innerHTML_target = getMetricRowTarget(innerHTML_target, actual_target_metrics, slug);
-
-            innerHTML_total = getMetricRowTotal(actual_target_metrics);
+            innerHTML_target = getMetricRowTarget(innerHTML_target, actual_target_metrics, slug, binary);
+            innerHTML_total = getMetricRowTotal(actual_target_metrics, binary);
         }
+
 
         // Check if a fulfillment and consequentially a target sum is provided (if fulfillment was calculated, a target sum was also able to be calculated)
         if ('fulfillment' in processData['actual_target_metrics'][slug]) {
@@ -355,25 +360,48 @@ function fillMetricRows(metricData, slug, processData) {
  * @returns {string}
  */
 function getMetricRowActual(actual_target_metrics, metricData) {
+    let binary = metricData['binary'];
+
+    let actualAverage;
+    let actualStandardDev;
+    let actualTotal;
+    let actualMin;
+    let actualMax;
+
+    if (!binary) {
+        actualAverage = Math.round(actual_target_metrics['actual']['average'] * 100 + Number.EPSILON) / 100;
+        actualStandardDev = Math.round(actual_target_metrics['actual']['standard_deviation'] * 100 + Number.EPSILON) / 100;
+        actualTotal = Math.round(actual_target_metrics['actual']['total'] * 100 + Number.EPSILON) / 100;
+        actualMin = Math.round(actual_target_metrics['actual']['min'] * 100 + Number.EPSILON) / 100;
+        actualMax = Math.round(actual_target_metrics['actual']['max'] * 100 + Number.EPSILON) / 100;
+    } else {
+        actualAverage = Math.round(actual_target_metrics['actual']['average'] * 100 + Number.EPSILON) + "%";
+        actualStandardDev = Math.round(actual_target_metrics['actual']['standard_deviation'] * 100 + Number.EPSILON) + "%";
+        actualTotal = "-";
+        actualMin = "-";
+        actualMax = "-";
+    }
+
     return `
                 <tr>
-                    <td class="col-1" id="` + metricData['name'] + `">` + metricData['name'] + ` </td>
-                    <td class="col-2">` + Math.round(actual_target_metrics['actual']['average'] * 100 + Number.EPSILON) / 100 + `</td>
-                    <td class="col-3">` + Math.round(actual_target_metrics['actual']['standard_deviation'] * 100 + Number.EPSILON) / 100 + `</td>
-                    <td class="col-4">` + Math.round(actual_target_metrics['actual']['total'] * 100 + Number.EPSILON) / 100 + `</td>
-                    <td class="col-5">` + Math.round(actual_target_metrics['actual']['min'] * 100 + Number.EPSILON) / 100 + `</td>
-                    <td class="col-6">` + Math.round(actual_target_metrics['actual']['max'] * 100 + Number.EPSILON) / 100 + `</td>`;
+                    <td class="col-1"  id="` + metricData['name'] + `">` + metricData['name'] + ` </td>
+                    <td class="col-2" >` + actualAverage + `</td>
+                    <td class="col-3" >` + actualStandardDev + `</td>
+                    <td class="col-4" >` + actualTotal + `</td>
+                    <td class="col-5" >` + actualMin + `</td>
+                    <td class="col-6" >` + actualMax + `</td>`;
 }
 
 /**
  * This function returns a part of the process features table
  *
  * @param innerHTML_target
- * @param actual_target_metrics
  * @param slug
+ * @param actual_target_metrics
+ * @param binary
  * @returns {*}
  */
-function getMetricRowTarget(innerHTML_target, actual_target_metrics, slug) {
+function getMetricRowTarget(innerHTML_target, actual_target_metrics, slug, binary) {
     let targetValues = {};
     Object.keys(innerHTML_target).forEach(function (key) {
         if (actual_target_metrics['target'][key] !== null) {
@@ -383,14 +411,19 @@ function getMetricRowTarget(innerHTML_target, actual_target_metrics, slug) {
         }
     });
 
-    // replace null with empty strings, so that "null" is not entered in the table
-
-    innerHTML_target['min'] = `
-                        <td class="col-7"><input type="text" name="target-minimum" id = "` + slug + `" value="` + targetValues['min'] + `"`;
-    innerHTML_target['max'] = `
-                        <td class="col-8"><input type="text" name="target-maximum" id = "` + slug + `" value="` + targetValues['max'] + `"`;
-    innerHTML_target['average'] = `
-                        <td class="col-9"><input type="text" name="target-average" id = "` + slug + `" value="` + targetValues['average'] + `"`;
+    // Replace null with empty strings, so that "null" is not entered in the table
+    innerHTML_target['min'] = `<td class="col-7" disabled="true"><input type="text" name="target-minimum" id="` + slug + `"`;
+    innerHTML_target['max'] = `<td class="col-8" disabled="true"><input type="text" name="target-maximum" id="` + slug + `"`;
+    innerHTML_target['average'] = `<td class="col-9" disabled="true"><input type="text" name="target-average" id="` + slug + `"`;
+    if (binary) {
+        innerHTML_target['min'] += ` disabled="true"`;
+        innerHTML_target['max'] += ` disabled="true"`;
+        innerHTML_target['average'] += ` binary="true" value="` + targetValues['average'] * 100 + `"`;
+    } else {
+        innerHTML_target['min'] += ` value="` + targetValues['min'] + `"`;
+        innerHTML_target['max'] += ` value="` + targetValues['max'] + `"`;
+        innerHTML_target['average'] += ` value="` + targetValues['average'] + `"`;
+    }
     return innerHTML_target;
 }
 
@@ -398,12 +431,17 @@ function getMetricRowTarget(innerHTML_target, actual_target_metrics, slug) {
  * This function returns a part of the process features table
  *
  * @param actual_target_metrics
+ * @param binary
  * @returns {string}
  */
-function getMetricRowTotal(actual_target_metrics) {
+function getMetricRowTotal(actual_target_metrics, binary) {
     let targetTotalValue = "";
-    if ('total' in actual_target_metrics['target']) {
-        targetTotalValue = Math.round(actual_target_metrics['target']['total'] * 100 + Number.EPSILON) / 100;
+    if (!binary) {
+        if ('total' in actual_target_metrics['target']) {
+            targetTotalValue = Math.round(actual_target_metrics['target']['total'] * 100 + Number.EPSILON) / 100;
+        }
+    } else {
+        targetTotalValue = "-";
     }
     return `<td class="col-10">` + targetTotalValue + `</td>`;
 }
@@ -416,11 +454,18 @@ function getMetricRowTotal(actual_target_metrics) {
  * @returns {*}
  */
 function addMinMaxToInputFields(innerHTML_target, metricData) {
+    let binary = metricData['binary'];
     // Rest of the innerHTML_target string
-    if (metricData['min_value'] >= 0) innerHTML_target += ' min="' + metricData['min_value'] + '"';
-    if (metricData['max_value'] >= 0) innerHTML_target += ' max="' + metricData['max_value'] + '"';
-
-    innerHTML_target += ` disabled="true"></td>`;
+    if (!binary) {
+        if (metricData['min_value'] >= 0) innerHTML_target += ' min="' + metricData['min_value'] + '"';
+        if (metricData['max_value'] >= 0) innerHTML_target += ' max="' + metricData['max_value'] + '"';
+    } else {
+        innerHTML_target += ' min="' + 0 + '%"';
+        innerHTML_target += ' max="' + 100 + '%"';
+    }
+    innerHTML_target += ` disabled="true">`
+    if (binary && innerHTML_target.includes('target-average')) innerHTML_target += `<span class="percentage-span">%</span>`;
+    innerHTML_target += `</td>`;
 
     return innerHTML_target;
 }
@@ -479,7 +524,12 @@ function createEditProcess() {
             }
 
             if (metric_elements[key][i].value !== '') {
-                metrics[id][key] = parseFloat(metric_elements[key][i].value);
+                console.log(metric_elements['average'][i]);
+                if (key === "average" && metric_elements['average'][i].hasAttribute("binary")) {
+                    metrics[id][key] = parseFloat(metric_elements[key][i].value) / 100;
+                } else {
+                    metrics[id][key] = parseFloat(metric_elements[key][i].value);
+                }
                 if (!Helper.targetAvgIsWithinMinMax(metric_elements[key][i])) {
                     minmaxlist += '\n' + metric_elements[key][i].parentElement.parentElement.children[0].id; //TODO: Add metric name to the list of wrong target avg values (von Roman?)
                     metric_elements[key][i].style.setProperty("border-color", "red", undefined); //TODO: noch nötig oder nicht durch EventListener schon abgedeckt? (von Jasmin)
@@ -633,7 +683,7 @@ function createComponentTable(processData, metricsDefinition) {
  * This function fills the component dropdown to enable the functionality of adding components to a process
  *
  * @param {json} componentData: A list of all components available through user input
- * */
+ */
 function fillComponentDropdown(componentData) {
     let components = componentData['components'];
     document.getElementById('addposition').innerHTML = '';
