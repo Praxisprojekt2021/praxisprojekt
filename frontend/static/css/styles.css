@@ -49,7 +49,7 @@ a {
     border-width: 1px;
     border-color: #e6e6e6;
     background-color: #ececec;
-    box-shadow: rgba(50, 50, 93, 0.015) 0px 10px 10px -6px inset, rgba(0, 0, 0, 0.28) 0px 6px 25px -18px inset,rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.17) 0px 6px 6px;
+    box-shadow: rgba(50, 50, 93, 0.015) 0px 10px 10px -6px inset, rgba(0, 0, 0, 0.28) 0px 6px 25px -18px inset, rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.17) 0px 6px 6px;
 }
 
 .button {
@@ -143,10 +143,10 @@ a {
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 1px 1px rgba(0,0,0,0.05),
-    0 2px 2px rgba(0,0,0,0.12),
-    0 3px 3px rgba(0,0,0,0.08),
-    0 4px 4px rgba(0,0,0,0.05);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05),
+    0 2px 2px rgba(0, 0, 0, 0.12),
+    0 3px 3px rgba(0, 0, 0, 0.08),
+    0 4px 4px rgba(0, 0, 0, 0.05);
     -webkit-backface-visibility: hidden;
 }
 
@@ -301,7 +301,7 @@ tr:hover:not(.table-header) {
 
 .table-header {
     background-color: #b1b1b1;
-    color:#000000ea;
+    color: #000000ea;
     font-size: 14px;
     text-align: left;
     text-transform: uppercase;
@@ -480,7 +480,7 @@ td {
 }
 
 .info-text-popup::before {
-    content: attr(tooltip-data);/* print em-space with class text */
+    content: attr(tooltip-data); /* print em-space with class text */
     font-size: 10.5px;
     right: 10%;
     display: block;
@@ -491,14 +491,14 @@ td {
     padding: 5px;
     border-radius: 5px;
     white-space: pre;
-    max-width:none;
-    opacity:0;
-    transition:0.35s ease-out;
-    overflow:hidden;
+    max-width: none;
+    opacity: 0;
+    transition: 0.35s ease-out;
+    overflow: hidden;
     pointer-events: none; /* prevents tooltip from firing on pseudo hover */
 }
 
-.info-text-popup:hover::before {
-    opacity:1;
+.info-text-popup:not([disabled]):hover::before {
+    opacity: 1;
     bottom: 100%;
 }
