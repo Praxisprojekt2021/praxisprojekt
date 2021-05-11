@@ -153,17 +153,40 @@ class Helper {
         let color;
 
         if (score === null) {
-            color = "grey";
+            color = '#d9d9d9'; //grey
         } else if (score < 80) {
-            color = "red";
+            color = '#99201c'; //red
         } else if (score < 90) {
-            color = "yellow"
+            color = '#fff293'; //yellow
         } else if (score <= 100) {
-            color = "green"
+            color = '#f8ef42'; //green
         } else {
-            color = "grey";
+            color = '#d9d9d9'; //grey
         }
         return color;
+    }
+
+    /**
+     * Get the background of the process given the calculated score
+     *
+     * @param {number, null} score
+     * @returns {string}
+     */
+    getCircleBackground(score) {
+        let background;
+
+        if (score === null) {
+            background = 'linear-gradient(315deg, #d9d9d9 0%, #f6f2f2 74%)'; //grey
+        } else if (score < 80) {
+            background = 'linear-gradient(316deg, #99201c 0%, #f56545 74%)'; //red
+        } else if (score < 90) {
+            background = 'linear-gradient(315deg, #fff293 0%, #ffe884 74%)'; //yellow
+        } else if (score <= 100) {
+            background = 'linear-gradient(315deg, #f8ef42 0%, #0fd64f 74%)'; //green
+        } else {
+            background = 'linear-gradient(315deg, #d9d9d9 0%, #f6f2f2 74%)'; //grey
+        }
+        return background;
     }
 
     /**
@@ -174,17 +197,21 @@ class Helper {
      * @returns {string}
      */
     renderSmallCircle(fulfillment, color = false) {
+        let background;
         if (!color) {
             if (fulfillment === true) {
-                color = "green";
+                color = '#f8ef42'; //green
+                background = 'linear-gradient(315deg, #f8ef42 0%, #0fd64f 74%)';
             } else if (fulfillment === false) {
-                color = "red";
+                color = '#99201c'; //red
+                background = 'linear-gradient(316deg, #99201c 0%, #f56545 74%)';
             } else {
-                color = "grey";
+                color = '#d9d9d9'; //grey
+                background = 'linear-gradient(315deg, #d9d9d9 0%, #f6f2f2 74%)';
             }
         }
 
-        return `<div class="small-circle" style="background-color: ` + color + `"></div>`;
+        return `<div class="small-circle" style="background-color: ` + color + `;background-image: `+ background + `"></div>`;
     }
 
     /**

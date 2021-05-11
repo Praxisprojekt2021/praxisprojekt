@@ -353,19 +353,21 @@ button, html input[type="button"], input[type="reset"] {
   width: auto;
   overflow: hidden; /* will contain if #first is longer than #second */
 }
+
 .left-div {
   width: 50%;
   float:left;
 }
+
 .right-div {
   width: 50%;
-  overflow: hidden;
+  float: right;
 }
 
 .circle {
   height: 10.417vmax;
   width: 10.417vmax;
-  border-radius: 50%;
+  border-radius: 1vmax;
   display: table;
   margin: 0 auto;
   display: flex;
@@ -373,6 +375,7 @@ button, html input[type="button"], input[type="reset"] {
   justify-content: center;
   font-size: 1.458vmax;
   font-weight: bolder;
+  box-shadow: 0vmax 0.3vmax 0.469vmax 0vmax rgba(0, 0, 0, 0.07);
 }
 
 #process-feature-table {
@@ -597,4 +600,19 @@ table .process-visualization {
 
 #ComponentOverviewTable tr {
   transition:0.2s ease-out;
+}
+
+#metrics-input-processes .small-circle {
+  height: 0.5vmax;
+  max-width: 1.725vmax;
+  margin-top: 0.2vmax;
+  border-radius: 1vmax;
+}
+
+#process-feature-table .small-circle {
+  height: 3vmax;
+  max-height: 1.725vmax;
+  max-width: 1.725vmax;
+  margin-top: 0vmax;
+  border-radius: 0.5vmax;
 }

@@ -369,6 +369,10 @@ td {
     width: auto;
 }
 
+tr:nth-child(even) {
+    background: #f3f3f3;
+}
+
 #componentTable {
     width: 100%;
 }

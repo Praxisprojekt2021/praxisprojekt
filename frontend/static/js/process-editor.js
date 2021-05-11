@@ -452,11 +452,14 @@ function addMinMaxToInputFields(innerHTML_target, metricData) {
  */
 function renderWholeProcessScoreCircle(wholeProcessScore) {
     let color;
+    let background;
     wholeProcessScore = parseInt(wholeProcessScore);
     color = helper.getCircleColor(wholeProcessScore);
+    background = helper.getCircleBackground(wholeProcessScore);
 
     if (!isNaN(wholeProcessScore)) {
         document.getElementById("whole-process-score").style.setProperty("background-color", color);
+        document.getElementById("whole-process-score").style.setProperty("background-image", background);
         document.getElementById("whole-process-score").style.setProperty("display", "flex");
         document.getElementById("whole-process-score").innerHTML = wholeProcessScore + `%`;
     } else {
