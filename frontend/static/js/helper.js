@@ -228,7 +228,7 @@ class Helper {
         } else if (score < 90) {
             background = 'linear-gradient(315deg, #fff293 0%, #ffe884 74%)'; //yellow
         } else if (score <= 100) {
-            background = 'linear-gradient(315deg, #f8ef42 0%, #0fd64f 74%)'; //green
+            background = 'linear-gradient(315deg, rgb(109 228 60) 0%, rgb(15, 214, 79) 74%)'; //green
         } else {
             background = 'linear-gradient(315deg, #d9d9d9 0%, #f6f2f2 74%)'; //grey
         }
@@ -247,7 +247,7 @@ class Helper {
         if (!color) {
             if (fulfillment === true) {
                 color = '#f8ef42'; //green
-                background = 'linear-gradient(315deg, #f8ef42 0%, #0fd64f 74%)';
+                background = 'linear-gradient(315deg, rgb(109 228 60) 0%, rgb(15, 214, 79) 74%)';
             } else if (fulfillment === false) {
                 color = '#99201c'; //red
                 background = 'linear-gradient(316deg, #99201c 0%, #f56545 74%)';
