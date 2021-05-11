@@ -1,7 +1,7 @@
 class Helper {
 
     /**
-     * Shows error message if request was not successful.
+     * Shows error message if request was not successful
      *
      * @param {String} endpoint
      */
@@ -19,7 +19,7 @@ class Helper {
     }
 
     /**
-     * Shows success message if request was successful.
+     * Shows success message if request was successful
      *
      * @param {String} endpoint
      */
@@ -222,17 +222,34 @@ class Helper {
         let background;
 
         if (score === null) {
-            background = 'linear-gradient(315deg, #d9d9d9 0%, #f6f2f2 74%)'; //grey
+            background = 'linear-gradient(315deg, #d9d9d9 0%, #f6f2f2 74%)'; // Grey
         } else if (score < 80) {
-            background = 'linear-gradient(316deg, #99201c 0%, #f56545 74%)'; //red
+            background = 'linear-gradient(316deg, #99201c 0%, #f56545 74%)'; // Red
         } else if (score < 90) {
-            background = 'linear-gradient(315deg, #fff293 0%, #ffe884 74%)'; //yellow
+            background = 'linear-gradient(315deg, #fff293 0%, #ffe884 74%)'; // Yellow
         } else if (score <= 100) {
-            background = 'linear-gradient(315deg, rgb(109 228 60) 0%, rgb(15, 214, 79) 74%)'; //green
+            background = 'linear-gradient(315deg, rgb(109 228 60) 0%, rgb(15, 214, 79) 74%)'; // Green
         } else {
-            background = 'linear-gradient(315deg, #d9d9d9 0%, #f6f2f2 74%)'; //grey
+            background = 'linear-gradient(315deg, #d9d9d9 0%, #f6f2f2 74%)'; // Grey
         }
         return background;
+    }
+
+    /**
+     * Get the font color of the process score
+     *
+     * @param {number, null} score
+     * @returns {string}
+     */
+    getCircleFontColor(score) {
+        let color;
+
+        if (score != null && score < 80) {
+            color = '#ffffff'; // White for contrast
+        } else {
+            color = '#000000'; // Black as default color
+        }
+        return color;
     }
 
     /**
@@ -257,7 +274,7 @@ class Helper {
             }
         }
 
-        return `<div class="small-circle" style="background-color: ` + color + `;background-image: `+ background + `"></div>`;
+        return `<div class="small-circle" style="background-color: ` + color + `;background-image: ` + background + `"></div>`;
     }
 
     /**
@@ -266,7 +283,7 @@ class Helper {
      * @param {HTMLElement} element: HTML accordion to be either opened oder closed
      * @param {json} metricDefinitions
      */
-    toggleSection(element, metricDefinitions= null) {
+    toggleSection(element, metricDefinitions = null) {
         const metric_child = element.parentElement.children[1];
         const metric_child_icon = element.parentElement.children[0].children[0];
         const isCollapsed = metric_child.getAttribute('data-collapsed') === 'true';
@@ -329,7 +346,7 @@ class Helper {
      */
     expandSection(element, metricDefinitions) {
         const sectionHeight = element.scrollHeight;
-        element.style.height = sectionHeight/(window.innerWidth/100) +'vmax';
+        element.style.height = sectionHeight / (window.innerWidth / 100) + 'vmax';
         element.style.margin = "0vmax 0vmax 0.5210vmax 0vmax";
         element.setAttribute('data-collapsed', 'false');
         if (element.parentElement.parentElement.parentElement.id === "metrics-input-processes") {
