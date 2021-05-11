@@ -6,7 +6,6 @@ const helper = new Helper();
 /**
  * This function initializes the view and distinguishes between create and edit functionality
  */
-
 function init() {
     const url_string = window.location.href;
     const url = new URL(url_string);
@@ -37,7 +36,6 @@ function init() {
 /**
  *  Load Categories from file to get options for category dropdown.
  */
-
 function getCategoryDropdown() {
     // Read JSON file
     fetch(base_url + '/content/mapping_metrics_definition.json')
@@ -60,21 +58,36 @@ function getCategoryDropdown() {
 /**
  * Load Features from file to create metrics section.
  */
-
 function getFeatures() {
     // Read JSON file
     fetch(base_url + '/content/mapping_metrics_definition.json')
         .then(response => response.json())
         .then(data => {
             const features = data['features'];
+            getButtonType().then(button => {
+                const features = data['features'];
+                let buttonType = button;
+                createMetricsSection(features);
+                let div = document.createElement('div');
+                div.className = 'control-area';
+                div.innerHTML = `<button id="save-button" class="create-button" onclick="createEditComponent()" type="button">` + buttonType + `</button>`;
 
-            createMetricsSection(features);
-            let div = document.createElement('div');
-            div.className = 'control-area';
-            div.innerHTML = '<a href="#" data-wait="Bitte warten..." id="save-button" class="create-button" onclick="createEditComponent()">Speichern</a>';
+                // Append element to document
+                document.getElementById('metrics-input').appendChild(div);
+            });
+            return features;
+        });
+}
 
-            // Append element to document
-            document.getElementById('metrics-input').appendChild(div);
+/**
+ * Get text for button types.
+ */
+function getButtonType() {
+    // Read JSON file
+    return fetch(base_url + '/content/en.json')
+        .then(response => response.json())
+        .then(data => {
+            return data['en']['translation']['saveButton'];
         });
 }
 
@@ -83,13 +96,11 @@ function getFeatures() {
  *
  * @param {string} category: The component category of the section
  */
-
 function getMetricsInfo(category) {
     // Read JSON file
     let return_variable;
     helper.http_request("GET", "/content/mapping_metrics_definition.json", false, "", function (data) {
-        let metrics_info = data['categories'][category]['sections'];
-        return_variable = metrics_info;
+        return_variable = data['categories'][category]['sections'];
     });
     return return_variable
 }
@@ -99,11 +110,8 @@ function getMetricsInfo(category) {
  *
  * @param {string} uid: The uid of the component to get data for
  */
-
 function getComponent(uid) {
-    const post_data = {
-        "uid": uid
-    }
+    const post_data = {"uid": uid};
     helper.http_request("POST", '/component/view', true, JSON.stringify(post_data), processComponentData);
 }
 
@@ -112,7 +120,6 @@ function getComponent(uid) {
  *
  * @param {string} json_data: The component data
  */
-
 function processComponentData(json_data) {
 
     // Check if the request has succeeded
@@ -151,7 +158,6 @@ function processComponentData(json_data) {
  *
  * @param {string} selected_category: The component category selected in the dropdown
  */
-
 function setSections(selected_category) {
     // Read JSON file
     fetch(base_url + '/content/mapping_metrics_definition.json')
@@ -180,12 +186,11 @@ function setSections(selected_category) {
 /**
  * This function saves the data entered to the database by transmitting the data to the backend
  */
-
 function createEditComponent() {
 
     let metric_elements = document.getElementsByClassName('metric-input');
     let metrics = {};
-    let metrics_info = {};
+    let metrics_info;
     let text_replaced_flag = false; // Helper variable that indicates, whether or not a non quantitative metric input has been found and discarded
     let component_name_empty = false; // Helper variable that indicates, whether or not the component name is given
 
@@ -233,7 +238,12 @@ function createEditComponent() {
             for (let i = 0; i < metrics_child_input_fields.length; i++) {
                 metrics_child.getElementsByTagName('input')[i].value = '';
                 let current_metric_name = metrics_child.getElementsByTagName('input')[i].id;
-                component["metrics"][current_metric_name] = '';
+                if (current_metric_name in component['metrics']) {
+                    delete component['metrics'][current_metric_name];
+
+                    // Easter Egg - please leave as is.
+                    window.alert('You tried to sneak around, didn\'t you? Of course, we deleted your input for ' + current_metric_name);
+                }
             }
         } else {
             // Check if enabled fields have been filled - all fields are required
@@ -242,13 +252,12 @@ function createEditComponent() {
                 let inputElement = metrics_child.getElementsByTagName('input')[i];
                 if (inputElement.value === '') {
                     emptyFieldList += '\n' + feature_child.getElementsByClassName('features-label')[0].innerHTML + ": " + inputLabel.innerHTML;
-                    console.log(inputElement);
                     inputElement.style.setProperty("border-color", "red", undefined);
                     continue;
                 }
 
                 // Check if enabled fields maintain min/max value
-                if (!helper.targetAvgIsWithinMinMax(inputElement)) {
+                if (!Helper.targetAvgIsWithinMinMax(inputElement)) {
                     minmaxlist += '\n' + feature_child.getElementsByClassName('features-label')[0].innerHTML + ": " + inputLabel.innerHTML;
                     inputElement.style.setProperty("border-color", "red", undefined);
                 } else {
@@ -267,28 +276,7 @@ function createEditComponent() {
         Helper.showLoadingScreen();
         helper.http_request("POST", '/component/create_edit', true, JSON.stringify(component), saveCallback);
     } else {
-        let alert_string = 'Changes could not be saved. ';
-        // Prepare alert message strings depending on the error cause
-        if (!component_category_helper_flag) {
-            alert_string += 'Please select a category. \n';
-        }
-        if (component_name_empty) {
-            alert_string += 'Please enter a component name. \n';
-        }
-        if (emptyFieldList !== "") {
-            alert_string += 'Please fill all metrics fields. \n';
-            alert_string += '\nThe following Metrics are empty:\n';
-            alert_string += emptyFieldList + '\n';
-        }
-        if (text_replaced_flag === true) {
-            alert_string += '\nNon quantitative metrics have been automatically discarded.\n';
-        }
-        if (minmaxlist !== "") {
-            alert_string += '\nThe following Metrics are not within their min/max values:\n';
-            alert_string += minmaxlist + "\n";
-        }
-        Helper.hideLoadingScreen();
-        window.alert(alert_string);
+        Helper.raise_alert('component', component_name_empty, text_replaced_flag, minmaxlist, !component_category_helper_flag, emptyFieldList);
     }
 }
 
@@ -297,18 +285,12 @@ function createEditComponent() {
  *
  * @param response
  */
-
 function saveCallback(response) {
     Helper.hideLoadingScreen();
     // Component has been created/edited successfully
     window.location.replace(base_url);
 }
 
-/**
- * Render metrics section.
- *
- * @param {json} features
- */
 function createMetricsSection(features) {
     Object.keys(features).forEach(function (key) {
         let feature = features[key];
@@ -329,16 +311,22 @@ function createMetricsSection(features) {
 
         Object.keys(metrics).forEach(function (key) {
             let metric = metrics[key];
+            let binary = metric['binary'];
             innerHTML += '<div class="metric-entry-element">';
-            innerHTML += ('<label for="availability-metric" class="entry-label">' + metric['name'] + '</label>');
-            innerHTML += '<div><input type="text" maxLength="256" data-name="availability-metric-1" id="' + key + '"' +
-                ' name="availability-metric" class="metric-input textfield"';
-            if (metric['max_value'] === -1) {
-                innerHTML += ' min="' + metric['min_value'] + '"';
+            innerHTML += ('<label for="metric-input" class="entry-label">' + metric['name'] + '</label>');
+            if (!binary) {
+                innerHTML += '<div><input type="text" maxLength="256" id="' + key + '"' +
+                    ' name="metric-input" class="metric-input textfield"';
+                if (metric['max_value'] === -1) {
+                    innerHTML += ' min="' + metric['min_value'] + '"';
+                } else {
+                    innerHTML += ' max="' + metric['max_value'] + '" min="' + metric['min_value'] + '"';
+                }
+                innerHTML += ' ></div>';
             } else {
-                innerHTML += ' max="' + metric['max_value'] + '" min="' + metric['min_value'] + '"';
+                innerHTML += '<div><select id="' + key + '" class="metric-input category-dropdown">' +
+                    '<option value="0">No</option><option value="1">Yes</option></select></div>';
             }
-            innerHTML += ' ></div>';
             innerHTML += '<div class="icon-popup-fix info-text-popup" tooltip-data="' +
                 metric['description_component'] + '\ni.e. ' + metric['example_component'] + '">' +
                 '<img src="images/info.png" loading="lazy" width="35" alt="" class="info-icon"></div>';
@@ -353,19 +341,6 @@ function createMetricsSection(features) {
         // Append element to document
         document.getElementById('metrics-input').appendChild(div);
     });
-
-    // Live check for correct inputs
-    const inputs = document.getElementsByClassName('metric-input textfield');
-    console.log(inputs);
-    console.log(inputs[0]);
-    for (let i = 0; i < inputs.length; i++) {
-        this.addMinMaxPopup(inputs[i]);
-        inputs[i].addEventListener('blur', (event) => {
-            if (!helper.targetAvgIsWithinMinMax(inputs[i]) || inputs[i].value === '') {
-                inputs[i].style.setProperty("border-color", "red", undefined);
-            } else {
-                inputs[i].style.removeProperty("border-color");
-            }
-        });
-    }
+    let elementNames = ['metric-input'];
+    Helper.checkCorrectInputs(elementNames);
 }

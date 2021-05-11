@@ -7,6 +7,8 @@ const url_string = window.location.href;
 const url = new URL(url_string);
 let uid = url.searchParams.get('uid');
 
+let features;
+
 /**
  * Initialize View.
  *
@@ -14,8 +16,8 @@ let uid = url.searchParams.get('uid');
  */
 function init(json_process = false) {
     Helper.showLoadingScreen();
-
     getFeatures().then(data => {
+        features = data;
         // If page is reloaded (after saving) processes are updated else => page is loaded from databased and entries are prepared
         getTableHeaderInfo().then(tableHeaderInfo => {
                 if (!json_process) {
@@ -38,23 +40,40 @@ async function getFeatures() {
     return await fetch(base_url + '/content/mapping_metrics_definition.json')
         .then(response => response.json())
         .then(data => {
+
             let features = data['features'];
+            getButtonType().then(button => {
 
-            document.getElementById('buttons').innerHTML = '';
-            let div = document.createElement('div');
-            div.className = 'control-area';
+                document.getElementById('buttons').innerHTML = '';
+                let div = document.createElement('div');
+                div.className = 'control-area';
 
-            let buttonType;
-            if (typeof uid !== undefined && uid !== "" && uid != null) {
-                buttonType = "Save";
-            } else {
-                buttonType = "Create";
-            }
-            div.innerHTML = `<button id="save-button" class="create-button" onclick="createEditProcess()" type="button"> ` + buttonType + ` </button>`
+                let buttonType;
+                if (typeof uid !== undefined && uid !== "" && uid != null) {
+                    buttonType = button[0];
+                } else {
+                    buttonType = button[1];
+                }
+                div.innerHTML = `<button id="save-button" class="create-button" onclick="createEditProcess()" type="button"> ` + buttonType + ` </button>`
 
-            // Append element to document
-            document.getElementById('buttons').appendChild(div);
+                // Append element to document
+                document.getElementById('buttons').appendChild(div);
+            })
             return features;
+        });
+}
+
+/**
+ * Get description of buttons from json.
+ */
+async function getButtonType() {
+    // Read JSON file
+    return await fetch(base_url + '/content/en.json')
+        .then(response => response.json())
+        .then(data => {
+            let saveButton = data['en']['translation']['saveButton'];
+            let createButton = data['en']['translation']['createButton'];
+            return [saveButton, createButton];
         });
 }
 
@@ -70,13 +89,11 @@ async function getTableHeaderInfo() {
         });
 }
 
-
 /**
  * Fetches process data from BE.
  * @param features
  * @param tableHeaderInfo
  */
-
 function getProcess(features, tableHeaderInfo) {
     const url_string = window.location.href;
     const url = new URL(url_string);
@@ -132,7 +149,6 @@ function fillDataFields(features, processData, tableHeaderInfo) {
  *
  * @param {json} processData
  */
-
 function fillDescriptionColumn(processData) {
     renderWholeProcessScoreCircle(processData['score']);
 
@@ -161,8 +177,7 @@ function createMetricsSection(features, processData, tableHeaderInfo) {
         div.id = key;
         div.className = 'feature-section';
 
-
-        // get all metric rows and the contained data
+        // Get all metric rows and the contained data
         let metric_fulfillment_list = [];
         let innerHTML_metric_block = '';
         let feature_component_count = 0;
@@ -172,19 +187,19 @@ function createMetricsSection(features, processData, tableHeaderInfo) {
             let metric = metrics[key];
             let [metric_fulfillment, component_count, innerHTML_metric_row] = fillMetricRows(metric, key, processData);
 
-            // append metric row to a metric row block for the feature
+            // Append metric row to a metric row block for the feature
             innerHTML_metric_block += innerHTML_metric_row;
 
-            // create a list of all metric fulfillments
+            // Create a list of all metric fulfillments
             if (metric_fulfillment != null) {
                 metric_fulfillment_list.push(metric_fulfillment);
             }
 
-            // set component_count ( should be equal over all metrics contained in a feature)
+            // Set component_count ( should be equal over all metrics contained in a feature)
             feature_component_count = component_count;
         });
 
-        // calculate the feature fulfillment -> if one metric_fulfillment is false, the feature_fulfillment is also false
+        // Calculate the feature fulfillment -> if one metric_fulfillment is false, the feature_fulfillment is also false
         if (metric_fulfillment_list.length === 0) {
             feature_fulfillment = null;
         } else {
@@ -195,7 +210,7 @@ function createMetricsSection(features, processData, tableHeaderInfo) {
 
         let innerHTML = '';
         innerHTML += '<div data-hover="" data-delay="0" class="accordion-item">';
-        innerHTML += '<div class="accordion-toggle" onclick="helper.toggleSection(this)">';
+        innerHTML += '<div class="accordion-toggle" onclick="helper.toggleSection(this, features)">';
         innerHTML += '<div class="accordion-icon-dropdown-toggle">&#709</div>';
         innerHTML += '<div class="features-label">' + feature_header + '</div>';
         innerHTML += helper.renderSmallCircle(feature_fulfillment);
@@ -251,29 +266,9 @@ function createMetricsSection(features, processData, tableHeaderInfo) {
         document.getElementById('metrics-input-processes').appendChild(div);
     });
 
-    checkCorrectInputs();
+    let elementNames = ['target-average', 'target-minimum', 'target-maximum'];
+    Helper.checkCorrectInputs(elementNames);
     Helper.hideLoadingScreen();
-}
-
-function checkCorrectInputs() {
-
-    // Live check for correct inputs
-    let names = ['target-average', 'target-minimum', 'target-maximum'];
-    names.forEach(element => {
-        const inputs = document.getElementsByName(element);
-        for (let i = 0; i < inputs.length; i++) {
-            // Adding popup for target avg, min, and max input -> with min max values if they exist
-            helper.addMinMaxPopup(inputs[i]);
-            // Adding event listener for input check
-            inputs[i].addEventListener('blur', (event) => {
-                if (!helper.targetAvgIsWithinMinMax(inputs[i])) {
-                    inputs[i].style.setProperty("border-color", "red", undefined);
-                } else {
-                    inputs[i].style.removeProperty("border-color");
-                }
-            });
-        }
-    });
 }
 
 /**
@@ -285,11 +280,13 @@ function checkCorrectInputs() {
  */
 function fillMetricRows(metricData, slug, processData) {
 
-    // default value, because null has no influence on feature_fulfillment if metric_fulfillment is not given
+    // Default value, because null has no influence on feature_fulfillment if metric_fulfillment is not given
     let metric_fulfillment = null;
     let count_component = 0;
 
+    let binary = metricData['binary'];
     // default table row, when no metric data is provided
+    // Default table row, when no metric data is provided
     let innerHTML_actual = `
                     <tr>
                         <td class="col-1" id="` + metricData['name'] + `">` + metricData['name'] + `</td>
@@ -301,15 +298,17 @@ function fillMetricRows(metricData, slug, processData) {
 
     let innerHTML_target = [];
     innerHTML_target['min'] =
-        `<td class="col-7"><input type="text" name="target-minimum" id="` + slug + `"`; // Rest of the string is added below
+        `<td class="col-7" disabled="true"><input type="text" name="target-minimum" id="` + slug + `"`; // Rest of the string is added below
     innerHTML_target['max'] =
-        `<td class="col-8"><input type="text" name="target-maximum" id="` + slug + `"`; // Rest of the string is added below
-    innerHTML_target['average'] = `
-                        <td class="col-9"><input type="text" name="target-average" id="` + slug + `"`; // Rest of the string is added below
+        `<td class="col-8" disabled="true"><input type="text" name="target-maximum" id="` + slug + `"`; // Rest of the string is added below
+    innerHTML_target['average'] = `<td class="col-9" disabled="true"><input type="text" name="target-average" id="` + slug + `"`; // Rest of the string is added below
+    if (binary) innerHTML_target['average'] += ` binary="true"`;
+
     let innerHTML_total = `
                         <td class="col-10"></td>`;
     let innerHTML_fulfillment = `
-                        <td class="col-11"></td>
+                        <td class="col-11"></td>`;
+    let innerHTML_fulfillment_end = `
                         <td class="col-12"><div tooltip-data="` + metricData['description_process'] + `\ni.e. ` + metricData['example_process'] + `"
                          class="info-text-popup"><img class="info-icon" src="images/info.png" loading="lazy" width="35"
                          ></div></td>
@@ -330,20 +329,16 @@ function fillMetricRows(metricData, slug, processData) {
 
         // Check if target values are provided
         if ('target' in actual_target_metrics) {
-            innerHTML_target = getMetricRowTarget(innerHTML_target, actual_target_metrics, slug);
-
-            innerHTML_total = getMetricRowTotal(actual_target_metrics);
+            innerHTML_target = getMetricRowTarget(innerHTML_target, actual_target_metrics, slug, binary);
+            innerHTML_total = getMetricRowTotal(actual_target_metrics, binary);
         }
+
 
         // Check if a fulfillment and consequentially a target sum is provided (if fulfillment was calculated, a target sum was also able to be calculated)
         if ('fulfillment' in processData['actual_target_metrics'][slug]) {
             metric_fulfillment = processData['actual_target_metrics'][slug]['fulfillment'];
             innerHTML_fulfillment = `
-                        <td class="col-11" >` + helper.renderSmallCircle(metric_fulfillment) + ` </td>
-                        <td class="col-12" ><div tooltip-data="` + metricData['description_process'] + `\ni.e. ` + metricData['example_process'] + `"
-                         class="info-text-popup"><img class="info-icon" src="images/info.png" loading="lazy" width="35"
-                         ></div></td>
-                    </tr>`;
+                        <td class="col-11" >` + helper.renderSmallCircle(metric_fulfillment) + ` </td>`;
         }
     }
 
@@ -351,28 +346,62 @@ function fillMetricRows(metricData, slug, processData) {
         innerHTML_target[key] = addMinMaxToInputFields(innerHTML_target[key], metricData);
     });
 
-    let innerHTML_metric_row = innerHTML_actual + innerHTML_target['min'] + innerHTML_target['max'] + innerHTML_target['average'] + innerHTML_total + innerHTML_fulfillment;
+    let innerHTML_metric_row = innerHTML_actual + innerHTML_target['min'] + innerHTML_target['max'] + innerHTML_target['average'] + innerHTML_total + innerHTML_fulfillment + innerHTML_fulfillment_end;
 
     return [metric_fulfillment, count_component, innerHTML_metric_row];
 }
 
-
+/**
+ * This function returns a part of the process features table
+ *
+ * @param actual_target_metrics
+ * @param metricData
+ * @returns {string}
+ */
 function getMetricRowActual(actual_target_metrics, metricData) {
+    let binary = metricData['binary'];
+
+    let actualAverage;
+    let actualStandardDev;
+    let actualTotal;
+    let actualMin;
+    let actualMax;
+
+    if (!binary) {
+        actualAverage = Math.round(actual_target_metrics['actual']['average'] * 100 + Number.EPSILON) / 100;
+        actualStandardDev = Math.round(actual_target_metrics['actual']['standard_deviation'] * 100 + Number.EPSILON) / 100;
+        actualTotal = Math.round(actual_target_metrics['actual']['total'] * 100 + Number.EPSILON) / 100;
+        actualMin = Math.round(actual_target_metrics['actual']['min'] * 100 + Number.EPSILON) / 100;
+        actualMax = Math.round(actual_target_metrics['actual']['max'] * 100 + Number.EPSILON) / 100;
+    } else {
+        actualAverage = Math.round(actual_target_metrics['actual']['average'] * 100 + Number.EPSILON) + "%";
+        actualStandardDev = Math.round(actual_target_metrics['actual']['standard_deviation'] * 100 + Number.EPSILON) + "%";
+        actualTotal = "-";
+        actualMin = "-";
+        actualMax = "-";
+    }
 
     return `
                 <tr>
                     <td class="col-1"  id="` + metricData['name'] + `">` + metricData['name'] + ` </td>
-                    <td class="col-2" >` + Math.round(actual_target_metrics['actual']['average'] * 100 + Number.EPSILON) / 100 + `</td>
-                    <td class="col-3" >` + Math.round(actual_target_metrics['actual']['standard_deviation'] * 100 + Number.EPSILON) / 100 + `</td>
-                    <td class="col-4" >` + Math.round(actual_target_metrics['actual']['total'] * 100 + Number.EPSILON) / 100 + `</td>
-                    <td class="col-5" >` + Math.round(actual_target_metrics['actual']['min'] * 100 + Number.EPSILON) / 100 + `</td>
-                    <td class="col-6" >` + Math.round(actual_target_metrics['actual']['max'] * 100 + Number.EPSILON) / 100 + `</td>`;
+                    <td class="col-2" >` + actualAverage + `</td>
+                    <td class="col-3" >` + actualStandardDev + `</td>
+                    <td class="col-4" >` + actualTotal + `</td>
+                    <td class="col-5" >` + actualMin + `</td>
+                    <td class="col-6" >` + actualMax + `</td>`;
 }
 
-function getMetricRowTarget(innerHTML_target, actual_target_metrics, slug) {
-
+/**
+ * This function returns a part of the process features table
+ *
+ * @param innerHTML_target
+ * @param slug
+ * @param actual_target_metrics
+ * @param binary
+ * @returns {*}
+ */
+function getMetricRowTarget(innerHTML_target, actual_target_metrics, slug, binary) {
     let targetValues = {};
-
     Object.keys(innerHTML_target).forEach(function (key) {
         if (actual_target_metrics['target'][key] !== null) {
             targetValues[key] = Math.round(actual_target_metrics['target'][key] * 100 + Number.EPSILON) / 100;
@@ -381,36 +410,61 @@ function getMetricRowTarget(innerHTML_target, actual_target_metrics, slug) {
         }
     });
 
-    // replace null with empty strings, so that "null" is not entered in the table
-
-    innerHTML_target['min'] = `
-                        <td class="col-7" ><input type="text" name="target-minimum" id = "` + slug + `" value="` + targetValues['min'] + `"`;
-    innerHTML_target['max'] = `
-                        <td class="col-8" ><input type="text" name="target-maximum" id = "` + slug + `" value="` + targetValues['max'] + `"`;
-    innerHTML_target['average'] = `
-                        <td class="col-9" ><input type="text" name="target-average" id = "` + slug + `" value="` + targetValues['average'] + `"`;
+    // Replace null with empty strings, so that "null" is not entered in the table
+    innerHTML_target['min'] = `<td class="col-7" disabled="true"><input type="text" name="target-minimum" id="` + slug + `"`;
+    innerHTML_target['max'] = `<td class="col-8" disabled="true"><input type="text" name="target-maximum" id="` + slug + `"`;
+    innerHTML_target['average'] = `<td class="col-9" disabled="true"><input type="text" name="target-average" id="` + slug + `"`;
+    if (binary) {
+        innerHTML_target['min'] += ` disabled="true"`;
+        innerHTML_target['max'] += ` disabled="true"`;
+        innerHTML_target['average'] += ` binary="true" value="` + targetValues['average'] * 100 + `"`;
+    } else {
+        innerHTML_target['min'] += ` value="` + targetValues['min'] + `"`;
+        innerHTML_target['max'] += ` value="` + targetValues['max'] + `"`;
+        innerHTML_target['average'] += ` value="` + targetValues['average'] + `"`;
+    }
     return innerHTML_target;
 }
 
-function getMetricRowTotal(actual_target_metrics) {
-
+/**
+ * This function returns a part of the process features table
+ *
+ * @param actual_target_metrics
+ * @param binary
+ * @returns {string}
+ */
+function getMetricRowTotal(actual_target_metrics, binary) {
     let targetTotalValue = "";
-
-    if ('total' in actual_target_metrics['target']) {
-        targetTotalValue = Math.round(actual_target_metrics['target']['total'] * 100 + Number.EPSILON) / 100;
+    if (!binary) {
+        if ('total' in actual_target_metrics['target']) {
+            targetTotalValue = Math.round(actual_target_metrics['target']['total'] * 100 + Number.EPSILON) / 100;
+        }
+    } else {
+        targetTotalValue = "-";
     }
-
-    return `<td class="col-10" >` + targetTotalValue + `</td>`;
+    return `<td class="col-10">` + targetTotalValue + `</td>`;
 }
 
-
+/**
+ * This function returns a part of the process features table
+ *
+ * @param innerHTML_target
+ * @param metricData
+ * @returns {*}
+ */
 function addMinMaxToInputFields(innerHTML_target, metricData) {
-
+    let binary = metricData['binary'];
     // Rest of the innerHTML_target string
-    if (metricData['min_value'] >= 0) innerHTML_target += ' min="' + metricData['min_value'] + '"';
-    if (metricData['max_value'] >= 0) innerHTML_target += ' max="' + metricData['max_value'] + '"';
-
-    innerHTML_target += ` disabled="true"></td>`;
+    if (!binary) {
+        if (metricData['min_value'] >= 0) innerHTML_target += ' min="' + metricData['min_value'] + '"';
+        if (metricData['max_value'] >= 0) innerHTML_target += ' max="' + metricData['max_value'] + '"';
+    } else {
+        innerHTML_target += ' min="' + 0 + '%"';
+        innerHTML_target += ' max="' + 100 + '%"';
+    }
+    innerHTML_target += ` disabled="true">`
+    if (binary && innerHTML_target.includes('target-average')) innerHTML_target += `<span class="percentage-span">%</span>`;
+    innerHTML_target += `</td>`;
 
     return innerHTML_target;
 }
@@ -423,7 +477,6 @@ function addMinMaxToInputFields(innerHTML_target, metricData) {
 function renderWholeProcessScoreCircle(wholeProcessScore) {
     let color;
     wholeProcessScore = parseInt(wholeProcessScore);
-
     color = helper.getCircleColor(wholeProcessScore);
 
     if (!isNaN(wholeProcessScore)) {
@@ -439,7 +492,6 @@ function renderWholeProcessScoreCircle(wholeProcessScore) {
 /**
  * This function saves the data entered to the database by transmitting the data to the backend
  */
-
 function createEditProcess() {
     Helper.showLoadingScreen();
     let metric_elements = {};
@@ -471,15 +523,19 @@ function createEditProcess() {
             }
 
             if (metric_elements[key][i].value !== '') {
-                metrics[id][key] = parseFloat(metric_elements[key][i].value);
-                if (!helper.targetAvgIsWithinMinMax(metric_elements[key][i])) {
+                console.log(metric_elements['average'][i]);
+                if (key === "average" && metric_elements['average'][i].hasAttribute("binary")) {
+                    metrics[id][key] = parseFloat(metric_elements[key][i].value) / 100;
+                } else {
+                    metrics[id][key] = parseFloat(metric_elements[key][i].value);
+                }
+                if (!Helper.targetAvgIsWithinMinMax(metric_elements[key][i])) {
                     minmaxlist += '\n' + metric_elements[key][i].parentElement.parentElement.children[0].id; //TODO: Add metric name to the list of wrong target avg values (von Roman?)
                     metric_elements[key][i].style.setProperty("border-color", "red", undefined); //TODO: noch nötig oder nicht durch EventListener schon abgedeckt? (von Jasmin)
                 } else {
                     metric_elements[key][i].style.removeProperty("border-color"); //TODO: noch nötig oder nicht durch EventListener schon abgedeckt? (von Jasmin)
                 }
             }
-
         });
     }
 
@@ -510,32 +566,18 @@ function createEditProcess() {
     if (minmaxlist === "" && !process_name_empty && !text_replaced_flag) {
         saveProcess(process);
     } else {
-        let alert_string = 'Changes could not be saved. ';
-        if (process_name_empty) {
-            alert_string += 'Please enter a process name';
-        }
-        // Prepare alert message strings depending on the error cause
-        if (text_replaced_flag === true) {
-            alert_string += '\nNon quantitative metrics have been automatically discarded.\n';
-        }
-        if (minmaxlist !== "") {
-            alert_string += '\nThe following Metrics are not within their min/max values:\n';
-            alert_string += minmaxlist + "\n";
-        }
-        Helper.hideLoadingScreen();
-        window.alert(alert_string);
+        Helper.raise_alert('process', process_name_empty, text_replaced_flag, minmaxlist);
     }
 }
 
-
 /**
- * Saves data.
+ * Saves process data to backend
+ *
  * @param data
  */
 function saveProcess(data) {
     helper.http_request("POST", "/process/create_edit", true, data, saveCallback);
 }
-
 
 /**
  * This function loads component names from json file
@@ -546,8 +588,18 @@ function loadComponentNames(processData) {
     helper.http_request("GET", "/content/mapping_metrics_definition.json", true, "", function (metricsDefinition) {
         createComponentTable(processData, metricsDefinition);
         visualizeProcess(processData, metricsDefinition);
+        showAddComponent();
         helper.http_request("GET", "/component/overview", true, "", fillComponentDropdown);
     });
+}
+
+/**
+ * This function renders the add component elements to the view
+ */
+function showAddComponent() {
+    document.getElementById('add-component-dropdown').innerHTML = `
+        <select id="addposition" class="postion-dropdown"></select>
+        <button class="button" type="button" onclick="addComponent()">+</button>`;
 }
 
 /**
@@ -589,14 +641,14 @@ function createComponentTable(processData, metricsDefinition) {
 
         // Filling values
         component.innerHTML = `
-            <td class="col-1" ></td>
-            <td class="col-2" >` + componentData['name'] + `</td>
-            <td class="col-3" >` + metricsDefinition['categories'][componentData['category']]['name'] + ` </td>
-            <td class="col-4" ></td>
-            <td class="col-5" ></td>
-            <td class="col-6" ></td>
-            <td class="col-7" ></td>
-            <td class="col-8" ><i id="TrashIcon" class="fas fa-trash-alt" onclick="deleteComponent(this.parentElement.parentElement.id);"></i></td>
+            <td class="col-1"></td>
+            <td class="col-2">` + componentData['name'] + `</td>
+            <td class="col-3">` + metricsDefinition['categories'][componentData['category']]['name'] + ` </td>
+            <td class="col-4"></td>
+            <td class="col-5"></td>
+            <td class="col-6"></td>
+            <td class="col-7"></td>
+            <td class="col-8"><i id="TrashIcon" class="fas fa-trash-alt" onclick="deleteComponent(this.parentElement.parentElement.id);"></i></td>
         `;
 
         // Sorting the components according to their weights
@@ -617,7 +669,7 @@ function createComponentTable(processData, metricsDefinition) {
  * This function fills the component dropdown to enable the functionality of adding components to a process
  *
  * @param {json} componentData: A list of all components available through user input
- * */
+ */
 function fillComponentDropdown(componentData) {
     let components = componentData['components'];
     document.getElementById('addposition').innerHTML = '';
@@ -640,6 +692,7 @@ function fillComponentDropdown(componentData) {
 function addComponent() {
     Helper.showLoadingScreen();
     let componentUID = document.getElementById('addposition').value;
+
     if (componentUID.length === 32) {
         let weight = document.getElementById('ComponentOverviewTable').lastChild.id;
         // If there is no components in the table, the new component receives the weight = 1
@@ -658,6 +711,7 @@ function addComponent() {
         helper.http_request("POST", "/process/edit/createstep", true, JSON.stringify(data), init);
     } else {
         Helper.hideLoadingScreen();
+        window.alert('Please select a component.');
     }
 }
 
@@ -777,7 +831,7 @@ function exit(ev) {
  *
  * @param {json} processData
  * @param {json} metricsDefinition
- * */
+ */
 function visualizeProcess(processData, metricsDefinition) {
     let div = document.createElement("div");
     div.className = "modelling-processes";
@@ -787,7 +841,6 @@ function visualizeProcess(processData, metricsDefinition) {
     let innerHTML = "";
     let components = processData['process']['components'];
     components.sort((a, b) => (a.weight > b.weight) ? 1 : ((b.weight > a.weight) ? -1 : 0));
-
 
     // Begin at index 1 because 0 contains table headers
     for (let i = 0; i < components.length; i++) {
@@ -847,7 +900,6 @@ function horizontalScroll() {
         delta = delta * (-50);
 
         document.getElementById("visualizeprocess").scrollLeft -= delta;
-
         e.preventDefault();
     });
 }
@@ -857,7 +909,6 @@ function horizontalScroll() {
  *
  * @param {JSON} response
  */
-
 function saveCallback(response) {
     // Process has been created/edited successfully
     Helper.hideLoadingScreen();
