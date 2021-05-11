@@ -557,7 +557,7 @@ tr:nth-child(even) {
     pointer-events: none; /* prevents tooltip from firing on pseudo hover */
 }
 
-.info-text-popup:hover::before {
+.info-text-popup:not([disabled]):hover::before {
     opacity:1;
     bottom: 100%;
 }
