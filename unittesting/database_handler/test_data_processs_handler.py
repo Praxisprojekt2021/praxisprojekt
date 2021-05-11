@@ -1,4 +1,4 @@
-GET_PROCESS_SETUP_AND_OUT = {
+PROCESS_WITHOUT_TARGET_METRICS = {
     "success": True,
     "process": {
         "uid": "-1",
@@ -22,28 +22,23 @@ GET_PROCESS_SETUP_AND_OUT = {
     },
 }
 
-GET_PROCESS_IN = {
+UID_DICT = {
     "uid": "",
 }
 
-ADD_PROCESS_OUT = {
-    "success": True,
-    "uid": -1
-}
-
-ADD_PROCESS_REFERENCE_IN = {
+ADD_PROCESS_REFERENCE = {
     "process_uid": "-1",
     "component_uid": "-1",
     "weight": 69
 }
 
-UPDATE_PROCESS_REFERENCE_IN = {
+UPDATE_PROCESS_REFERENCE = {
     "uid": "-1",
     "old_weight": 69,
     "new_weight": 7
 }
 
-ADD_PROCESS_REFERENCE_OUT = {
+PROCESS_WITH_TARGET_METRICS = {
     'success': True,
     'process':
         {

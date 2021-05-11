@@ -15,7 +15,7 @@ class TestGetProcess(unittest.TestCase):
         # get old process_list
         process_list_pre = get_process_list()['processes']
         # add new component
-        add_process(GET_PROCESS_SETUP_AND_OUT)
+        add_process(PROCESS_WITHOUT_TARGET_METRICS)
         # get new process_list
         process_list_post = get_process_list()['processes']
 
@@ -25,34 +25,34 @@ class TestGetProcess(unittest.TestCase):
             if post_uid not in process_list_pre:
                 cls.uid = post_uid['uid']
 
-        GET_PROCESS_IN["uid"] = cls.uid
-        GET_PROCESS_SETUP_AND_OUT["process"]["uid"] = cls.uid
+        UID_DICT["uid"] = cls.uid
+        PROCESS_WITHOUT_TARGET_METRICS["process"]["uid"] = cls.uid
 
     def test_2001(self):
-        is_dict = get_process(GET_PROCESS_IN)
+        is_dict = get_process(UID_DICT)
         is_dict["process"].pop("creation_timestamp")
         is_dict["process"].pop("last_timestamp")
-        self.assertEqual(is_dict, GET_PROCESS_SETUP_AND_OUT)
+        self.assertEqual(is_dict, PROCESS_WITHOUT_TARGET_METRICS)
 
     def test_2002_2003(self):
         uids_to_be_tested = [1.5, 'abc']
 
         for uid in uids_to_be_tested:
-            GET_PROCESS_IN['uid'] = uid
+            UID_DICT['uid'] = uid
             with self.assertRaises(IndexError):
-                get_process(GET_PROCESS_IN)
+                get_process(UID_DICT)
 
     def test_2004(self):
 
-        GET_PROCESS_IN.pop("uid")
-        GET_PROCESS_IN["test1"] = 12
+        UID_DICT.pop("uid")
+        UID_DICT["test1"] = 12
         with self.assertRaises(KeyError):
-            get_process(GET_PROCESS_IN)
+            get_process(UID_DICT)
 
     @classmethod
     def tearDownClass(cls):
-        GET_PROCESS_IN["uid"] = cls.uid
-        delete_process(GET_PROCESS_IN)
+        UID_DICT["uid"] = cls.uid
+        delete_process(UID_DICT)
 
 
 class TestAddProcess(unittest.TestCase):
@@ -61,7 +61,7 @@ class TestAddProcess(unittest.TestCase):
         # get old process_list
         process_list_pre = get_process_list()['processes']
         # add new component
-        add_process(GET_PROCESS_SETUP_AND_OUT)
+        add_process(PROCESS_WITHOUT_TARGET_METRICS)
         # get new process_list
         process_list_post = get_process_list()['processes']
 
@@ -70,29 +70,29 @@ class TestAddProcess(unittest.TestCase):
         for post_uid in process_list_post:
             if post_uid not in process_list_pre:
                 uid = post_uid['uid']
-        GET_PROCESS_SETUP_AND_OUT["process"]["uid"] = uid
-        GET_PROCESS_IN["uid"] = uid
-        is_dict = get_process(GET_PROCESS_IN)
+        PROCESS_WITHOUT_TARGET_METRICS["process"]["uid"] = uid
+        UID_DICT["uid"] = uid
+        is_dict = get_process(UID_DICT)
         is_dict["process"].pop("creation_timestamp")
         is_dict["process"].pop("last_timestamp")
-        self.assertEqual(is_dict, GET_PROCESS_SETUP_AND_OUT)
-        delete_process(GET_PROCESS_IN)
+        self.assertEqual(is_dict, PROCESS_WITHOUT_TARGET_METRICS)
+        delete_process(UID_DICT)
 
     def test_2102(self):
         # add incorrect values to dict
-        GET_PROCESS_SETUP_AND_OUT["target_metrics"]["downtime"]["average"] = "ABC"
+        PROCESS_WITHOUT_TARGET_METRICS["target_metrics"]["downtime"]["average"] = "ABC"
 
         with self.assertRaises(ValueError):
-            add_process(GET_PROCESS_SETUP_AND_OUT)
-        delete_process(GET_PROCESS_IN)
+            add_process(PROCESS_WITHOUT_TARGET_METRICS)
+        delete_process(UID_DICT)
 
     def test_2103(self):
         # add incorrect structure to dict
-        GET_PROCESS_SETUP_AND_OUT.pop("target_metrics")
+        PROCESS_WITHOUT_TARGET_METRICS.pop("target_metrics")
 
         with self.assertRaises(KeyError):
-            add_process(GET_PROCESS_SETUP_AND_OUT)
-        delete_process(GET_PROCESS_IN)
+            add_process(PROCESS_WITHOUT_TARGET_METRICS)
+        delete_process(UID_DICT)
 
 
 class TestUpdateProcess(unittest.TestCase):
@@ -103,7 +103,7 @@ class TestUpdateProcess(unittest.TestCase):
         # get old process_list
         process_list_pre = get_process_list()['processes']
         # add new component
-        add_process(GET_PROCESS_SETUP_AND_OUT)
+        add_process(PROCESS_WITHOUT_TARGET_METRICS)
         # get new process_list
         process_list_post = get_process_list()['processes']
 
@@ -113,37 +113,37 @@ class TestUpdateProcess(unittest.TestCase):
             if post_uid not in process_list_pre:
                 cls.uid = post_uid['uid']
 
-        GET_PROCESS_IN["uid"] = cls.uid
-        GET_PROCESS_SETUP_AND_OUT["process"]["uid"] = cls.uid
+        UID_DICT["uid"] = cls.uid
+        PROCESS_WITHOUT_TARGET_METRICS["process"]["uid"] = cls.uid
 
     def test_2201(self):
-        process_dict = get_process(GET_PROCESS_IN)
+        process_dict = get_process(UID_DICT)
         process_dict["process"]["name"] = "New Name"
 
         update_process(process_dict)
 
-        new_process_dict = get_process(GET_PROCESS_IN)
+        new_process_dict = get_process(UID_DICT)
         process_dict["process"].pop("last_timestamp")
         new_process_dict["process"].pop("last_timestamp")
 
         self.assertEqual(new_process_dict, process_dict)
 
     def test_2202(self):
-        process_dict = get_process(GET_PROCESS_IN)
+        process_dict = get_process(UID_DICT)
         process_dict["target_metrics"]["downtime"]["average"] = "ABD"
 
         with self.assertRaises(CypherSyntaxError):
             update_process(process_dict)
 
     def test_2203(self):
-        process_dict = get_process(GET_PROCESS_IN)
+        process_dict = get_process(UID_DICT)
         process_dict["process"].pop("name")
 
         with self.assertRaises(KeyError):
             update_process(process_dict)
 
     def test_2204(self):
-        process_dict = get_process(GET_PROCESS_IN)
+        process_dict = get_process(UID_DICT)
         process_dict["process"]["uid"] = "ABC"
 
         # TODO: Is this the right Exception?
@@ -152,7 +152,7 @@ class TestUpdateProcess(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls):
-        delete_process(GET_PROCESS_IN)
+        delete_process(UID_DICT)
 
 
 class TestDeleteProcess(unittest.TestCase):
@@ -162,7 +162,7 @@ class TestDeleteProcess(unittest.TestCase):
         # get old process_list
         process_list_pre = get_process_list()['processes']
         # add new component
-        add_process(GET_PROCESS_SETUP_AND_OUT)
+        add_process(PROCESS_WITHOUT_TARGET_METRICS)
         # get new process_list
         process_list_post = get_process_list()['processes']
 
@@ -172,29 +172,29 @@ class TestDeleteProcess(unittest.TestCase):
             if post_uid not in process_list_pre:
                 self.uid = post_uid['uid']
 
-        GET_PROCESS_IN["uid"] = self.uid
+        UID_DICT["uid"] = self.uid
 
     def test_2301(self):
-        self.assertEqual(delete_process(GET_PROCESS_IN), success_handler())
+        self.assertEqual(delete_process(UID_DICT), success_handler())
 
     def test_2302(self):
-        GET_PROCESS_IN["uid"] = "ABC"
+        UID_DICT["uid"] = "ABC"
 
         # TODO: Is this the right Exception?
         with self.assertRaises(CypherSyntaxError):
-            delete_process(GET_PROCESS_IN)
-            GET_PROCESS_IN["uid"] = self.uid
-            delete_process(GET_PROCESS_IN)
+            delete_process(UID_DICT)
+            UID_DICT["uid"] = self.uid
+            delete_process(UID_DICT)
 
     def test_2303(self):
-        GET_PROCESS_IN.pop("uid")
-        GET_PROCESS_IN["ABC"] = 12
+        UID_DICT.pop("uid")
+        UID_DICT["ABC"] = 12
 
         with self.assertRaises(KeyError):
-            delete_process(GET_PROCESS_IN)
+            delete_process(UID_DICT)
 
-        GET_PROCESS_IN["uid"] = self.uid
-        delete_process(GET_PROCESS_IN)
+        UID_DICT["uid"] = self.uid
+        delete_process(UID_DICT)
 
 
 class TestAddProcessReference(unittest.TestCase):
@@ -205,7 +205,7 @@ class TestAddProcessReference(unittest.TestCase):
         # get old process_list
         process_list_pre = get_process_list()['processes']
         # add new component
-        add_process(GET_PROCESS_SETUP_AND_OUT)
+        add_process(PROCESS_WITHOUT_TARGET_METRICS)
         # get new process_list
         process_list_post = get_process_list()['processes']
 
@@ -216,8 +216,8 @@ class TestAddProcessReference(unittest.TestCase):
             if post_uid not in process_list_pre:
                 cls.uid = post_uid['uid']
 
-        GET_PROCESS_IN["uid"] = cls.uid
-        GET_PROCESS_SETUP_AND_OUT["process"]["uid"] = cls.uid
+        UID_DICT["uid"] = cls.uid
+        PROCESS_WITHOUT_TARGET_METRICS["process"]["uid"] = cls.uid
 
         component_list_pre = get_component_list()['components']
         # add new component
@@ -229,45 +229,45 @@ class TestAddProcessReference(unittest.TestCase):
                 cls.componentUid = post_uid['uid']
 
     def test_2401(self):
-        ADD_PROCESS_REFERENCE_IN["process_uid"] = self.uid
-        ADD_PROCESS_REFERENCE_IN["component_uid"] = self.componentUid
+        ADD_PROCESS_REFERENCE["process_uid"] = self.uid
+        ADD_PROCESS_REFERENCE["component_uid"] = self.componentUid
 
-        self.assertEqual(add_process_reference(ADD_PROCESS_REFERENCE_IN), success_handler())
+        self.assertEqual(add_process_reference(ADD_PROCESS_REFERENCE), success_handler())
 
-        GET_PROCESS_IN["uid"] = self.uid
-        out_dict = get_process(GET_PROCESS_IN)
+        UID_DICT["uid"] = self.uid
+        out_dict = get_process(UID_DICT)
         out_dict["process"].pop("last_timestamp")
         out_dict["process"].pop("creation_timestamp")
         out_dict["process"]["components"][0].pop("last_timestamp")
         out_dict["process"]["components"][0].pop("creation_timestamp")
         out_dict["process"]["components"][0]["uid"] = self.componentUid
 
-        ADD_PROCESS_REFERENCE_OUT["process"]["components"][0]["uid"] = self.componentUid
-        ADD_PROCESS_REFERENCE_OUT["process"]["uid"] = self.uid
-        self.assertEqual(out_dict, ADD_PROCESS_REFERENCE_OUT)
+        PROCESS_WITH_TARGET_METRICS["process"]["components"][0]["uid"] = self.componentUid
+        PROCESS_WITH_TARGET_METRICS["process"]["uid"] = self.uid
+        self.assertEqual(out_dict, PROCESS_WITH_TARGET_METRICS)
 
     def test_2402(self):
-        ADD_PROCESS_REFERENCE_IN["process_uid"] = "ABC"
-        ADD_PROCESS_REFERENCE_IN["component_uid"] = "DCE"
+        ADD_PROCESS_REFERENCE["process_uid"] = "ABC"
+        ADD_PROCESS_REFERENCE["component_uid"] = "DCE"
 
         with self.assertRaises(CypherSyntaxError):
-            add_process_reference(ADD_PROCESS_REFERENCE_IN)
+            add_process_reference(ADD_PROCESS_REFERENCE)
 
     def test_2403(self):
-        ADD_PROCESS_REFERENCE_IN["twwe"] = "ABC"
-        ADD_PROCESS_REFERENCE_IN["wee"] = "DCE"
-        ADD_PROCESS_REFERENCE_IN.pop("process_uid")
-        ADD_PROCESS_REFERENCE_IN.pop("component_uid")
+        ADD_PROCESS_REFERENCE["twwe"] = "ABC"
+        ADD_PROCESS_REFERENCE["wee"] = "DCE"
+        ADD_PROCESS_REFERENCE.pop("process_uid")
+        ADD_PROCESS_REFERENCE.pop("component_uid")
 
         with self.assertRaises(KeyError):
-            add_process_reference(ADD_PROCESS_REFERENCE_IN)
+            add_process_reference(ADD_PROCESS_REFERENCE)
 
     @classmethod
     def tearDownClass(cls):
-        GET_PROCESS_IN["uid"] = cls.uid
-        delete_process(GET_PROCESS_IN)
-        GET_PROCESS_IN["uid"] = cls.componentUid
-        delete_component(GET_PROCESS_IN)
+        UID_DICT["uid"] = cls.uid
+        delete_process(UID_DICT)
+        UID_DICT["uid"] = cls.componentUid
+        delete_component(UID_DICT)
 
 
 class TestDeleteProcessReference(unittest.TestCase):
@@ -278,7 +278,7 @@ class TestDeleteProcessReference(unittest.TestCase):
         # get old process_list
         process_list_pre = get_process_list()['processes']
         # add new component
-        add_process(GET_PROCESS_SETUP_AND_OUT)
+        add_process(PROCESS_WITHOUT_TARGET_METRICS)
         # get new process_list
         process_list_post = get_process_list()['processes']
 
@@ -289,8 +289,8 @@ class TestDeleteProcessReference(unittest.TestCase):
             if post_uid not in process_list_pre:
                 cls.uid = post_uid['uid']
 
-        GET_PROCESS_IN["uid"] = cls.uid
-        GET_PROCESS_SETUP_AND_OUT["process"]["uid"] = cls.uid
+        UID_DICT["uid"] = cls.uid
+        PROCESS_WITHOUT_TARGET_METRICS["process"]["uid"] = cls.uid
 
         component_list_pre = get_component_list()['components']
         # add new component
@@ -302,37 +302,37 @@ class TestDeleteProcessReference(unittest.TestCase):
                 cls.componentUid = post_uid['uid']
 
     def setUp(self):
-        ADD_PROCESS_REFERENCE_IN["process_uid"] = self.uid
-        add_process_reference(ADD_PROCESS_REFERENCE_IN)
+        ADD_PROCESS_REFERENCE["process_uid"] = self.uid
+        add_process_reference(ADD_PROCESS_REFERENCE)
 
     def test_2501(self):
-        ADD_PROCESS_REFERENCE_IN["uid"] = self.uid
-        self.assertEqual(delete_process_reference(ADD_PROCESS_REFERENCE_IN), success_handler())
+        ADD_PROCESS_REFERENCE["uid"] = self.uid
+        self.assertEqual(delete_process_reference(ADD_PROCESS_REFERENCE), success_handler())
 
     def test_2502(self):
-        ADD_PROCESS_REFERENCE_IN["uid"] = "ABC"
+        ADD_PROCESS_REFERENCE["uid"] = "ABC"
 
         # TODO: Is this the right Exception?
         with self.assertRaises(CypherSyntaxError):
-            delete_process_reference(ADD_PROCESS_REFERENCE_IN)
-            ADD_PROCESS_REFERENCE_IN["uid"] = self.uid
-            delete_process(ADD_PROCESS_REFERENCE_IN)
+            delete_process_reference(ADD_PROCESS_REFERENCE)
+            ADD_PROCESS_REFERENCE["uid"] = self.uid
+            delete_process(ADD_PROCESS_REFERENCE)
 
     def test_2503(self):
-        ADD_PROCESS_REFERENCE_IN.pop("uid")
-        ADD_PROCESS_REFERENCE_IN["ABC"] = 12
+        ADD_PROCESS_REFERENCE.pop("uid")
+        ADD_PROCESS_REFERENCE["ABC"] = 12
 
         with self.assertRaises(KeyError):
-            delete_process(ADD_PROCESS_REFERENCE_IN)
-            ADD_PROCESS_REFERENCE_IN["uid"] = self.uid
-            delete_process(ADD_PROCESS_REFERENCE_IN)
+            delete_process(ADD_PROCESS_REFERENCE)
+            ADD_PROCESS_REFERENCE["uid"] = self.uid
+            delete_process(ADD_PROCESS_REFERENCE)
 
     @classmethod
     def tearDownClass(cls):
-        GET_PROCESS_IN["uid"] = cls.uid
-        delete_process(GET_PROCESS_IN)
-        GET_PROCESS_IN["uid"] = cls.componentUid
-        delete_component(GET_PROCESS_IN)
+        UID_DICT["uid"] = cls.uid
+        delete_process(UID_DICT)
+        UID_DICT["uid"] = cls.componentUid
+        delete_component(UID_DICT)
 
 
 class TestUpdateProcessReference(unittest.TestCase):
@@ -343,7 +343,7 @@ class TestUpdateProcessReference(unittest.TestCase):
         # get old process_list
         process_list_pre = get_process_list()['processes']
         # add new component
-        add_process(GET_PROCESS_SETUP_AND_OUT)
+        add_process(PROCESS_WITHOUT_TARGET_METRICS)
         # get new process_list
         process_list_post = get_process_list()['processes']
 
@@ -354,8 +354,8 @@ class TestUpdateProcessReference(unittest.TestCase):
             if post_uid not in process_list_pre:
                 cls.uid = post_uid['uid']
 
-        GET_PROCESS_IN["uid"] = cls.uid
-        GET_PROCESS_SETUP_AND_OUT["process"]["uid"] = cls.uid
+        UID_DICT["uid"] = cls.uid
+        PROCESS_WITHOUT_TARGET_METRICS["process"]["uid"] = cls.uid
 
         component_list_pre = get_component_list()['components']
         # add new component
@@ -366,52 +366,52 @@ class TestUpdateProcessReference(unittest.TestCase):
             if post_uid not in component_list_pre:
                 cls.componentUid = post_uid['uid']
 
-        ADD_PROCESS_REFERENCE_IN["process_uid"] = cls.uid
-        ADD_PROCESS_REFERENCE_IN["component_uid"] = cls.componentUid
+        ADD_PROCESS_REFERENCE["process_uid"] = cls.uid
+        ADD_PROCESS_REFERENCE["component_uid"] = cls.componentUid
 
-        add_process_reference(ADD_PROCESS_REFERENCE_IN)
+        add_process_reference(ADD_PROCESS_REFERENCE)
 
 
     def test_2501(self):
-        UPDATE_PROCESS_REFERENCE_IN["uid"] = self.uid
+        UPDATE_PROCESS_REFERENCE["uid"] = self.uid
 
-        self.assertEqual(update_process_reference(UPDATE_PROCESS_REFERENCE_IN), success_handler())
+        self.assertEqual(update_process_reference(UPDATE_PROCESS_REFERENCE), success_handler())
 
-        new_process_dict = get_process(GET_PROCESS_IN)
+        new_process_dict = get_process(UID_DICT)
         new_process_dict["process"].pop("creation_timestamp")
         new_process_dict["process"]["components"][0].pop("creation_timestamp")
         new_process_dict["process"].pop("last_timestamp")
         new_process_dict["process"]["components"][0].pop("last_timestamp")
 
-        ADD_PROCESS_REFERENCE_OUT["process"]["components"][0]["weight"] = 7
-        ADD_PROCESS_REFERENCE_OUT["process"]["components"][0]["uid"] = self.componentUid
-        ADD_PROCESS_REFERENCE_OUT["process"]["uid"] = self.uid
+        PROCESS_WITH_TARGET_METRICS["process"]["components"][0]["weight"] = 7
+        PROCESS_WITH_TARGET_METRICS["process"]["components"][0]["uid"] = self.componentUid
+        PROCESS_WITH_TARGET_METRICS["process"]["uid"] = self.uid
 
-        self.assertEqual(new_process_dict, ADD_PROCESS_REFERENCE_OUT)
+        self.assertEqual(new_process_dict, PROCESS_WITH_TARGET_METRICS)
 
     def test_2502(self):
-        UPDATE_PROCESS_REFERENCE_IN["uid"] = "ABC"
+        UPDATE_PROCESS_REFERENCE["uid"] = "ABC"
         # TODO: Is this the right Exception?
         with self.assertRaises(CypherSyntaxError):
-            update_process_reference(UPDATE_PROCESS_REFERENCE_IN)
+            update_process_reference(UPDATE_PROCESS_REFERENCE)
 
     def test_2503(self):
-        UPDATE_PROCESS_REFERENCE_IN["old_weight"] = "ABC"
+        UPDATE_PROCESS_REFERENCE["old_weight"] = "ABC"
         with self.assertRaises(CypherSyntaxError):
-            update_process_reference(UPDATE_PROCESS_REFERENCE_IN)
+            update_process_reference(UPDATE_PROCESS_REFERENCE)
 
     def test_2504(self):
-        UPDATE_PROCESS_REFERENCE_IN.pop("old_weight")
+        UPDATE_PROCESS_REFERENCE.pop("old_weight")
         with self.assertRaises(KeyError):
-            update_process_reference(UPDATE_PROCESS_REFERENCE_IN)
+            update_process_reference(UPDATE_PROCESS_REFERENCE)
 
 
     @classmethod
     def tearDownClass(cls):
-        GET_PROCESS_IN["uid"] = cls.uid
-        delete_process(GET_PROCESS_IN)
-        GET_PROCESS_IN["uid"] = cls.componentUid
-        delete_component(GET_PROCESS_IN)
+        UID_DICT["uid"] = cls.uid
+        delete_process(UID_DICT)
+        UID_DICT["uid"] = cls.componentUid
+        delete_component(UID_DICT)
 
 
 class TestGetProcessList(unittest.TestCase):
@@ -422,7 +422,7 @@ class TestGetProcessList(unittest.TestCase):
         # get old process_list
         process_list_pre = get_process_list()['processes']
         # add new component
-        add_process(GET_PROCESS_SETUP_AND_OUT)
+        add_process(PROCESS_WITHOUT_TARGET_METRICS)
         # get new process_list
         process_list_post = get_process_list()['processes']
 
@@ -433,9 +433,9 @@ class TestGetProcessList(unittest.TestCase):
             if post_uid not in process_list_pre:
                 cls.uid = post_uid['uid']
 
-        GET_PROCESS_IN["uid"] = cls.uid
-        GET_PROCESS_SETUP_AND_OUT["process"]["uid"] = cls.uid
-        GET_PROCESS_SETUP_AND_OUT["process"].pop("components")
+        UID_DICT["uid"] = cls.uid
+        PROCESS_WITHOUT_TARGET_METRICS["process"]["uid"] = cls.uid
+        PROCESS_WITHOUT_TARGET_METRICS["process"].pop("components")
 
     def test_2601(self):
         process_list = get_process_list()
@@ -443,10 +443,10 @@ class TestGetProcessList(unittest.TestCase):
             if(process["uid"] == self.uid):
                 process.pop("creation_timestamp")
                 process.pop("last_timestamp")
-                self.assertEqual(process, GET_PROCESS_SETUP_AND_OUT["process"])
+                self.assertEqual(process, PROCESS_WITHOUT_TARGET_METRICS["process"])
 
 
     @classmethod
     def tearDownClass(cls):
-        GET_PROCESS_IN["uid"] = cls.uid
-        delete_process(GET_PROCESS_IN)
+        UID_DICT["uid"] = cls.uid
+        delete_process(UID_DICT)
