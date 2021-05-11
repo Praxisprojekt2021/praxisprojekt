@@ -483,8 +483,6 @@ function addMinMaxToInputFields(innerHTML_target, metricData) {
     innerHTML_target += ` disabled="true">`
     if (binary && innerHTML_target.includes('target-average')) {
         innerHTML_target += `<span class="percentage-span">%</span>`;
-    } else {
-        innerHTML_target += `<span class="percentage-span"></span>`;
     }
     innerHTML_target += `</td>`;
 
