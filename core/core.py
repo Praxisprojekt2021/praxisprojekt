@@ -41,7 +41,7 @@ def create_edit_component(input_dict: dict) -> str:
     Receives a dict in the form defined under JSON_objects_definitions.py for either
     editing a component or creating a new component
     The answer is a JSON object, only containing the success state, which is True or False
-    
+
     :param input_dict: dict containing all component attributes (special information
     to differentiate edit or create is contained in the UID, which is either -1 or the original UID
     :type input_dict: dict
@@ -50,10 +50,10 @@ def create_edit_component(input_dict: dict) -> str:
 
     if input_dict["uid"] == "-1":
         result_dict = component_handler.add_component(input_dict)
-        return processing.dict_to_json(result_dict)
     else:
         result_dict = component_handler.update_component(input_dict)
-        return processing.dict_to_json(result_dict)
+
+    return processing.dict_to_json(result_dict)
 
 
 def delete_component(input_dict: dict) -> str:
@@ -84,8 +84,10 @@ def get_process_list() -> str:
     # get the score and amount of components for each process
     for process_sub_dict in process_list_dict["processes"]:
         process = get_process({'uid': process_sub_dict['uid']})
-        process_sub_dict["score"] = processing.type_conversion.json_to_dict(process)['score']
-        process_sub_dict["components_count"] = len(processing.type_conversion.json_to_dict(process)['process']['components'])
+        process_sub_dict["score"] = processing.type_conversion.json_to_dict(process)[
+            'score']
+        process_sub_dict["components_count"] = len(
+            processing.type_conversion.json_to_dict(process)['process']['components'])
 
     output_json = processing.dict_to_json(process_list_dict)
 
@@ -106,7 +108,8 @@ def get_process(input_dict: dict) -> str:
 
     process_dict = process_handler.get_process(input_dict)
     metrics_dict = metric_handler.get_metrics_data()
-    output_dict = processing.calculations.start_calculate_risk(process_dict, metrics_dict)
+    output_dict = processing.calculations.start_calculate_risk(
+        process_dict, metrics_dict)
 
     output_json = processing.dict_to_json(output_dict)
 
@@ -118,7 +121,7 @@ def create_edit_process(input_dict: dict) -> str:
     Receives a dict in the form defined under JSON_objects_definitions.py for either
     editing a process or creating a new process
     The answer is a JSON object containing either the success state if False, otherwise calls get_process
-    
+
     :param input_dict: dict containing all process attributes (special information
     to differentiate edit or create is contained in the UID, which is either -1 or the original UID
     :type input_dict: dict
@@ -128,11 +131,11 @@ def create_edit_process(input_dict: dict) -> str:
     if input_dict["process"]["uid"] == "-1":
         result_dict = process_handler.add_process(input_dict)
         output_object = get_process({'uid': result_dict["process_uid"]})
-        return output_object
     else:
-        result_dict = process_handler.update_process(input_dict)
+        _ = process_handler.update_process(input_dict)
         output_object = get_process({'uid': input_dict["process"]["uid"]})
-        return output_object
+
+    return output_object
 
 
 def delete_process(input_dict: dict) -> str:
