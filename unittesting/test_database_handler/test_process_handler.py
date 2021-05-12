@@ -29,13 +29,13 @@ class TestGetProcess(unittest.TestCase):
         UID_DICT["uid"] = cls.uid
         PROCESS_WITHOUT_TARGET_METRICS["process"]["uid"] = cls.uid
 
-    def test_2001(self):
+    def test_2001_correct_execution(self):
         is_dict = get_process(UID_DICT)
         is_dict["process"].pop("creation_timestamp")
         is_dict["process"].pop("last_timestamp")
         self.assertEqual(is_dict, PROCESS_WITHOUT_TARGET_METRICS)
 
-    def test_2002_2003(self):
+    def test_2002_wrong_uid(self):
         uids_to_be_tested = [1.5, 'abc']
 
         for uid in uids_to_be_tested:
@@ -43,7 +43,7 @@ class TestGetProcess(unittest.TestCase):
             with self.assertRaises(IndexError):
                 get_process(UID_DICT)
 
-    def test_2004(self):
+    def test_2003_wrong_dict_structure(self):
 
         UID_DICT.pop("uid")
         UID_DICT["test1"] = 12
@@ -59,7 +59,7 @@ class TestGetProcess(unittest.TestCase):
 
 class TestAddProcess(unittest.TestCase):
 
-    def test_2101(self):
+    def test_2101_correct_execution(self):
         # get old process_list
         process_list_pre = get_process_list()['processes']
         # add new component
@@ -80,7 +80,7 @@ class TestAddProcess(unittest.TestCase):
         self.assertEqual(is_dict, PROCESS_WITHOUT_TARGET_METRICS)
         delete_process(UID_DICT)
 
-    def test_2102(self):
+    def test_2102_wrong_data(self):
         # add incorrect values to dict
         process_without_target_metrics = copy.deepcopy(PROCESS_WITHOUT_TARGET_METRICS)
         process_without_target_metrics["target_metrics"]["downtime"]["average"] = "ABC"
@@ -89,7 +89,7 @@ class TestAddProcess(unittest.TestCase):
             add_process(process_without_target_metrics)
         delete_process(UID_DICT)
 
-    def test_2103(self):
+    def test_2103_wrong_dict_structure(self):
         # add incorrect structure to dict
         process_without_target_metrics = copy.deepcopy(PROCESS_WITHOUT_TARGET_METRICS)
         process_without_target_metrics.pop("target_metrics")
@@ -120,7 +120,7 @@ class TestUpdateProcess(unittest.TestCase):
         UID_DICT["uid"] = cls.uid
         PROCESS_WITHOUT_TARGET_METRICS["process"]["uid"] = cls.uid
 
-    def test_2201(self):
+    def test_2201_correct_execution(self):
         process_dict = get_process(UID_DICT)
         process_dict["process"]["name"] = "New Name"
 
@@ -132,26 +132,26 @@ class TestUpdateProcess(unittest.TestCase):
 
         self.assertEqual(new_process_dict, process_dict)
 
-    def test_2202(self):
+    def test_2202_wrong_metric_data(self):
         process_dict = get_process(UID_DICT)
         process_dict["target_metrics"]["downtime"]["average"] = "ABD"
 
         with self.assertRaises(CypherSyntaxError):
             update_process(process_dict)
 
-    def test_2203(self):
-        process_dict = get_process(UID_DICT)
-        process_dict["process"].pop("name")
-
-        with self.assertRaises(KeyError):
-            update_process(process_dict)
-
-    def test_2204(self):
+    def test_2203_wrong_uid(self):
         process_dict = get_process(UID_DICT)
         process_dict["process"]["uid"] = "ABC"
 
         # TODO: Is this the right Exception?
         with self.assertRaises(CypherSyntaxError):
+            update_process(process_dict)
+
+    def test_2204_wrong_dict_structure(self):
+        process_dict = get_process(UID_DICT)
+        process_dict["process"].pop("name")
+
+        with self.assertRaises(KeyError):
             update_process(process_dict)
 
     @classmethod
@@ -178,10 +178,10 @@ class TestDeleteProcess(unittest.TestCase):
 
         UID_DICT["uid"] = self.uid
 
-    def test_2301(self):
+    def test_2301_correct_execution(self):
         self.assertEqual(delete_process(UID_DICT), success_handler())
 
-    def test_2302(self):
+    def test_2302_wrong_uid(self):
         UID_DICT["uid"] = "ABC"
 
         # TODO: Is this the right Exception?
@@ -190,7 +190,7 @@ class TestDeleteProcess(unittest.TestCase):
             UID_DICT["uid"] = self.uid
             delete_process(UID_DICT)
 
-    def test_2303(self):
+    def test_2303_wrong_dict_structure(self):
         UID_DICT.pop("uid")
         UID_DICT["ABC"] = 12
 
@@ -232,7 +232,7 @@ class TestAddProcessReference(unittest.TestCase):
             if post_uid not in component_list_pre:
                 cls.componentUid = post_uid['uid']
 
-    def test_2401(self):
+    def test_2401_correct_execution(self):
         ADD_PROCESS_REFERENCE["process_uid"] = self.uid
         ADD_PROCESS_REFERENCE["component_uid"] = self.componentUid
 
@@ -250,14 +250,14 @@ class TestAddProcessReference(unittest.TestCase):
         PROCESS_WITH_TARGET_METRICS["process"]["uid"] = self.uid
         self.assertEqual(out_dict, PROCESS_WITH_TARGET_METRICS)
 
-    def test_2402(self):
+    def test_2402_wrong_uid(self):
         ADD_PROCESS_REFERENCE["process_uid"] = "ABC"
         ADD_PROCESS_REFERENCE["component_uid"] = "DCE"
 
         with self.assertRaises(CypherSyntaxError):
             add_process_reference(ADD_PROCESS_REFERENCE)
 
-    def test_2403(self):
+    def test_2403_wrong_dict_structure(self):
         add_process_reference_in = copy.deepcopy(ADD_PROCESS_REFERENCE)
         add_process_reference_in["twwe"] = "ABC"
         add_process_reference_in["wee"] = "DCE"
@@ -310,11 +310,11 @@ class TestDeleteProcessReference(unittest.TestCase):
         ADD_PROCESS_REFERENCE["process_uid"] = self.uid
         add_process_reference(ADD_PROCESS_REFERENCE)
 
-    def test_2501(self):
+    def test_2501_correct_execution(self):
         ADD_PROCESS_REFERENCE["uid"] = self.uid
         self.assertEqual(delete_process_reference(ADD_PROCESS_REFERENCE), success_handler())
 
-    def test_2502(self):
+    def test_2502_wrong_uid(self):
         ADD_PROCESS_REFERENCE["uid"] = "ABC"
 
         # TODO: Is this the right Exception?
@@ -323,7 +323,7 @@ class TestDeleteProcessReference(unittest.TestCase):
             ADD_PROCESS_REFERENCE["uid"] = self.uid
             delete_process(ADD_PROCESS_REFERENCE)
 
-    def test_2503(self):
+    def test_2503_wrong_dict_structure(self):
         add_process_reference_in = copy.deepcopy(ADD_PROCESS_REFERENCE)
         add_process_reference_in.pop("uid")
         add_process_reference_in["ABC"] = 12
@@ -377,7 +377,7 @@ class TestUpdateProcessReference(unittest.TestCase):
 
         add_process_reference(ADD_PROCESS_REFERENCE)
 
-    def test_2501(self):
+    def test_2601_correct_execution(self):
         UPDATE_PROCESS_REFERENCE["uid"] = self.uid
 
         self.assertEqual(update_process_reference(UPDATE_PROCESS_REFERENCE), success_handler())
@@ -394,20 +394,20 @@ class TestUpdateProcessReference(unittest.TestCase):
 
         self.assertEqual(new_process_dict, PROCESS_WITH_TARGET_METRICS)
 
-    def test_2502(self):
+    def test_2602_wrong_uid(self):
         update_process_reference_in = copy.deepcopy(UPDATE_PROCESS_REFERENCE)
         update_process_reference_in["uid"] = "ABC"
         # TODO: Is this the right Exception?
         with self.assertRaises(CypherSyntaxError):
             update_process_reference(update_process_reference_in)
 
-    def test_2503(self):
+    def test_2603_wrong_weight(self):
         update_process_reference_in = copy.deepcopy(UPDATE_PROCESS_REFERENCE)
         update_process_reference_in["old_weight"] = "ABC"
         with self.assertRaises(CypherSyntaxError):
             update_process_reference(update_process_reference_in)
 
-    def test_2504(self):
+    def test_2604_wrong_dict_structure(self):
         update_process_reference_in = copy.deepcopy(UPDATE_PROCESS_REFERENCE)
         update_process_reference_in.pop("old_weight")
         with self.assertRaises(KeyError):
@@ -442,7 +442,7 @@ class TestGetProcessList(unittest.TestCase):
 
         UID_DICT["uid"] = cls.uid
 
-    def test_2601(self):
+    def test_2701_correct_execution(self):
         process_without_target_metrics = copy.deepcopy(PROCESS_WITHOUT_TARGET_METRICS)
         process_without_target_metrics["process"]["uid"] = self.uid
         process_without_target_metrics["process"].pop("components")
