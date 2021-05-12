@@ -11,9 +11,9 @@
         <div class="row">
             <div class="col-xs-12">
                 <h2 class="text-capitalize">Unittest Results</h2>
-                <p class='attribute'><strong>Start Time: </strong>2021-05-12 17:11:31</p>
-                <p class='attribute'><strong>Duration: </strong>4.05 s</p>
-                <p class='attribute'><strong>Summary: </strong>Total: 3, Pass: 2, Fail: 1</p>
+                <p class='attribute'><strong>Start Time: </strong>2021-05-12 22:34:53</p>
+                <p class='attribute'><strong>Duration: </strong>619 ms</p>
+                <p class='attribute'><strong>Summary: </strong>Total: 4, Pass: 3, Fail: 1</p>
             </div>
         </div>
         <div class="row">
@@ -21,14 +21,14 @@
                 <table class='table table-hover table-responsive'>
                     <thead>
                         <tr>
-                            <th>unittesting.test_database_handler.test_component_handler.TestDeleteComponent</th>
+                            <th>unittesting.test_database_handler.test_process_handler.TestUpdateProcessReference</th>
                             <th>Status</th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr class='success'>
-                            <td class="col-xs-10">test_1101_correct_input</td>
+                            <td class="col-xs-10">test_2601_correct_execution</td>
                             <td class="col-xs-1">
                                 <span class="label label-success" style="display:block;width:40px;">Pass</span>
                             </td>
@@ -36,7 +36,7 @@
                             </td>
                         </tr>
                         <tr class='danger'>
-                            <td class="col-xs-10">test_1102_incorrect_uids</td>
+                            <td class="col-xs-10">test_2602_wrong_uid</td>
                             <td class="col-xs-1">
                                 <span class="label label-danger" style="display:block;width:40px;">Fail</span>
                             </td>
@@ -46,14 +46,22 @@
                         </tr>
                         <tr style="display:none;">
                             <td class="col-xs-9" colspan="3"><p style="color:maroon;">AssertionError: CypherSyntaxError not raised</p><p style="color:maroon;">Traceback (most recent call last):
-  File "/Users/jasmincapka/OneDrive/FS - Bachelor/6. Semester/Praxisprojekt/Repo/praxisprojekt/unittesting/test_database_handler/test_component_handler.py", line 271, in test_1102_incorrect_uids
-    delete_component(DELETE_COMPONENT_IN)
+  File "C:\Users\mail\IdeaProjects\praxisprojekt\unittesting\test_database_handler\test_process_handler.py", line 402, in test_2602_wrong_uid
+    update_process_reference(update_process_reference_in)
 AssertionError: CypherSyntaxError not raised
 </p>
                             </td>
                         </tr>
                         <tr class='success'>
-                            <td class="col-xs-10">test_1104_incorrect_input</td>
+                            <td class="col-xs-10">test_2603_wrong_weight</td>
+                            <td class="col-xs-1">
+                                <span class="label label-success" style="display:block;width:40px;">Pass</span>
+                            </td>
+                            <td class="col-xs-1">
+                            </td>
+                        </tr>
+                        <tr class='success'>
+                            <td class="col-xs-10">test_2604_wrong_dict_structure</td>
                             <td class="col-xs-1">
                                 <span class="label label-success" style="display:block;width:40px;">Pass</span>
                             </td>
@@ -62,7 +70,7 @@ AssertionError: CypherSyntaxError not raised
                         </tr>
                         <tr>
                             <td colspan="3">
-                                Total: 3, Pass: 2, Fail: 1 -- Duration: 4.05 s
+                                Total: 4, Pass: 3, Fail: 1 -- Duration: 619 ms
                             </td>
                         </tr>
                     </tbody>

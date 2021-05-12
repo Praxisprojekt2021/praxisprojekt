@@ -11,9 +11,9 @@
         <div class="row">
             <div class="col-xs-12">
                 <h2 class="text-capitalize">Unittest Results</h2>
-                <p class='attribute'><strong>Start Time: </strong>2021-05-12 17:08:17</p>
-                <p class='attribute'><strong>Duration: </strong>122 ms</p>
-                <p class='attribute'><strong>Summary: </strong>Total: 1, Pass: 1</p>
+                <p class='attribute'><strong>Start Time: </strong>2021-05-12 22:34:53</p>
+                <p class='attribute'><strong>Duration: </strong>371 ms</p>
+                <p class='attribute'><strong>Summary: </strong>Total: 3, Pass: 2, Fail: 1</p>
             </div>
         </div>
         <div class="row">
@@ -21,14 +21,39 @@
                 <table class='table table-hover table-responsive'>
                     <thead>
                         <tr>
-                            <th>unittesting.test_database_handler.test_metric_handler.TestGetMetricsData</th>
+                            <th>unittesting.test_database_handler.test_process_handler.TestAddProcessReference</th>
                             <th>Status</th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr class='success'>
-                            <td class="col-xs-10">test_3003_correct_execution</td>
+                            <td class="col-xs-10">test_2401_correct_execution</td>
+                            <td class="col-xs-1">
+                                <span class="label label-success" style="display:block;width:40px;">Pass</span>
+                            </td>
+                            <td class="col-xs-1">
+                            </td>
+                        </tr>
+                        <tr class='danger'>
+                            <td class="col-xs-10">test_2402_wrong_uid</td>
+                            <td class="col-xs-1">
+                                <span class="label label-danger" style="display:block;width:40px;">Fail</span>
+                            </td>
+                            <td class="col-xs-1">
+                                <button class="btn btn-default btn-xs">View</button>
+                            </td>
+                        </tr>
+                        <tr style="display:none;">
+                            <td class="col-xs-9" colspan="3"><p style="color:maroon;">AssertionError: CypherSyntaxError not raised</p><p style="color:maroon;">Traceback (most recent call last):
+  File "C:\Users\mail\IdeaProjects\praxisprojekt\unittesting\test_database_handler\test_process_handler.py", line 258, in test_2402_wrong_uid
+    add_process_reference(ADD_PROCESS_REFERENCE)
+AssertionError: CypherSyntaxError not raised
+</p>
+                            </td>
+                        </tr>
+                        <tr class='success'>
+                            <td class="col-xs-10">test_2403_wrong_dict_structure</td>
                             <td class="col-xs-1">
                                 <span class="label label-success" style="display:block;width:40px;">Pass</span>
                             </td>
@@ -37,7 +62,7 @@
                         </tr>
                         <tr>
                             <td colspan="3">
-                                Total: 1, Pass: 1 -- Duration: 122 ms
+                                Total: 3, Pass: 2, Fail: 1 -- Duration: 371 ms
                             </td>
                         </tr>
                     </tbody>

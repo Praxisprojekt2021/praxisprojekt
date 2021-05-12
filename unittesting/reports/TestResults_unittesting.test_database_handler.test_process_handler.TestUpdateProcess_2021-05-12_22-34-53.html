@@ -11,9 +11,9 @@
         <div class="row">
             <div class="col-xs-12">
                 <h2 class="text-capitalize">Unittest Results</h2>
-                <p class='attribute'><strong>Start Time: </strong>2021-05-12 17:08:17</p>
-                <p class='attribute'><strong>Duration: </strong>738 ms</p>
-                <p class='attribute'><strong>Summary: </strong>Total: 2, Pass: 2</p>
+                <p class='attribute'><strong>Start Time: </strong>2021-05-12 22:34:53</p>
+                <p class='attribute'><strong>Duration: </strong>1.87 s</p>
+                <p class='attribute'><strong>Summary: </strong>Total: 4, Pass: 3, Fail: 1</p>
             </div>
         </div>
         <div class="row">
@@ -21,14 +21,14 @@
                 <table class='table table-hover table-responsive'>
                     <thead>
                         <tr>
-                            <th>unittesting.test_database_handler.test_metric_handler.CreateFromFrontendJson</th>
+                            <th>unittesting.test_database_handler.test_process_handler.TestUpdateProcess</th>
                             <th>Status</th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr class='success'>
-                            <td class="col-xs-10">test_3001_unknown_file</td>
+                            <td class="col-xs-10">test_2201_correct_execution</td>
                             <td class="col-xs-1">
                                 <span class="label label-success" style="display:block;width:40px;">Pass</span>
                             </td>
@@ -36,7 +36,32 @@
                             </td>
                         </tr>
                         <tr class='success'>
-                            <td class="col-xs-10">test_3002_correct_input</td>
+                            <td class="col-xs-10">test_2202_wrong_metric_data</td>
+                            <td class="col-xs-1">
+                                <span class="label label-success" style="display:block;width:40px;">Pass</span>
+                            </td>
+                            <td class="col-xs-1">
+                            </td>
+                        </tr>
+                        <tr class='danger'>
+                            <td class="col-xs-10">test_2203_wrong_uid</td>
+                            <td class="col-xs-1">
+                                <span class="label label-danger" style="display:block;width:40px;">Fail</span>
+                            </td>
+                            <td class="col-xs-1">
+                                <button class="btn btn-default btn-xs">View</button>
+                            </td>
+                        </tr>
+                        <tr style="display:none;">
+                            <td class="col-xs-9" colspan="3"><p style="color:maroon;">AssertionError: CypherSyntaxError not raised</p><p style="color:maroon;">Traceback (most recent call last):
+  File "C:\Users\mail\IdeaProjects\praxisprojekt\unittesting\test_database_handler\test_process_handler.py", line 148, in test_2203_wrong_uid
+    update_process(process_dict)
+AssertionError: CypherSyntaxError not raised
+</p>
+                            </td>
+                        </tr>
+                        <tr class='success'>
+                            <td class="col-xs-10">test_2204_wrong_dict_structure</td>
                             <td class="col-xs-1">
                                 <span class="label label-success" style="display:block;width:40px;">Pass</span>
                             </td>
@@ -45,7 +70,7 @@
                         </tr>
                         <tr>
                             <td colspan="3">
-                                Total: 2, Pass: 2 -- Duration: 738 ms
+                                Total: 4, Pass: 3, Fail: 1 -- Duration: 1.87 s
                             </td>
                         </tr>
                     </tbody>
