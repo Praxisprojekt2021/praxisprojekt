@@ -11,12 +11,12 @@
 <body class="body" onload="init()">
 
 <header id="header" class="header">
-    <a href="/" ><img src="{{ url_for('static', filename='images/logo.png') }}" loading="lazy" alt="" class ="logo">
+    <a href="/"><img src="{{ url_for('static', filename='images/logo.png') }}" loading="lazy" alt="" class="logo">
     </a>
     <div class="navigation">
         <a href="/" class="navigation-links" data-i18n="home"></a>
         <div class="navigation-link-separator">&gt;</div>
-        <a href="#" class="navigation-links" data-i18n="process-view"></a>
+        <a href="#" class="navigation-links navigation-selected" data-i18n="process-view"></a>
     </div>
 </header>
 <div class="process-overview" id="process-overview">
@@ -26,7 +26,7 @@
     </div>
 
     <div class="view-description-label" data-i18n="process-view"></div>
-    <div class="view-description-label" style="font-size: 13px;" data-i18n="description"></div>
+    <div class="view-description-label sub-description-label" data-i18n="description"></div>
     <div class="process-form-block">
 
         <form id="process-form" name="process-form" data-name="process-form" class="process-form">
@@ -68,33 +68,15 @@
                 <div class="center">
                     <table class="responsive-table" id="ComponentOverviewTable"></table>
                 </div>
-                <div class="select-line">
-                    <select id="addposition" class="postion-dropdown"></select>
-                    <button class="button" type="button" onclick="helper.showLoadingScreen(); addComponent()">+</button>
+                <div id="add-component-dropdown" class="select-line">
                 </div>
             </div>
             <div id="control-panel-process">
                 <div id="buttons"></div>
             </div>
         </form>
-
-        <!-- Placeholder following pls adapt/ add further -->
-        <div class="success-message" id="create-success">
-            <div class="message"></div>
-        </div>
-        <div class="error-message" id="create-fail">
-            <div class="message"></div>
-        </div>
-        <div class="success-message" id="save-success">
-            <div class="message"></div>
-        </div>
-        <div class="error-message" id="save-fail">
-            <div class="message"></div>
-        </div>
-
-    </div><!-- end div process-form-block -->
-
-</div><!-- end div process-overview -->
+    </div>
+</div>
 
 <script src="{{ url_for('static', filename='js/helper.js') }}"></script>
 <script src="{{ url_for('static', filename='js/process-editor.js') }}"></script>

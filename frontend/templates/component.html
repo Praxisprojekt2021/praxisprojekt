@@ -9,20 +9,15 @@
 <body class="body" onload="init()">
 
 <header id="header" class="header">
-
-    <a href="/"><img src="{{ url_for('static', filename='images/logo.png') }}"loading="lazy" alt="" class="logo"></a>
-
+    <a href="/"><img src="{{ url_for('static', filename='images/logo.png') }}" loading="lazy" alt="" class="logo"></a>
     <div class="navigation">
         <a href="/" class="navigation-links" data-i18n="home"></a>
         <div class="navigation-link-separator">&gt;</div>
         <a href="#" class="navigation-links navigation-selected" data-i18n="individual-component"></a>
     </div>
-
 </header>
 
 <div class="component-overview" id="component-overview">
-
-
     <div class="loader-wrapper-hidden" id="loader-wrapper">
         <span class="loader"><span class="loader-inner"></span></span>
         <div class="loader-text">Loading...</div>
@@ -38,8 +33,7 @@
                     <label for="component-name" class="entry-label" data-i18n="component-name"></label>
                     <input type="text" class="textfield" maxlength="256" name="component-name"
                            data-name="component-name" id="component-name">
-                    <label for="component-uid" class="entry-label" data-i18n="component-uid"></label>
-                    <input type="text" class="textfield" maxlength="32" name="component-uid"
+                    <input type="hidden" class="textfield" maxlength="32" name="component-uid"
                            data-name="component-uid" id="component-uid" disabled>
                     <label for="component-category" class="entry-label" data-i18n="component-category"></label>
                     <select id="component-category" name="component-category" data-name="component-category"
@@ -58,9 +52,7 @@
                               class="textarea"></textarea>
                 </div>
             </div>
-
             <div id="metrics-input"></div>
-
         </form>
     </div>
 </div>

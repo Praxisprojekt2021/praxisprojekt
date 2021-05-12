@@ -5,16 +5,28 @@
 body {
   margin: auto;
   width: 70%;
-  padding-top: 40px;
-  font-size: 14px;
-  line-height: 20px;
+  padding-top: 2.083vmax;
+  font-size: 0.729vmax;
+  line-height: 1.042vmax;
   min-height: 100%;
   background-color: #fff;
   overflow-y: scroll;
 }
 
+@media only screen and (max-width: 1400px) {
+  body {
+    width: 82%;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  body {
+    width: 87%;
+  }
+}
+
 label {
-  margin-bottom: 6px;
+  margin-bottom: 0.313vmax;
   max-width: 100%;
   vertical-align: middle;
 }
@@ -38,12 +50,12 @@ button, html input[type="button"], input[type="reset"] {
 
 .header {
   display: block;
-  margin-bottom: 30px;
+  margin-bottom: 1.563vmax;
 }
 
 .component-form, .process-form {
-  margin-right: 15px;
-  margin-left: 15px;
+  margin-right: 0.781vmax;
+  margin-left: 0.781vmax;
 }
 
 .logo {
@@ -59,27 +71,32 @@ button, html input[type="button"], input[type="reset"] {
   left: auto;
   display: inline-block;
   overflow: visible;
-  width: 300px;
-  height: 20px;
+  width: 15.625vmax;
+  height: 1.042vmax;
   float: left;
 }
 
 .view-description-label {
-  font-size: 17px;
+  font-size: 0.885vmax;
   font-weight: 700;
+}
+
+.sub-description-label {
+  padding-top: 0.5%;
+  font-size: 0.7vw;
 }
 
 .component-form-block, .process-form-block {
   position: relative;
-  margin-top: 15px;
-  margin-bottom: 15px;
+  margin-top: 0.781vmax;
+  margin-bottom: 0.781vmax;
 }
 
 .entry-label {
   position: relative;
-  top: 3px;
+  top: 0.156vmax;
   display: inline-block;
-  padding-left: 5px;
+  padding-left: 0.26vmax;
   float: left;
   clear: left;
   font-weight: 400;
@@ -87,24 +104,31 @@ button, html input[type="button"], input[type="reset"] {
 
 .textarea {
   position: relative;
+  resize: vertical;
   display: block;
   overflow: auto;
-  width: 450px;
+  width: 23.438vmax;
   max-height: 100%;
   max-width: 100%;
-  min-height: 50px;
-  min-width: 20px;
+  min-height: 3.604vmax;
+  min-width: 1.042vmax;
   float: left;
   clear: left;
-  border-radius: 7px;
-  height: 38px;
-  padding: 8px 12px;
-  margin-bottom: 10px;
-  font-size: 14px;
+  border-radius: 0.365vmax;
+  height: 1.979vmax;
+  padding: 0.417vmax 0.625vmax;
+  margin-bottom: 0.521vmax;
+  font-size: 0.729vmax;
   line-height: 1.428571429;
   color: #333333;
   vertical-align: middle;
-  border: 1px solid #ccc;
+  border: 0.052vmax solid #ccc;
+}
+
+#metrics-input-processes {
+  margin-top: 0.7vmax;
+  margin-bottom: 0.7vmax;
+  border-top: 1px solid #b1b1b16b;
 }
 
 .accordion-toggle {
@@ -113,10 +137,10 @@ button, html input[type="button"], input[type="reset"] {
   width: 100%;
   position: relative;
   vertical-align: top;
-  padding-top: 20px;
-  padding-bottom: 20px;
-  padding-left: 10px;
-  padding-right: 40px;
+  padding-top: 1.042vmax;
+  padding-bottom: 1.042vmax;
+  padding-left: 0.521vmax;
+  padding-right: 2.083vmax;
   text-align: left;
   margin-left: auto;
   margin-right: auto;
@@ -142,29 +166,28 @@ button, html input[type="button"], input[type="reset"] {
 .accordion-icon {
   position: absolute;
   margin: auto;
-  margin-right: 20px;
+  margin-right: 1.042vmax;
 }
 
 .dropdown-list {
-  height: 0px;
+  height: 0vmax;
   position: static;
   display: block;
   overflow: visible;
-  padding-right: 0px;
-  padding-left: 0px;
+  padding-right: 0vmax;
+  padding-left: 0vmax;
   width: 100%;
   min-width: 100%;
   transition: height 0.3s ease-out;
 }
 
 .info-icon {
+  width: 1.5vw;
   position: relative;
   display: inline-block;
   overflow: visible;
-  margin-top: 2px;
-  margin-left: 10px;
   float: left;
-  border-radius: 20px;
+  border-radius: 1.042vmax;
   transition: 0.21s ease-out;
   opacity: 0.65;
 }
@@ -178,17 +201,17 @@ button, html input[type="button"], input[type="reset"] {
   display: inline-block;
   width: auto;
   max-width: 100%;
-  min-width: 200px;
+  min-width: 10.417vmax;
   float: left;
   clear: left;
-  border-radius: 7px;
-  padding: 8px 12px;
-  margin-bottom: 10px;
-  font-size: 14px;
+  border-radius: 0.365vmax;
+  padding: 0.417vmax 0.625vmax;
+  margin-bottom: 0.521vmax;
+  font-size: 0.729vmax;
   line-height: 1.428571429;
   color: #333333;
   vertical-align: middle;
-  border: 1px solid #ccc;
+  border: 0.052vmax solid #ccc;
 }
 
 .category-dropdown {
@@ -206,20 +229,21 @@ button, html input[type="button"], input[type="reset"] {
 }
 
 .component-overview, .process-overview {
-  padding-top: 40px;
-  padding-left: 50px;
-  padding-right: 50px;
+  border-radius: 0.7vmax;
+  padding-top: 2.083vmax;
+  padding-left: 2.604vmax;
+  padding-right: 2.604vmax;
   border-style: solid;
-  border-width: 1px;
+  border-width: 0.052vmax;
   border-color: #e6e6e6;
   background-color: #ececec;
-  box-shadow: rgba(50, 50, 93, 0.015) 0px 10px 10px -6px inset, rgba(0, 0, 0, 0.28) 0px 6px 25px -18px inset,rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.17) 0px 6px 6px;
+  box-shadow: rgba(50, 50, 93, 0.015) 0vmax 10vmax 10vmax -0.313vmax inset, rgba(0, 0, 0, 0.28) 0vmax 0.313vmax 1.302vmax -0.938vmax inset,rgba(0, 0, 0, 0.19) 0vmax 10vmax 20vmax, rgba(0, 0, 0, 0.17) 0vmax 0.313vmax 0.313vmax;
 }
 
 .features-columns {
   display: inline-block;
   width: 100%;
-  margin-left: 10px;
+  margin-left: 0.521vmax;
 }
 
 .description-columns {
@@ -228,9 +252,9 @@ button, html input[type="button"], input[type="reset"] {
 
 .navigation-links {
   display: block;
-  padding-right: 5px;
-  padding-left: 5px;
-  font-size: 18px;
+  padding-right: 0.26vmax;
+  padding-left: 0.26vmax;
+  font-size: 0.938vmax;
   float: left;
   color: #000;
   text-decoration: none;
@@ -262,23 +286,25 @@ button, html input[type="button"], input[type="reset"] {
 
 .feature-section {
   overflow: visible;
-  border-bottom: 1px solid #c5c5c5;
+  border-bottom: 0.052vmax solid #c5c5c5;
 }
 
 .control-area {
-  padding-top: 30px;
-  padding-bottom: 20px;
-  padding-left: 10px;
+  padding-top: 1.563vmax;
+  padding-bottom: 1.042vmax;
+  padding-left: 0.521vmax;
 }
 
 .create-button {
   position: static;
-  font-size: 15px;
+  font-family: inherit;
+  font-size: 0.781vmax;
   display: inline-block;
-  padding: 9px 15px;
-  margin-bottom: 3px;
-  margin-right: 3px;
+  padding: 0.469vmax 0.781vmax;
+  margin-bottom: 0.156vmax;
+  margin-right: 0.156vmax;
   background-color: #1f299c;
+  border-radius: 0.35vmax;
   color: white;
   border: 0;
   cursor: pointer;
@@ -291,17 +317,22 @@ button, html input[type="button"], input[type="reset"] {
   background-color: #a3a9f5ff;
   color: black;
   font-weight: 900;
-  box-shadow: 3px 3px;
+  box-shadow: 0.156vmax 0.156vmax;
+}
+
+.create-button:hover {
+  box-shadow: 3px 3px #4ad28f, -3px -3px #4ad28f;
+  cursor: pointer;
+}
+
+.create-button:hover::before {
+  border: 0px;
 }
 
 .create-button:active {
-  transition: 0.3s ease-out;
+  transition: 0.45s ease-out;
   background-color: #1f299c;
-  margin-top: 3px;
-  margin-left: 3px;
-  margin-bottom: 0px;
-  margin-right: 0px;
-  box-shadow: 0px 0px;
+  box-shadow: 0px 0px #4ad28f, -0px -0px #4ad28f;
 }
 
 .metric-entry-element {
@@ -313,34 +344,36 @@ button, html input[type="button"], input[type="reset"] {
   position: relative;
   float: left;
   width: 50%;
-  min-height: 1px;
-  padding-left: 10px;
-  padding-right: 10px;
+  min-height: 0.052vmax;
+  padding-left: 0.521vmax;
+  padding-right: 0.521vmax;
 }
 
 .div-wrapper {
   width: auto;
   overflow: hidden; /* will contain if #first is longer than #second */
 }
+
 .left-div {
   width: 50%;
   float:left;
 }
+
 .right-div {
   width: 50%;
-  overflow: hidden;
+  float: right;
 }
 
 .circle {
-  height: 200px;
-  width: 200px;
-  border-radius: 50%;
+  height: 10.417vmax;
+  width: 10.417vmax;
+  border-radius: 1vmax;
   display: table;
   margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 28px;
+  font-size: 1.458vmax;
   font-weight: bolder;
 }
 
@@ -352,12 +385,13 @@ button, html input[type="button"], input[type="reset"] {
   position: relative;
   max-height: 80%;
   max-width: 90%;
-  border-radius: 7px;
-  padding: 8px 12px;
+  border-radius: 0.365vmax;
+  padding: 0.417vmax 0.625vmax;
   font-size: inherit;
   color: #333333;
   vertical-align: middle;
-  border: 1px solid #ccc;
+  border: 0.052vmax solid #ccc;
+  box-shadow: 0vmax 0.029vmax 0.039vmax 0vmax rgba(0, 0, 0, 0.07);
 }
 
 #process-feature-table .col-1 {
@@ -408,62 +442,80 @@ button, html input[type="button"], input[type="reset"] {
   width: 4%;
 }
 
-#process-feature-table .col-2, .col-3, .col-4
-,.col-5, .col-6, th.col-7, .col-8, .col-9
-,.col-10 , .col-11 ,.col-12 {
-  text-align: center;
+#process-feature-table .col-2,#process-feature-table .col-3,#process-feature-table .col-4
+,#process-feature-table .col-5,#process-feature-table .col-6,#process-feature-table th.col-7,#process-feature-table .col-8,#process-feature-table .col-9
+,#process-feature-table .col-10 ,#process-feature-table .col-11 ,#process-feature-table .col-12 {
+  display : flex;
+  align-items : center;
+  justify-content: center;
+}
+
+#process-feature-table .col-2,#process-feature-table .col-3,#process-feature-table .col-4
+,#process-feature-table .col-5,#process-feature-table .col-6,#process-feature-table .col-11 {
+  border-left: 1px solid #b1b1b16b;
+}
+
+#process-feature-table tr {
+  padding-top: 0.35vmax;
+  padding-bottom: 0.35vmax;
+}
+
+#process-feature-table th {
+  font-size: 0.677vw;
 }
 
 .postion-dropdown {
   display: inline-block;
   width: auto;
   max-width: 100%;
-  min-width: 200px;
+  min-width: 10.417vmax;
   float: left;
   clear: left;
-  border-radius: 7px;
-  padding: 8px 12px;
-  margin-bottom: 10px;
-  font-size: 14px;
+  border-radius: 0.365vmax;
+  padding: 0.417vmax 0.625vmax;
+  margin-bottom: 0.521vmax;
+  font-size: 0.729vmax;
   line-height: 1.428571429;
   color: #333333;
   vertical-align: middle;
-  border: 1px solid #ccc;
+  border: 0.052vmax solid #ccc;
   cursor: pointer;
-  margin-right: 15px;
+  margin-right: 0.781vmax;
 }
 
 .square-border {
   background: #FFF;
-  border: 10px solid #4AD28F;
-  height: 120px;
-  min-width: 180px;
+  border: 0.35vmax solid #4AD28F;
+  height: 6.25vmax;
+  min-width: 9.375vmax;
   text-align: center;
-  padding: 24px;
+  padding: 1.25vmax;
+  border-radius: 0.7vmax;
+  box-shadow: 0.01vmax 0.01vmax 0.4vmax rgba(0, 0, 0, 0.1);
 }
 
 .arrow {
-  font-size: 90px;
-  margin: 20px;
-  transform: translateY(17px);
+  font-size: 4.688vmax;
+  margin: 1.042vmax;
+  transform: translateY(0.885vmax);
 }
 
 table .process-visualization {
-  column-width: 200px;
+  column-width: 10.417vmax;
   width: auto;
   border: none;
 }
 
 #modelling-process {
   vertical-align: middle;
-  border: 1px solid black;
-  margin: 32px 0;
+  margin: 1.667vmax 0;
+  padding: 1vmax 1vmax;
+  border-radius: 0.7vmax;
 }
 
 .visualize {
-  border: 0px;
+  border: 0vmax;
   display: inline-block;
-
 }
 
 .modelling-processes {
@@ -479,56 +531,38 @@ table .process-visualization {
 .componentname {
   font-weight: bold;
   text-decoration: underline;
-  margin-bottom: 8px;
-}
-
-.info-text-header { position: relative; }
-
-.info-text-header::before {
-  content: attr(tooltip-data);/* print em-space with class text */
-  font-size: 10.5px;
-  display: block;
-  position: absolute;
-  bottom: 100%;
-  background: #000;
-  color: #FFF;
-  padding: 5px;
-  border-radius: 5px;
-  white-space: pre;
-  max-width:none;
-  opacity:0;
-  transition:0.35s ease-out;
-  overflow:hidden;
-  pointer-events: none; /* prevents tooltip from firing on pseudo hover */
-}
-
-.info-text-header:hover::before {
-  opacity:1;
-  bottom: 100%;
+  margin-bottom: 0.417vmax;
 }
 
 .accordion-icon-dropdown-toggle {
   position: absolute;
-  font-size: 20px;
-  top: 20;
+  font-size: 1.042vmax;
+  top: 1.042vw;
   right: 0;
   bottom: 0;
   margin: auto;
-  margin-right: 20px;
+  margin-right: 1.042vmax;
   width: 1em;
   height: 1em;
   transition: 0.35s ease-out;
 }
 
+#components-admin-process {
+  padding-top: 1.4vmax;
+  border-top: 1px solid #b1b1b16b;
+}
+
 #ComponentOverviewTable {
   display: block;
-  margin-left: 10%;
-  margin-right: 10%;
-  padding-bottom: 20px;
+  padding-bottom: 1.042vmax;
 }
 
 #ComponentOverviewTable td {
   pointer-events: none;
+}
+
+#ComponentOverviewTable td i {
+  pointer-events: auto;
 }
 
 #ComponentOverviewTable .col-1 {
@@ -565,4 +599,25 @@ table .process-visualization {
 
 #ComponentOverviewTable tr {
   transition:0.2s ease-out;
+}
+
+#metrics-input-processes .small-circle {
+  height: 0.5vmax;
+  max-width: 1.725vmax;
+  margin-top: 0.2vmax;
+  border-radius: 1vmax;
+}
+
+#process-feature-table .small-circle {
+  height: 3vmax;
+  max-height: 1.725vmax;
+  max-width: 1.725vmax;
+  margin-top: 0vmax;
+  border-radius: 0.5vmax;
+}
+
+.percentage-span {
+  position: absolute;
+  right: 12.5%;
+  font-size: 130%;
 }

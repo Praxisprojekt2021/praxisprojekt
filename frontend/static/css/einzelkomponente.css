@@ -5,16 +5,28 @@
 body {
   margin: auto;
   width: 70%;
-  padding-top: 40px;
-  font-size: 14px;
-  line-height: 20px;
+  padding-top: 2.083vmax;
+  font-size: 0.729vmax;
+  line-height: 1.042vmax;
   min-height: 100%;
   background-color: #fff;
   overflow-y: scroll;
 }
 
+@media only screen and (max-width: 1400px) {
+  body {
+    width: 82%;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  body {
+    width: 87%;
+  }
+}
+
 label {
-  margin-bottom: 6px;
+  margin-bottom: 0.313vmax;
   max-width: 100%;
   vertical-align: middle;
 }
@@ -30,6 +42,7 @@ html input[disabled] {
 
 input, select, textarea, button {
   font: inherit;
+  box-shadow: 0vmax 0.029vmax 0.039vmax 0vmax rgba(0, 0, 0, 0.07);
 }
 
 button, html input[type="button"], input[type="reset"] {
@@ -38,12 +51,12 @@ button, html input[type="button"], input[type="reset"] {
 
 .header {
   display: block;
-  margin-bottom: 30px;
+  margin-bottom: 1.563vmax;
 }
 
 .component-form {
-  margin-right: 15px;
-  margin-left: 15px;
+  margin-right: 0.781vmax;
+  margin-left: 0.781vmax;
 }
 
 .logo {
@@ -59,27 +72,27 @@ button, html input[type="button"], input[type="reset"] {
   left: auto;
   display: inline-block;
   overflow: visible;
-  width: 300px;
-  height: 20px;
+  width: 15.625vmax;
+  height: 1.042vmax;
   float: left;
 }
 
 .view-description-label {
-  font-size: 17px;
+  font-size: 0.885vmax;
   font-weight: 700;
 }
 
 .component-form-block {
   position: relative;
-  margin-top: 15px;
-  margin-bottom: 15px;
+  margin-top: 0.781vmax;
+  margin-bottom: 0.781vmax;
 }
 
 .entry-label {
   position: relative;
-  top: 3px;
+  top: 0.156vmax;
   display: inline-block;
-  padding-left: 5px;
+  padding-left: 0.26vmax;
   float: left;
   clear: left;
   font-weight: 400;
@@ -89,22 +102,22 @@ button, html input[type="button"], input[type="reset"] {
   position: relative;
   display: block;
   overflow: auto;
-  width: 450px;
+  width: 23.438vmax;
   max-height: 100%;
   max-width: 100%;
-  min-height: 50px;
-  min-width: 20px;
+  min-height: 2.604vmax;
+  min-width: 1.042vmax;
   float: left;
   clear: left;
-  border-radius: 7px;
-  height: 38px;
-  padding: 8px 12px;
-  margin-bottom: 10px;
-  font-size: 14px;
+  border-radius: 0.365vmax;
+  height: 1.979vmax;
+  padding: 0.417vmax 0.625vmax;
+  margin-bottom: 0.521vmax;
+  font-size: 0.729vmax;
   line-height: 1.428571429;
   color: #333333;
   vertical-align: middle;
-  border: 1px solid #ccc;
+  border: 0.052vmax solid #ccc;
 }
 
 .accordion-toggle {
@@ -113,10 +126,10 @@ button, html input[type="button"], input[type="reset"] {
   width: 100%;
   position: relative;
   vertical-align: top;
-  padding-top: 20px;
-  padding-bottom: 20px;
-  padding-left: 10px;
-  padding-right: 40px;
+  padding-top: 1.042vmax;
+  padding-bottom: 1.042vmax;
+  padding-left: 0.521vmax;
+  padding-right: 2.083vmax;
   text-align: left;
   margin-left: auto;
   margin-right: auto;
@@ -141,37 +154,38 @@ button, html input[type="button"], input[type="reset"] {
 
 .accordion-icon-dropdown-toggle {
   position: absolute;
-  font-size: 20px;
-  top: 20;
+  font-size: 1.042vmax;
+  top: 1.042vw;
   right: 0;
   bottom: 0;
   margin: auto;
-  margin-right: 20px;
+  margin-right: 1.042vmax;
   width: 1em;
   height: 1em;
   transition: 0.35s ease-out;
 }
 
 .dropdown-list {
-  height: 0px;
+  height: 0vmax;
   position: static;
   display: block;
   overflow: visible;
-  padding-right: 0px;
-  padding-left: 0px;
+  padding-right: 0vmax;
+  padding-left: 0vmax;
   width: 100%;
   min-width: 100%;
   transition: height 0.3s ease-out;
 }
 
 .info-icon {
+  width: 6%;
   position: relative;
   display: inline-block;
   overflow: visible;
-  margin-top: 2px;
-  margin-left: 10px;
+  margin-top: 0.104vmax;
+  margin-left: 0.521vmax;
   float: left;
-  border-radius: 20px;
+  border-radius: 1.042vmax;
   transition: 0.21s ease-out;
   opacity: 0.65;
 }
@@ -185,17 +199,17 @@ button, html input[type="button"], input[type="reset"] {
   display: inline-block;
   width: auto;
   max-width: 100%;
-  min-width: 200px;
+  min-width: 10.417vmax;
   float: left;
   clear: left;
-  border-radius: 7px;
-  padding: 8px 12px;
-  margin-bottom: 10px;
-  font-size: 14px;
+  border-radius: 0.365vmax;
+  padding: 0.417vmax 0.625vmax;
+  margin-bottom: 0.521vmax;
+  font-size: 0.729vmax;
   line-height: 1.428571429;
   color: #333333;
   vertical-align: middle;
-  border: 1px solid #ccc;
+  border: 0.052vmax solid #ccc;
 }
 
 .category-dropdown {
@@ -213,20 +227,21 @@ button, html input[type="button"], input[type="reset"] {
 }
 
 .component-overview {
-  padding-top: 40px;
-  padding-left: 50px;
-  padding-right: 50px;
+  padding-top: 2.083vmax;
+  padding-left: 2.604vmax;
+  padding-right: 2.604vmax;
   border-style: solid;
-  border-width: 1px;
+  border-width: 0.052vmax;
   border-color: #e6e6e6;
+  border-radius: 0.7vmax;
   background-color: #ececec;
-  box-shadow: rgba(50, 50, 93, 0.015) 0px 10px 10px -6px inset, rgba(0, 0, 0, 0.28) 0px 6px 25px -18px inset,rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.17) 0px 6px 6px;
+  box-shadow: rgba(50, 50, 93, 0.015) 0vmax 10vmax 10vmax -0.313vmax inset, rgba(0, 0, 0, 0.28) 0vmax 0.313vmax 1.302vmax -0.938vmax inset,rgba(0, 0, 0, 0.19) 0vmax 10vmax 20vmax, rgba(0, 0, 0, 0.17) 0vmax 0.313vmax 0.313vmax;
 }
 
 .features-columns {
   display: inline-block;
   width: 100%;
-  margin-left: 10px;
+  margin-left: 0.521vmax;
 }
 
 .description-columns {
@@ -235,9 +250,9 @@ button, html input[type="button"], input[type="reset"] {
 
 .navigation-links {
   display: block;
-  padding-right: 5px;
-  padding-left: 5px;
-  font-size: 18px;
+  padding-right: 0.26vmax;
+  padding-left: 0.26vmax;
+  font-size: 0.938vmax;
   float: left;
   color: #000;
   text-decoration: none;
@@ -269,22 +284,22 @@ button, html input[type="button"], input[type="reset"] {
 
 .feature-section {
   overflow: visible;
-  border-bottom: 1px solid #c5c5c5;
+  border-bottom: 0.052vmax solid #c5c5c5;
 }
 
 .control-area {
-  padding-top: 30px;
-  padding-bottom: 20px;
-  padding-left: 10px;
+  padding-top: 1.563vmax;
+  padding-bottom: 1.042vmax;
+  padding-left: 0.521vmax;
 }
 
 .create-button {
   position: static;
-  font-size: 15px;
+  font-size: 0.781vmax;
   display: inline-block;
-  padding: 9px 15px;
-  margin-bottom: 3px;
-  margin-right: 3px;
+  padding: 0.469vmax 0.781vmax;
+  margin-bottom: 0.156vmax;
+  margin-right: 0.156vmax;
   background-color: #1f299c;
   color: white;
   border: 0;
@@ -298,17 +313,17 @@ button, html input[type="button"], input[type="reset"] {
   background-color: #a3a9f5ff;
   color: black;
   font-weight: 900;
-  box-shadow: 3px 3px;
+  box-shadow: 0.156vmax 0.156vmax;
 }
 
 .create-button:active {
   transition: 0.3s ease-out;
   background-color: #1f299c;
-  margin-top: 3px;
-  margin-left: 3px;
-  margin-bottom: 0px;
-  margin-right: 0px;
-  box-shadow: 0px 0px;
+  margin-top: 0.156vmax;
+  margin-left: 0.156vmax;
+  margin-bottom: 0vmax;
+  margin-right: 0vmax;
+  box-shadow: 0vmax 0vmax;
 }
 
 .metric-entry-element {
@@ -320,7 +335,23 @@ button, html input[type="button"], input[type="reset"] {
   position: relative;
   float: left;
   width: 50%;
-  min-height: 1px;
-  padding-left: 10px;
-  padding-right: 10px;
+  min-height: 0.052vmax;
+  padding-left: 0.521vmax;
+  padding-right: 0.521vmax;
+}
+
+.metric-entry-element .info-text-popup {
+  display: inline-block;
+  float: left;
+  clear: left;
+}
+
+.icon-popup-fix.info-text-popup {
+  display: block;
+  float: none;
+  clear: none;
+}
+
+.icon-popup-fix.info-text-popup::before {
+  margin-right: 24%;
 }

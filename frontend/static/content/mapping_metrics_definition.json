@@ -8,6 +8,7 @@
           "fulfilled_if": "<",
           "max_value": -1,
           "min_value": 0,
+          "binary": false,
           "description_component": "Sum of actual lines of code, excl. empty & comment lines.",
           "example_component": "For a total batch of 100 lines of code, with 10 blank and comment lines, an input of 80 follows.",
           "description_process": "Sum of actual lines of code, excl. empty & comment lines.",
@@ -18,6 +19,7 @@
           "fulfilled_if": "<",
           "max_value": -1,
           "min_value": 0,
+          "binary": false,
           "description_component": "Average development time of a patch (in developer days).",
           "example_component": "If three developers work on a patch for three days, the input 9 follows [Developer days].",
           "description_process": "Average development time of a patch (in developer days).",
@@ -28,6 +30,7 @@
           "fulfilled_if": ">",
           "max_value": 365,
           "min_value": 0,
+          "binary": false,
           "description_component": "Number of code reviews per year.",
           "example_component": "If there are 3 code reviews per month, 36 will be entered.",
           "description_process": "Number of code reviews per year.",
@@ -38,6 +41,7 @@
           "fulfilled_if": ">",
           "max_value": 100,
           "min_value": 0,
+          "binary": false,
           "description_component": "Ratio between comment lines and number of lines of source code incl. comment lines (in %).",
           "example_component": "For a total of 100 lines of code with 10 comment lines, the input is 10 [%].",
           "description_process": "Ratio between comment lines and number of lines of source code incl. comment lines (in %).",
@@ -49,22 +53,24 @@
       "name": "Integrity",
       "metrics": {
         "back-up": {
-          "name": "Back-Ups [per month]",
+          "name": "Backups [per month]",
           "fulfilled_if": ">",
           "max_value": -1,
           "min_value": 0,
+          "binary": false,
           "description_component": "Number of backup creations per month.",
           "example_component": "If a backup is created every day, an input of 30 (rounded) follows.",
           "description_process": "Number of backup creations per month.",
-          "example_process": "If on average 2 back-ups per month are created for each component, enter 2."
+          "example_process": "If on average 2 backups per month are created for each component, enter 2."
         },
         "change_tracking": {
           "name": "Tracking of changes",
           "fulfilled_if": ">",
           "max_value": 1,
           "min_value": 0,
+          "binary": true,
           "description_component": "Are changes recorded / logged in the component.",
-          "example_component": "If this is the case, an input of 1, otherwise 0, follows.",
+          "example_component": "Yes or no.",
           "description_process": "Proportions of components, for which change must be logged.",
           "example_process": "If 12 out of 15 components record changes, an input of 80 [%] follows."
         },
@@ -73,6 +79,7 @@
           "fulfilled_if": ">",
           "max_value": -1,
           "min_value": 0,
+          "binary": false,
           "description_component": "Number of system checks for patch status per month.",
           "example_component": "If the patch status is checked 5 times per month, the input is 5.",
           "description_process": "Number of system checks for patch status per month.",
@@ -85,9 +92,10 @@
       "metrics": {
         "complaints": {
           "name": "Complaints [per month]",
-          "fulfilled_if": ">",
+          "fulfilled_if": "<",
           "max_value": -1,
           "min_value": 0,
+          "binary": false,
           "description_component": "Number of user complaints per month.",
           "example_component": "With a total of 15 user complaints per month, an entry of 15 follows.",
           "description_process": "Number of user complaints per month.",
@@ -98,8 +106,9 @@
           "fulfilled_if": ">",
           "max_value": 1,
           "min_value": 0,
+          "binary": true,
           "description_component": "Have all users of the component been adequately trained?",
-          "example_component": "If this is the case, an input of 1, otherwise 0, follows.",
+          "example_component": "Yes or no.",
           "description_process": "Proportion of components that should have sufficient user training.",
           "example_process": "If 12 out of 15 components have sufficient user training, an input of 80 [%] follows."
         },
@@ -108,8 +117,9 @@
           "fulfilled_if": ">",
           "max_value": 1,
           "min_value": 0,
+          "binary": true,
           "description_component": "Is the component operated automatically?",
-          "example_component": "If this is the case, an input of 1, otherwise 0, follows.",
+          "example_component": "Yes or no.",
           "description_process": "Proportions  of components, that must be operated automatically.",
           "example_process": "Proportion of components that should have sufficient user training."
         }
@@ -119,10 +129,11 @@
       "name": "Test quality",
       "metrics": {
         "test_automation": {
-          "name": "Test-Automation[in %]",
+          "name": "Test-Automation [in %]",
           "fulfilled_if": ">",
           "max_value": 100,
           "min_value": 0,
+          "binary": false,
           "description_component": "The ratio between automated test cases and the totality of all test cases.",
           "example_component": "With 15 automated test cases out of a total of 60 test cases, an input of 25 [%] follows.",
           "description_process": "The ratio between automated test cases and the totality of all test cases.",
@@ -133,6 +144,7 @@
           "fulfilled_if": ">",
           "max_value": 100,
           "min_value": 0,
+          "binary": false,
           "description_component": "The relationship between automated test cases and the totality of all test cases.",
           "example_component": "With 60 errors fixed on time, out of a total of 80 errors, an input of 75 [%] follows.",
           "description_process": "The relationship between automated test cases and the totality of all test cases.",
@@ -143,6 +155,7 @@
           "fulfilled_if": ">",
           "max_value": 100,
           "min_value": 0,
+          "binary": false,
           "description_component": "The ratio between detected errors before release and totality of all errors. \nGood index: 90% of errors were detected before the release.",
           "example_component": "With 15 detected errors before the release, out of a total of 20 errors, an input of 75 [%] follows.",
           "description_process": "The ratio between detected errors before release and totality of all errors. \nGood index: 90% of errors were detected before the release.",
@@ -153,6 +166,7 @@
           "fulfilled_if": ">",
           "max_value": 100,
           "min_value": 0,
+          "binary": false,
           "description_component": "Relationship between successful test cases and totality of all test cases.",
           "example_component": "With 15 successful tests out of a total of 17 tests, an input of 88 [%] follows.",
           "description_process": "Relationship between successful test cases and totality of all test cases.",
@@ -163,6 +177,7 @@
           "fulfilled_if": ">",
           "max_value": -1,
           "min_value": 0,
+          "binary": false,
           "description_component": "Number of different test cases.",
           "example_component": "The absolute number of test cases is 30. The entry of 30 is made",
           "description_process": "Number of different test cases.",
@@ -173,6 +188,7 @@
           "fulfilled_if": ">",
           "max_value": -1,
           "min_value": 0,
+          "binary": false,
           "description_component": "Duration of the test activities (in hours).",
           "example_component": "The total test duration (sum) was 400 hours. The input of 400 is made.",
           "description_process": "Duration of the test activities (in hours).",
@@ -185,9 +201,10 @@
       "metrics": {
         "time_to_implement_updates": {
           "name": "Implementation time of updates [in days]",
-          "fulfilled_if": ">",
+          "fulfilled_if": "<",
           "max_value": -1,
           "min_value": 0,
+          "binary": false,
           "description_component": "Time to implement post-release updates (average) until they are implemented (in days).",
           "example_component": "It takes (on average) 27 days for updates to be implemented after release. The entry of 27 will be made.",
           "description_process": "Time to implement post-release updates (average) until they are implemented (in days).",
@@ -198,8 +215,9 @@
           "fulfilled_if": ">",
           "max_value": 1,
           "min_value": 0,
+          "binary": true,
           "description_component": "Is external support available?",
-          "example_component": "If this is the case, an input of 1, otherwise 0, follows.",
+          "example_component": "Yes or no.",
           "description_process": "Proportions of components with external support.",
           "example_process": "If 5 out of 15 components have external support, enter 33 [%]."
         },
@@ -208,8 +226,9 @@
           "fulfilled_if": ">",
           "max_value": 1,
           "min_value": 0,
+          "binary": true,
           "description_component": "Is internal support available?",
-          "example_component": "If this is the case, an input of 1, otherwise 0, follows.",
+          "example_component": "Yes or no.",
           "description_process": "Proportions of components with internal support.",
           "example_process": "If 3 out of 15 components have internal support, the input is 20 [%]."
         }
@@ -223,6 +242,7 @@
           "fulfilled_if": "<",
           "max_value": -1,
           "min_value": 0,
+          "binary": false,
           "description_component": "Number of average requests that the component can handle per day.",
           "example_component": "The component can handle 100,000 average requests per day. Input 100,000 is entered.",
           "description_process": "Number of average call ups, that can be handled per day.",
@@ -233,6 +253,7 @@
           "fulfilled_if": "<",
           "max_value": -1,
           "min_value": 0,
+          "binary": false,
           "description_component": "Duration of a full restart of the component (in minutes).",
           "example_component": "It takes 24 minutes to restart the component. The input of 24 is made.",
           "description_process": "Duration of a full restart (in minutes).",
@@ -243,9 +264,10 @@
           "fulfilled_if": "<",
           "max_value": 525600,
           "min_value": 0,
-          "description_component": "Downtime within the last year incl. repair work (in minutes).\n>vailability 90%: 52,595 min\nAvailability 95%: 26,298 min\nAvailability 99%: 5,256 min\nAvailability 99.9%: 525.6 min \nAvailability 99.99%: 52.56 min",
+          "binary": false,
+          "description_component": "Downtime within the last year incl. repair work (in minutes).\nAvailability 90%: 52,595 min\nAvailability 95%: 26,298 min\nAvailability 99%: 5,256 min\nAvailability 99.9%: 525.6 min \nAvailability 99.99%: 52.56 min",
           "example_component": "The total downtime of the component last year. If the component's availability was 99%, the input is 5,256 [min].",
-          "description_process": "Downtime within the last year incl. repair work (in minutes).\n>vailability 90%: 52,595 min\nAvailability 95%: 26,298 min\nAvailability 99%: 5,256 min\nAvailability 99.9%: 525.6 min \nAvailability 99.99%: 52.56 min",
+          "description_process": "Downtime within the last year incl. repair work (in minutes).\nAvailability 90%: 52,595 min\nAvailability 95%: 26,298 min\nAvailability 99%: 5,256 min\nAvailability 99.9%: 525.6 min \nAvailability 99.99%: 52.56 min",
           "example_process": "For a process with 15 components and a target value of 45min downtime within one year, an input of 3min follows."
         },
         "maximum_downtime_at_a_time": {
@@ -253,8 +275,9 @@
           "fulfilled_if": "<",
           "max_value": 525600,
           "min_value": 0,
+          "binary": false,
           "description_component": "Duration of maximum downtime at a time during the last year incl. repair work (in minutes).",
-          "example_component": "In the case of several failures per year, the entry for the longest consecutive downtime follows. If a component has failed for a maximum of 180min and 420min, an input of 420 follows.",
+          "example_component": "In the case of several failures per year, the entry for the longest consecutive downtime follows. \nIf a component has failed for a maximum of 180min and 420min, an input of 420 follows.",
           "description_process": "Duration of maximum downtime at a time during the last year incl. repair work (in minutes).",
           "example_process": "In a process with 15 components and a maximum tolerated downtime of 45min at a time, an input of 3min follows."
         },
@@ -263,6 +286,7 @@
           "fulfilled_if": ">",
           "max_value": -1,
           "min_value": 0,
+          "binary": false,
           "description_component": "Average duration between crashes within the last year (in days).",
           "example_component": "With 5 failures per year, the average time between failures is 73 [days] (365/5).",
           "description_process": "Average duration between crashes within the last year (in days).",
@@ -273,6 +297,7 @@
           "fulfilled_if": "<",
           "max_value": -1,
           "min_value": 0,
+          "binary": false,
           "description_component": "Average duration, after a failure, until the component is functional again, including repair work (in minutes).",
           "example_component": "If the recovery for components lasts 36 minutes, an input of 36 minutes follows.",
           "description_process": "Average duration after a failure until the entire process should be functional again, including repair work (in minutes).",
@@ -283,6 +308,7 @@
           "fulfilled_if": "<",
           "max_value": -1,
           "min_value": 0,
+          "binary": false,
           "description_component": "Ratio between total maintenance hours per year and planned maintenance hours per year.",
           "example_component": "If 10 hours of maintenance were planned, but 12 hours of maintenance were performed, the input of 120 [%] follows.",
           "description_process": "Ratio between total maintenance hours per year and planned maintenance hours per year.",
@@ -293,8 +319,9 @@
           "fulfilled_if": ">",
           "max_value": 1,
           "min_value": 0,
+          "binary": true,
           "description_component": "Is the component redundant?",
-          "example_component": "If this is the case, an input of 1, otherwise 0, follows.",
+          "example_component": "Yes or no.",
           "description_process": "Proportions of components, that must be available redundantly.",
           "example_process": "If 12 out of 15 components are redundant, an input of 80 [%] follows."
         }
@@ -308,8 +335,9 @@
           "fulfilled_if": ">",
           "max_value": -1,
           "min_value": 0,
+          "binary": false,
           "description_component": "Number of administrators for the component.",
-          "example_component": "If there are 4 administrators for a component, an input of 4 follows. If an administrator is responsible for multiple components, he will be considered as a single administrator for each component.",
+          "example_component": "If there are 4 administrators for a component, an input of 4 follows. \nIf an administrator is responsible for multiple components, \nhe will be considered as a single administrator for each component.",
           "description_process": "Number of administrators.",
           "example_process": "For a process with 15 components and a target value of 45 administrators, an input of 3 [Administrators] is entered."
         },
@@ -318,8 +346,9 @@
           "fulfilled_if": ">",
           "max_value": 1,
           "min_value": 0,
+          "binary": true,
           "description_component": "Is the data sufficiently encrypted?",
-          "example_component": "If this is the case, an input of 1, otherwise 0, follows.",
+          "example_component": "Yes or no.",
           "description_process": "Proportions of components, for whose data should be sufficiently encrypted.",
           "example_process": "If 12 out of 15 components work with sufficiently encrypted data, an input of 80 [%] follows."
         }
@@ -521,5 +550,3 @@
     }
   }
 }
-
-
