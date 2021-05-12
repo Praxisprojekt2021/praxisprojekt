@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from neomodel import config, StructuredNode, StringProperty, UniqueIdProperty, \
-    RelationshipTo, relationship, db
+    RelationshipTo, db
 
 import database.handler.component_handler as component_handler
 import database.handler.metric_handler as metric_handler
@@ -22,22 +22,20 @@ class Process(StructuredNode):
 
     Attributes
     ----------
-    uid : str
+    :type uid : str
         process id
-    name : str
+    :type name : str
         name of the process
-    responsible_person : str
+    :type responsible_person : str
         name of the responsible person
-    description : str
+    :type description : str
         description of the process
-    creation_timestamp : str
+    :type creation_timestamp : str
         timestamp of creation time
-    last_timestamp : str
+    :type last_timestamp : str
         timestamp of last update
-    hasComponent : relationship
+    :type hasComponent : relationship
         relationship to component
-    hasTargetMetric : relationship
-        relationship to metric
     """
 
     uid = UniqueIdProperty()

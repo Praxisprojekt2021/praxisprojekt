@@ -67,8 +67,10 @@ def calculate_current_values(metrics_dict: dict, component_metrics, target_metri
     """
     Function that extracts the current metrics values from a process dict
 
-    :param process_dict: A dict containing all relevant data of a process to calculate the risk score
-    :type process_dict: Dict[str: Any]
+    :param target_metrics:
+    :type target_metrics:
+    :param component_metrics:
+    :type component_metrics:
     :param metrics_dict: output from get_metrics_data()
     :type metrics_dict: dict
     :return: Dict[str: Any]

@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from neomodel import config, StructuredNode, StringProperty, UniqueIdProperty, \
-    RelationshipTo, relationship, db
+    RelationshipTo, db
 
 import database.handler.metric_handler as metric_handler
 import database.handler.queries as queries
@@ -21,19 +21,19 @@ class Component(StructuredNode):
 
     Attributes
     ----------
-    uid : str
+    :type uid : str
         component id
-    name : str
+    :type name : str
         name of the component
-    category : str
+    :type category : str
         name of the component category
-    description : str
+    :type description : str
         description of the component
-    creation_timestamp : str
+    :type creation_timestamp : str
         timestamp of creation time
-    last_timestamp : str
+    :type last_timestamp : str
         timestamp of last update
-    hasMetric : relationship
+    :type hasMetric : relationship
         relationship to metric
     """
 

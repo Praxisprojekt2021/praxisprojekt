@@ -14,11 +14,11 @@ class Metric(StructuredNode):
 
     Attributes
     ----------
-    uid : str
+    :type uid : str
         unique id of the metric
-    name : str
+    :type name : str
         name of the metric
-    fulfilled_if: str
+   :type  fulfilled_if: str
         string containing whether the metric is fulfilled with a result > or < the result
    """
 
@@ -34,6 +34,7 @@ def create_from_frontend_json(path: str) -> dict:
     :param path: Path to stored json
     :type path: str
     :return: Stats dict
+
     """
 
     with open(path) as json_file:
@@ -92,4 +93,3 @@ def remove_metrics_unique_constraint() -> dict:
     db.cypher_query(query)
 
     return success_handler()
-    

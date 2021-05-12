@@ -108,8 +108,8 @@ def update_process_reference(uid: str, old_weight: float, new_weight: float):
     """
     Function to get the cypher query to add a process reference
 
-    :param process_uid: process_uid as a String
-    :type process_uid: str
+    :param uid: process_uid as a String
+    :type uid: str
     :param old_weight: old_weight as a float
     :type old_weight: float
     :param new_weight: new_weight as a float
