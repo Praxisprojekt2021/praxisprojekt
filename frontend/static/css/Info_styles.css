@@ -2,6 +2,7 @@
     position: relative;
     margin: auto;
     text-align: center;
+    font-size: 0.729vmax;
 }
 .generalstyle {
     margin-right: 3.03vmax;
@@ -103,7 +104,7 @@
 /* Tutorial descriptive text */
 .text {
     color: dimgrey;
-    font-size: 1.091vmax;
+    font-size: 0.729vmax;
     padding: 0.485vmax 0.727vmax;
     background-color: #fefefe;
 }
