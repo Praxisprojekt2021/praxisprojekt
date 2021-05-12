@@ -1,4 +1,4 @@
-{
+ {
   "en": {
     "translation": {
       "front-end-view": "Front-End View",
@@ -78,7 +78,6 @@
       "Slide3": "After specifying the components' category, relevant quantifiable metrics for several attributes like integrity or code quality can be logged.",
       "description": "Description",
       "responsible-person": "Responsible person",
-      "Whats-Riskify": "What's Riskify?",
       "saveButton": "Save",
       "createButton": "Create",
       "Loading": "Loading..."

@@ -1,7 +1,7 @@
 class Helper {
 
     /**
-     * Shows error message if request was not successful.
+     * Shows error message if request was not successful
      *
      * @param {String} endpoint
      */
@@ -19,7 +19,7 @@ class Helper {
     }
 
     /**
-     * Shows success message if request was successful.
+     * Shows success message if request was successful
      *
      * @param {String} endpoint
      */
@@ -185,7 +185,7 @@ class Helper {
      * @returns formatted Date
      */
     formatDate(date) {
-        const dateOptions = {year: 'numeric', month: '2-digit', day: '2-digit'};
+        const dateOptions = { year: 'numeric', month: '2-digit', day: '2-digit' };
         return new Date(date).toLocaleDateString("EN", dateOptions);
     }
 
@@ -199,15 +199,55 @@ class Helper {
         let color;
 
         if (score === null) {
-            color = "grey";
+            color = '#d9d9d9'; // Grey
         } else if (score < 80) {
-            color = "red";
+            color = '#99201c'; // Red
         } else if (score < 90) {
-            color = "yellow"
+            color = '#f8ef42'; // Yellow
         } else if (score <= 100) {
-            color = "green"
+            color = '#4ad28f'; // Green
         } else {
-            color = "grey";
+            color = '#d9d9d9'; // Grey
+        }
+        return color;
+    }
+
+    /**
+     * Get the background of the process given the calculated score
+     *
+     * @param {number, null} score
+     * @returns {string}
+     */
+    getCircleBackground(score) {
+        let background;
+
+        if (score === null) {
+            background = 'linear-gradient(315deg, #d9d9d9 0%, #f6f2f2 74%)'; // Grey
+        } else if (score < 80) {
+            background = 'linear-gradient(316deg, #99201c 0%, #f56545 74%)'; // Red
+        } else if (score < 90) {
+            background = 'linear-gradient(315deg, #fff293 0%, #ffe884 74%)'; // Yellow
+        } else if (score <= 100) {
+            background = 'linear-gradient(315deg, rgb(109 228 60) 0%, rgb(15, 214, 79) 74%)'; // Green
+        } else {
+            background = 'linear-gradient(315deg, #d9d9d9 0%, #f6f2f2 74%)'; // Grey
+        }
+        return background;
+    }
+
+    /**
+     * Get the font color of the process score
+     *
+     * @param {number, null} score
+     * @returns {string}
+     */
+    getCircleFontColor(score) {
+        let color;
+
+        if (score != null && score < 80) {
+            color = '#ffffff'; // White for contrast
+        } else {
+            color = '#000000'; // Black as default color
         }
         return color;
     }
@@ -220,17 +260,18 @@ class Helper {
      * @returns {string}
      */
     renderSmallCircle(fulfillment, color = false) {
+        let background;
         if (!color) {
             if (fulfillment === true) {
-                color = "green";
+                background = 'linear-gradient(315deg, rgb(109 228 60) 0%, rgb(15, 214, 79) 74%)'; // Green
             } else if (fulfillment === false) {
-                color = "red";
+                background = 'linear-gradient(316deg, #99201c 0%, #f56545 74%)'; // Red
             } else {
-                color = "grey";
+                background = 'linear-gradient(315deg, #d9d9d9 0%, #f6f2f2 74%)'; // Grey
             }
+            return `<div class="small-circle" style="background-image: ` + background + `;"></div>`;
         }
-
-        return `<div class="small-circle" style="background-color: ` + color + `"></div>`;
+        return `<div class="small-circle" style="background-color: ` + color + `;"></div>`;
     }
 
     /**
@@ -239,7 +280,7 @@ class Helper {
      * @param {HTMLElement} element: HTML accordion to be either opened oder closed
      * @param {json} metricDefinitions
      */
-    toggleSection(element, metricDefinitions= null) {
+    toggleSection(element, metricDefinitions = null) {
         const metric_child = element.parentElement.children[1];
         const metric_child_icon = element.parentElement.children[0].children[0];
         const isCollapsed = metric_child.getAttribute('data-collapsed') === 'true';
@@ -266,19 +307,21 @@ class Helper {
      * @param {HTMLElement} element: HTML accordion to be collapsed
      */
     collapseSection(element) {
+        element.parentElement.style.setProperty("overflow", "hidden", undefined);
         const sectionHeight = element.scrollHeight;
         const elementTransition = element.style.transition;
         element.style.transition = '';
 
         requestAnimationFrame(function () {
-            element.style.height = sectionHeight + 'px';
+            element.style.height = sectionHeight + 'vmax';
             element.style.transition = elementTransition;
-            element.style.margin = "0px 0px 0px 0px";
+            element.style.margin = "0vmax 0vmax 0vmax 0vmax";
             requestAnimationFrame(function () {
-                element.style.height = 0 + 'px';
+                element.style.height = 0 + '0vmax';
             });
         });
         if (element.parentElement.parentElement.parentElement.id === "metrics-input-processes") {
+            // Process View
             element.children[0].children[0].children[0].childNodes.forEach(element => element.childNodes.forEach(element => {
                 if (element.childNodes.length > 0) {
                     if (element.children[0] !== undefined) {
@@ -288,8 +331,10 @@ class Helper {
                 }
             }));
         } else {
-            element.children[0].childNodes.forEach(element => element.children[1].children[0].removeAttribute("disabled"));
-            element.children[0].childNodes.forEach(element => element.children[1].removeAttribute("disabled"));
+            // Component View
+            element.parentElement.children[1].children[0].childNodes.forEach(element => {
+                element.children[1].children[0].setAttribute("disabled", true);
+            });
         }
         element.setAttribute('data-collapsed', 'true');
     }
@@ -302,8 +347,8 @@ class Helper {
      */
     expandSection(element, metricDefinitions) {
         const sectionHeight = element.scrollHeight;
-        element.style.height = sectionHeight + 'px';
-        element.style.margin = "0px 0px 10px 0px";
+        element.style.height = sectionHeight / (window.innerWidth / 100) + 'vmax';
+        element.style.margin = "0vmax 0vmax 0.5210vmax 0vmax";
         element.setAttribute('data-collapsed', 'false');
         if (element.parentElement.parentElement.parentElement.id === "metrics-input-processes") {
             element.children[0].children[0].children[0].childNodes.forEach(element => element.childNodes.forEach(element => {
@@ -336,5 +381,6 @@ class Helper {
             element.children[0].childNodes.forEach(element => element.children[1].children[0].removeAttribute("disabled"));
             element.children[0].childNodes.forEach(element => element.children[1].removeAttribute("disabled"));
         }
+        setTimeout(() => { element.parentElement.style.setProperty("overflow", "visible", undefined); }, 350);
     }
 }
