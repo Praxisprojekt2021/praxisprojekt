@@ -11,7 +11,8 @@ from database.config import *
 
 from database.handler.relationships import RelationshipComponentMetric
 
-config.DATABASE_URL = 'bolt://{}:{}@{}:{}'.format(NEO4J_USER, NEO4J_PASSWORD, NEO4J_IP, NEO4J_PORT)
+config.DATABASE_URL = 'bolt://{}:{}@{}:{}'.format(
+    NEO4J_USER, NEO4J_PASSWORD, NEO4J_IP, NEO4J_PORT)
 
 
 class Component(StructuredNode):
@@ -43,7 +44,9 @@ class Component(StructuredNode):
     creation_timestamp = StringProperty()
     last_timestamp = StringProperty()
 
-    hasMetric = RelationshipTo(metric_handler.Metric, "has", model=RelationshipComponentMetric)
+    hasMetric = RelationshipTo(
+        metric_handler.Metric, "has", model=RelationshipComponentMetric)
+
 
 @db.transaction
 def add_component(input_dict: dict) -> dict:
@@ -62,7 +65,8 @@ def add_component(input_dict: dict) -> dict:
     output.save()
 
     for metric in input_dict["metrics"]:
-        output.hasMetric.connect(metric_handler.Metric.nodes.get(name=metric), {"value": input_dict["metrics"][metric]})
+        output.hasMetric.connect(metric_handler.Metric.nodes.get(
+            name=metric), {"value": input_dict["metrics"][metric]})
 
     return success_handler()
 
@@ -76,7 +80,7 @@ def get_component_list() -> dict:
     output_dict = success_handler()
 
     query = queries.get_component_list()
-    result, meta = db.cypher_query(query)
+    result, _ = db.cypher_query(query)
     output_dict["components"] = result[0][0]
 
     return output_dict
@@ -92,7 +96,7 @@ def get_component(input_dict: dict) -> dict:
     """
     output_dict = success_handler()
 
-    result, meta = db.cypher_query(queries.get_component(input_dict["uid"]))
+    result, _ = db.cypher_query(queries.get_component(input_dict["uid"]))
     output_dict["component"] = reformatter.reformat_component(result[0][0])
 
     return output_dict
@@ -113,7 +117,8 @@ def update_component(input_dict: dict) -> dict:
     db.cypher_query(query)
 
     for metric in input_dict["metrics"]:
-        query = queries.update_component_metric(uid, metric, input_dict["metrics"][metric])
+        query = queries.update_component_metric(
+            uid, metric, input_dict["metrics"][metric])
         db.cypher_query(query)
 
     return success_handler()
