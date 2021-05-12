@@ -12,7 +12,8 @@ from database.config import *
 
 from database.handler.relationships import RelationshipProcessComponent, RelationshipProcessMetric
 
-config.DATABASE_URL = 'bolt://{}:{}@{}:{}'.format(NEO4J_USER, NEO4J_PASSWORD, NEO4J_IP, NEO4J_PORT)
+config.DATABASE_URL = 'bolt://{}:{}@{}:{}'.format(
+    NEO4J_USER, NEO4J_PASSWORD, NEO4J_IP, NEO4J_PORT)
 
 
 class Process(StructuredNode):
@@ -46,8 +47,11 @@ class Process(StructuredNode):
     creation_timestamp = StringProperty()
     last_timestamp = StringProperty()
 
-    hasComponent = RelationshipTo(component_handler.Component, "includes", model=RelationshipProcessComponent)
-    hasMetric = RelationshipTo(metric_handler.Metric, "targets", model=RelationshipProcessMetric)
+    hasComponent = RelationshipTo(
+        component_handler.Component, "includes", model=RelationshipProcessComponent)
+    hasMetric = RelationshipTo(
+        metric_handler.Metric, "targets", model=RelationshipProcessMetric)
+
 
 @db.transaction
 def add_process(input_dict: dict) -> dict:
@@ -89,7 +93,7 @@ def get_process_list() -> dict:
     output_dict = success_handler()
 
     query = queries.get_process_list()
-    result, meta = db.cypher_query(query)
+    result, _ = db.cypher_query(query)
     output_dict["processes"] = result[0][0]
 
     return output_dict
@@ -106,8 +110,9 @@ def get_process(input_dict: dict) -> dict:
     output_dict = success_handler()
 
     query = queries.get_process(input_dict["uid"])
-    result, meta = db.cypher_query(query)
-    output_dict["process"], output_dict["target_metrics"] = reformatter.reformat_process(result[0])
+    result, _ = db.cypher_query(query)
+    output_dict["process"], output_dict["target_metrics"] = reformatter.reformat_process(
+        result[0])
     return output_dict
 
 
@@ -172,7 +177,8 @@ def add_process_reference(input_dict: dict) -> dict:
     :return: Status dict
     """
 
-    query = queries.add_process_reference(input_dict['process_uid'], input_dict['component_uid'], input_dict["weight"])
+    query = queries.add_process_reference(
+        input_dict['process_uid'], input_dict['component_uid'], input_dict["weight"])
     db.cypher_query(query)
 
     return success_handler()
@@ -187,7 +193,8 @@ def update_process_reference(input_dict: dict) -> dict:
     :return: Status dict
     """
 
-    query = queries.update_process_reference(input_dict["uid"], input_dict["old_weight"], input_dict["new_weight"])
+    query = queries.update_process_reference(
+        input_dict["uid"], input_dict["old_weight"], input_dict["new_weight"])
     db.cypher_query(query)
 
     return success_handler()
@@ -202,7 +209,8 @@ def delete_process_reference(input_dict: dict) -> dict:
     :return: Status dict
     """
 
-    query = queries.delete_process_reference(input_dict['uid'], input_dict['weight'])
+    query = queries.delete_process_reference(
+        input_dict['uid'], input_dict['weight'])
     db.cypher_query(query)
 
     return success_handler()
