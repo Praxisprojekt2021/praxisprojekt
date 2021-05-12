@@ -1,7 +1,7 @@
 import unittest
 from database.handler.component_handler import get_component_list, get_component, delete_component, update_component, \
     add_component
-from unittesting.database_handler.test_data_component_handler import *
+from unittesting.test_database_handler.test_data_component_handler import *
 from neomodel.exceptions import DoesNotExist, DeflateError
 from neo4j.exceptions import CypherSyntaxError
 import copy
@@ -202,7 +202,7 @@ class TestUpdateComponent(unittest.TestCase):
             update_component(wrong_input_dict)
 
     def test_1204(self):
-        with self.assertRaises(KeyError):
+        with self.assertRaises(CypherSyntaxError):
             UPDATE_COMPONENT_IN['uid'] = '123456789'
             update_component(UPDATE_COMPONENT_IN)
 
@@ -267,7 +267,7 @@ class TestDeleteComponent(unittest.TestCase):
         for uid in uids_to_be_tested:
             DELETE_COMPONENT_IN['uid'] = uid
 
-            with self.assertRaises(IndexError):
+            with self.assertRaises(CypherSyntaxError):
                 delete_component(DELETE_COMPONENT_IN)
 
     def test_1104(self):

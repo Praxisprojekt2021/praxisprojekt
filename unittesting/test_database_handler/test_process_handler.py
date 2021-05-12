@@ -1,11 +1,12 @@
 import unittest
 
 from neo4j.exceptions import CypherSyntaxError
+import copy
 
 from database.handler.component_handler import get_component_list, add_component, delete_component
 from database.handler.process_handler import *
-from unittesting.database_handler.test_data_component_handler import ADD_COMPONENT_IN
-from unittesting.database_handler.test_data_processs_handler import *
+from unittesting.test_database_handler.test_data_component_handler import ADD_COMPONENT_IN
+from unittesting.test_database_handler.test_data_processs_handler import *
 
 
 class TestGetProcess(unittest.TestCase):
@@ -51,6 +52,7 @@ class TestGetProcess(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls):
+        UID_DICT.pop("test1")
         UID_DICT["uid"] = cls.uid
         delete_process(UID_DICT)
 
@@ -80,18 +82,20 @@ class TestAddProcess(unittest.TestCase):
 
     def test_2102(self):
         # add incorrect values to dict
-        PROCESS_WITHOUT_TARGET_METRICS["target_metrics"]["downtime"]["average"] = "ABC"
+        process_without_target_metrics = copy.deepcopy(PROCESS_WITHOUT_TARGET_METRICS)
+        process_without_target_metrics["target_metrics"]["downtime"]["average"] = "ABC"
 
         with self.assertRaises(ValueError):
-            add_process(PROCESS_WITHOUT_TARGET_METRICS)
+            add_process(process_without_target_metrics)
         delete_process(UID_DICT)
 
     def test_2103(self):
         # add incorrect structure to dict
-        PROCESS_WITHOUT_TARGET_METRICS.pop("target_metrics")
+        process_without_target_metrics = copy.deepcopy(PROCESS_WITHOUT_TARGET_METRICS)
+        process_without_target_metrics.pop("target_metrics")
 
         with self.assertRaises(KeyError):
-            add_process(PROCESS_WITHOUT_TARGET_METRICS)
+            add_process(process_without_target_metrics)
         delete_process(UID_DICT)
 
 
@@ -254,13 +258,14 @@ class TestAddProcessReference(unittest.TestCase):
             add_process_reference(ADD_PROCESS_REFERENCE)
 
     def test_2403(self):
-        ADD_PROCESS_REFERENCE["twwe"] = "ABC"
-        ADD_PROCESS_REFERENCE["wee"] = "DCE"
-        ADD_PROCESS_REFERENCE.pop("process_uid")
-        ADD_PROCESS_REFERENCE.pop("component_uid")
+        add_process_reference_in = copy.deepcopy(ADD_PROCESS_REFERENCE)
+        add_process_reference_in["twwe"] = "ABC"
+        add_process_reference_in["wee"] = "DCE"
+        add_process_reference_in.pop("process_uid")
+        add_process_reference_in.pop("component_uid")
 
         with self.assertRaises(KeyError):
-            add_process_reference(ADD_PROCESS_REFERENCE)
+            add_process_reference(add_process_reference_in)
 
     @classmethod
     def tearDownClass(cls):
@@ -319,13 +324,14 @@ class TestDeleteProcessReference(unittest.TestCase):
             delete_process(ADD_PROCESS_REFERENCE)
 
     def test_2503(self):
-        ADD_PROCESS_REFERENCE.pop("uid")
-        ADD_PROCESS_REFERENCE["ABC"] = 12
+        add_process_reference_in = copy.deepcopy(ADD_PROCESS_REFERENCE)
+        add_process_reference_in.pop("uid")
+        add_process_reference_in["ABC"] = 12
 
         with self.assertRaises(KeyError):
-            delete_process(ADD_PROCESS_REFERENCE)
-            ADD_PROCESS_REFERENCE["uid"] = self.uid
-            delete_process(ADD_PROCESS_REFERENCE)
+            delete_process(add_process_reference_in)
+            add_process_reference_in["uid"] = self.uid
+            delete_process(add_process_reference_in)
 
     @classmethod
     def tearDownClass(cls):
@@ -389,20 +395,23 @@ class TestUpdateProcessReference(unittest.TestCase):
         self.assertEqual(new_process_dict, PROCESS_WITH_TARGET_METRICS)
 
     def test_2502(self):
-        UPDATE_PROCESS_REFERENCE["uid"] = "ABC"
+        update_process_reference_in = copy.deepcopy(UPDATE_PROCESS_REFERENCE)
+        update_process_reference_in["uid"] = "ABC"
         # TODO: Is this the right Exception?
         with self.assertRaises(CypherSyntaxError):
-            update_process_reference(UPDATE_PROCESS_REFERENCE)
+            update_process_reference(update_process_reference_in)
 
     def test_2503(self):
-        UPDATE_PROCESS_REFERENCE["old_weight"] = "ABC"
+        update_process_reference_in = copy.deepcopy(UPDATE_PROCESS_REFERENCE)
+        update_process_reference_in["old_weight"] = "ABC"
         with self.assertRaises(CypherSyntaxError):
-            update_process_reference(UPDATE_PROCESS_REFERENCE)
+            update_process_reference(update_process_reference_in)
 
     def test_2504(self):
-        UPDATE_PROCESS_REFERENCE.pop("old_weight")
+        update_process_reference_in = copy.deepcopy(UPDATE_PROCESS_REFERENCE)
+        update_process_reference_in.pop("old_weight")
         with self.assertRaises(KeyError):
-            update_process_reference(UPDATE_PROCESS_REFERENCE)
+            update_process_reference(update_process_reference_in)
 
     @classmethod
     def tearDownClass(cls):
@@ -432,18 +441,24 @@ class TestGetProcessList(unittest.TestCase):
                 cls.uid = post_uid['uid']
 
         UID_DICT["uid"] = cls.uid
-        PROCESS_WITHOUT_TARGET_METRICS["process"]["uid"] = cls.uid
-        PROCESS_WITHOUT_TARGET_METRICS["process"].pop("components")
 
     def test_2601(self):
+        process_without_target_metrics = copy.deepcopy(PROCESS_WITHOUT_TARGET_METRICS)
+        process_without_target_metrics["process"]["uid"] = self.uid
+        process_without_target_metrics["process"].pop("components")
+
         process_list = get_process_list()
         for process in process_list["processes"]:
-            if (process["uid"] == self.uid):
+            if process["uid"] == self.uid:
                 process.pop("creation_timestamp")
                 process.pop("last_timestamp")
-                self.assertEqual(process, PROCESS_WITHOUT_TARGET_METRICS["process"])
+                self.assertEqual(process, process_without_target_metrics["process"])
 
     @classmethod
     def tearDownClass(cls):
         UID_DICT["uid"] = cls.uid
         delete_process(UID_DICT)
+
+
+if __name__ == '__main__':
+    unittest.main()

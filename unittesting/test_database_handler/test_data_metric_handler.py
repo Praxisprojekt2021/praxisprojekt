@@ -1,3 +1,8 @@
+GET_METRICS_DATA_OUT = {
+    'uid': '',
+    'fulfilled_if': '>'
+}
+
 CREATE_FROM_FRONTEND_JSON = {
     'success': True,
     'metrics': {

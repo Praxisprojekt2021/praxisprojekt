@@ -1,11 +1,11 @@
 {
   "features": {
     "code_quality": {
-      "name": "Test",
+      "name": "Test Feature",
       "metrics": {
-        "Test": {
-          "name": "Source Code Lines",
-          "fulfilled_if": "<",
+        "test": {
+          "name": "Test",
+          "fulfilled_if": ">",
           "max_value": -1,
           "min_value": 0,
           "description_component": "Sum of actual lines of code, excl. empty & comment lines.",
