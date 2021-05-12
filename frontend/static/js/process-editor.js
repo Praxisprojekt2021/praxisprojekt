@@ -20,14 +20,14 @@ function init(json_process = false) {
         features = data;
         // If page is reloaded (after saving) processes are updated else => page is loaded from databased and entries are prepared
         getTableHeaderInfo().then(tableHeaderInfo => {
-                if (!json_process) {
-                    getProcess(data, tableHeaderInfo);
+            if (!json_process) {
+                getProcess(data, tableHeaderInfo);
 
-                } else {
-                    fillDataFields(data, json_process, tableHeaderInfo);
-                    loadComponentNames(json_process);
-                }
+            } else {
+                fillDataFields(data, json_process, tableHeaderInfo);
+                loadComponentNames(json_process);
             }
+        }
         );
     });
 }
@@ -495,7 +495,6 @@ function addMinMaxToInputFields(innerHTML_target, metricData) {
  * @param wholeProcessScore
  */
 function renderWholeProcessScoreCircle(wholeProcessScore) {
-    let color;
     let fontColor;
     let background;
     wholeProcessScore = parseInt(wholeProcessScore);
