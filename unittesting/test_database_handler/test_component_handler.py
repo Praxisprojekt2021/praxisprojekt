@@ -30,11 +30,11 @@ class TestGetComponentList(unittest.TestCase):
             component['uid'] = self.uid[i]
             i += 1
 
-    def test_1401(self):
+    def test_1401_correct_amount_of_entries(self):
 
         self.assertEqual(len(self.uid), self.amount)
 
-    def test_1402(self):
+    def test_1402_correct_content_of_dict(self):
         result = get_component_list()
 
         components_to_be_deleted = []
@@ -82,7 +82,7 @@ class TestGetComponent(unittest.TestCase):
         GET_COMPONENT_IN['uid'] = self.uid
         GET_COMPONENT_OUT['component']['uid'] = self.uid
 
-    def test_1001(self):
+    def test_1001_correct_inputs(self):
         result = get_component(GET_COMPONENT_IN)
 
         del result['component']['creation_timestamp']
@@ -90,7 +90,7 @@ class TestGetComponent(unittest.TestCase):
 
         self.assertEqual(result, GET_COMPONENT_OUT)
 
-    def test_1002_1003(self):
+    def test_1002_incorrect_uid(self):
         uids_to_be_tested = [1.5, 'abc']
 
         for uid in uids_to_be_tested:
@@ -99,7 +99,7 @@ class TestGetComponent(unittest.TestCase):
             with self.assertRaises(IndexError):
                 get_component(GET_COMPONENT_IN)
 
-    def test_1004(self):
+    def test_1004_incorrect_dict_structure(self):
         with self.assertRaises(KeyError):
             get_component({"test": 1, "test2": 2})
 
@@ -125,7 +125,7 @@ class TestAddComponent(unittest.TestCase):
     def setUp(self):
         pass
 
-    def test_1301(self):
+    def test_1301_correct_inputs(self):
         result = add_component(ADD_COMPONENT_IN)
         self.assertEqual(result, ADD_COMPONENT_OUT)
 
@@ -137,11 +137,11 @@ class TestAddComponent(unittest.TestCase):
             GET_COMPONENT_IN['uid'] = post_uid['uid']
             self.assertTrue(get_component(GET_COMPONENT_IN)['success'])
 
-    def test_1302(self):
+    def test_1302_incorrect_dict_structure(self):
         with self.assertRaises(KeyError):
             add_component({"test": 1, "test2": 2})
 
-    def test_1304(self):
+    def test_1304_incorrect_metrics(self):
 
         with self.assertRaises(DoesNotExist):
             wrong_input_dict = copy.deepcopy(ADD_COMPONENT_IN)
@@ -185,31 +185,31 @@ class TestUpdateComponent(unittest.TestCase):
         UPDATE_COMPONENT_IN['uid'] = self.uid
         GET_COMPONENT_IN['uid'] = self.uid
 
-    def test_1201(self):
+    def test_1201_correct_inputs(self):
         result = update_component(UPDATE_COMPONENT_IN)
         self.assertEqual(result, UPDATE_COMPONENT_OUT)
 
         self.assertTrue(get_component(GET_COMPONENT_IN)['success'])
 
-    def test_1202(self):
+    def test_1202_incorrect_dict_structure(self):
         with self.assertRaises(KeyError):
             update_component({"test": 1, "test2": 2})
 
-    def test_1203(self):
+    def test_1203_incorrect_metric(self):
         with self.assertRaises(CypherSyntaxError):
             wrong_input_dict = copy.deepcopy(UPDATE_COMPONENT_IN)
             wrong_input_dict['metrics']['number_of_administrators'] = 'zwei'
             update_component(wrong_input_dict)
 
-    def test_1204(self):
+    def test_1204_incorrect_uid(self):
         with self.assertRaises(CypherSyntaxError):
             UPDATE_COMPONENT_IN['uid'] = '123456789'
             update_component(UPDATE_COMPONENT_IN)
 
-    def test_1205(self):
+    def test_1205_unknown_metric(self):
         UPDATE_COMPONENT_IN['uid'] = self.uid
         wrong_input_dict = copy.deepcopy(UPDATE_COMPONENT_IN)
-        wrong_input_dict['metrics']['planned_maintenance_percentage'] = 2
+        wrong_input_dict['metrics']['test_metric'] = 2
         self.assertEqual(update_component(wrong_input_dict), UPDATE_COMPONENT_OUT)
 
         GET_COMPONENT_IN['uid'] = self.uid
@@ -250,7 +250,7 @@ class TestDeleteComponent(unittest.TestCase):
         DELETE_COMPONENT_IN['uid'] = self.uid
         GET_COMPONENT_IN['uid'] = self.uid
 
-    def test_1101(self):
+    def test_1101_correct_input(self):
 
         self.assertTrue(get_component(GET_COMPONENT_IN)['success'])
 
@@ -260,7 +260,7 @@ class TestDeleteComponent(unittest.TestCase):
         with self.assertRaises(IndexError):
             get_component(GET_COMPONENT_IN)
 
-    def test_1102_1103_1105(self):
+    def test_1102_incorrect_uids(self):
 
         uids_to_be_tested = [1.5, 'abc', '123456789']
 
@@ -270,7 +270,7 @@ class TestDeleteComponent(unittest.TestCase):
             with self.assertRaises(CypherSyntaxError):
                 delete_component(DELETE_COMPONENT_IN)
 
-    def test_1104(self):
+    def test_1104_incorrect_input(self):
         with self.assertRaises(KeyError):
             delete_component({"test": 1, "test2": 2})
 

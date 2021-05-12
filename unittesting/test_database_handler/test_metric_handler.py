@@ -13,7 +13,7 @@ class TestGetMetricsData(unittest.TestCase):
         # add new metric
         Metric.create({'name': 'test', "fulfilled_if": '>'})
 
-    def test_3003(self):
+    def test_3003_correct_execution(self):
         data = get_metrics_data()
 
         data['metrics']['test']['uid'] = ''
@@ -28,11 +28,11 @@ class TestGetMetricsData(unittest.TestCase):
 
 class CreateFromFrontendJson(unittest.TestCase):
 
-    def test_3001(self):
+    def test_3001_unknown_file(self):
         with self.assertRaises(FileNotFoundError):
             create_from_frontend_json('frontend/static/content/mapping_metrics.json')
 
-    def test_3002(self):
+    def test_3002_correct_input(self):
         create_from_frontend_json('test_database_handler/test_data_create_from_frontend_json.json')
 
         data = get_metrics_data()

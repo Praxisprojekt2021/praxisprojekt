@@ -1,4 +1,5 @@
 import unittest
+import HtmlTestRunner
 
 # import your test modules
 import unittesting.test_database_handler.test_metric_handler
@@ -15,9 +16,12 @@ suite.addTests(loader.loadTestsFromModule(unittesting.test_database_handler.test
 suite.addTests(loader.loadTestsFromModule(unittesting.test_database_handler.test_process_handler))
 
 # initialize a runner, pass it your suite and run it
-runner = unittest.TextTestRunner(verbosity=3)
-result = runner.run(suite)
+outfile = "reports"
+runner = HtmlTestRunner.HTMLTestRunner(
+    output=outfile
+)
 
+result = runner.run(suite)
 
 if __name__ == '__main__':
     unittest.main()
