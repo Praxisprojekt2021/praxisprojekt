@@ -21,7 +21,8 @@ def start_calculate_risk(process_dict: dict, metrics_dict: dict) -> dict:
     component_metrics = get_all_component_metrics(process_dict)
     target_metrics = get_all_target_metrics(process_dict)
 
-    actual_target_values = calculate_current_values(metrics_dict, component_metrics, target_metrics)
+    actual_target_values = calculate_current_values(
+        metrics_dict, component_metrics, target_metrics)
     output_dict['actual_target_metrics'] = actual_target_values
 
     output_dict = compare_actual_target_metrics(output_dict, metrics_dict)
@@ -85,7 +86,8 @@ def calculate_current_values(metrics_dict: dict, component_metrics, target_metri
         # if any component has this specific metric
         if metric in component_metrics.keys():
 
-            calculations[metric] = calculate_actual_values(component_metrics[metric])
+            calculations[metric] = calculate_actual_values(
+                component_metrics[metric])
             component_metric_flag = True
 
         # if process has a target value for this metric
@@ -99,7 +101,7 @@ def calculate_current_values(metrics_dict: dict, component_metrics, target_metri
             if calculations[metric]['target']['average'] is not None:
                 # calculate target sum
                 calculations[metric]['target']['total'] = calculations[metric]['target']['average'] * \
-                                                          calculations[metric]['count_component']
+                    calculations[metric]['count_component']
         # save calculated values in output_dict
         if process_target_flag or component_metric_flag:
             actual_target_values[metric] = calculations[metric]
@@ -129,7 +131,8 @@ def calculate_actual_values(actual_component_metric_data):
             {"standard_deviation": None})
 
     # get amount of components
-    actual_process_metric_data["count_component"] = len(actual_component_metric_data)
+    actual_process_metric_data["count_component"] = len(
+        actual_component_metric_data)
 
     return actual_process_metric_data
 
@@ -189,7 +192,7 @@ def calculate_risk_score(process_dict: dict) -> dict:
     amount = 0
 
     sub_dict = process_dict["actual_target_metrics"]
-    for metric, values in sub_dict.items():
+    for _, values in sub_dict.items():
         if 'fulfillment' in values.keys():
             if values['fulfillment']:
                 sum += 1
