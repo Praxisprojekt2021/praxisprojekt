@@ -18,13 +18,11 @@ function init() {
     if (uid) {
         // If so, load component data...
         Helper.showLoadingScreen();
-        console.log('Editing existing component');
 
         // Trigger function which gathers component data and processes it
         getComponent(uid);
     } else {
         // If not, prepare for new component input...
-        console.log('Entering new component');
         setSections("default");
         // Enable component-category which is disabled by default
         document.getElementById('component-category').removeAttribute("disabled");
@@ -111,7 +109,7 @@ function getMetricsInfo(category) {
  * @param {string} uid: The uid of the component to get data for
  */
 function getComponent(uid) {
-    const post_data = {"uid": uid};
+    const post_data = { "uid": uid };
     helper.http_request("POST", '/component/view', true, JSON.stringify(post_data), processComponentData);
 }
 

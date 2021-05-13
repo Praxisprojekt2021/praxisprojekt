@@ -13,7 +13,7 @@ app = Flask(__name__, static_url_path='',
 def index_route():
     """
     API endpoint to display main page view
-    
+
     :receives: None
     :return: the rendered html main page
     """
@@ -24,7 +24,7 @@ def index_route():
 def info_route():
     """
     API endpoint to display info page view
-    
+
     :receives: None
     :return: the rendered html info page
     """
@@ -65,7 +65,7 @@ def component_overview_route():
 def component_view_route():
     """
     API endpoint to use the function from the Core-Module to view components
-    
+
     :receives: a JSON object with component details as specified in docu/JSON_objects_definitions.py
     :return: a JSON object containing the component
     """
@@ -80,7 +80,7 @@ def component_view_route():
 def component_create_edit_route():
     """
     Use function from the Core-Module to create or edit components (Original function is located in component_handler.py
-    
+
     :receives: a JSON object with component details as specified in docu/JSON_objects_definitions.py
     :return: a JSON object containing the success state, which is True or False
     """
@@ -115,7 +115,7 @@ def component_delete_route():
 def process_route():
     """
     API endpoint to display process page view
-    
+
     :receives: None
     :return: the rendered html process page
     """
@@ -140,7 +140,7 @@ def process_overview_route():
 def process_delete_route():
     """
     API Endpoint to delete a specific process
-    
+
     :receives: a JSON object with process details as specified in docu/JSON_objects_definitions.py
     :return: a JSON object with the success of the deletion
     """
@@ -155,7 +155,7 @@ def process_delete_route():
 def process_edit_createstep_route():
     """
     API Endpoint to add a step to specific process
-    
+
     :receives: a JSON object with process details as specified in docu/JSON_objects_definitions.py
     :return: a JSON object with process details as specified in docu/JSON_objects_definitions.py
     """
@@ -169,7 +169,7 @@ def process_edit_createstep_route():
 def process_edit_editstep_route():
     """
     API Endpoint to edit a step from specific process
-    
+
     :receives: a JSON object with process details as specified in docu/JSON_objects_definitions.py
     :return: a JSON object with process details as specified in docu/JSON_objects_definitions.py
     """
@@ -183,7 +183,7 @@ def process_edit_editstep_route():
 def process_edit_deletestep_route():
     """
     API Endpoint to delete a step from specific process
-    
+
     :receives: a JSON object with process details as specified in docu/JSON_objects_definitions.py
     :return: a JSON object with process details as specified in docu/JSON_objects_definitions.py
     """
@@ -197,7 +197,7 @@ def process_edit_deletestep_route():
 def process_create_edit_route():
     """
     API Endpoint to create or edit a process
-    
+
     :receives: a JSON object with process details as specified in docu/JSON_objects_definitions.py
     :return: a JSON object with process details as specified in docu/JSON_objects_definitions.py
     """
@@ -211,7 +211,7 @@ def process_create_edit_route():
 def process_view_route():
     """
     API endpoint to use the function from the Core-Module to view processes
-    
+
     :receives: a JSON object with process details as specified in docu/JSON_objects_definitions.py
     :return: a JSON object containing the process
     """
@@ -235,8 +235,7 @@ def error_occurred(error):
     """
     exc_type, value, traceback = sys.exc_info()
     error_json = error_handler(exc_type.__name__, str(value))
-    print(error)
-    print(error_json)
+
     return error_json, 500
 
 

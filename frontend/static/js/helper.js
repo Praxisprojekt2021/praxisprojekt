@@ -224,11 +224,11 @@ class Helper {
         if (score === null) {
             background = 'linear-gradient(315deg, #d9d9d9 0%, #f6f2f2 74%)'; // Grey
         } else if (score < 80) {
-            background = 'linear-gradient(316deg, #99201c 0%, #f56545 74%)'; // Red
+            background = 'linear-gradient(316deg, #99201c 0%, #cc908e 74%)'; // Red
         } else if (score < 90) {
-            background = 'linear-gradient(315deg, #fff293 0%, #ffe884 74%)'; // Yellow
+            background = 'linear-gradient(315deg, #f8ef42 0%, #fcf7a1 74%)'; // Yellow
         } else if (score <= 100) {
-            background = 'linear-gradient(315deg, rgb(109 228 60) 0%, rgb(15, 214, 79) 74%)'; // Green
+            background = 'linear-gradient(315deg, #44d08b 0%, #a2e8c5 74%)'; // Green
         } else {
             background = 'linear-gradient(315deg, #d9d9d9 0%, #f6f2f2 74%)'; // Grey
         }
@@ -263,9 +263,9 @@ class Helper {
         let background;
         if (!color) {
             if (fulfillment === true) {
-                background = 'linear-gradient(315deg, rgb(109 228 60) 0%, rgb(15, 214, 79) 74%)'; // Green
+                background = 'linear-gradient(315deg, #44d08b 0%, #a2e8c5 74%)'; // Green
             } else if (fulfillment === false) {
-                background = 'linear-gradient(316deg, #99201c 0%, #f56545 74%)'; // Red
+                background = 'linear-gradient(316deg, #99201c 0%, #cc908e 74%)'; // Red
             } else {
                 background = 'linear-gradient(315deg, #d9d9d9 0%, #f6f2f2 74%)'; // Grey
             }
