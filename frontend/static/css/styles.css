@@ -25,7 +25,7 @@ select,
 textarea,
 button {
     font: inherit;
-    box-shadow: 0 0.029vmax 0.039vmax 0 rgba(0, 0, 0, 0.07);
+    box-shadow: 0 0.019vmax 0.019vmax 0 rgb(0 0 0 / 6%);
 }
 
 .view-description-label {
@@ -122,6 +122,11 @@ a {
     margin-left: auto;
     text-align: left;
     width: 5vmax;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -o-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+    -ms-interpolation-mode: nearest-neighbor;
 }
 
 .accordion-toggle {
@@ -214,7 +219,7 @@ a {
 
 .accordion-toggle:hover:not([disabled]) .features-label {
     transition: 0.15s ease-out;
-    color: #414dde
+    color: #44d08b
 }
 
 .features-columns {
@@ -369,36 +374,26 @@ a {
 }
 
 #GreenCircle {
-    width: 2%;
-    max-height: 3%;
     color: #44d08b;
 }
 
 #RedCircle {
-    width: 2%;
-    max-height: 3%;
     color: #99201c;
 }
 
 #YellowCircle {
-    width: 2%;
-    max-height: 3%;
     color: #f8ef42;
 }
 
 .small-circle {
-    height: 1.042vmax;
-    width: 2.344vmax;
-    max-height: 2vh;
-    max-width: 2.5vh;
-    border-radius: 10%;
+    height: 1.4vmin;
+    width: 2.5vw;
+    border-radius: 1vmin;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 0.052vmax 0.052vmax rgba(0, 0, 0, 0.05),
-    0 0.104vmax 0.104vmax rgba(0, 0, 0, 0.12),
-    0 0.156vmax 0.156vmax rgba(0, 0, 0, 0.08),
-    0 0.208vmax 0.208vmax rgba(0, 0, 0, 0.05);
+    box-shadow: 0 0.05vmax 0.052vmax rgba(0, 0, 0, 0.05),
+    0 0.09vmax 0.104vmax rgba(0, 0, 0, 0.12),
+    0 0.12vmax 0.156vmax rgba(0, 0, 0, 0.08),
+    0 0.125vmax 0.20vmax rgba(0, 0, 0, 0.05);
     -webkit-backface-visibility: hidden;
 }
 
@@ -772,6 +767,9 @@ tr:nth-child(even) {
     opacity: 0;
     transition: 0.35s ease-out;
     overflow: hidden;
+    text-align: left;
+    text-transform: none;
+    font-weight: normal;
     pointer-events: none; /* prevents tooltip from firing on pseudo hover */
 }
 

@@ -22,13 +22,11 @@ function init(json_process = false) {
         getTableHeaderInfo().then(tableHeaderInfo => {
             if (!json_process) {
                 getProcess(data, tableHeaderInfo);
-
             } else {
                 fillDataFields(data, json_process, tableHeaderInfo);
                 loadComponentNames(json_process);
             }
-        }
-        );
+        });
     });
 }
 
@@ -40,7 +38,6 @@ async function getFeatures() {
     return await fetch(base_url + '/content/mapping_metrics_definition.json')
         .then(response => response.json())
         .then(data => {
-
             let features = data['features'];
             getButtonType().then(button => {
 
@@ -492,7 +489,6 @@ function addMinMaxToInputFields(innerHTML_target, metricData) {
  * @param wholeProcessScore
  */
 function renderWholeProcessScoreCircle(wholeProcessScore) {
-    let color;
     let fontColor;
     let background;
     wholeProcessScore = parseInt(wholeProcessScore);
@@ -504,10 +500,11 @@ function renderWholeProcessScoreCircle(wholeProcessScore) {
         document.getElementById("whole-process-score").style.setProperty("background-image", background);
         document.getElementById("whole-process-score").style.setProperty("display", "flex");
         document.getElementById("whole-process-score").innerHTML = wholeProcessScore + `%`;
-        document.getElementById("whole-process-score").style.setProperty("box-shadow:", "0vmax 0.3vmax 0.469vmax 0vmax rgba(0, 0, 0, 0.07)");
+        document.getElementById("whole-process-score").style.boxShadow = "0 0.3vmax 0.469vmax 0 rgba(0, 0, 0, 0.07)";
+
     } else {
         document.getElementById("whole-process-score").style.setProperty("display", "none");
-        document.getElementById("whole-process-score").style.setProperty("box-shadow:", "0vmax");
+        document.getElementById("whole-process-score").style.boxShadow = "0";
     }
 }
 
@@ -552,7 +549,7 @@ function createEditProcess() {
                 }
                 if (!Helper.targetAvgIsWithinMinMax(metric_elements[key][i])) {
                     minmaxlist += '\n' + metric_elements[key][i].parentElement.parentElement.children[0].id; //TODO: Add metric name to the list of wrong target avg values (von Roman?)
-                    metric_elements[key][i].style.setProperty("border-color", "red", undefined); //TODO: noch nötig oder nicht durch EventListener schon abgedeckt? (von Jasmin)
+                    metric_elements[key][i].style.setProperty("border-color", "#99201c", undefined); //TODO: noch nötig oder nicht durch EventListener schon abgedeckt? (von Jasmin)
                 } else {
                     metric_elements[key][i].style.removeProperty("border-color"); //TODO: noch nötig oder nicht durch EventListener schon abgedeckt? (von Jasmin)
                 }

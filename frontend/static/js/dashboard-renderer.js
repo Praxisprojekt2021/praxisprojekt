@@ -141,7 +141,7 @@ function deleteComponent(uid) {
  */
 function renderStatusColumn(wholeProcessScore) {
     // If score > 90, status is green, elseif score > 80, status is yellow, else status is red;
-    let color = helper.getCircleColor(wholeProcessScore);
+    let color = helper.getCircleBackground(wholeProcessScore);
     return helper.renderSmallCircle(null, color);
 }
 
