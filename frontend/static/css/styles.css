@@ -386,11 +386,11 @@ a {
 }
 
 .small-circle {
-    height: 1.4vh;
-    width: 4.76vmax;
-    max-height: 1.4vh;
-    max-width: 4.76vh;
-    border-radius: 1vmax;
+    height: 1.4vmin;
+    width: 4.76vmin;
+    max-height: 1.4vmin;
+    max-width: 4.76vmin;
+    border-radius: 1vmin;
     display: flex;
     box-shadow: 0 0.05vmax 0.052vmax rgba(0, 0, 0, 0.05),
     0 0.09vmax 0.104vmax rgba(0, 0, 0, 0.12),
