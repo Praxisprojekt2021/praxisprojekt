@@ -370,19 +370,19 @@ a {
 #GreenCircle {
     width: 2%;
     max-height: 3%;
-    color: green;
+    color: #44d08b;
 }
 
 #RedCircle {
     width: 2%;
     max-height: 3%;
-    color: red;
+    color: #99201c;
 }
 
 #YellowCircle {
     width: 2%;
     max-height: 3%;
-    color: #ffc800;
+    color: #f8ef42;
 }
 
 .small-circle {
@@ -742,7 +742,7 @@ tr:nth-child(even) {
 }
 
 .fa-trash-alt:hover {
-    color: #c30000bd;
+    color: #99201c;
     transition: 0.125s ease-out;
 }
 
