@@ -738,7 +738,7 @@ tr:nth-child(even) {
 }
 
 .fa-trash-alt:hover {
-    color: #bf4d49;
+    color: #99201c;
     transition: 0.125s ease-out;
 }
 

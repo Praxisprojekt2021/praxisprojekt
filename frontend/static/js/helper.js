@@ -190,29 +190,6 @@ class Helper {
     }
 
     /**
-     * Get the color of the process given the calculated score
-     *
-     * @param {number, null} score
-     * @returns {string}
-     */
-    getCircleColor(score) {
-        let color;
-
-        if (score === null) {
-            color = '#d9d9d9'; // Grey
-        } else if (score < 80) {
-            color = '#99201c'; // Red
-        } else if (score < 90) {
-            color = '#f8ef42'; // Yellow
-        } else if (score <= 100) {
-            color = '#4ad28f'; // Green
-        } else {
-            color = '#d9d9d9'; // Grey
-        }
-        return color;
-    }
-
-    /**
      * Get the background of the process given the calculated score
      *
      * @param {number, null} score
@@ -226,7 +203,7 @@ class Helper {
         } else if (score < 80) {
             background = 'linear-gradient(316deg, #99201c 0%, #de736f 74%)'; // Red
         } else if (score < 90) {
-            background = 'linear-gradient(315deg, #f7cf0e 0%, #fcf7a1 74%)'; // Yellow
+            background = 'linear-gradient(315deg, #f8ef42 0%, #fcf7a1 74%)'; // Yellow
         } else if (score <= 100) {
             background = 'linear-gradient(315deg, #44d08b 0%, #a2e8c5 74%)'; // Green
         } else {
