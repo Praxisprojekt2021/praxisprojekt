@@ -185,7 +185,7 @@ class Helper {
      * @returns formatted Date
      */
     formatDate(date) {
-        const dateOptions = { year: 'numeric', month: '2-digit', day: '2-digit' };
+        const dateOptions = {year: 'numeric', month: '2-digit', day: '2-digit'};
         return new Date(date).toLocaleDateString("EN", dateOptions);
     }
 
@@ -356,6 +356,8 @@ class Helper {
             element.children[0].childNodes.forEach(element => element.children[1].children[0].removeAttribute("disabled"));
             element.children[0].childNodes.forEach(element => element.children[1].removeAttribute("disabled"));
         }
-        setTimeout(() => { element.parentElement.style.setProperty("overflow", "visible", undefined); }, 350);
+        setTimeout(() => {
+            element.parentElement.style.setProperty("overflow", "visible", undefined);
+        }, 350);
     }
 }
