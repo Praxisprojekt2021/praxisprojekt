@@ -153,7 +153,7 @@ function fillDescriptionColumn(processData) {
     // Set uid and data fields
     document.getElementById('process-name-textarea').value = processData['process']['name'];
     document.getElementById('process-responsible-person-textarea').value = processData['process']['responsible_person'];
-    document.getElementById('process-beschreibung-textarea').value = processData['process']['description'];
+    document.getElementById('process-description-textarea').value = processData['process']['description'];
 }
 
 /**
@@ -576,7 +576,7 @@ function createEditProcess() {
             "uid": "` + uid + `",
             "name": "` + document.getElementById('process-name-textarea').value + ` ",
             "responsible_person": "` + document.getElementById('process-responsible-person-textarea').value + `",
-            "description": "` + document.getElementById('process-beschreibung-textarea').value + ` "
+            "description": "` + document.getElementById('process-description-textarea').value + ` "
         },
             "target_metrics": ` + JSON.stringify(metrics) + ` 
         }`;

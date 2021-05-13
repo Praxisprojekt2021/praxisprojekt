@@ -26,3 +26,7 @@
 .icon-popup-fix.info-text-popup::before {
     margin-right: 24%;
 }
+
+#component-description-textarea {
+    height: 6vw;
+}
