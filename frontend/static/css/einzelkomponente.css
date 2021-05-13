@@ -1,122 +1,28 @@
-* {
-  box-sizing: border-box;
-}
-
-@media only screen and (max-width: 1400px) {
-  body {
-    width: 82%;
-  }
-}
-
-@media only screen and (max-width: 800px) {
-  body {
-    width: 87%;
-  }
-}
-
-input, select, textarea, button {
-  font: inherit;
-  box-shadow: 0vmax 0.029vmax 0.039vmax 0vmax rgba(0, 0, 0, 0.07);
-}
-
-.textarea {
-  position: relative;
-  display: block;
-  overflow: auto;
-  width: 23.438vmax;
-  max-height: 100%;
-  max-width: 100%;
-  min-height: 2.604vmax;
-  min-width: 1.042vmax;
-  float: left;
-  clear: left;
-  border-radius: 0.365vmax;
-  height: 1.979vmax;
-  padding: 0.417vmax 0.625vmax;
-  margin-bottom: 0.521vmax;
-  font-size: 0.729vmax;
-  line-height: 1.428571429;
-  color: #333333;
-  vertical-align: middle;
-  border: 0.052vmax solid #ccc;
-}
-
-
-.accordion-icon-dropdown-toggle {
-  position: absolute;
-  font-size: 1.042vmax;
-  top: 1.042vw;
-  right: 0;
-  bottom: 0;
-  margin: auto;
-  margin-right: 1.042vmax;
-  width: 1em;
-  height: 1em;
-  transition: 0.35s ease-out;
-}
-
 .info-icon {
-  width: 6%;
-  position: relative;
-  display: inline-block;
-  overflow: visible;
-  margin-top: 0.104vmax;
-  margin-left: 0.521vmax;
-  float: left;
-  border-radius: 1.042vmax;
-  transition: 0.21s ease-out;
-  opacity: 0.65;
-}
-
-.component-overview {
-  padding-top: 2.083vmax;
-  padding-left: 2.604vmax;
-  padding-right: 2.604vmax;
-  border-style: solid;
-  border-width: 0.052vmax;
-  border-color: #e6e6e6;
-  border-radius: 0.7vmax;
-  background-color: #ececec;
-  box-shadow: rgba(50, 50, 93, 0.015) 0vmax 10vmax 10vmax -0.313vmax inset, rgba(0, 0, 0, 0.28) 0vmax 0.313vmax 1.302vmax -0.938vmax inset,rgba(0, 0, 0, 0.19) 0vmax 10vmax 20vmax, rgba(0, 0, 0, 0.17) 0vmax 0.313vmax 0.313vmax;
-}
-
-.create-button {
-  position: static;
-  font-size: 0.781vmax;
-  display: inline-block;
-  padding: 0.469vmax 0.781vmax;
-  margin-bottom: 0.156vmax;
-  margin-right: 0.156vmax;
-  background-color: #1f299c;
-  color: white;
-  border: 0;
-  cursor: pointer;
-  text-decoration: none;
-  transition: 0.3s ease-out;
-}
-
-.create-button:active {
-  transition: 0.3s ease-out;
-  background-color: #1f299c;
-  margin-top: 0.156vmax;
-  margin-left: 0.156vmax;
-  margin-bottom: 0vmax;
-  margin-right: 0vmax;
-  box-shadow: 0vmax 0vmax;
+    width: 6%;
+    position: relative;
+    display: inline-block;
+    overflow: visible;
+    margin-top: 0.104vmax;
+    margin-left: 0.521vmax;
+    float: left;
+    border-radius: 1.042vmax;
+    transition: 0.21s ease-out;
+    opacity: 0.65;
 }
 
 .metric-entry-element .info-text-popup {
-  display: inline-block;
-  float: left;
-  clear: left;
+    display: inline-block;
+    float: left;
+    clear: left;
 }
 
 .icon-popup-fix.info-text-popup {
-  display: block;
-  float: none;
-  clear: none;
+    display: block;
+    float: none;
+    clear: none;
 }
 
 .icon-popup-fix.info-text-popup::before {
-  margin-right: 24%;
+    margin-right: 24%;
 }

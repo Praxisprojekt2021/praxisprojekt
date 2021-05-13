@@ -640,14 +640,10 @@ function createComponentTable(processData, metricsDefinition) {
     let header = document.createElement('tr');
     header.className = "table-header";
     header.innerHTML = `
-        <th class="col-1" name="Position"> Position</th>
+        <th class="col-1" name="Position">Position</th>
         <th class="col-2" name="Component">Component</th>
         <th class="col-3" name="Category">Category</th>
         <th class="col-4"></th>
-        <th class="col-5"></th>
-        <th class="col-6"></th>
-        <th class="col-7"></th>
-        <th class="col-8"></th>
     `;
     document.getElementById('ComponentOverviewTable').appendChild(header);
 
@@ -668,11 +664,7 @@ function createComponentTable(processData, metricsDefinition) {
             <td class="col-1"></td>
             <td class="col-2">` + componentData['name'] + `</td>
             <td class="col-3">` + metricsDefinition['categories'][componentData['category']]['name'] + ` </td>
-            <td class="col-4"></td>
-            <td class="col-5"></td>
-            <td class="col-6"></td>
-            <td class="col-7"></td>
-            <td class="col-8"><i id="TrashIcon" class="fas fa-trash-alt" onclick="deleteComponent(this.parentElement.parentElement.id);"></i></td>
+            <td class="col-4"><i id="TrashIcon" class="fas fa-trash-alt" onclick="deleteComponent(this.parentElement.parentElement.id);"></i></td>
         `;
 
         // Sorting the components according to their weights
