@@ -244,3 +244,7 @@ table .process-visualization {
     right: 12.5%;
     font-size: 130%;
 }
+
+#addposition {
+    margin-right: 20px;
+}
