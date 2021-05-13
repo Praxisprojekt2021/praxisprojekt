@@ -11,7 +11,7 @@ class Modals {
         this.outdatedThreshold = new Date();
 
         // Set outdated threshold to one month
-         this.outdatedThreshold.setMonth(this.outdatedThreshold.getMonth() - 1);
+        this.outdatedThreshold.setMonth(this.outdatedThreshold.getMonth() - 1);
     }
 
     /**
