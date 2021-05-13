@@ -81,7 +81,7 @@ function refreshComponentTable(json, metricsDefinition) {
  * @returns {String} Edit-Process-Button HTML-Element
  */
 function renderEditProcessButton(uid) {
-    return `<a href="process?uid=` + uid + `"><i id="PenIcon" class="fas fa-edit"></i></a>`;
+    return `<a href="process?uid=` + uid + `"><i id="PenIcon" class="fas fa-pencil-alt"></i></a>`;
 }
 
 /**
@@ -90,7 +90,7 @@ function renderEditProcessButton(uid) {
  * @returns {String} Edit-Component-Button HTML-Element
  */
 function renderEditComponentButton(uid) {
-    return `<a href="component?uid=` + uid + `"><i id="PenIcon" class="fas fa-edit"></i></a>`;
+    return `<a href="component?uid=` + uid + `"><i id="PenIcon" class="fas fa-pencil-alt"></i></a>`;
 }
 
 /**
@@ -99,7 +99,7 @@ function renderEditComponentButton(uid) {
  * @returns {String} Delete-Process-Button HTML-Element
  */
 function renderDeleteProcessButton(uid) {
-    return `<div onclick="deleteProcess('` + uid + `')"><i id="TrashIcon" class="fas fa-trash"></i></div>`;
+    return `<div onclick="deleteProcess('` + uid + `')"><i id="TrashIcon" class="fas fa-trash-alt"></i></div>`;
 }
 
 /**
@@ -108,7 +108,7 @@ function renderDeleteProcessButton(uid) {
  * @returns {String} Delete-Component-Button HTML-Element
  */
 function renderDeleteComponentButton(uid) {
-    return `<div onclick="deleteComponent('` + uid + `')"><i id="TrashIcon" class="fas fa-trash"></i></div>`;
+    return `<div onclick="deleteComponent('` + uid + `')"><i id="TrashIcon" class="fas fa-trash-alt"></i></div>`;
 }
 
 /**

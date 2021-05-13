@@ -662,7 +662,7 @@ function createComponentTable(processData, metricsDefinition) {
             <td class="col-1"></td>
             <td class="col-2">` + componentData['name'] + `</td>
             <td class="col-3">` + metricsDefinition['categories'][componentData['category']]['name'] + ` </td>
-            <td class="col-4"><i id="TrashIcon" class="fas fa-trash" onclick="deleteComponent(this.parentElement.parentElement.id);"></i></td>
+            <td class="col-4"><i id="TrashIcon" class="fas fa-trash-alt" onclick="deleteComponent(this.parentElement.parentElement.id);"></i></td>
         `;
 
         // Sorting the components according to their weights

@@ -219,7 +219,7 @@ a {
 
 .accordion-toggle:hover:not([disabled]) .features-label {
     transition: 0.15s ease-out;
-    color: #414dde
+    color: #44d08b
 }
 
 .features-columns {
@@ -723,24 +723,24 @@ tr:nth-child(even) {
     width: 1.302vmax;
 }
 
-.fa-edit {
+.fa-pencil-alt {
     text-decoration: none;
     color: black;
     transition: 0.125s ease-out;
 }
 
-.fa-edit:hover {
-    color: #53d494;
+.fa-pencil-alt:hover {
+    color: #44d08b;
     transition: 0.125s ease-out;
 }
 
-.fa-trash {
+.fa-trash-alt {
     cursor: pointer;
     transition: 0.125s ease-out;
 }
 
-.fa-trash:hover {
-    color: #de736e;
+.fa-trash-alt:hover {
+    color: #bf4d49;
     transition: 0.125s ease-out;
 }
 
@@ -769,6 +769,9 @@ tr:nth-child(even) {
     opacity: 0;
     transition: 0.35s ease-out;
     overflow: hidden;
+    text-align: left;
+    text-transform: none;
+    font-weight: normal;
     pointer-events: none; /* prevents tooltip from firing on pseudo hover */
 }
 
