@@ -732,7 +732,7 @@ tr:nth-child(even) {
 }
 
 .fa-pencil-alt:hover {
-    color: #006bff;
+    color: #44d08b;
     transition: 0.125s ease-out;
 }
 
