@@ -3,6 +3,7 @@
     margin: auto;
     text-align: center;
 }
+
 .generalstyle {
     margin-right: 3.03vmax;
     margin-left: 3.03vmax;
@@ -14,6 +15,7 @@
     border-color: #fff;
     background-color: #ececec;
 }
+
 .info-overview {
     border-radius: 0.7vmax;
     padding-top: 2.424vmax;
@@ -23,13 +25,15 @@
     border-width: 0.061vmax;
     border-color: #e6e6e6;
     background-color: #ececec;
-    box-shadow: rgba(50, 50, 93, 0.015) 0vmax 10vmax 10vmax -0.364vmax inset, rgba(0, 0, 0, 0.28) 0vmax 0.364vmax 1.515vmax -1.091vmax inset,rgba(0, 0, 0, 0.19) 0vmax 10vmax 20vmax, rgba(0, 0, 0, 0.17) 0vmax 0.364vmax 0.364vmax;
+    box-shadow: rgba(50, 50, 93, 0.015) 0vmax 10vmax 10vmax -0.364vmax inset, rgba(0, 0, 0, 0.28) 0vmax 0.364vmax 1.515vmax -1.091vmax inset, rgba(0, 0, 0, 0.19) 0vmax 10vmax 20vmax, rgba(0, 0, 0, 0.17) 0vmax 0.364vmax 0.364vmax;
 }
+
 .subheader1 {
     font-size: 1.03vmax;
     font-weight: 700;
     text-align: center;
 }
+
 .subheader2 {
     font-size: 1.03vmax;
     font-weight: 700;
@@ -51,7 +55,9 @@
     float: left;
 }
 
-* {box-sizing:border-box}
+* {
+    box-sizing: border-box
+}
 
 /* Slideshow container */
 .slideshow-container {
@@ -86,13 +92,15 @@
 
 /* On hover, add a black background color with a little bit see-through */
 .prev:hover, .next:hover {
-    background-color: rgba(0,0,0,0.8);
+    background-color: rgba(0, 0, 0, 0.8);
 }
+
 /* Slider Box */
 .mySlides {
     position: relative;
     width: 100%;
 }
+
 .mySlides:hover .tutorial_image {
     opacity: 0.3;
 }
@@ -100,6 +108,7 @@
 .mySlides:hover .textbackground {
     opacity: 1;
 }
+
 /* Tutorial descriptive text */
 .text {
     color: dimgrey;
@@ -107,6 +116,7 @@
     padding: 0.485vmax 0.727vmax;
     background-color: #fefefe;
 }
+
 /* Descriptive text Background */
 .textbackground {
     transition: .5s ease;
@@ -118,6 +128,7 @@
     -ms-transform: translate(-50%, -50%);
     text-align: center;
 }
+
 /* Tutorial Image */
 .tutorial_image {
     opacity: 1;
@@ -133,7 +144,7 @@
     font-size: 1.091vmax;
     padding: 0.485vmax 0.727vmax;
     position: absolute;
-    width:100%;
+    width: 100%;
     top: 0;
 }
 
@@ -162,11 +173,19 @@
 }
 
 @-webkit-keyframes fade {
-    from {opacity: .4}
-    to {opacity: 1}
+    from {
+        opacity: .4
+    }
+    to {
+        opacity: 1
+    }
 }
 
 @keyframes fade {
-    from {opacity: .4}
-    to {opacity: 1}
+    from {
+        opacity: .4
+    }
+    to {
+        opacity: 1
+    }
 }

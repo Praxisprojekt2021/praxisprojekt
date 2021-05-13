@@ -80,7 +80,7 @@ a {
     border-color: #e6e6e6;
     border-radius: 0.7vmax;
     background-color: #ececec;
-    box-shadow: rgba(50, 50, 93, 0.015) 0vmax 10vmax 10vmax -0.313vmax inset, rgba(0, 0, 0, 0.28) 0vmax 0.313vmax 1.302vmax -0.938vmax inset,rgba(0, 0, 0, 0.19) 0vmax 10vmax 20vmax, rgba(0, 0, 0, 0.17) 0vmax 0.313vmax 0.313vmax;
+    box-shadow: rgba(50, 50, 93, 0.015) 0vmax 10vmax 10vmax -0.313vmax inset, rgba(0, 0, 0, 0.28) 0vmax 0.313vmax 1.302vmax -0.938vmax inset, rgba(0, 0, 0, 0.19) 0vmax 10vmax 20vmax, rgba(0, 0, 0, 0.17) 0vmax 0.313vmax 0.313vmax;
 }
 
 .button {
@@ -114,13 +114,13 @@ a {
 }
 
 .button:hover::before {
-    border: 0px;
+    border: 0;
 }
 
 .button:active {
     transition: 0.45s ease-out;
     background-color: #1f299c;
-    box-shadow: 0px 0px #4ad28f, -0px -0px #4ad28f;
+    box-shadow: 0 0 #4ad28f, 0 0 #4ad28f;
 }
 
 .center {
@@ -182,10 +182,10 @@ a {
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 0.052vmax 0.052vmax rgba(0,0,0,0.05),
-    0 0.104vmax 0.104vmax rgba(0,0,0,0.12),
-    0 0.156vmax 0.156vmax rgba(0,0,0,0.08),
-    0 0.208vmax 0.208vmax rgba(0,0,0,0.05);
+    box-shadow: 0 0.052vmax 0.052vmax rgba(0, 0, 0, 0.05),
+    0 0.104vmax 0.104vmax rgba(0, 0, 0, 0.12),
+    0 0.156vmax 0.156vmax rgba(0, 0, 0, 0.08),
+    0 0.208vmax 0.208vmax rgba(0, 0, 0, 0.05);
     -webkit-backface-visibility: hidden;
 }
 
@@ -344,7 +344,7 @@ tr:hover:not(.table-header) {
 
 .table-header {
     background-color: #b1b1b1;
-    color:#000000ea;
+    color: #000000ea;
     font-size: 0.729vmax;
     text-align: left;
     text-transform: uppercase;
@@ -362,8 +362,8 @@ td, th {
 }
 
 td {
-    display : flex;
-    align-items : center;
+    display: flex;
+    align-items: center;
     height: auto;
     cursor: default;
     width: auto;
@@ -516,22 +516,22 @@ tr:nth-child(even) {
 .fa-pencil-alt {
     text-decoration: none;
     color: black;
-    transition:0.125s ease-out;
+    transition: 0.125s ease-out;
 }
 
 .fa-pencil-alt:hover {
     color: #006bff;
-    transition:0.125s ease-out;
+    transition: 0.125s ease-out;
 }
 
 .fa-trash-alt {
     cursor: pointer;
-    transition:0.125s ease-out;
+    transition: 0.125s ease-out;
 }
 
 .fa-trash-alt:hover {
     color: #c30000bd;
-    transition:0.125s ease-out;
+    transition: 0.125s ease-out;
 }
 
 :focus-visible {
@@ -544,7 +544,7 @@ tr:nth-child(even) {
 }
 
 .info-text-popup::before {
-    content: attr(tooltip-data);/* print em-space with class text */
+    content: attr(tooltip-data); /* print em-space with class text */
     font-size: 0.6vmax;
     right: 10%;
     display: block;
@@ -555,14 +555,14 @@ tr:nth-child(even) {
     padding: 0.26vmax;
     border-radius: 0.26vmax;
     white-space: pre;
-    max-width:none;
-    opacity:0;
-    transition:0.35s ease-out;
-    overflow:hidden;
+    max-width: none;
+    opacity: 0;
+    transition: 0.35s ease-out;
+    overflow: hidden;
     pointer-events: none; /* prevents tooltip from firing on pseudo hover */
 }
 
 .info-text-popup:not([disabled]):hover::before {
-    opacity:1;
+    opacity: 1;
     bottom: 100%;
 }
