@@ -20,14 +20,14 @@ function init(json_process = false) {
         features = data;
         // If page is reloaded (after saving) processes are updated else => page is loaded from databased and entries are prepared
         getTableHeaderInfo().then(tableHeaderInfo => {
-                if (!json_process) {
-                    getProcess(data, tableHeaderInfo);
+            if (!json_process) {
+                getProcess(data, tableHeaderInfo);
 
-                } else {
-                    fillDataFields(data, json_process, tableHeaderInfo);
-                    loadComponentNames(json_process);
-                }
+            } else {
+                fillDataFields(data, json_process, tableHeaderInfo);
+                loadComponentNames(json_process);
             }
+        }
         );
     });
 }
@@ -103,8 +103,6 @@ function getProcess(features, tableHeaderInfo) {
     // Check if view has received an uid as URL parameter to check whether to create a new process or edit an existing one
     if (uid) {
         // If so, load process data...
-        console.log('Editing existing process');
-
         // Trigger function which gathers process data and processes it
         const post_data = `{
             "uid": "` + uid + `"
@@ -119,7 +117,6 @@ function getProcess(features, tableHeaderInfo) {
         // If not, prepare for new process input...
         let processData = {};
         createMetricsSection(features, processData, tableHeaderInfo);
-        console.log('Entering new process');
     }
 }
 
