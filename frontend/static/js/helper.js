@@ -237,16 +237,14 @@ class Helper {
      * @returns {string}
      */
     renderSmallCircle(fulfillment, color = false) {
-        let background;
         if (!color) {
             if (fulfillment === true) {
-                background = 'linear-gradient(315deg, #44d08b 0%, #a2e8c5 74%)'; // Green
+                color = 'linear-gradient(315deg, #44d08b 0%, #a2e8c5 74%)'; // Green
             } else if (fulfillment === false) {
-                background = 'linear-gradient(316deg, #99201c 0%, #de736f 74%)'; // Red
+                color = 'linear-gradient(316deg, #99201c 0%, #de736f 74%)'; // Red
             } else {
-                background = 'linear-gradient(315deg, #d9d9d9 0%, #f6f2f2 74%)'; // Grey
+                color = 'linear-gradient(315deg, #d9d9d9 0%, #f6f2f2 74%)'; // Grey
             }
-            return `<div class="small-circle" style="background-image: ` + background + `;"></div>`;
         }
         return `<div class="small-circle" style="background-image: ` + color + `;"></div>`;
     }
