@@ -123,7 +123,7 @@ a {
     text-align: left;
     width: 5vmax;
     image-rendering: -moz-crisp-edges;
-    image-rendering:   -o-crisp-edges;
+    image-rendering: -o-crisp-edges;
     image-rendering: -webkit-optimize-contrast;
     image-rendering: crisp-edges;
     -ms-interpolation-mode: nearest-neighbor;
@@ -387,9 +387,7 @@ a {
 
 .small-circle {
     height: 1.4vmin;
-    width: 4.76vmin;
-    max-height: 1.4vmin;
-    max-width: 4.76vmin;
+    width: 2.5vw;
     border-radius: 1vmin;
     display: flex;
     box-shadow: 0 0.05vmax 0.052vmax rgba(0, 0, 0, 0.05),
