@@ -222,15 +222,15 @@ class Helper {
         let background;
 
         if (score === null) {
-            background = 'linear-gradient(315deg, #d9d9d9 0%, #f6f2f2 100%)'; // Grey
+            background = 'linear-gradient(315deg, #d9d9d9 0%, #f6f2f2 74%)'; // Grey
         } else if (score < 80) {
-            background = 'linear-gradient(0deg, #c70c06 0%, #fd8e3f 100%)'; // Red
+            background = 'linear-gradient(316deg, #99201c 0%, #de736f 74%)'; // Red
         } else if (score < 90) {
-            background = 'linear-gradient(0deg, #f7cf0e 0%, #fcf7a1 100%)'; // Yellow
+            background = 'linear-gradient(315deg, #f7cf0e 0%, #fcf7a1 74%)'; // Yellow
         } else if (score <= 100) {
-            background = 'linear-gradient(0deg, #33ca46 0%, #89fb9d8f 100%)'; // Green
+            background = 'linear-gradient(315deg, #44d08b 0%, #a2e8c5 74%)'; // Green
         } else {
-            background = 'linear-gradient(315deg, #d9d9d9 0%, #f6f2f2 100%)'; // Grey
+            background = 'linear-gradient(315deg, #d9d9d9 0%, #f6f2f2 74%)'; // Grey
         }
         return background;
     }
@@ -263,11 +263,11 @@ class Helper {
         let background;
         if (!color) {
             if (fulfillment === true) {
-                background = 'linear-gradient(0deg, #33ca46 0%, #89fb9d8f 100%)'; // Green
+                background = 'linear-gradient(315deg, #44d08b 0%, #a2e8c5 74%)'; // Green
             } else if (fulfillment === false) {
-                background = 'linear-gradient(0deg, #c70c06 0%, #fd8e3f 100%)'; // Red
+                background = 'linear-gradient(316deg, #99201c 0%, #de736f 74%)'; // Red
             } else {
-                background = 'linear-gradient(315deg, #d9d9d9 0%, #f6f2f2 100%)'; // Grey
+                background = 'linear-gradient(315deg, #d9d9d9 0%, #f6f2f2 74%)'; // Grey
             }
             return `<div class="small-circle" style="background-image: ` + background + `;"></div>`;
         }

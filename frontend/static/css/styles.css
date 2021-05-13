@@ -25,7 +25,7 @@ select,
 textarea,
 button {
     font: inherit;
-    box-shadow: 0 0.029vmax 0.039vmax 0 rgba(0, 0, 0, 0.07);
+    box-shadow: 0 0.019vmax 0.019vmax 0 rgb(0 0 0 / 6%);
 }
 
 .view-description-label {
@@ -122,6 +122,11 @@ a {
     margin-left: auto;
     text-align: left;
     width: 5vmax;
+    image-rendering: -moz-crisp-edges;
+    image-rendering:   -o-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+    -ms-interpolation-mode: nearest-neighbor;
 }
 
 .accordion-toggle {
@@ -381,9 +386,9 @@ a {
 }
 
 .small-circle {
-    height: 1.25vh;
+    height: 1.4vh;
     width: 4.76vmax;
-    max-height: 1.25vh;
+    max-height: 1.4vh;
     max-width: 4.76vh;
     border-radius: 1vmax;
     display: flex;
@@ -718,24 +723,24 @@ tr:nth-child(even) {
     width: 1.302vmax;
 }
 
-.fa-pencil-alt {
+.fa-edit {
     text-decoration: none;
     color: black;
     transition: 0.125s ease-out;
 }
 
-.fa-pencil-alt:hover {
-    color: #44d08b;
+.fa-edit:hover {
+    color: #53d494;
     transition: 0.125s ease-out;
 }
 
-.fa-trash-alt {
+.fa-trash {
     cursor: pointer;
     transition: 0.125s ease-out;
 }
 
-.fa-trash-alt:hover {
-    color: #99201c;
+.fa-trash:hover {
+    color: #de736e;
     transition: 0.125s ease-out;
 }
 

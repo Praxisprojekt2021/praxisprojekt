@@ -504,10 +504,11 @@ function renderWholeProcessScoreCircle(wholeProcessScore) {
         document.getElementById("whole-process-score").style.setProperty("background-image", background);
         document.getElementById("whole-process-score").style.setProperty("display", "flex");
         document.getElementById("whole-process-score").innerHTML = wholeProcessScore + `%`;
-        document.getElementById("whole-process-score").style.setProperty("box-shadow:", "0vmax 0.3vmax 0.469vmax 0vmax rgba(0, 0, 0, 0.07)");
+        document.getElementById("whole-process-score").style.boxShadow = "0vmax 0.3vmax 0.469vmax 0vmax rgba(0, 0, 0, 0.07)";
+
     } else {
         document.getElementById("whole-process-score").style.setProperty("display", "none");
-        document.getElementById("whole-process-score").style.setProperty("box-shadow:", "0vmax");
+        document.getElementById("whole-process-score").style.boxShadow = "0vmax";
     }
 }
 
@@ -661,7 +662,7 @@ function createComponentTable(processData, metricsDefinition) {
             <td class="col-1"></td>
             <td class="col-2">` + componentData['name'] + `</td>
             <td class="col-3">` + metricsDefinition['categories'][componentData['category']]['name'] + ` </td>
-            <td class="col-4"><i id="TrashIcon" class="fas fa-trash-alt" onclick="deleteComponent(this.parentElement.parentElement.id);"></i></td>
+            <td class="col-4"><i id="TrashIcon" class="fas fa-trash" onclick="deleteComponent(this.parentElement.parentElement.id);"></i></td>
         `;
 
         // Sorting the components according to their weights
