@@ -362,8 +362,8 @@ function getMetricRowActual(actual_target_metrics, metricData) {
     let actualMax = normalizeNumber(actual_target_metrics['actual']['max']);
 
     if (binary) {
-        actualAverage = actualAverage * 100 + "%";
-        actualStandardDev = actualStandardDev * 100 + "%";
+        actualAverage = normalizeNumber(actualAverage * 100) + "%";
+        actualStandardDev = normalizeNumber(actualStandardDev * 100) + "%";
         actualTotal = "-";
         actualMin = "-";
         actualMax = "-";
