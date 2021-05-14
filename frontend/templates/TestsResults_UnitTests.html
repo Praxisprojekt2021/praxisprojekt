@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Unittest Results</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <h2 class="text-capitalize">Unittest Results</h2>
+            <p class='attribute'><strong>Start Time: </strong>2021-05-14 02:34:53</p>
+            <p class='attribute'><strong>Duration: </strong>33.969 s</p>
+            <p class='attribute'><strong>Summary: </strong>Total: 43, Pass: 36</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-10 col-md-10">
+            <table class='table table-hover table-responsive'>
+                <thead>
+                <tr>
+                    <th>unittesting.test_database_handler.test_component_handler.TestAddComponent</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class='success'>
+                    <td class="col-xs-10">test_1301_correct_inputs</td>
+                    <td class="col-xs-1">
+                        <span class="label label-success" style="display:block;width:40px;">Pass</span>
+                    </td>
+                    <td class="col-xs-1">
+                    </td>
+                </tr>
+                <tr class='success'>
+                    <td class="col-xs-10">test_1302_incorrect_dict_structure</td>
+                    <td class="col-xs-1">
+                        <span class="label label-success" style="display:block;width:40px;">Pass</span>
+                    </td>
+                    <td class="col-xs-1">
+                    </td>
+                </tr>
+                <tr class='success'>
+                    <td class="col-xs-10">test_1304_incorrect_metrics</td>
+                    <td class="col-xs-1">
+                        <span class="label label-success" style="display:block;width:40px;">Pass</span>
+                    </td>
+                    <td class="col-xs-1">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        Total: 3, Pass: 3 -- Duration: 3.45 s
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-10 col-md-10">
+            <table class='table table-hover table-responsive'>
+                <thead>
+                <tr>
+                    <th>unittesting.test_database_handler.test_component_handler.TestDeleteComponent</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class='success'>
+                    <td class="col-xs-10">test_1101_correct_input</td>
+                    <td class="col-xs-1">
+                        <span class="label label-success" style="display:block;width:40px;">Pass</span>
+                    </td>
+                    <td class="col-xs-1">
+                    </td>
+                </tr>
+                <tr class='danger'>
+                    <td class="col-xs-10">test_1102_incorrect_uids</td>
+                    <td class="col-xs-1">
+                        <span class="label label-danger" style="display:block;width:40px;">Fail</span>
+                    </td>
+                    <td class="col-xs-1">
+                        <button class="btn btn-default btn-xs">View</button>
+                    </td>
+                </tr>
+                <tr style="display:none;">
+                    <td class="col-xs-9" colspan="3"><p style="color:maroon;">AssertionError: CypherSyntaxError not raised</p><p style="color:maroon;">Traceback (most recent call last):
+                        File "C:\Users\mail\IdeaProjects\praxisprojekt\unittesting\test_database_handler\test_component_handler.py", line 271, in test_1102_incorrect_uids
+                        delete_component(DELETE_COMPONENT_IN)
+                        AssertionError: CypherSyntaxError not raised
+                    </p>
+                    </td>
+                </tr>
+                <tr class='success'>
+                    <td class="col-xs-10">test_1104_incorrect_input</td>
+                    <td class="col-xs-1">
+                        <span class="label label-success" style="display:block;width:40px;">Pass</span>
+                    </td>
+                    <td class="col-xs-1">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        Total: 3, Pass: 2, Fail: 1 -- Duration: 3.74 s
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-10 col-md-10">
+            <table class='table table-hover table-responsive'>
+                <thead>
+                <tr>
+                    <th>unittesting.test_database_handler.test_component_handler.TestGetComponent</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class='success'>
+                    <td class="col-xs-10">test_1001_correct_inputs</td>
+                    <td class="col-xs-1">
+                        <span class="label label-success" style="display:block;width:40px;">Pass</span>
+                    </td>
+                    <td class="col-xs-1">
+                    </td>
+                </tr>
+                <tr class='success'>
+                    <td class="col-xs-10">test_1002_incorrect_uid</td>
+                    <td class="col-xs-1">
+                        <span class="label label-success" style="display:block;width:40px;">Pass</span>
+                    </td>
+                    <td class="col-xs-1">
+                    </td>
+                </tr>
+                <tr class='success'>
+                    <td class="col-xs-10">test_1004_incorrect_dict_structure</td>
+                    <td class="col-xs-1">
+                        <span class="label label-success" style="display:block;width:40px;">Pass</span>
+                    </td>
+                    <td class="col-xs-1">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        Total: 3, Pass: 3 -- Duration: 353 ms
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-10 col-md-10">
+            <table class='table table-hover table-responsive'>
+                <thead>
+                <tr>
+                    <th>unittesting.test_database_handler.test_component_handler.TestGetComponentList</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class='success'>
+                    <td class="col-xs-10">test_1401_correct_amount_of_entries</td>
+                    <td class="col-xs-1">
+                        <span class="label label-success" style="display:block;width:40px;">Pass</span>
+                    </td>
+                    <td class="col-xs-1">
+                    </td>
+                </tr>
+                <tr class='success'>
+                    <td class="col-xs-10">test_1402_correct_content_of_dict</td>
+                    <td class="col-xs-1">
+                        <span class="label label-success" style="display:block;width:40px;">Pass</span>
+                    </td>
+                    <td class="col-xs-1">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        Total: 2, Pass: 2 -- Duration: 115 ms
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-10 col-md-10">
+            <table class='table table-hover table-responsive'>
+                <thead>
+                <tr>
+                    <th>unittesting.test_database_handler.test_component_handler.TestUpdateComponent</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class='success'>
+                    <td class="col-xs-10">test_1201_correct_inputs</td>
+                    <td class="col-xs-1">
+                        <span class="label label-success" style="display:block;width:40px;">Pass</span>
+                    </td>
+                    <td class="col-xs-1">
+                    </td>
+                </tr>
+                <tr class='success'>
+                    <td class="col-xs-10">test_1202_incorrect_dict_structure</td>
+                    <td class="col-xs-1">
+                        <span class="label label-success" style="display:block;width:40px;">Pass</span>
+                    </td>
+                    <td class="col-xs-1">
+                    </td>
+                </tr>
+                <tr class='success'>
+                    <td class="col-xs-10">test_1203_incorrect_metric</td>
+                    <td class="col-xs-1">
+                        <span class="label label-success" style="display:block;width:40px;">Pass</span>
+                    </td>
+                    <td class="col-xs-1">
+                    </td>
+                </tr>
+                <tr class='danger'>
+                    <td class="col-xs-10">test_1204_incorrect_uid</td>
+                    <td class="col-xs-1">
+                        <span class="label label-danger" style="display:block;width:40px;">Fail</span>
+                    </td>
+                    <td class="col-xs-1">
+                        <button class="btn btn-default btn-xs">View</button>
+                    </td>
+                </tr>
+                <tr style="display:none;">
+                    <td class="col-xs-9" colspan="3"><p style="color:maroon;">AssertionError: CypherSyntaxError not raised</p><p style="color:maroon;">Traceback (most recent call last):
+                        File "C:\Users\mail\IdeaProjects\praxisprojekt\unittesting\test_database_handler\test_component_handler.py", line 207, in test_1204_incorrect_uid
+                        update_component(UPDATE_COMPONENT_IN)
+                        AssertionError: CypherSyntaxError not raised
+                    </p>
+                    </td>
+                </tr>
+                <tr class='success'>
+                    <td class="col-xs-10">test_1205_unknown_metric</td>
+                    <td class="col-xs-1">
+                        <span class="label label-success" style="display:block;width:40px;">Pass</span>
+                    </td>
+                    <td class="col-xs-1">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        Total: 5, Pass: 4, Fail: 1 -- Duration: 9.38 s
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-10 col-md-10">
+            <table class='table table-hover table-responsive'>
+                <thead>
+                <tr>
+                    <th>unittesting.test_database_handler.test_metric_handler.CreateFromFrontendJson</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class='success'>
+                    <td class="col-xs-10">test_3001_unknown_file</td>
+                    <td class="col-xs-1">
+                        <span class="label label-success" style="display:block;width:40px;">Pass</span>
+                    </td>
+                    <td class="col-xs-1">
+                    </td>
+                </tr>
+                <tr class='success'>
+                    <td class="col-xs-10">test_3002_correct_input</td>
+                    <td class="col-xs-1">
+                        <span class="label label-success" style="display:block;width:40px;">Pass</span>
+                    </td>
+                    <td class="col-xs-1">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        Total: 2, Pass: 2 -- Duration: 744 ms
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-10 col-md-10">
+            <table class='table table-hover table-responsive'>
+                <thead>
+                <tr>
+                    <th>unittesting.test_database_handler.test_metric_handler.TestGetMetricsData</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class='success'>
+                    <td class="col-xs-10">test_3003_correct_execution</td>
+                    <td class="col-xs-1">
+                        <span class="label label-success" style="display:block;width:40px;">Pass</span>
+                    </td>
+                    <td class="col-xs-1">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        Total: 1, Pass: 1 -- Duration: 117 ms
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-10 col-md-10">
+            <table class='table table-hover table-responsive'>
+                <thead>
+                <tr>
+                    <th>unittesting.test_database_handler.test_process_handler.TestAddProcess</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class='success'>
+                    <td class="col-xs-10">test_2101_correct_execution</td>
+                    <td class="col-xs-1">
+                        <span class="label label-success" style="display:block;width:40px;">Pass</span>
+                    </td>
+                    <td class="col-xs-1">
+                    </td>
+                </tr>
+                <tr class='success'>
+                    <td class="col-xs-10">test_2102_wrong_data</td>
+                    <td class="col-xs-1">
+                        <span class="label label-success" style="display:block;width:40px;">Pass</span>
+                    </td>
+                    <td class="col-xs-1">
+                    </td>
+                </tr>
+                <tr class='success'>
+                    <td class="col-xs-10">test_2103_wrong_dict_structure</td>
+                    <td class="col-xs-1">
+                        <span class="label label-success" style="display:block;width:40px;">Pass</span>
+                    </td>
+                    <td class="col-xs-1">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        Total: 3, Pass: 3 -- Duration: 2.06 s
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-10 col-md-10">
+            <table class='table table-hover table-responsive'>
+                <thead>
+                <tr>
+                    <th>unittesting.test_database_handler.test_process_handler.TestAddProcessReference</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class='success'>
+                    <td class="col-xs-10">test_2401_correct_execution</td>
+                    <td class="col-xs-1">
+                        <span class="label label-success" style="display:block;width:40px;">Pass</span>
+                    </td>
+                    <td class="col-xs-1">
+                    </td>
+                </tr>
+                <tr class='danger'>
+                    <td class="col-xs-10">test_2402_wrong_uid</td>
+                    <td class="col-xs-1">
+                        <span class="label label-danger" style="display:block;width:40px;">Fail</span>
+                    </td>
+                    <td class="col-xs-1">
+                        <button class="btn btn-default btn-xs">View</button>
+                    </td>
+                </tr>
+                <tr style="display:none;">
+                    <td class="col-xs-9" colspan="3"><p style="color:maroon;">AssertionError: CypherSyntaxError not raised</p><p style="color:maroon;">Traceback (most recent call last):
+                        File "C:\Users\mail\IdeaProjects\praxisprojekt\unittesting\test_database_handler\test_process_handler.py", line 258, in test_2402_wrong_uid
+                        add_process_reference(ADD_PROCESS_REFERENCE)
+                        AssertionError: CypherSyntaxError not raised
+                    </p>
+                    </td>
+                </tr>
+                <tr class='success'>
+                    <td class="col-xs-10">test_2403_wrong_dict_structure</td>
+                    <td class="col-xs-1">
+                        <span class="label label-success" style="display:block;width:40px;">Pass</span>
+                    </td>
+                    <td class="col-xs-1">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        Total: 3, Pass: 2, Fail: 1 -- Duration: 371 ms
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-10 col-md-10">
+            <table class='table table-hover table-responsive'>
+                <thead>
+                <tr>
+                    <th>unittesting.test_database_handler.test_process_handler.TestDeleteProcess</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class='success'>
+                    <td class="col-xs-10">test_2301_correct_execution</td>
+                    <td class="col-xs-1">
+                        <span class="label label-success" style="display:block;width:40px;">Pass</span>
+                    </td>
+                    <td class="col-xs-1">
+                    </td>
+                </tr>
+                <tr class='danger'>
+                    <td class="col-xs-10">test_2302_wrong_uid</td>
+                    <td class="col-xs-1">
+                        <span class="label label-danger" style="display:block;width:40px;">Fail</span>
+                    </td>
+                    <td class="col-xs-1">
+                        <button class="btn btn-default btn-xs">View</button>
+                    </td>
+                </tr>
+                <tr style="display:none;">
+                    <td class="col-xs-9" colspan="3"><p style="color:maroon;">AssertionError: CypherSyntaxError not raised</p><p style="color:maroon;">Traceback (most recent call last):
+                        File "C:\Users\mail\IdeaProjects\praxisprojekt\unittesting\test_database_handler\test_process_handler.py", line 191, in test_2302_wrong_uid
+                        delete_process(UID_DICT)
+                        AssertionError: CypherSyntaxError not raised
+                    </p>
+                    </td>
+                </tr>
+                <tr class='success'>
+                    <td class="col-xs-10">test_2303_wrong_dict_structure</td>
+                    <td class="col-xs-1">
+                        <span class="label label-success" style="display:block;width:40px;">Pass</span>
+                    </td>
+                    <td class="col-xs-1">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        Total: 3, Pass: 2, Fail: 1 -- Duration: 3.35 s
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-10 col-md-10">
+            <table class='table table-hover table-responsive'>
+                <thead>
+                <tr>
+                    <th>unittesting.test_database_handler.test_process_handler.TestDeleteProcessReference</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class='success'>
+                    <td class="col-xs-10">test_2501_correct_execution</td>
+                    <td class="col-xs-1">
+                        <span class="label label-success" style="display:block;width:40px;">Pass</span>
+                    </td>
+                    <td class="col-xs-1">
+                    </td>
+                </tr>
+                <tr class='danger'>
+                    <td class="col-xs-10">test_2502_wrong_uid</td>
+                    <td class="col-xs-1">
+                        <span class="label label-danger" style="display:block;width:40px;">Fail</span>
+                    </td>
+                    <td class="col-xs-1">
+                        <button class="btn btn-default btn-xs">View</button>
+                    </td>
+                </tr>
+                <tr style="display:none;">
+                    <td class="col-xs-9" colspan="3"><p style="color:maroon;">AssertionError: CypherSyntaxError not raised</p><p style="color:maroon;">Traceback (most recent call last):
+                        File "C:\Users\mail\IdeaProjects\praxisprojekt\unittesting\test_database_handler\test_process_handler.py", line 324, in test_2502_wrong_uid
+                        delete_process(ADD_PROCESS_REFERENCE)
+                        AssertionError: CypherSyntaxError not raised
+                    </p>
+                    </td>
+                </tr>
+                <tr class='success'>
+                    <td class="col-xs-10">test_2503_wrong_dict_structure</td>
+                    <td class="col-xs-1">
+                        <span class="label label-success" style="display:block;width:40px;">Pass</span>
+                    </td>
+                    <td class="col-xs-1">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        Total: 3, Pass: 2, Fail: 1 -- Duration: 710 ms
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-10 col-md-10">
+            <table class='table table-hover table-responsive'>
+                <thead>
+                <tr>
+                    <th>unittesting.test_database_handler.test_process_handler.TestGetProcess</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class='success'>
+                    <td class="col-xs-10">test_2001_correct_execution</td>
+                    <td class="col-xs-1">
+                        <span class="label label-success" style="display:block;width:40px;">Pass</span>
+                    </td>
+                    <td class="col-xs-1">
+                    </td>
+                </tr>
+                <tr class='success'>
+                    <td class="col-xs-10">test_2002_wrong_uid</td>
+                    <td class="col-xs-1">
+                        <span class="label label-success" style="display:block;width:40px;">Pass</span>
+                    </td>
+                    <td class="col-xs-1">
+                    </td>
+                </tr>
+                <tr class='success'>
+                    <td class="col-xs-10">test_2003_wrong_dict_structure</td>
+                    <td class="col-xs-1">
+                        <span class="label label-success" style="display:block;width:40px;">Pass</span>
+                    </td>
+                    <td class="col-xs-1">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        Total: 3, Pass: 3 -- Duration: 387 ms
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-10 col-md-10">
+            <table class='table table-hover table-responsive'>
+                <thead>
+                <tr>
+                    <th>unittesting.test_database_handler.test_process_handler.TestGetProcessList</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class='success'>
+                    <td class="col-xs-10">test_2701_correct_execution</td>
+                    <td class="col-xs-1">
+                        <span class="label label-success" style="display:block;width:40px;">Pass</span>
+                    </td>
+                    <td class="col-xs-1">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        Total: 1, Pass: 1 -- Duration: 116 ms
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-10 col-md-10">
+            <table class='table table-hover table-responsive'>
+                <thead>
+                <tr>
+                    <th>unittesting.test_database_handler.test_process_handler.TestUpdateProcess</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class='success'>
+                    <td class="col-xs-10">test_2201_correct_execution</td>
+                    <td class="col-xs-1">
+                        <span class="label label-success" style="display:block;width:40px;">Pass</span>
+                    </td>
+                    <td class="col-xs-1">
+                    </td>
+                </tr>
+                <tr class='success'>
+                    <td class="col-xs-10">test_2202_wrong_metric_data</td>
+                    <td class="col-xs-1">
+                        <span class="label label-success" style="display:block;width:40px;">Pass</span>
+                    </td>
+                    <td class="col-xs-1">
+                    </td>
+                </tr>
+                <tr class='danger'>
+                    <td class="col-xs-10">test_2203_wrong_uid</td>
+                    <td class="col-xs-1">
+                        <span class="label label-danger" style="display:block;width:40px;">Fail</span>
+                    </td>
+                    <td class="col-xs-1">
+                        <button class="btn btn-default btn-xs">View</button>
+                    </td>
+                </tr>
+                <tr style="display:none;">
+                    <td class="col-xs-9" colspan="3"><p style="color:maroon;">AssertionError: CypherSyntaxError not raised</p><p style="color:maroon;">Traceback (most recent call last):
+                        File "C:\Users\mail\IdeaProjects\praxisprojekt\unittesting\test_database_handler\test_process_handler.py", line 148, in test_2203_wrong_uid
+                        update_process(process_dict)
+                        AssertionError: CypherSyntaxError not raised
+                    </p>
+                    </td>
+                </tr>
+                <tr class='success'>
+                    <td class="col-xs-10">test_2204_wrong_dict_structure</td>
+                    <td class="col-xs-1">
+                        <span class="label label-success" style="display:block;width:40px;">Pass</span>
+                    </td>
+                    <td class="col-xs-1">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        Total: 4, Pass: 3, Fail: 1 -- Duration: 1.87 s
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-10 col-md-10">
+            <table class='table table-hover table-responsive'>
+                <thead>
+                <tr>
+                    <th>unittesting.test_database_handler.test_process_handler.TestUpdateProcessReference</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class='success'>
+                    <td class="col-xs-10">test_2601_correct_execution</td>
+                    <td class="col-xs-1">
+                        <span class="label label-success" style="display:block;width:40px;">Pass</span>
+                    </td>
+                    <td class="col-xs-1">
+                    </td>
+                </tr>
+                <tr class='danger'>
+                    <td class="col-xs-10">test_2602_wrong_uid</td>
+                    <td class="col-xs-1">
+                        <span class="label label-danger" style="display:block;width:40px;">Fail</span>
+                    </td>
+                    <td class="col-xs-1">
+                        <button class="btn btn-default btn-xs">View</button>
+                    </td>
+                </tr>
+                <tr style="display:none;">
+                    <td class="col-xs-9" colspan="3"><p style="color:maroon;">AssertionError: CypherSyntaxError not raised</p><p style="color:maroon;">Traceback (most recent call last):
+                        File "C:\Users\mail\IdeaProjects\praxisprojekt\unittesting\test_database_handler\test_process_handler.py", line 402, in test_2602_wrong_uid
+                        update_process_reference(update_process_reference_in)
+                        AssertionError: CypherSyntaxError not raised
+                    </p>
+                    </td>
+                </tr>
+                <tr class='success'>
+                    <td class="col-xs-10">test_2603_wrong_weight</td>
+                    <td class="col-xs-1">
+                        <span class="label label-success" style="display:block;width:40px;">Pass</span>
+                    </td>
+                    <td class="col-xs-1">
+                    </td>
+                </tr>
+                <tr class='success'>
+                    <td class="col-xs-10">test_2604_wrong_dict_structure</td>
+                    <td class="col-xs-1">
+                        <span class="label label-success" style="display:block;width:40px;">Pass</span>
+                    </td>
+                    <td class="col-xs-1">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        Total: 4, Pass: 3, Fail: 1 -- Duration: 619 ms
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('td').on('click', '.btn', function(e){
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            var $this = $(this);
+            var $nextRow = $this.closest('tr').next('tr');
+            $nextRow.slideToggle("fast");
+            $this.text(function(i, text){
+                if (text === 'View') {
+                    return 'Hide';
+                } else {
+                    return 'View';
+                };
+            });
+        });
+    });
+</script>
+</body>
+</html>

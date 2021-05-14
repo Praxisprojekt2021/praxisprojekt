@@ -222,6 +222,33 @@ def process_view_route():
 
 
 """
+    Test Report Endpoints
+"""
+
+
+@app.route('/test/frontend', methods=["GET"])
+def frontend_test_route():
+    """
+    API endpoint to display Frontend Report Page
+
+    :receives: None
+    :return: the rendered frontend report page page
+    """
+    return render_template("TestResults_FrontendTests.html")
+
+
+@app.route('/test/unit', methods=["GET"])
+def unit_test_route():
+    """
+    API endpoint to display Unittest Report Page
+
+    :receives: None
+    :return: the rendered unittest report page page
+    """
+    return render_template("TestsResults_UnitTests.html")
+
+
+"""
     API Error Handlers
 """
 
