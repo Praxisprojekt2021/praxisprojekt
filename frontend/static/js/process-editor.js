@@ -541,10 +541,7 @@ function createEditProcess() {
                     metrics[id][key] = parseFloat(metric_elements[key][i].value);
                 }
                 if (!Helper.targetAvgIsWithinMinMax(metric_elements[key][i])) {
-                    minmaxlist += '\n' + metric_elements[key][i].parentElement.parentElement.children[0].id; //TODO: Add metric name to the list of wrong target avg values (von Roman?)
-                    metric_elements[key][i].style.setProperty("border-color", "#99201c", undefined); //TODO: noch nötig oder nicht durch EventListener schon abgedeckt? (von Jasmin)
-                } else {
-                    metric_elements[key][i].style.removeProperty("border-color"); //TODO: noch nötig oder nicht durch EventListener schon abgedeckt? (von Jasmin)
+                    minmaxlist += '\n' + metric_elements[key][i].parentElement.parentElement.children[0].id;
                 }
             }
         });
