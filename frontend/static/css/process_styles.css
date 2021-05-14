@@ -1,623 +1,620 @@
 * {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 body {
-  margin: auto;
-  width: 70%;
-  padding-top: 2.083vmax;
-  font-size: 0.729vmax;
-  line-height: 1.042vmax;
-  min-height: 100%;
-  background-color: #fff;
-  overflow-y: scroll;
+    margin: auto;
+    width: 70%;
+    padding-top: 2.083vmax;
+    font-size: 0.729vmax;
+    line-height: 1.042vmax;
+    min-height: 100%;
+    background-color: #fff;
+    overflow-y: scroll;
 }
 
 @media only screen and (max-width: 1400px) {
-  body {
-    width: 82%;
-  }
+    body {
+        width: 82%;
+    }
 }
 
 @media only screen and (max-width: 800px) {
-  body {
-    width: 87%;
-  }
+    body {
+        width: 87%;
+    }
 }
 
 label {
-  margin-bottom: 0.313vmax;
-  max-width: 100%;
-  vertical-align: middle;
+    margin-bottom: 0.313vmax;
+    max-width: 100%;
+    vertical-align: middle;
 }
 
 a {
-  background-color: transparent;
+    background-color: transparent;
 }
 
 html input[disabled] {
-  cursor: default;
-  background: #dddddd;
+    cursor: default;
+    background: #dddddd;
 }
 
 input, select, textarea, button {
-  font: inherit;
+    font: inherit;
 }
 
 button, html input[type="button"], input[type="reset"] {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 .header {
-  display: block;
-  margin-bottom: 1.563vmax;
+    display: block;
+    margin-bottom: 1.563vmax;
 }
 
 .component-form, .process-form {
-  margin-right: 0.781vmax;
-  margin-left: 0.781vmax;
+    margin-right: 0.781vmax;
+    margin-left: 0.781vmax;
 }
 
 .logo {
-  position: inherit;
-  display: block;
-  margin-right: auto;
-  margin-left: auto;
-  text-align: left;
+    position: inherit;
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: left;
 }
 
 .navigation {
-  position: relative;
-  left: auto;
-  display: inline-block;
-  overflow: visible;
-  width: 15.625vmax;
-  height: 1.042vmax;
-  float: left;
+    position: relative;
+    left: auto;
+    display: inline-block;
+    overflow: visible;
+    width: 15.625vmax;
+    height: 1.042vmax;
+    float: left;
 }
 
 .view-description-label {
-  font-size: 0.885vmax;
-  font-weight: 700;
+    font-size: 0.885vmax;
+    font-weight: 700;
 }
 
 .sub-description-label {
-  padding-top: 0.5%;
-  font-size: 0.7vw;
+    padding-top: 0.5%;
+    font-size: 0.7vw;
 }
 
 .component-form-block, .process-form-block {
-  position: relative;
-  margin-top: 0.781vmax;
-  margin-bottom: 0.781vmax;
+    position: relative;
+    margin-top: 0.781vmax;
+    margin-bottom: 0.781vmax;
 }
 
 .entry-label {
-  position: relative;
-  top: 0.156vmax;
-  display: inline-block;
-  padding-left: 0.26vmax;
-  float: left;
-  clear: left;
-  font-weight: 400;
+    position: relative;
+    top: 0.156vmax;
+    display: inline-block;
+    padding-left: 0.26vmax;
+    float: left;
+    clear: left;
+    font-weight: 400;
 }
 
 .textarea {
-  position: relative;
-  resize: vertical;
-  display: block;
-  overflow: auto;
-  width: 23.438vmax;
-  max-height: 100%;
-  max-width: 100%;
-  min-height: 3.604vmax;
-  min-width: 1.042vmax;
-  float: left;
-  clear: left;
-  border-radius: 0.365vmax;
-  height: 1.979vmax;
-  padding: 0.417vmax 0.625vmax;
-  margin-bottom: 0.521vmax;
-  font-size: 0.729vmax;
-  line-height: 1.428571429;
-  color: #333333;
-  vertical-align: middle;
-  border: 0.052vmax solid #ccc;
+    position: relative;
+    resize: vertical;
+    display: block;
+    overflow: auto;
+    width: 23.438vmax;
+    max-height: 100%;
+    max-width: 100%;
+    min-height: 3.604vmax;
+    min-width: 1.042vmax;
+    float: left;
+    clear: left;
+    border-radius: 0.365vmax;
+    height: 1.979vmax;
+    padding: 0.417vmax 0.625vmax;
+    margin-bottom: 0.521vmax;
+    font-size: 0.729vmax;
+    line-height: 1.428571429;
+    color: #333333;
+    vertical-align: middle;
+    border: 0.052vmax solid #ccc;
 }
 
 #metrics-input-processes {
-  margin-top: 0.7vmax;
-  margin-bottom: 0.7vmax;
-  border-top: 1px solid #b1b1b16b;
+    margin-top: 0.7vmax;
+    margin-bottom: 0.7vmax;
+    border-top: 1px solid #b1b1b16b;
 }
 
 .accordion-toggle {
-  display: block;
-  overflow: visible;
-  width: 100%;
-  position: relative;
-  vertical-align: top;
-  padding-top: 1.042vmax;
-  padding-bottom: 1.042vmax;
-  padding-left: 0.521vmax;
-  padding-right: 2.083vmax;
-  text-align: left;
-  margin-left: auto;
-  margin-right: auto;
-  cursor: pointer;
-  transition: 0.35s ease-out;
+    display: block;
+    overflow: visible;
+    width: 100%;
+    position: relative;
+    vertical-align: top;
+    padding-top: 1.042vmax;
+    padding-bottom: 1.042vmax;
+    padding-left: 0.521vmax;
+    padding-right: 2.083vmax;
+    text-align: left;
+    margin-left: auto;
+    margin-right: auto;
+    cursor: pointer;
+    transition: 0.35s ease-out;
 }
 
 .accordion-toggle[disabled] {
-  color: #999999;
-  cursor: default;
+    color: #999999;
+    cursor: default;
 }
 
 .accordion-item {
-  display: block;
-  overflow: hidden;
-  height: auto;
-  width: 100%;
-  position: relative;
-  margin-left: auto;
-  margin-right: auto;
+    display: block;
+    overflow: hidden;
+    height: auto;
+    width: 100%;
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .accordion-icon {
-  position: absolute;
-  margin: auto;
-  margin-right: 1.042vmax;
+    position: absolute;
+    margin: auto;
+    margin-right: 1.042vmax;
 }
 
 .dropdown-list {
-  height: 0vmax;
-  position: static;
-  display: block;
-  overflow: visible;
-  padding-right: 0vmax;
-  padding-left: 0vmax;
-  width: 100%;
-  min-width: 100%;
-  transition: height 0.3s ease-out;
+    height: 0vmax;
+    position: static;
+    display: block;
+    overflow: visible;
+    padding-right: 0vmax;
+    padding-left: 0vmax;
+    width: 100%;
+    min-width: 100%;
+    transition: height 0.3s ease-out;
 }
 
 .info-icon {
-  width: 1.5vw;
-  position: relative;
-  display: inline-block;
-  overflow: visible;
-  float: left;
-  border-radius: 1.042vmax;
-  transition: 0.21s ease-out;
-  opacity: 0.65;
+    width: 1.5vw;
+    position: relative;
+    display: inline-block;
+    overflow: visible;
+    float: left;
+    border-radius: 1.042vmax;
+    transition: 0.21s ease-out;
+    opacity: 0.65;
 }
 
 .info-icon:hover {
-  transition: 0.21s ease-out;
-  opacity: 1;
+    transition: 0.21s ease-out;
+    opacity: 1;
 }
 
 .textfield, .category-dropdown {
-  display: inline-block;
-  width: auto;
-  max-width: 100%;
-  min-width: 10.417vmax;
-  float: left;
-  clear: left;
-  border-radius: 0.365vmax;
-  padding: 0.417vmax 0.625vmax;
-  margin-bottom: 0.521vmax;
-  font-size: 0.729vmax;
-  line-height: 1.428571429;
-  color: #333333;
-  vertical-align: middle;
-  border: 0.052vmax solid #ccc;
+    display: inline-block;
+    width: auto;
+    max-width: 100%;
+    min-width: 10.417vmax;
+    float: left;
+    clear: left;
+    border-radius: 0.365vmax;
+    padding: 0.417vmax 0.625vmax;
+    margin-bottom: 0.521vmax;
+    font-size: 0.729vmax;
+    line-height: 1.428571429;
+    color: #333333;
+    vertical-align: middle;
+    border: 0.052vmax solid #ccc;
 }
 
 .category-dropdown {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 .features-label {
-  transition: 0.17s ease-out;
-  font-weight: 700;
+    transition: 0.17s ease-out;
+    font-weight: 700;
 }
 
 .accordion-toggle:hover:not([disabled]) .features-label {
-  transition: 0.15s ease-out;
-  color: #414dde
+    transition: 0.15s ease-out;
+    color: #414dde
 }
 
 .component-overview, .process-overview {
-  border-radius: 0.7vmax;
-  padding-top: 2.083vmax;
-  padding-left: 2.604vmax;
-  padding-right: 2.604vmax;
-  border-style: solid;
-  border-width: 0.052vmax;
-  border-color: #e6e6e6;
-  background-color: #ececec;
-  box-shadow: rgba(50, 50, 93, 0.015) 0vmax 10vmax 10vmax -0.313vmax inset, rgba(0, 0, 0, 0.28) 0vmax 0.313vmax 1.302vmax -0.938vmax inset,rgba(0, 0, 0, 0.19) 0vmax 10vmax 20vmax, rgba(0, 0, 0, 0.17) 0vmax 0.313vmax 0.313vmax;
+    border-radius: 0.7vmax;
+    padding-top: 2.083vmax;
+    padding-left: 2.604vmax;
+    padding-right: 2.604vmax;
+    border-style: solid;
+    border-width: 0.052vmax;
+    border-color: #e6e6e6;
+    background-color: #ececec;
+    box-shadow: rgba(50, 50, 93, 0.015) 0vmax 10vmax 10vmax -0.313vmax inset, rgba(0, 0, 0, 0.28) 0vmax 0.313vmax 1.302vmax -0.938vmax inset, rgba(0, 0, 0, 0.19) 0vmax 10vmax 20vmax, rgba(0, 0, 0, 0.17) 0vmax 0.313vmax 0.313vmax;
 }
 
 .features-columns {
-  display: inline-block;
-  width: 100%;
-  margin-left: 0.521vmax;
+    display: inline-block;
+    width: 100%;
+    margin-left: 0.521vmax;
 }
 
 .description-columns {
-  display: inline-block;
+    display: inline-block;
 }
 
 .navigation-links {
-  display: block;
-  padding-right: 0.26vmax;
-  padding-left: 0.26vmax;
-  font-size: 0.938vmax;
-  float: left;
-  color: #000;
-  text-decoration: none;
-  cursor: pointer;
-  transition: 0.21s ease-out;
+    display: block;
+    padding-right: 0.26vmax;
+    padding-left: 0.26vmax;
+    font-size: 0.938vmax;
+    float: left;
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+    transition: 0.21s ease-out;
 }
 
 .navigation-link-separator {
-  transition: 0.21s ease-out;
-  float: left;
+    transition: 0.21s ease-out;
+    float: left;
 }
 
 .navigation-selected {
-  color: #44d08b;
+    color: #44d08b;
 }
 
 .navigation-links:hover ~ .navigation-selected {
-  color: #000000;
+    color: #000000;
 }
 
 .navigation-links:hover ~ .navigation-link-separator {
-  transition: 0.21s ease-out;
-  -webkit-transform: rotateY(180deg);
+    transition: 0.21s ease-out;
+    -webkit-transform: rotateY(180deg);
 }
 
 .navigation-links:hover {
-  color: #44d08b;
+    color: #44d08b;
 }
 
 .feature-section {
-  overflow: visible;
-  border-bottom: 0.052vmax solid #c5c5c5;
+    overflow: visible;
+    border-bottom: 0.052vmax solid #c5c5c5;
 }
 
 .control-area {
-  padding-top: 1.563vmax;
-  padding-bottom: 1.042vmax;
-  padding-left: 0.521vmax;
+    padding-top: 1.563vmax;
+    padding-bottom: 1.042vmax;
+    padding-left: 0.521vmax;
 }
 
 .create-button {
-  position: static;
-  font-family: inherit;
-  font-size: 0.781vmax;
-  display: inline-block;
-  padding: 0.469vmax 0.781vmax;
-  margin-bottom: 0.156vmax;
-  margin-right: 0.156vmax;
-  background-color: #1f299c;
-  border-radius: 0.35vmax;
-  color: white;
-  border: 0;
-  cursor: pointer;
-  text-decoration: none;
-  transition: 0.3s ease-out;
+    position: static;
+    font-family: inherit;
+    font-size: 0.781vmax;
+    display: inline-block;
+    padding: 0.469vmax 0.781vmax;
+    margin-bottom: 0.156vmax;
+    margin-right: 0.156vmax;
+    background-color: #1f299c;
+    border-radius: 0.35vmax;
+    color: white;
+    border: 0;
+    cursor: pointer;
+    text-decoration: none;
+    transition: 0.3s ease-out;
 }
 
 .create-button:hover {
-  transition: 0.3s ease-out;
-  background-color: #a3a9f5ff;
-  color: black;
-  font-weight: 900;
-  box-shadow: 0.156vmax 0.156vmax;
+    transition: 0.3s ease-out;
+    background-color: #a3a9f5ff;
+    color: black;
+    font-weight: 900;
+    box-shadow: 0.156vmax 0.156vmax;
 }
 
 .create-button:hover {
-  box-shadow: 3px 3px #4ad28f, -3px -3px #4ad28f;
-  cursor: pointer;
+    box-shadow: 3px 3px #4ad28f, -3px -3px #4ad28f;
+    cursor: pointer;
 }
 
 .create-button:hover::before {
-  border: 0px;
+    border: 0px;
 }
 
 .create-button:active {
-  transition: 0.45s ease-out;
-  background-color: #1f299c;
-  box-shadow: 0px 0px #4ad28f, -0px -0px #4ad28f;
+    transition: 0.45s ease-out;
+    background-color: #1f299c;
+    box-shadow: 0px 0px #4ad28f, -0px -0px #4ad28f;
 }
 
 .metric-entry-element {
-  width: 50%;
-  display: inline-block;
+    width: 50%;
+    display: inline-block;
 }
 
 .default-column {
-  position: relative;
-  float: left;
-  width: 50%;
-  min-height: 0.052vmax;
-  padding-left: 0.521vmax;
-  padding-right: 0.521vmax;
+    position: relative;
+    float: left;
+    width: 50%;
+    min-height: 0.052vmax;
+    padding-left: 0.521vmax;
+    padding-right: 0.521vmax;
 }
 
 .div-wrapper {
-  width: auto;
-  overflow: hidden; /* will contain if #first is longer than #second */
+    width: auto;
+    overflow: hidden; /* will contain if #first is longer than #second */
 }
 
 .left-div {
-  width: 50%;
-  float:left;
+    width: 50%;
+    float: left;
 }
 
 .right-div {
-  width: 50%;
-  float: right;
+    width: 50%;
+    float: right;
 }
 
 .circle {
-  height: 10.417vmax;
-  width: 10.417vmax;
-  border-radius: 1vmax;
-  display: table;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.458vmax;
-  font-weight: bolder;
+    height: 10.417vmax;
+    width: 10.417vmax;
+    border-radius: 1vmax;
+    display: table;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.458vmax;
+    font-weight: bolder;
 }
 
 #process-feature-table {
-  width: 99%;
+    width: 99%;
 }
 
 #process-feature-table input {
-  position: relative;
-  max-height: 80%;
-  max-width: 90%;
-  border-radius: 0.365vmax;
-  padding: 0.417vmax 0.625vmax;
-  font-size: inherit;
-  color: #333333;
-  vertical-align: middle;
-  border: 0.052vmax solid #ccc;
-  box-shadow: 0vmax 0.029vmax 0.039vmax 0vmax rgba(0, 0, 0, 0.07);
+    position: relative;
+    max-height: 80%;
+    max-width: 90%;
+    border-radius: 0.365vmax;
+    padding: 0.417vmax 0.625vmax;
+    font-size: inherit;
+    color: #333333;
+    vertical-align: middle;
+    border: 0.052vmax solid #ccc;
+    box-shadow: 0vmax 0.029vmax 0.039vmax 0vmax rgba(0, 0, 0, 0.07);
 }
 
 #process-feature-table .col-1 {
-  width: 25%;
+    width: 25%;
 }
 
 #process-feature-table .col-2 {
-  width: 6%;
+    width: 6%;
 }
 
 #process-feature-table .col-3 {
-  width: 6%;
+    width: 6%;
 }
 
 #process-feature-table .col-4 {
-  width: 6%;
+    width: 6%;
 }
 
 #process-feature-table .col-5 {
-  width: 6%;
+    width: 6%;
 }
 
 #process-feature-table .col-6 {
-  width: 6%;
+    width: 6%;
 }
 
 #process-feature-table .col-7 {
-  width: 8%;
+    width: 8%;
 }
 
 #process-feature-table .col-8 {
-  width: 8%;
+    width: 8%;
 }
 
 #process-feature-table .col-9 {
-  width: 11%;
+    width: 11%;
 }
 
 #process-feature-table .col-10 {
-  width: 9%;
+    width: 9%;
 }
 
 #process-feature-table .col-11 {
-  width: 5%;
+    width: 5%;
 }
 
 #process-feature-table .col-12 {
-  width: 4%;
+    width: 4%;
 }
 
-#process-feature-table .col-2,#process-feature-table .col-3,#process-feature-table .col-4
-,#process-feature-table .col-5,#process-feature-table .col-6,#process-feature-table th.col-7,#process-feature-table .col-8,#process-feature-table .col-9
-,#process-feature-table .col-10 ,#process-feature-table .col-11 ,#process-feature-table .col-12 {
-  display : flex;
-  align-items : center;
-  justify-content: center;
+#process-feature-table .col-2, #process-feature-table .col-3, #process-feature-table .col-4, #process-feature-table .col-5, #process-feature-table .col-6, #process-feature-table th.col-7, #process-feature-table .col-8, #process-feature-table .col-9, #process-feature-table .col-10, #process-feature-table .col-11, #process-feature-table .col-12 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-#process-feature-table .col-2,#process-feature-table .col-3,#process-feature-table .col-4
-,#process-feature-table .col-5,#process-feature-table .col-6,#process-feature-table .col-11 {
-  border-left: 1px solid #b1b1b16b;
+#process-feature-table .col-2, #process-feature-table .col-3, #process-feature-table .col-4, #process-feature-table .col-5, #process-feature-table .col-6, #process-feature-table .col-11 {
+    border-left: 1px solid #b1b1b16b;
 }
 
 #process-feature-table tr {
-  padding-top: 0.35vmax;
-  padding-bottom: 0.35vmax;
+    padding-top: 0.35vmax;
+    padding-bottom: 0.35vmax;
 }
 
 #process-feature-table th {
-  font-size: 0.677vw;
+    font-size: 0.677vw;
 }
 
 .postion-dropdown {
-  display: inline-block;
-  width: auto;
-  max-width: 100%;
-  min-width: 10.417vmax;
-  float: left;
-  clear: left;
-  border-radius: 0.365vmax;
-  padding: 0.417vmax 0.625vmax;
-  margin-bottom: 0.521vmax;
-  font-size: 0.729vmax;
-  line-height: 1.428571429;
-  color: #333333;
-  vertical-align: middle;
-  border: 0.052vmax solid #ccc;
-  cursor: pointer;
-  margin-right: 0.781vmax;
+    display: inline-block;
+    width: auto;
+    max-width: 100%;
+    min-width: 10.417vmax;
+    float: left;
+    clear: left;
+    border-radius: 0.365vmax;
+    padding: 0.417vmax 0.625vmax;
+    margin-bottom: 0.521vmax;
+    font-size: 0.729vmax;
+    line-height: 1.428571429;
+    color: #333333;
+    vertical-align: middle;
+    border: 0.052vmax solid #ccc;
+    cursor: pointer;
+    margin-right: 0.781vmax;
 }
 
 .square-border {
-  background: #FFF;
-  border: 0.35vmax solid #4AD28F;
-  height: 6.25vmax;
-  min-width: 9.375vmax;
-  text-align: center;
-  padding: 1.25vmax;
-  border-radius: 0.7vmax;
-  box-shadow: 0.01vmax 0.01vmax 0.4vmax rgba(0, 0, 0, 0.1);
+    background: #FFF;
+    border: 0.35vmax solid #4AD28F;
+    height: 6.25vmax;
+    min-width: 9.375vmax;
+    text-align: center;
+    padding: 1.25vmax;
+    border-radius: 0.7vmax;
+    box-shadow: 0.01vmax 0.01vmax 0.4vmax rgba(0, 0, 0, 0.1);
 }
 
 .arrow {
-  font-size: 4.688vmax;
-  margin: 1.042vmax;
-  transform: translateY(0.885vmax);
+    font-size: 4.688vmax;
+    margin: 1.042vmax;
+    transform: translateY(0.885vmax);
 }
 
 table .process-visualization {
-  column-width: 10.417vmax;
-  width: auto;
-  border: none;
+    column-width: 10.417vmax;
+    width: auto;
+    border: none;
 }
 
 #modelling-process {
-  vertical-align: middle;
-  margin: 1.667vmax 0;
-  padding: 1vmax 1vmax;
-  border-radius: 0.7vmax;
+    vertical-align: middle;
+    margin: 1.667vmax 0;
+    padding: 1vmax 1vmax;
+    border-radius: 0.7vmax;
 }
 
 .visualize {
-  border: 0vmax;
-  display: inline-block;
+    border: 0vmax;
+    display: inline-block;
 }
 
 .modelling-processes {
-  overflow-x: scroll;
-  overflow-y: hidden;
-  white-space: nowrap;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
 }
 
 .componentcategory {
-  font-style: italic;
+    font-style: italic;
 }
 
 .componentname {
-  font-weight: bold;
-  text-decoration: underline;
-  margin-bottom: 0.417vmax;
+    font-weight: bold;
+    text-decoration: underline;
+    margin-bottom: 0.417vmax;
 }
 
 .accordion-icon-dropdown-toggle {
-  position: absolute;
-  font-size: 1.042vmax;
-  top: 1.042vw;
-  right: 0;
-  bottom: 0;
-  margin: auto;
-  margin-right: 1.042vmax;
-  width: 1em;
-  height: 1em;
-  transition: 0.35s ease-out;
+    position: absolute;
+    font-size: 1.042vmax;
+    top: 1.042vw;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    margin-right: 1.042vmax;
+    width: 1em;
+    height: 1em;
+    transition: 0.35s ease-out;
 }
 
 #components-admin-process {
-  padding-top: 1.4vmax;
-  border-top: 1px solid #b1b1b16b;
+    padding-top: 1.4vmax;
+    border-top: 1px solid #b1b1b16b;
 }
 
 #ComponentOverviewTable {
-  display: block;
-  padding-bottom: 1.042vmax;
+    display: block;
+    padding-bottom: 1.042vmax;
 }
 
 #ComponentOverviewTable td {
-  pointer-events: none;
+    pointer-events: none;
 }
 
 #ComponentOverviewTable td i {
-  pointer-events: auto;
+    pointer-events: auto;
 }
 
 #ComponentOverviewTable .col-1 {
-  width: 15%;
+    width: 15%;
 }
 
 #ComponentOverviewTable .col-2 {
-  width: 35%;
+    width: 35%;
 }
 
 #ComponentOverviewTable .col-3 {
-  width: 25%;
+    width: 25%;
 }
 
 #ComponentOverviewTable .col-4 {
-  width: 0%;
+    width: 0%;
 }
 
 #ComponentOverviewTable .col-5 {
-  width: 0%;
+    width: 0%;
 }
 
 #ComponentOverviewTable .col-6 {
-  width: 0%;
+    width: 0%;
 }
 
 #ComponentOverviewTable .col-7 {
-  width: 20%;
+    width: 20%;
 }
 
 #ComponentOverviewTable .col-8 {
-  width: 1%;
+    width: 1%;
 }
 
 #ComponentOverviewTable tr {
-  transition:0.2s ease-out;
+    transition: 0.2s ease-out;
 }
 
 #metrics-input-processes .small-circle {
-  height: 0.5vmax;
-  max-width: 1.725vmax;
-  margin-top: 0.2vmax;
-  border-radius: 1vmax;
+    height: 0.5vmax;
+    max-width: 1.725vmax;
+    margin-top: 0.2vmax;
+    border-radius: 1vmax;
 }
 
 #process-feature-table .small-circle {
-  height: 3vmax;
-  max-height: 1.725vmax;
-  max-width: 1.725vmax;
-  margin-top: 0vmax;
-  border-radius: 0.5vmax;
+    height: 3vmax;
+    max-height: 1.725vmax;
+    max-width: 1.725vmax;
+    margin-top: 0vmax;
+    border-radius: 0.5vmax;
 }
 
 .percentage-span {
-  position: absolute;
-  right: 12.5%;
-  font-size: 130%;
+    position: absolute;
+    right: 12.5%;
+    font-size: 130%;
 }

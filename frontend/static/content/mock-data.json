@@ -1,35 +1,37 @@
 {
-    "success": true,
-    "components": [
-        {"id": 1,
-         "name": "SQL Datenbank",
-         "category": "Datenbank",
-         "creation_timestamp": "2021-03-18T18:34:12.534Z",
-         "last_timestamp": "2021-03-18T18:34:12.534Z"
-         },
-        {"id": 2,
-         "name": "Oracle Datenbank",
-         "category": "Datenbank",
-         "creation_timestamp": "2021-03-01T18:34:12.534Z",
-         "last_timestamp": "2021-03-02T09:44:12.534Z"
-         }
-    ],
-    "processes": [
-        {
-            "id": 1,
-            "process": "Prozess1",
-            "components": "6",
-            "viv_value": "4",
-            "created": "2021-03-14T18:34:12.534Z",
-            "edited": "2021-03-16T13:24:12.534Z"
-        },
-        {
-            "id": 2,
-            "process": "Prozess2",
-            "components": "4",
-            "viv_value": "3",
-            "created": "2021-02-11T18:34:12.534Z",
-            "edited": "2021-03-15T18:34:12.534Z"
-      }
-    ]
+  "success": true,
+  "components": [
+    {
+      "id": 1,
+      "name": "SQL Datenbank",
+      "category": "Datenbank",
+      "creation_timestamp": "2021-03-18T18:34:12.534Z",
+      "last_timestamp": "2021-03-18T18:34:12.534Z"
+    },
+    {
+      "id": 2,
+      "name": "Oracle Datenbank",
+      "category": "Datenbank",
+      "creation_timestamp": "2021-03-01T18:34:12.534Z",
+      "last_timestamp": "2021-03-02T09:44:12.534Z"
+    }
+  ],
+  "processes": [
+    {
+      "id": 1,
+      "process": "Prozess1",
+      "components": "6",
+      "viv_value": "4",
+      "created": "2021-03-14T18:34:12.534Z",
+      "edited": "2021-03-16T13:24:12.534Z"
+    },
+    {
+      "id": 2,
+      "process": "Prozess2",
+      "components": "4",
+      "viv_value": "3",
+      "created": "2021-02-11T18:34:12.534Z",
+      "edited": "2021-03-15T18:34:12.534Z"
+    }
+  ]
 }

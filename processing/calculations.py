@@ -45,7 +45,6 @@ def get_all_component_metrics(process_dict):
 
 
 def get_all_target_metrics(process_dict):
-
     target_metrics = {}
     for metric, values in process_dict['target_metrics'].items():
 
@@ -87,14 +86,12 @@ def calculate_current_values(metrics_dict: dict, component_metrics, target_metri
 
         # if any component has this specific metric
         if metric in component_metrics.keys():
-
             calculations[metric] = calculate_actual_values(
                 component_metrics[metric])
             component_metric_flag = True
 
         # if process has a target value for this metric
         if metric in target_metrics.keys():
-
             calculations[metric]['target'] = target_metrics[metric]['target']
             process_target_flag = True
 
@@ -103,7 +100,7 @@ def calculate_current_values(metrics_dict: dict, component_metrics, target_metri
             if calculations[metric]['target']['average'] is not None:
                 # calculate target sum
                 calculations[metric]['target']['total'] = calculations[metric]['target']['average'] * \
-                    calculations[metric]['count_component']
+                                                          calculations[metric]['count_component']
         # save calculated values in output_dict
         if process_target_flag or component_metric_flag:
             actual_target_values[metric] = calculations[metric]
@@ -119,8 +116,10 @@ def calculate_actual_values(actual_component_metric_data):
     actual_process_metric_data = {}
 
     # calculate actual metrics
-    actual_process_metric_data['actual'] = {"total": sum(actual_component_metric_data), "min": min(actual_component_metric_data),
-                                            "max": max(actual_component_metric_data), "average": mean(actual_component_metric_data)}
+    actual_process_metric_data['actual'] = {"total": sum(actual_component_metric_data),
+                                            "min": min(actual_component_metric_data),
+                                            "max": max(actual_component_metric_data),
+                                            "average": mean(actual_component_metric_data)}
 
     # more than one component has this metric, thus a standard deviation can be calculated
     if len(actual_component_metric_data) > 1:
