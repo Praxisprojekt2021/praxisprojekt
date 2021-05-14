@@ -1,0 +1,32 @@
+.info-icon {
+    width: 6%;
+    position: relative;
+    display: inline-block;
+    overflow: visible;
+    margin-top: 0.104vmax;
+    margin-left: 0.521vmax;
+    float: left;
+    border-radius: 1.042vmax;
+    transition: 0.21s ease-out;
+    opacity: 0.65;
+}
+
+.metric-entry-element .info-text-popup {
+    display: inline-block;
+    float: left;
+    clear: left;
+}
+
+.icon-popup-fix.info-text-popup {
+    display: block;
+    float: none;
+    clear: none;
+}
+
+.icon-popup-fix.info-text-popup::before {
+    margin-right: 24%;
+}
+
+#component-description-textarea {
+    height: 6vw;
+}

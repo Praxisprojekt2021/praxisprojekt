@@ -185,31 +185,8 @@ class Helper {
      * @returns formatted Date
      */
     formatDate(date) {
-        const dateOptions = { year: 'numeric', month: '2-digit', day: '2-digit' };
+        const dateOptions = {year: 'numeric', month: '2-digit', day: '2-digit'};
         return new Date(date).toLocaleDateString("EN", dateOptions);
-    }
-
-    /**
-     * Get the color of the process given the calculated score
-     *
-     * @param {number, null} score
-     * @returns {string}
-     */
-    getCircleColor(score) {
-        let color;
-
-        if (score === null) {
-            color = '#d9d9d9'; // Grey
-        } else if (score < 80) {
-            color = '#99201c'; // Red
-        } else if (score < 90) {
-            color = '#f8ef42'; // Yellow
-        } else if (score <= 100) {
-            color = '#4ad28f'; // Green
-        } else {
-            color = '#d9d9d9'; // Grey
-        }
-        return color;
     }
 
     /**
@@ -224,11 +201,11 @@ class Helper {
         if (score === null) {
             background = 'linear-gradient(315deg, #d9d9d9 0%, #f6f2f2 74%)'; // Grey
         } else if (score < 80) {
-            background = 'linear-gradient(316deg, #99201c 0%, #f56545 74%)'; // Red
+            background = 'linear-gradient(316deg, #99201c 0%, #de736f 74%)'; // Red
         } else if (score < 90) {
-            background = 'linear-gradient(315deg, #fff293 0%, #ffe884 74%)'; // Yellow
+            background = 'linear-gradient(315deg, #f8ef42 0%, #fcf7a1 74%)'; // Yellow
         } else if (score <= 100) {
-            background = 'linear-gradient(315deg, rgb(109 228 60) 0%, rgb(15, 214, 79) 74%)'; // Green
+            background = 'linear-gradient(315deg, #44d08b 0%, #a2e8c5 74%)'; // Green
         } else {
             background = 'linear-gradient(315deg, #d9d9d9 0%, #f6f2f2 74%)'; // Grey
         }
@@ -260,18 +237,16 @@ class Helper {
      * @returns {string}
      */
     renderSmallCircle(fulfillment, color = false) {
-        let background;
         if (!color) {
             if (fulfillment === true) {
-                background = 'linear-gradient(315deg, rgb(109 228 60) 0%, rgb(15, 214, 79) 74%)'; // Green
+                color = 'linear-gradient(315deg, #44d08b 0%, #a2e8c5 74%)'; // Green
             } else if (fulfillment === false) {
-                background = 'linear-gradient(316deg, #99201c 0%, #f56545 74%)'; // Red
+                color = 'linear-gradient(316deg, #99201c 0%, #de736f 74%)'; // Red
             } else {
-                background = 'linear-gradient(315deg, #d9d9d9 0%, #f6f2f2 74%)'; // Grey
+                color = 'linear-gradient(315deg, #d9d9d9 0%, #f6f2f2 74%)'; // Grey
             }
-            return `<div class="small-circle" style="background-image: ` + background + `;"></div>`;
         }
-        return `<div class="small-circle" style="background-color: ` + color + `;"></div>`;
+        return `<div class="small-circle" style="background-image: ` + color + `;"></div>`;
     }
 
     /**
@@ -381,6 +356,8 @@ class Helper {
             element.children[0].childNodes.forEach(element => element.children[1].children[0].removeAttribute("disabled"));
             element.children[0].childNodes.forEach(element => element.children[1].removeAttribute("disabled"));
         }
-        setTimeout(() => { element.parentElement.style.setProperty("overflow", "visible", undefined); }, 350);
+        setTimeout(() => {
+            element.parentElement.style.setProperty("overflow", "visible", undefined);
+        }, 350);
     }
 }

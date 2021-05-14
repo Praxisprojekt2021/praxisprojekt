@@ -77,7 +77,6 @@ Das `docu/` Verzeichnis soll alle wichtigen Projektdokumentationen, Leitfäden u
   - static/
     - content/
       - component-sections.json
-      - de.json
       - en.json
       - mapping_metrics_definition.py
     - css/

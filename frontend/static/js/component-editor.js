@@ -18,13 +18,11 @@ function init() {
     if (uid) {
         // If so, load component data...
         Helper.showLoadingScreen();
-        console.log('Editing existing component');
 
         // Trigger function which gathers component data and processes it
         getComponent(uid);
     } else {
         // If not, prepare for new component input...
-        console.log('Entering new component');
         setSections("default");
         // Enable component-category which is disabled by default
         document.getElementById('component-category').removeAttribute("disabled");
