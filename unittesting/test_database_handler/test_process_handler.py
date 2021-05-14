@@ -143,7 +143,7 @@ class TestUpdateProcess(unittest.TestCase):
         process_dict = get_process(UID_DICT)
         process_dict["process"]["uid"] = "ABC"
 
-        # TODO: Is this the right Exception?
+        # Is this the right Exception?
         with self.assertRaises(CypherSyntaxError):
             update_process(process_dict)
 
@@ -184,7 +184,7 @@ class TestDeleteProcess(unittest.TestCase):
     def test_2302_wrong_uid(self):
         UID_DICT["uid"] = "ABC"
 
-        # TODO: Is this the right Exception?
+        # Is this the right Exception?
         with self.assertRaises(CypherSyntaxError):
             delete_process(UID_DICT)
             UID_DICT["uid"] = self.uid
@@ -317,7 +317,7 @@ class TestDeleteProcessReference(unittest.TestCase):
     def test_2502_wrong_uid(self):
         ADD_PROCESS_REFERENCE["uid"] = "ABC"
 
-        # TODO: Is this the right Exception?
+        # Is this the right Exception?
         with self.assertRaises(CypherSyntaxError):
             delete_process_reference(ADD_PROCESS_REFERENCE)
             ADD_PROCESS_REFERENCE["uid"] = self.uid
@@ -397,7 +397,8 @@ class TestUpdateProcessReference(unittest.TestCase):
     def test_2602_wrong_uid(self):
         update_process_reference_in = copy.deepcopy(UPDATE_PROCESS_REFERENCE)
         update_process_reference_in["uid"] = "ABC"
-        # TODO: Is this the right Exception?
+
+        # Is this the right Exception?
         with self.assertRaises(CypherSyntaxError):
             update_process_reference(update_process_reference_in)
 

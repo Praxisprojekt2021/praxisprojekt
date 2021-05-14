@@ -293,10 +293,10 @@ function fillMetricRows(metricData, slug, processData) {
 
     let innerHTML_target = [];
     innerHTML_target['min'] =
-        `<td class="col-7" disabled="true"><input type="text" name="target-minimum" id="` + slug + `"`; // Rest of the string is added below
+        `<td class="col-7"><input type="text" name="target-minimum" id="` + slug + `"`; // Rest of the string is added below
     innerHTML_target['max'] =
-        `<td class="col-8" disabled="true"><input type="text" name="target-maximum" id="` + slug + `"`; // Rest of the string is added below
-    innerHTML_target['average'] = `<td class="col-9" disabled="true"><input type="text" name="target-average" id="` + slug + `"`; // Rest of the string is added below
+        `<td class="col-8"><input type="text" name="target-maximum" id="` + slug + `"`; // Rest of the string is added below
+    innerHTML_target['average'] = `<td class="col-9"><input type="text" name="target-average" id="` + slug + `"`; // Rest of the string is added below
     if (binary) innerHTML_target['average'] += ` binary="true"`;
 
     let innerHTML_total = `
@@ -355,21 +355,15 @@ function fillMetricRows(metricData, slug, processData) {
 function getMetricRowActual(actual_target_metrics, metricData) {
     let binary = metricData['binary'];
 
-    let actualAverage;
-    let actualStandardDev;
-    let actualTotal;
-    let actualMin;
-    let actualMax;
+    let actualAverage = normalizeNumber(actual_target_metrics['actual']['average']);
+    let actualStandardDev = normalizeNumber(actual_target_metrics['actual']['standard_deviation']);
+    let actualTotal = normalizeNumber(actual_target_metrics['actual']['total']);
+    let actualMin = normalizeNumber(actual_target_metrics['actual']['min']);
+    let actualMax = normalizeNumber(actual_target_metrics['actual']['max']);
 
-    if (!binary) {
-        actualAverage = Math.round(actual_target_metrics['actual']['average'] * 100 + Number.EPSILON) / 100;
-        actualStandardDev = Math.round(actual_target_metrics['actual']['standard_deviation'] * 100 + Number.EPSILON) / 100;
-        actualTotal = Math.round(actual_target_metrics['actual']['total'] * 100 + Number.EPSILON) / 100;
-        actualMin = Math.round(actual_target_metrics['actual']['min'] * 100 + Number.EPSILON) / 100;
-        actualMax = Math.round(actual_target_metrics['actual']['max'] * 100 + Number.EPSILON) / 100;
-    } else {
-        actualAverage = Math.round(actual_target_metrics['actual']['average'] * 100 + Number.EPSILON) + "%";
-        actualStandardDev = Math.round(actual_target_metrics['actual']['standard_deviation'] * 100 + Number.EPSILON) + "%";
+    if (binary) {
+        actualAverage += " %";
+        actualStandardDev += " %";
         actualTotal = "-";
         actualMin = "-";
         actualMax = "-";
@@ -378,27 +372,26 @@ function getMetricRowActual(actual_target_metrics, metricData) {
     return `
                 <tr>
                     <td class="col-1" id="` + metricData['name'] + `">` + metricData['name'] + ` </td>
-                    <td class="col-2">` + normalizeNumber(actualAverage) + `</td>
-                    <td class="col-3">` + normalizeNumber(actualStandardDev) + `</td>
-                    <td class="col-4">` + normalizeNumber(actualTotal) + `</td>
-                    <td class="col-5">` + normalizeNumber(actualMin) + `</td>
-                    <td class="col-6">` + normalizeNumber(actualMax) + `</td>`;
+                    <td class="col-2">` + actualAverage + `</td>
+                    <td class="col-3">` + actualStandardDev + `</td>
+                    <td class="col-4">` + actualTotal + `</td>
+                    <td class="col-5">` + actualMin + `</td>
+                    <td class="col-6">` + actualMax + `</td>`;
 }
 
 /**
  * This function rounds the numbers according to their length
  *
- * @param {string} number: The number string that will be normalized
- * @return {string} number: The normalized number string
+ * @param {number} number: The number that will be normalized
+ * @return {number} number: The normalized number
  */
 function normalizeNumber(number) {
-    if (number === '-') return number;
-    if (parseFloat(number) >= 10000) {
-        number = Math.round(parseFloat(number) + Number.EPSILON).toString();
-    } else if (parseFloat(number) >= 1000) {
-        number = (Math.round(parseFloat(number) * 10 + Number.EPSILON) / 10).toString();
+    if (number >= 10000) {
+        number = Math.round(number + Number.EPSILON);
+    } else if (number >= 1000) {
+        number = (Math.round(number * 10 + Number.EPSILON) / 10);
     } else {
-        number = (Math.round(parseFloat(number) * 100 + Number.EPSILON) / 100).toString();
+        number = (Math.round(number * 100 + Number.EPSILON) / 100);
     }
     return number;
 }
@@ -416,16 +409,16 @@ function getMetricRowTarget(innerHTML_target, actual_target_metrics, slug, binar
     let targetValues = {};
     Object.keys(innerHTML_target).forEach(function (key) {
         if (actual_target_metrics['target'][key] !== null) {
-            targetValues[key] = Math.round(actual_target_metrics['target'][key] * 100 + Number.EPSILON) / 100;
+            targetValues[key] = normalizeNumber(actual_target_metrics['target'][key]);
         } else {
             targetValues[key] = '';
         }
     });
 
     // Replace null with empty strings, so that "null" is not entered in the table
-    innerHTML_target['min'] = `<td class="col-7" disabled="true"><input type="text" name="target-minimum" id="` + slug + `"`;
-    innerHTML_target['max'] = `<td class="col-8" disabled="true"><input type="text" name="target-maximum" id="` + slug + `"`;
-    innerHTML_target['average'] = `<td class="col-9" disabled="true"><input type="text" name="target-average" id="` + slug + `"`;
+    innerHTML_target['min'] = `<td class="col-7"><input type="text" name="target-minimum" id="` + slug + `"`;
+    innerHTML_target['max'] = `<td class="col-8"><input type="text" name="target-maximum" id="` + slug + `"`;
+    innerHTML_target['average'] = `<td class="col-9"><input type="text" name="target-average" id="` + slug + `"`;
     if (binary) {
         innerHTML_target['min'] += ` disabled="true"`;
         innerHTML_target['max'] += ` disabled="true"`;
@@ -449,7 +442,7 @@ function getMetricRowTotal(actual_target_metrics, binary) {
     let targetTotalValue = "";
     if (!binary) {
         if ('total' in actual_target_metrics['target']) {
-            targetTotalValue = Math.round(actual_target_metrics['target']['total'] * 100 + Number.EPSILON) / 100;
+            targetTotalValue = normalizeNumber(actual_target_metrics['target']['total']);
         }
     } else {
         targetTotalValue = "-";
@@ -548,10 +541,7 @@ function createEditProcess() {
                     metrics[id][key] = parseFloat(metric_elements[key][i].value);
                 }
                 if (!Helper.targetAvgIsWithinMinMax(metric_elements[key][i])) {
-                    minmaxlist += '\n' + metric_elements[key][i].parentElement.parentElement.children[0].id; //TODO: Add metric name to the list of wrong target avg values (von Roman?)
-                    metric_elements[key][i].style.setProperty("border-color", "#99201c", undefined); //TODO: noch nötig oder nicht durch EventListener schon abgedeckt? (von Jasmin)
-                } else {
-                    metric_elements[key][i].style.removeProperty("border-color"); //TODO: noch nötig oder nicht durch EventListener schon abgedeckt? (von Jasmin)
+                    minmaxlist += '\n' + metric_elements[key][i].parentElement.parentElement.children[0].id;
                 }
             }
         });
