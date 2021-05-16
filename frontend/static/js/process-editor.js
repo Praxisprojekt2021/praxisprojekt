@@ -293,9 +293,9 @@ function fillMetricRows(metricData, slug, processData) {
 
     let innerHTML_target = [];
     innerHTML_target['min'] =
-        `<td class="col-7"><input type="text" name="target-minimum" id="` + slug + `"`; // Rest of the string is added below
+        `<td class="col-7" disabled="true"><input type="text" name="target-minimum" id="` + slug + `"`; // Rest of the string is added below
     innerHTML_target['max'] =
-        `<td class="col-8"><input type="text" name="target-maximum" id="` + slug + `"`; // Rest of the string is added below
+        `<td class="col-8" disabled="true"><input type="text" name="target-maximum" id="` + slug + `"`; // Rest of the string is added below
     innerHTML_target['average'] = `<td class="col-9"><input type="text" name="target-average" id="` + slug + `"`; // Rest of the string is added below
     if (binary) innerHTML_target['average'] += ` binary="true"`;
 
@@ -416,8 +416,8 @@ function getMetricRowTarget(innerHTML_target, actual_target_metrics, slug, binar
     });
 
     // Replace null with empty strings, so that "null" is not entered in the table
-    innerHTML_target['min'] = `<td class="col-7"><input type="text" name="target-minimum" id="` + slug + `"`;
-    innerHTML_target['max'] = `<td class="col-8"><input type="text" name="target-maximum" id="` + slug + `"`;
+    innerHTML_target['min'] = `<td class="col-7" disabled="true"><input type="text" name="target-minimum" id="` + slug + `"`;
+    innerHTML_target['max'] = `<td class="col-8" disabled="true"><input type="text" name="target-maximum" id="` + slug + `"`;
     innerHTML_target['average'] = `<td class="col-9"><input type="text" name="target-average" id="` + slug + `"`;
     if (binary) {
         innerHTML_target['min'] += ` disabled="true"`;
